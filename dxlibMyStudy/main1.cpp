@@ -99,7 +99,7 @@ int WINAPI WinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, LPSTR lpCmdLine
 		DrawGraph(enemyX, enemyY, enemyGraph, FALSE);//敵を描画
 		ScreenFlip();//裏で作成した画面を表に
 
-		/*終了処理*/
+		/*ループ終了処理*/
 		if (ProcessMessage() < 0)//エラー処理
 		{
 			break;
