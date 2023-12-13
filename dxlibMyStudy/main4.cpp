@@ -3,6 +3,8 @@
 /*定数(kは定数Konstantを意味する)*/
 namespace
 {
+	constexpr int ScreenSizeX = 1280;
+	constexpr int ScreenSizeY = 720;
 	constexpr int kShotNum = 20;//最大弾数
 }
 
@@ -19,35 +21,39 @@ struct Size
 	int w = 0;
 	int h = 0;
 };
-
+//Player構造体(Player変数)
 struct Player
 {
+	//画像・位置・サイズ
 	int handle = -1;
 	Position pos;
 	Size size;
-
+	//Shotを撃っている最中か
 	bool isPrevshot = false;
 };
-
+//Enemy構造体(Enemy変数)
 struct Enemy
 {
+	//画像・位置・サイズ
 	int handle = -1;
 	int damageHandle = -1;
 	Position pos;
 	Size size;
-
+	//ダメージを受けている最中か
 	bool isDamage = false;
+	//ダメージを何回受けたか
 	int damageCount = 0;
-
+	//移動方向判定
 	bool isRightMove = true;
 };
 
 struct Shot
 {
+	//画像・位置・サイズ
 	int handle = -1;
 	Position pos;
 	Size size;
-
+	//自分が存在しているか
 	bool isExist = false;
 };
 
@@ -55,48 +61,45 @@ struct Shot
 int WINAPI WinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance,
 	LPSTR lpCmdLine, int nCmdShow)
 {
-	// 画面モードの設定
-	SetGraphMode(640, 480, 16);		// 解像度を640*480、colorを16bitに設定.
-	ChangeWindowMode(TRUE);			// ウインドウモードに.
+	/*Dxlib初期化*/
+	SetGraphMode(ScreenSizeX, ScreenSizeY, 32);//解像度
+	ChangeWindowMode(true);//Windowモード
+	if (DxLib_Init() == -1) { return -1; }//Dxlib初期化
+	SetDrawScreen(DX_SCREEN_BACK);//描画先を裏画面に
 
-	// ＤＸライブラリ初期化処理
-	if (DxLib_Init() == -1)
-	{
-		return -1;
-	}
-
-	// グラフィックの描画先を裏画面にセット
-	SetDrawScreen(DX_SCREEN_BACK);
-
-	// プレイヤーのグラフィックをメモリにロード＆表示座標を初期化
+	/*各構造体作成*/
 	Player player;
-	player.handle = LoadGraph("data/texture/player.png");
+	Enemy enemy;
+	Shot shot[kShotNum];
+
+	/*画像読み込み*/
+	player.handle = LoadGraph("Resources/player.png");
+	enemy.handle = LoadGraph("Resources/enemy.png");
+	enemy.damageHandle = LoadGraph("Resources/enemyDamage.png");
+	int shotHandle = LoadGraph("Resources/shot.png");
+
+	/*座標設定*/
+	//Player
 	player.pos.x = 288;
 	player.pos.y = 400;
-
-	// プレイヤーのグラフサイズを得る
-	GetGraphSize(player.handle, &player.size.w, &player.size.h);
-
-	// エネミーのグラフィックをメモリにロード＆表示座標を初期化
-	Enemy enemy;
-	enemy.handle = LoadGraph("data/texture/enemy.png");
+	//Enemy
 	enemy.pos.x = 0;
 	enemy.pos.y = 50;
 
-	// エネミーのグラフィックをメモリにロード＆ダメージ時の状態管理用の変数を初期化
-	enemy.damageHandle = LoadGraph("data/texture/enemyDamage.png");
-
-	// エネミーのグラフィックのサイズを得る	
+	/*各オブジェクトのグラフィックサイズ*/
+	GetGraphSize(player.handle, &player.size.w, &player.size.h);
 	GetGraphSize(enemy.handle, &enemy.size.w, &enemy.size.h);
-
-	// エネミーが顔を歪めているかどうかの変数に『歪めていない』を表す０を代入
-	enemy.isDamage = false;
-	enemy.damageCount = 0;
-
-	Shot shot[kShotNum];
-	int shotHandle = LoadGraph("data/texture/shot.png");
 	int sizeW, sizeH;
 	GetGraphSize(shotHandle, &sizeW, &sizeH);
+
+	/*フラグ初期化*/
+	//Player
+	player.isPrevshot = false;
+	//Enemy
+	enemy.isDamage = false;
+	enemy.damageCount = 0;
+	enemy.isRightMove = true;
+	//Shot
 	for (int i = 0; i < kShotNum; i++)
 	{
 		// ショットのグラフィックをメモリにロード.
@@ -108,23 +111,16 @@ int WINAPI WinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance,
 		shot[i].size.h = sizeH;
 	}
 
-	// ショットボタンが前のフレームで押されたかどうかを保存する変数にfalse(押されいない)を代入
-	player.isPrevshot = false;
-
-	// エネミーが右移動しているかどうかのフラグをリセット
-	enemy.isRightMove = true;
-
-	// ゲームループ.
+	/*ゲームループ*/
 	while (1)
 	{
-		// 画面を初期化(真っ黒にする)
+		/*画面初期化*/
 		ClearDrawScreen();
 
-		//------------------------------//
-		// プレイヤールーチン
-		//------------------------------//
+		/*ゲーム処理*/
+		//Player処理
 		{
-			// 矢印キーを押していたらプレイヤーを移動させる
+			//Key入力による移動
 			if (CheckHitKey(KEY_INPUT_UP) == 1)
 			{
 				player.pos.y -= 3;
@@ -142,7 +138,7 @@ int WINAPI WinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance,
 				player.pos.x += 3;
 			}
 
-			// 弾の発射処理
+			// 弾の発射処理(SPACE)
 			if (CheckHitKey(KEY_INPUT_SPACE))
 			{
 				// 前フレームでショットボタンを押したかが保存されている変数がfalseだったら弾を発射
@@ -177,31 +173,26 @@ int WINAPI WinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance,
 				player.isPrevshot = false;
 			}
 
-			// プレイヤーが画面左端からはみ出そうになっていたら画面内の座標に戻してあげる
+			//画面外に出ないようにする
 			if (player.pos.x < 0)
 			{
 				player.pos.x = 0;
 			}
-			if (player.pos.x > 640 - player.size.w)
+			if (player.pos.x > ScreenSizeX - player.size.w)
 			{
-				player.pos.x = 640 - player.size.w;
+				player.pos.x = ScreenSizeX - player.size.w;
 			}
 			if (player.pos.y < 0)
 			{
 				player.pos.y = 0;
 			}
-			if (player.pos.y > 480 - player.size.h)
+			if (player.pos.y > ScreenSizeY - player.size.h)
 			{
-				player.pos.y = 480 - player.size.h;
+				player.pos.y = ScreenSizeY - player.size.h;
 			}
-
-			// プレイヤーを描画
-			DrawGraph(player.pos.x, player.pos.y, player.handle, FALSE);
 		}
 
-		//------------------------------//
-		// エネミールーチン
-		//------------------------------//
+		//Enemy処理
 		{
 			// エネミーの座標を移動している方向に移動する
 			if (enemy.isRightMove == true)
@@ -213,10 +204,10 @@ int WINAPI WinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance,
 				enemy.pos.x -= 3;
 			}
 
-			// エネミーが画面端からでそうになっていたら画面内の座標に戻してあげ、移動する方向も反転する
-			if (enemy.pos.x > 640 - enemy.size.w)
+			// 画面外に出ないようにし、端になったら反転
+			if (enemy.pos.x > ScreenSizeX - enemy.size.w)
 			{
-				enemy.pos.x = 640 - enemy.size.w;
+				enemy.pos.x = ScreenSizeX - enemy.size.w;
 				enemy.isRightMove = false;
 			}
 			else if (enemy.pos.x < 0)
@@ -292,24 +283,25 @@ int WINAPI WinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance,
 			}
 		}
 
-		// 裏画面の内容を表画面にコピーする（描画の確定）.
-		ScreenFlip();
 
 
-		// Windows 特有の面倒な処理をＤＸライブラリにやらせる
-		// マイナスの値（エラー値）が返ってきたらループを抜ける
-		if (ProcessMessage() < 0)
+		/*描画の更新(描画順がそのままレイヤー順)*/
+		DrawGraph(player.pos.x, player.pos.y, player.handle, FALSE);//Player描画
+		DxLib::ScreenFlip();//裏で作成した画面を表に
+
+
+		/*ループ終了処理*/
+		if (ProcessMessage() < 0)//エラー処理
 		{
 			break;
 		}
-		// もしＥＳＣキーが押されていたらループから抜ける
-		else if (CheckHitKey(KEY_INPUT_ESCAPE))
+		else if (CheckHitKey(KEY_INPUT_ESCAPE))//Escでも終了する
 		{
 			break;
 		}
 	}
 
-	DxLib_End();				// ＤＸライブラリ使用の終了処理
-
-	return 0;					// ソフトの終了
+	/*終了処理*/
+	DxLib::DxLib_End();//Dxlib終了処理
+	return 0;//終了
 }

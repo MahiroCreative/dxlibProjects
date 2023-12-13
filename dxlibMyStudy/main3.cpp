@@ -179,7 +179,6 @@ int WINAPI WinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance,
 		}
 		DxLib::DrawGraph(playerX, playerY, playerGraph, FALSE);//Player描画
 		DxLib::DrawGraph(enemyX, enemyY, enemyGraph, FALSE);//敵を描画
-
 		DxLib::ScreenFlip();//裏で作成した画面を表に
 
 		/*ループ終了処理*/
