@@ -46,7 +46,7 @@ struct Enemy
 	//移動方向判定
 	bool isRightMove = true;
 };
-
+//Shot構造体
 struct Shot
 {
 	//画像・位置・サイズ
@@ -215,50 +215,22 @@ int WINAPI WinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance,
 				enemy.pos.x = 0;
 				enemy.isRightMove = true;
 			}
-
-			// エネミーを描画
-			// 顔を歪めているかどうかで処理を分岐
-			if (enemy.isDamage == true)
-			{
-				// 顔を歪めている場合はダメージ時のグラフィックを描画する
-				DrawGraph(enemy.pos.x, enemy.pos.y, enemy.damageHandle, FALSE);
-
-				// 顔を歪めている時間を測るカウンターに１を加算する
-				enemy.damageCount++;
-
-				// もし顔を歪め初めて ３０ フレーム経過していたら顔の歪んだ状態から
-				// 元に戻してあげる
-				if (enemy.damageCount == 30)
-				{
-					// 『歪んでいない』を表す０を代入
-					enemy.isDamage = 0;
-				}
-			}
-			else
-			{
-				DrawGraph(enemy.pos.x, enemy.pos.y, enemy.handle, FALSE);
-			}
 		}
 
-		//------------------------------//
-		// 弾ルーチン
-		//------------------------------//
+		//弾の処理
 		for (int i = 0; i < kShotNum; i++)
 		{
 			// 自機の弾iの移動ルーチン( 存在状態を保持している変数の内容がtrue(存在する)の場合のみ行う )
 			if (shot[i].isExist == true)
 			{
 				// 弾iを１６ドット上に移動させる
-				shot[i].pos.y -= 16;
+				shot[i].pos.y -= 8;
 
 				// 画面外に出てしまった場合は存在状態を保持している変数にfalse(存在しない)を代入する
 				if (shot[i].pos.y < 0 - shot[i].size.h)
 				{
 					shot[i].isExist = false;
 				}
-
-				// 画面に弾iを描画する
-				DrawGraph(shot[i].pos.x, shot[i].pos.y, shot[i].handle, FALSE);
 			}
 
 			// 弾のあたり判定.
@@ -283,12 +255,41 @@ int WINAPI WinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance,
 			}
 		}
 
-
-
 		/*描画の更新(描画順がそのままレイヤー順)*/
 		DrawGraph(player.pos.x, player.pos.y, player.handle, FALSE);//Player描画
-		DxLib::ScreenFlip();//裏で作成した画面を表に
+		// エネミーを描画
+		// 顔を歪めているかどうかで処理を分岐
+		if (enemy.isDamage == true)
+		{
+			// 顔を歪めている場合はダメージ時のグラフィックを描画する
+			DrawGraph(enemy.pos.x, enemy.pos.y, enemy.damageHandle, FALSE);
 
+			// 顔を歪めている時間を測るカウンターに１を加算する
+			enemy.damageCount++;
+
+			// もし顔を歪め初めて ３０ フレーム経過していたら顔の歪んだ状態から
+			// 元に戻してあげる
+			if (enemy.damageCount == 30)
+			{
+				// 『歪んでいない』を表す
+				enemy.isDamage = false;
+			}
+		}
+		else
+		{
+			DrawGraph(enemy.pos.x, enemy.pos.y, enemy.handle, FALSE);
+		}
+		//弾の処理
+		for (int i = 0; i < kShotNum; i++)
+		{
+			// 自機の弾iの移動ルーチン( 存在状態を保持している変数の内容がtrue(存在する)の場合のみ行う )
+			if (shot[i].isExist == true)
+			{
+				// 画面に弾iを描画する
+				DrawGraph(shot[i].pos.x, shot[i].pos.y, shot[i].handle, FALSE);
+			}
+		}
+		DxLib::ScreenFlip();//裏で作成した画面を表に
 
 		/*ループ終了処理*/
 		if (ProcessMessage() < 0)//エラー処理
