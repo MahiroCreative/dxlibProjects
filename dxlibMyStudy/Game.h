@@ -1,5 +1,6 @@
 #pragma once
 
+
 struct Position
 {
 	int x = 0;
@@ -12,6 +13,10 @@ struct Size
 	int h = 0;
 };
 
-int ScreenSizeX = 1280;
-int ScreenSizeY = 720;
-int ShotSpped = 8;
+namespace
+{
+	constexpr int ScreenSizeX = 1280;
+	constexpr int ScreenSizeY = 720;
+	constexpr int ShotSpped = 8;
+}
+

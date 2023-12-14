@@ -1,4 +1,5 @@
 #pragma once
+#include "Game.h"
 
 // ƒVƒ‡ƒbƒg‚Ì”.
 #define SHOT 20
