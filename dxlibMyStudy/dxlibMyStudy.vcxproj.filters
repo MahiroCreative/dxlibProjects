@@ -19,6 +19,12 @@
     <Filter Include="ソース ファイル\For_main6">
       <UniqueIdentifier>{4594f127-7660-48e2-a5d2-39930c626c51}</UniqueIdentifier>
     </Filter>
+    <Filter Include="ヘッダー ファイル\For_main7">
+      <UniqueIdentifier>{2b8ba0af-6c53-482c-b7f2-3be4334dc357}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="ソース ファイル\For_main7">
+      <UniqueIdentifier>{d99a9e93-0159-4732-96ac-4ab8cdf5031e}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="main2.cpp">
@@ -48,6 +54,18 @@
     <ClCompile Include="Player.cpp">
       <Filter>ソース ファイル\For_main6</Filter>
     </ClCompile>
+    <ClCompile Include="Player7.cpp">
+      <Filter>ソース ファイル\For_main7</Filter>
+    </ClCompile>
+    <ClCompile Include="Shot7.cpp">
+      <Filter>ソース ファイル\For_main7</Filter>
+    </ClCompile>
+    <ClCompile Include="Enemy7.cpp">
+      <Filter>ソース ファイル\For_main7</Filter>
+    </ClCompile>
+    <ClCompile Include="main7.cpp">
+      <Filter>ソース ファイル\For_main7</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <Image Include="Resources\enemy.png">
@@ -69,6 +87,18 @@
     </ClInclude>
     <ClInclude Include="Enemy.h">
       <Filter>ヘッダー ファイル\For_main6</Filter>
+    </ClInclude>
+    <ClInclude Include="Game7.h">
+      <Filter>ヘッダー ファイル\For_main7</Filter>
+    </ClInclude>
+    <ClInclude Include="Enemy7.h">
+      <Filter>ヘッダー ファイル\For_main7</Filter>
+    </ClInclude>
+    <ClInclude Include="Player7.h">
+      <Filter>ヘッダー ファイル\For_main7</Filter>
+    </ClInclude>
+    <ClInclude Include="Shot7.h">
+      <Filter>ヘッダー ファイル\For_main7</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>
