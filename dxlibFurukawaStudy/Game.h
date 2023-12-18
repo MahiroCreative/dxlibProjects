@@ -4,7 +4,8 @@
 /// </summary>
 namespace
 {
-	constexpr int ScreenSizeX = 1280;
-	constexpr int ScreenSizeY = 720;
-	constexpr int ShotSpped = 8;
+	constexpr int kScreenSizeX = 1280;
+	constexpr int kScreenSizeY = 720;
+	constexpr int kShotSpped = 8;
+	constexpr int kEnemyNum = 5;
 }
