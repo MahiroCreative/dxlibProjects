@@ -25,23 +25,17 @@
     <Filter Include="ソース ファイル\For_main7">
       <UniqueIdentifier>{d99a9e93-0159-4732-96ac-4ab8cdf5031e}</UniqueIdentifier>
     </Filter>
+    <Filter Include="ソース ファイル\For_main8">
+      <UniqueIdentifier>{315a1e40-be4c-4c62-8638-ca2a9080468e}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="ヘッダー ファイル\For_main8">
+      <UniqueIdentifier>{e92ac754-bac4-4e3a-a27d-4b7e419b1ba6}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="ソース ファイル\For_main1~5">
+      <UniqueIdentifier>{538fc00f-b656-4d31-a38c-277711426dd1}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
-    <ClCompile Include="main2.cpp">
-      <Filter>ソース ファイル</Filter>
-    </ClCompile>
-    <ClCompile Include="main1.cpp">
-      <Filter>ソース ファイル</Filter>
-    </ClCompile>
-    <ClCompile Include="main3.cpp">
-      <Filter>ソース ファイル</Filter>
-    </ClCompile>
-    <ClCompile Include="main4.cpp">
-      <Filter>ソース ファイル</Filter>
-    </ClCompile>
-    <ClCompile Include="main5.cpp">
-      <Filter>ソース ファイル</Filter>
-    </ClCompile>
     <ClCompile Include="main6.cpp">
       <Filter>ソース ファイル\For_main6</Filter>
     </ClCompile>
@@ -65,6 +59,33 @@
     </ClCompile>
     <ClCompile Include="main7.cpp">
       <Filter>ソース ファイル\For_main7</Filter>
+    </ClCompile>
+    <ClCompile Include="main1.cpp">
+      <Filter>ソース ファイル\For_main1~5</Filter>
+    </ClCompile>
+    <ClCompile Include="main2.cpp">
+      <Filter>ソース ファイル\For_main1~5</Filter>
+    </ClCompile>
+    <ClCompile Include="main3.cpp">
+      <Filter>ソース ファイル\For_main1~5</Filter>
+    </ClCompile>
+    <ClCompile Include="main4.cpp">
+      <Filter>ソース ファイル\For_main1~5</Filter>
+    </ClCompile>
+    <ClCompile Include="main5.cpp">
+      <Filter>ソース ファイル\For_main1~5</Filter>
+    </ClCompile>
+    <ClCompile Include="main8.cpp">
+      <Filter>ソース ファイル\For_main8</Filter>
+    </ClCompile>
+    <ClCompile Include="Enemy8.cpp">
+      <Filter>ソース ファイル\For_main8</Filter>
+    </ClCompile>
+    <ClCompile Include="Player8.cpp">
+      <Filter>ソース ファイル\For_main8</Filter>
+    </ClCompile>
+    <ClCompile Include="Shot8.cpp">
+      <Filter>ソース ファイル\For_main8</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -99,6 +120,18 @@
     </ClInclude>
     <ClInclude Include="Shot7.h">
       <Filter>ヘッダー ファイル\For_main7</Filter>
+    </ClInclude>
+    <ClInclude Include="Game8.h">
+      <Filter>ヘッダー ファイル\For_main8</Filter>
+    </ClInclude>
+    <ClInclude Include="Enemy8.h">
+      <Filter>ヘッダー ファイル\For_main8</Filter>
+    </ClInclude>
+    <ClInclude Include="Player8.h">
+      <Filter>ヘッダー ファイル\For_main8</Filter>
+    </ClInclude>
+    <ClInclude Include="Shot8.h">
+      <Filter>ヘッダー ファイル\For_main8</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>
