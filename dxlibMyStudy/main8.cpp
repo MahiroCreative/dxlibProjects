@@ -1,15 +1,15 @@
 #include "DxLib.h"
 #include "Game8.h"
-#include "Player.h"
-#include "Shot.h"
-#include "Enemy.h"
+#include "Player8.h"
+#include "Shot8.h"
+#include "Enemy8.h"
 
 
 int WINAPI WinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance,
 	LPSTR lpCmdLine, int nCmdShow)
 {
 	/*Dxlib初期化*/
-	SetGraphMode(ScreenSizeX, ScreenSizeY, 32);//解像度
+	SetGraphMode(SCREEN_W, SCREEN_H, 32);//解像度
 	ChangeWindowMode(true);//Windowモード
 	if (DxLib_Init() == -1) { return -1; }//Dxlib初期化
 	// 背景のスクロールをするためにテクスチャモードをラッピングに修正.
@@ -21,8 +21,7 @@ int WINAPI WinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance,
 	Enemy enemy;
 	Shot shot[SHOT];
 
-
-	// 各初期化を呼ぶ.
+	/*初期化*/
 	player.Init();
 	enemy.Init();
 	for (int i = 0; i < SHOT; i++)
