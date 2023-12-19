@@ -28,13 +28,6 @@ public:
 	int GetRight() const { return m_posX + m_width / 2; }
 	int GetBottom() const { return m_posY + m_height / 2; }
 
-#if false
-	// 別途方法
-	// クラス外から座標を変更
-	void SetPosX(int x) { m_posX = x; }
-	void SetPosY(int y) { m_posY = y; }
-#endif
-
 private:
 	// 中心座標と幅、高さで管理する
 	int m_posX;		// m_centerXみたいなのも良い
