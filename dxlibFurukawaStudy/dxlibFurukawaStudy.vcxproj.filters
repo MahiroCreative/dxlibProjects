@@ -25,6 +25,12 @@
     <Filter Include="ヘッダー ファイル\Sample1">
       <UniqueIdentifier>{7a20bbc9-1747-4a06-b2b7-85fcdbd558ae}</UniqueIdentifier>
     </Filter>
+    <Filter Include="ソース ファイル\Sample2">
+      <UniqueIdentifier>{10456ede-2ae8-4839-b91f-dbb5df5f49e5}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="ヘッダー ファイル\Sample2">
+      <UniqueIdentifier>{18e8fe1b-771a-434e-8be6-fd1f12b7f52e}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Game.h">
@@ -35,6 +41,9 @@
     </ClInclude>
     <ClInclude Include="Enemy1.h">
       <Filter>ヘッダー ファイル\Sample1</Filter>
+    </ClInclude>
+    <ClInclude Include="SceneTitle2.h">
+      <Filter>ヘッダー ファイル\Sample2</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
@@ -61,6 +70,12 @@
     </ClCompile>
     <ClCompile Include="Enemy1.cpp">
       <Filter>ソース ファイル\Sample1</Filter>
+    </ClCompile>
+    <ClCompile Include="sample2.cpp">
+      <Filter>ソース ファイル\Sample2</Filter>
+    </ClCompile>
+    <ClCompile Include="SceneTitle2.cpp">
+      <Filter>ソース ファイル\Sample2</Filter>
     </ClCompile>
   </ItemGroup>
 </Project>
