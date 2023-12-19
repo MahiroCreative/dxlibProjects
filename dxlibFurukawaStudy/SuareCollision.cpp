@@ -1,8 +1,5 @@
 #include <DxLib.h>
-#include "SceneTitle2.h"
-
-/*概要*/
-//フェードインフェードアウトのサンプル
+#include "SquareSceneMain.h"
 
 // プログラムは WinMain から始まります
 int WINAPI WinMain(_In_ HINSTANCE hInstance, _In_opt_ HINSTANCE hPrevInstance, _In_ LPSTR lpCmdLine, _In_ int nCmdShow)
@@ -18,8 +15,8 @@ int WINAPI WinMain(_In_ HINSTANCE hInstance, _In_opt_ HINSTANCE hPrevInstance, _
 	// ダブルバッファリング
 	SetDrawScreen(DX_SCREEN_BACK);
 
-	SceneTitle title;
-	title.Init();
+	SceneMain sceneMain;
+	sceneMain.Init();	// 初期化
 
 	// ゲームループ
 	while (ProcessMessage() != -1)
@@ -31,9 +28,10 @@ int WINAPI WinMain(_In_ HINSTANCE hInstance, _In_opt_ HINSTANCE hPrevInstance, _
 		ClearDrawScreen();
 
 		// ゲームの処理
-		title.Update();
+		sceneMain.Update();
 
-		title.Draw();
+		// 描画
+		sceneMain.Draw();
 
 		// 画面が切り替わるのを待つ
 		ScreenFlip();
@@ -49,7 +47,7 @@ int WINAPI WinMain(_In_ HINSTANCE hInstance, _In_opt_ HINSTANCE hPrevInstance, _
 		while (GetNowHiPerformanceCount() - start < 16667) {}
 	}
 
-	title.End();
+	sceneMain.End();	// シーンの終了処理
 
 	DxLib_End();				// ＤＸライブラリ使用の終了処理
 

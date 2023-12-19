@@ -1,8 +1,5 @@
 #include <DxLib.h>
-#include "SceneTitle2.h"
-
-/*概要*/
-//フェードインフェードアウトのサンプル
+#include "SceneMain3.h"
 
 // プログラムは WinMain から始まります
 int WINAPI WinMain(_In_ HINSTANCE hInstance, _In_opt_ HINSTANCE hPrevInstance, _In_ LPSTR lpCmdLine, _In_ int nCmdShow)
@@ -18,10 +15,18 @@ int WINAPI WinMain(_In_ HINSTANCE hInstance, _In_opt_ HINSTANCE hPrevInstance, _
 	// ダブルバッファリング
 	SetDrawScreen(DX_SCREEN_BACK);
 
-	SceneTitle title;
-	title.Init();
+	// メモリを明示的に確保する
+	// new を使用してメモリを確保することで
+	// ヒープ領域にメモリを確保することができる
+	// newはメモリを確保し、どこにメモリを確保したか、の
+	// アドレスを返してくれる
+	SceneMain* pMain = new SceneMain;
+	pMain->Init();
 
-	// ゲームループ
+	SceneMain scene;	// スタック領域にメモリ確保されている
+	scene.Init();
+
+		// ゲームループ
 	while (ProcessMessage() != -1)
 	{
 		// このフレームの開始時刻を覚えておく
@@ -31,9 +36,12 @@ int WINAPI WinMain(_In_ HINSTANCE hInstance, _In_opt_ HINSTANCE hPrevInstance, _
 		ClearDrawScreen();
 
 		// ゲームの処理
-		title.Update();
+		pMain->Update();
+		scene.Update();
 
-		title.Draw();
+		pMain->Draw();
+		scene.Draw();
+
 
 		// 画面が切り替わるのを待つ
 		ScreenFlip();
@@ -49,7 +57,9 @@ int WINAPI WinMain(_In_ HINSTANCE hInstance, _In_opt_ HINSTANCE hPrevInstance, _
 		while (GetNowHiPerformanceCount() - start < 16667) {}
 	}
 
-	title.End();
+	// 確保したメモリを解放する
+	delete pMain;
+	pMain = nullptr;
 
 	DxLib_End();				// ＤＸライブラリ使用の終了処理
 

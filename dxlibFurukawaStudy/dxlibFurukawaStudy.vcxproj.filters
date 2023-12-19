@@ -31,6 +31,36 @@
     <Filter Include="ヘッダー ファイル\Sample2">
       <UniqueIdentifier>{18e8fe1b-771a-434e-8be6-fd1f12b7f52e}</UniqueIdentifier>
     </Filter>
+    <Filter Include="ソース ファイル\Sample3">
+      <UniqueIdentifier>{f71247e9-69c2-4390-90f6-4bb9f7bc8588}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="ヘッダー ファイル\Sample3">
+      <UniqueIdentifier>{3432de35-0a73-46d7-9175-69065ee05ddd}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="ソース ファイル\Sample4">
+      <UniqueIdentifier>{84ec696a-8460-49f9-b7e8-8a1b2e26d060}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="ソース ファイル\Sample5">
+      <UniqueIdentifier>{307d73b1-2aa4-4c13-b1a7-3851858e3b93}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="ソース ファイル\StructTraining">
+      <UniqueIdentifier>{f3cc6e63-736d-4ec1-b645-eea6c2bd33e7}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="ヘッダー ファイル\StructTraining">
+      <UniqueIdentifier>{df3b152f-f9b5-458a-858d-c2adcae88154}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="ソース ファイル\CircleCollision">
+      <UniqueIdentifier>{0befe55c-6e81-4006-be1f-9ca97a18c2c9}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="ヘッダー ファイル\CircleCollision">
+      <UniqueIdentifier>{70f9d6d2-7770-406f-9a06-4735378a9b8e}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="ソース ファイル\SquareCollision">
+      <UniqueIdentifier>{a1e151bb-ae84-4b06-b367-da553dbe042e}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="ヘッダー ファイル\SquareCollision">
+      <UniqueIdentifier>{67425fef-0e91-4bfe-8425-eaaf51d007c0}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Game.h">
@@ -44,6 +74,30 @@
     </ClInclude>
     <ClInclude Include="SceneTitle2.h">
       <Filter>ヘッダー ファイル\Sample2</Filter>
+    </ClInclude>
+    <ClInclude Include="SceneMain3.h">
+      <Filter>ヘッダー ファイル\Sample3</Filter>
+    </ClInclude>
+    <ClInclude Include="Player3.h">
+      <Filter>ヘッダー ファイル\Sample3</Filter>
+    </ClInclude>
+    <ClInclude Include="structEnemy.h">
+      <Filter>ヘッダー ファイル\StructTraining</Filter>
+    </ClInclude>
+    <ClInclude Include="structPlayer.h">
+      <Filter>ヘッダー ファイル\StructTraining</Filter>
+    </ClInclude>
+    <ClInclude Include="circlePlayer.h">
+      <Filter>ヘッダー ファイル\CircleCollision</Filter>
+    </ClInclude>
+    <ClInclude Include="circleEnemy.h">
+      <Filter>ヘッダー ファイル\CircleCollision</Filter>
+    </ClInclude>
+    <ClInclude Include="Rect.h">
+      <Filter>ヘッダー ファイル\SquareCollision</Filter>
+    </ClInclude>
+    <ClInclude Include="SquareSceneMain.h">
+      <Filter>ヘッダー ファイル\SquareCollision</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
@@ -76,6 +130,48 @@
     </ClCompile>
     <ClCompile Include="SceneTitle2.cpp">
       <Filter>ソース ファイル\Sample2</Filter>
+    </ClCompile>
+    <ClCompile Include="sample3.cpp">
+      <Filter>ソース ファイル\Sample3</Filter>
+    </ClCompile>
+    <ClCompile Include="SceneMain3.cpp">
+      <Filter>ソース ファイル\Sample3</Filter>
+    </ClCompile>
+    <ClCompile Include="Player3.cpp">
+      <Filter>ソース ファイル\Sample3</Filter>
+    </ClCompile>
+    <ClCompile Include="Sample4.cpp">
+      <Filter>ソース ファイル\Sample4</Filter>
+    </ClCompile>
+    <ClCompile Include="sample5.cpp">
+      <Filter>ソース ファイル\Sample5</Filter>
+    </ClCompile>
+    <ClCompile Include="structTraining.cpp">
+      <Filter>ソース ファイル\StructTraining</Filter>
+    </ClCompile>
+    <ClCompile Include="structPlayer.cpp">
+      <Filter>ソース ファイル\StructTraining</Filter>
+    </ClCompile>
+    <ClCompile Include="structEnemy.cpp">
+      <Filter>ソース ファイル\StructTraining</Filter>
+    </ClCompile>
+    <ClCompile Include="CircleCollision.cpp">
+      <Filter>ソース ファイル\CircleCollision</Filter>
+    </ClCompile>
+    <ClCompile Include="circlePlayer.cpp">
+      <Filter>ソース ファイル\CircleCollision</Filter>
+    </ClCompile>
+    <ClCompile Include="circleEnemy.cpp">
+      <Filter>ソース ファイル\CircleCollision</Filter>
+    </ClCompile>
+    <ClCompile Include="SuareCollision.cpp">
+      <Filter>ソース ファイル\SquareCollision</Filter>
+    </ClCompile>
+    <ClCompile Include="Rect.cpp">
+      <Filter>ソース ファイル\SquareCollision</Filter>
+    </ClCompile>
+    <ClCompile Include="SquareSceneMain.cpp">
+      <Filter>ソース ファイル\SquareCollision</Filter>
     </ClCompile>
   </ItemGroup>
 </Project>
