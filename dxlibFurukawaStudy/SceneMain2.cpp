@@ -1,134 +1,42 @@
+#include <DxLib.h>
 #include <cassert>
-#include "SceneManager2.h"
+#include "SceneMain2.h"
+#include "Game.h"
 
-SceneManager::SceneManager() :
-	m_runScene(kSceneKindTitle),
-	m_title(),		// クラスの初期化時は()の中にコンストラクタの引数を書く
-	m_main(),		// 今回はどのシーンもコンストラクタは引数を要求しないので
-	m_result()		// m_title()のような書き方でOK
+namespace
+{
+	// 敵の初期生成間隔(フレーム数)
+	constexpr int kEnemyWaitFrameDefault = 60;
+	// 敵の最短生成間隔(フレーム数)
+	constexpr int kEnemyWaitFrameMin = 3;
+	// 敵の生成間隔を敵何体生成するたびに短くするか
+	constexpr int kEnemyWaitFrameChangeNum = 5;
+	// 一度生成間隔を短くするときに何フレーム短くするか
+	constexpr int kEnemyWaitFrameChangeFrame = 1;
+
+	// ゲームオーバー時に表示する文字列
+	const char* const kGameOverString = "GameOver";
+}
+
+SceneMain::SceneMain()
+//	m_playerHandle(-1),
+//	m_enemyHandle(-1),
+//	m_bgHandle(-1),
+//	m_bgmHandle(-1),
+//	m_enemyStartSe(-1),
+//	m_hitSe(-1),
+//	m_walkSe(-1),
+//	m_player(),
+//	m_enemy(),
+//	m_isGameOver(false),
+//	m_isSceneEnd(false),
+//	m_playFrameCount(0),
+//	m_enemyCreateNum(0),
+//	m_enemyWaitFrame(0),
+//	m_fadeAlpha(255)			// 不透明で初期化
 {
 }
 
-SceneManager::~SceneManager()
+SceneMain::~SceneMain()
 {
-}
-
-void SceneManager::Init()
-{
-	// 初期化処理
-	// 実行したいシーンの初期化を行う
-	switch (m_runScene)
-	{
-	case kSceneKindTitle:
-		m_title.Init();
-		break;
-	case kSceneKindMain:
-		m_main.Init();
-		break;
-	case kSceneKindResult:
-		m_result.Init();
-		break;
-	default:
-		assert(false);
-		break;
-	}
-}
-
-void SceneManager::Update()
-{
-	// 前のフレームの時点で処理が終わっていたらシーンの切り替え
-	// シーンの切り替えを行う
-	switch (m_runScene)
-	{
-	case kSceneKindTitle:
-		if (m_title.IsSceneEnd())
-		{
-			m_title.End();		// 実行していたシーンの終了処理
-
-			// ゲームシーンへ遷移
-			m_runScene = kSceneKindMain;	// 次のフレーム以降、実行したいシーン
-			m_main.Init();		// 変更先のシーンの初期化
-		}
-		break;
-	case kSceneKindMain:
-		// 終了していたらSceneResultに切り替える
-		if (m_main.IsSceneEnd())
-		{
-			// シーンを切り替える
-			m_main.End();		// 実行していたシーンの終了処理
-
-			m_runScene = kSceneKindResult;	// 次のフレーム以降、実行したいシーン
-			m_result.Init();		// 変更先のシーンの初期化
-		}
-		break;
-	case kSceneKindResult:
-		if (m_result.IsSceneEnd())
-		{
-			m_result.End();		// 実行していたシーンの終了処理
-
-			// タイトルへ遷移
-			m_runScene = kSceneKindTitle;	// 次のフレーム以降、実行したいシーン
-			m_title.Init();		// 変更先のシーンの初期化
-		}
-		break;
-	default:
-		assert(false);
-		break;
-	}
-
-	// 実行中のシーンの更新を行う
-	switch (m_runScene)
-	{
-	case kSceneKindTitle:
-		m_title.Update();
-		break;
-	case kSceneKindMain:
-		m_main.Update();
-		break;
-	case kSceneKindResult:
-		m_result.Update();
-		break;
-	default:
-		assert(false);
-		break;
-	}
-}
-
-void SceneManager::Draw()
-{
-	// 実行中のシーンの描画を行う
-	switch (m_runScene)
-	{
-	case kSceneKindTitle:
-		m_title.Draw();
-		break;
-	case kSceneKindMain:
-		m_main.Draw();
-		break;
-	case kSceneKindResult:
-		m_result.Draw();
-		break;
-	default:
-		assert(false);
-		break;
-	}
-}
-
-void SceneManager::End()
-{
-	switch (m_runScene)
-	{
-	case kSceneKindTitle:
-		m_title.End();
-		break;
-	case kSceneKindMain:
-		m_main.End();
-		break;
-	case kSceneKindResult:
-		m_result.End();
-		break;
-	default:
-		assert(false);
-		break;
-	}
 }

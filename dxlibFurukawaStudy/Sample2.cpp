@@ -1,7 +1,7 @@
 #include <DxLib.h>
 #include <cassert>
 #include "Game.h"
-//#include "SceneManager2.h"
+#include "SceneManager2.h"
 
 // ƒvƒƒOƒ‰ƒ€‚Í WinMain ‚©‚çn‚Ü‚è‚Ü‚·
 int WINAPI WinMain(_In_ HINSTANCE hInstance, _In_opt_ HINSTANCE hPrevInstance, _In_ LPSTR lpCmdLine, _In_ int nCmdShow)

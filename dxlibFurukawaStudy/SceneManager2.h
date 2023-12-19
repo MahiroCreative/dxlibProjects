@@ -1,7 +1,7 @@
 #pragma once
-#include "SceneMain2.h"
 #include "SceneTitle2.h"
-#include "SceneResult2.h"
+#include "SceneMain2.h"
+//#include "SceneResult2.h"
 
 class SceneManager
 {
@@ -30,5 +30,5 @@ private:
 	// SceneManager‚ÅŠÇ—‚·‚éŠeƒV[ƒ“
 	SceneTitle	m_title;
 	SceneMain	m_main;
-	SceneResult	m_result;
+	//SceneResult	m_result;
 };
