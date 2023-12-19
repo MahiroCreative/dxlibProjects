@@ -25,12 +25,6 @@
     <Filter Include="ヘッダー ファイル\Sample1">
       <UniqueIdentifier>{7a20bbc9-1747-4a06-b2b7-85fcdbd558ae}</UniqueIdentifier>
     </Filter>
-    <Filter Include="ソース ファイル\Sample2">
-      <UniqueIdentifier>{8d95b193-e2c7-4e98-b4f8-84af407a5d87}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="ヘッダー ファイル\Sample2">
-      <UniqueIdentifier>{ced40254-dc35-4d97-aa95-4a225e57d5bc}</UniqueIdentifier>
-    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Game.h">
@@ -41,24 +35,6 @@
     </ClInclude>
     <ClInclude Include="Enemy1.h">
       <Filter>ヘッダー ファイル\Sample1</Filter>
-    </ClInclude>
-    <ClInclude Include="SceneManager2.h">
-      <Filter>ヘッダー ファイル\Sample2</Filter>
-    </ClInclude>
-    <ClInclude Include="SceneMain2.h">
-      <Filter>ヘッダー ファイル\Sample2</Filter>
-    </ClInclude>
-    <ClInclude Include="Player2.h">
-      <Filter>ヘッダー ファイル\Sample2</Filter>
-    </ClInclude>
-    <ClInclude Include="Enemy2.h">
-      <Filter>ヘッダー ファイル\Sample2</Filter>
-    </ClInclude>
-    <ClInclude Include="SceneResult2.h">
-      <Filter>ヘッダー ファイル\Sample2</Filter>
-    </ClInclude>
-    <ClInclude Include="SceneTitle2.h">
-      <Filter>ヘッダー ファイル\Sample2</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
@@ -85,27 +61,6 @@
     </ClCompile>
     <ClCompile Include="Enemy1.cpp">
       <Filter>ソース ファイル\Sample1</Filter>
-    </ClCompile>
-    <ClCompile Include="Sample2.cpp">
-      <Filter>ソース ファイル\Sample2</Filter>
-    </ClCompile>
-    <ClCompile Include="SceneManager2.cpp">
-      <Filter>ソース ファイル\Sample2</Filter>
-    </ClCompile>
-    <ClCompile Include="SceneMain2.cpp">
-      <Filter>ソース ファイル\Sample2</Filter>
-    </ClCompile>
-    <ClCompile Include="Player2.cpp">
-      <Filter>ソース ファイル\Sample2</Filter>
-    </ClCompile>
-    <ClCompile Include="Enemy2.cpp">
-      <Filter>ソース ファイル\Sample2</Filter>
-    </ClCompile>
-    <ClCompile Include="SceneTitle2.cpp">
-      <Filter>ソース ファイル\Sample2</Filter>
-    </ClCompile>
-    <ClCompile Include="SceneResult2.cpp">
-      <Filter>ソース ファイル\Sample2</Filter>
     </ClCompile>
   </ItemGroup>
 </Project>
