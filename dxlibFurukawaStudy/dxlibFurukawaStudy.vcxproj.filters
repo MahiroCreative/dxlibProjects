@@ -16,12 +16,21 @@
     <Filter Include="ソース ファイル\testCode">
       <UniqueIdentifier>{c7258501-ad5b-4070-9b5d-2f29ae06c21b}</UniqueIdentifier>
     </Filter>
+    <Filter Include="ソース ファイル\Class">
+      <UniqueIdentifier>{7cfd6d37-10d9-4a78-988a-4f507df4d471}</UniqueIdentifier>
+    </Filter>
     <Filter Include="ソース ファイル\Sample1">
       <UniqueIdentifier>{faf6f7fa-733a-4991-8619-611372fb59b5}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Game.h">
+      <Filter>ヘッダー ファイル</Filter>
+    </ClInclude>
+    <ClInclude Include="class3Enemy.h">
+      <Filter>ヘッダー ファイル</Filter>
+    </ClInclude>
+    <ClInclude Include="Enemy1.h">
       <Filter>ヘッダー ファイル</Filter>
     </ClInclude>
   </ItemGroup>
@@ -31,6 +40,24 @@
     </ClCompile>
     <ClCompile Include="SinCos.cpp">
       <Filter>ソース ファイル\testCode</Filter>
+    </ClCompile>
+    <ClCompile Include="class1.cpp">
+      <Filter>ソース ファイル\Class</Filter>
+    </ClCompile>
+    <ClCompile Include="class2.cpp">
+      <Filter>ソース ファイル\Class</Filter>
+    </ClCompile>
+    <ClCompile Include="class3.cpp">
+      <Filter>ソース ファイル\Class</Filter>
+    </ClCompile>
+    <ClCompile Include="class3Enemy.cpp">
+      <Filter>ソース ファイル\Class</Filter>
+    </ClCompile>
+    <ClCompile Include="sample1.cpp">
+      <Filter>ソース ファイル\Sample1</Filter>
+    </ClCompile>
+    <ClCompile Include="Enemy1.cpp">
+      <Filter>ソース ファイル\Sample1</Filter>
     </ClCompile>
   </ItemGroup>
 </Project>

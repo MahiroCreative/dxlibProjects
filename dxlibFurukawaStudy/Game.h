@@ -8,4 +8,6 @@ namespace
 	constexpr int kScreenSizeY = 720;
 	constexpr int kShotSpped = 8;
 	constexpr int kEnemyNum = 5;
+	// フェード速度
+	constexpr int kFadeSpeed = 8;
 }
