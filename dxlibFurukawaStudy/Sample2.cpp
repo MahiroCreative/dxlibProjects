@@ -1,7 +1,7 @@
 #include <DxLib.h>
 #include <cassert>
 #include "Game.h"
-#include "SceneManager2.h"
+//#include "SceneManager2.h"
 
 // プログラムは WinMain から始まります
 int WINAPI WinMain(_In_ HINSTANCE hInstance, _In_opt_ HINSTANCE hPrevInstance, _In_ LPSTR lpCmdLine, _In_ int nCmdShow)
@@ -21,8 +21,8 @@ int WINAPI WinMain(_In_ HINSTANCE hInstance, _In_opt_ HINSTANCE hPrevInstance, _
 	SetDrawScreen(DX_SCREEN_BACK);
 
 	// シーン
-	SceneManager scene;
-	scene.Init();
+	//SceneManager scene;
+	//scene.Init();
 
 	// ゲームループ
 	while (ProcessMessage() != -1)
@@ -34,9 +34,9 @@ int WINAPI WinMain(_In_ HINSTANCE hInstance, _In_opt_ HINSTANCE hPrevInstance, _
 		ClearDrawScreen();
 
 		// ゲームシーンの更新
-		scene.Update();
+		//scene.Update();
 		// ゲームシーンの描画
-		scene.Draw();
+		//scene.Draw();
 
 		// 画面が切り替わるのを待つ
 		ScreenFlip();
@@ -50,7 +50,7 @@ int WINAPI WinMain(_In_ HINSTANCE hInstance, _In_opt_ HINSTANCE hPrevInstance, _
 	}
 
 	// 実行していたシーンの終了処理
-	scene.End();
+	//scene.End();
 
 	DxLib_End();				// ＤＸライブラリ使用の終了処理
 

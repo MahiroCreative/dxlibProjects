@@ -2,13 +2,13 @@
 #include <cassert>
 #include "Game.h"
 #include "Player2.h"
-#include "Enemy.h"
+#include "Enemy2.h"
 
 namespace
 {
 	// èâä˙à íu
-	constexpr float kDefaultPosX = Game::kScreenWidht / 2.0f;
-	constexpr float kDefaultPosY = Game::kScreenHeight - 100.0f;
+	constexpr float kDefaultPosX = kScreenSizeX / 2.0f;
+	constexpr float kDefaultPosY = kScreenSizeY - 100.0f;
 
 	// à⁄ìÆó 
 	constexpr float kSpeed = 8.0f;
@@ -57,9 +57,9 @@ void Player::Update()
 		{
 			m_posX = 0;
 		}
-		if (Game::kScreenWidht - m_graphWidth < m_posX)
+		if (kScreenSizeX - m_graphWidth < m_posX)
 		{
-			m_posX = static_cast<float>(Game::kScreenWidht - m_graphWidth);
+			m_posX = static_cast<float>(kScreenSizeX - m_graphWidth);
 		}
 	}
 	else

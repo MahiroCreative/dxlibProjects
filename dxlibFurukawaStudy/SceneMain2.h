@@ -1,7 +1,7 @@
 #pragma once
 #include "Game.h"
-#include "Player.h"
-#include "Enemy.h"
+#include "Player2.h"
+#include "Enemy2.h"
 
 
 class SceneMain

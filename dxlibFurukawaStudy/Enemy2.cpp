@@ -43,7 +43,7 @@ void Enemy::Update()
 	m_posY[0] += m_moveY;
 	m_moveY += 1.0f;	// ‘¬“x‚ğ‚¾‚ñ‚¾‚ñ‘‚­‚·‚é
 
-	if (Game::kScreenHeight < m_posY[0])
+	if (kScreenSizeY < m_posY[0])
 	{
 		// ˆÊ’u‚Ì‰Šú‰»
 	//	SetStartPos();
@@ -87,7 +87,7 @@ void Enemy::Start()
 void Enemy::SetStartPos()
 {
 	assert(m_handle != -1);
-	m_posX[0] = static_cast<float>(GetRand(Game::kScreenWidht - m_graphWidth));
+	m_posX[0] = static_cast<float>(GetRand(kScreenSizeX - m_graphWidth));
 	m_posY[0] = static_cast<float>(0 - m_graphHeight);
 
 	for (int i = 1; i < kPosLogFrame; i++)
