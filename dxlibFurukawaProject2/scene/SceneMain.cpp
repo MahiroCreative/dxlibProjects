@@ -1,21 +1,14 @@
 #include <DxLib.h>
 #include <cassert>
-#include "Pad.h"
-#include "Rect.h"
-
+#include "../util/Pad.h"
+#include "../util/Rect.h"
 #include "SceneMain.h"
-
-#include "Player.h"
-#include "Bg.h"
-
-// “oê‚·‚é“G
-// #include "EnemyBase.h"
-#include "EnemyLeft.h"
-#include "EnemyRight.h"
-#include "EnemyToPlayer.h"
-
-// “oê‚·‚éƒVƒ‡ƒbƒg
-#include "ShotMagicWand.h"
+#include "../Player.h"
+#include "../Bg.h"
+#include "../enemy/EnemyLeft.h"
+#include "../enemy/EnemyRight.h"
+#include "../enemy/EnemyToPlayer.h"
+#include "../shot/ShotMagicWand.h"
 
 namespace
 {

@@ -1,8 +1,7 @@
 #include "SceneManager.h"
 #include "SceneMain.h"
 #include "SceneMapEdit.h"
-
-#include "Pad.h"
+//#include "Pad.h"
 
 SceneManager::SceneManager()
 {
@@ -35,7 +34,7 @@ void SceneManager::End()
 
 void SceneManager::Update()
 {
-	Pad::Update();
+	//Pad::Update();
 
 	m_pMain->Update();
 //	m_pMapEdit->Update();
