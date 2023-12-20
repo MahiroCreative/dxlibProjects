@@ -47,7 +47,6 @@ private:
 	Bg* m_pBg;
 	// 敵
 	vector<EnemyBase*> m_pEnemy;	// 配列のサイズは実行時に決める(今回はコンストラクタ)
-// EnemyBase* m_pEnemy[16];	// 今までの配列
 	// ショット
 	vector<ShotBase*> m_pShot;
 

@@ -2,18 +2,13 @@
 #include <cassert>
 #include "Pad.h"
 #include "Rect.h"
-
 #include "SceneMain.h"
-
 #include "Player.h"
 #include "Bg.h"
-
 // 登場する敵
-// #include "EnemyBase.h"
 #include "EnemyLeft.h"
 #include "EnemyRight.h"
 #include "EnemyToPlayer.h"
-
 // 登場するショット
 #include "ShotMagicWand.h"
 
@@ -23,10 +18,8 @@ namespace
 	constexpr int kEnemyMax = 32;
 	// 何フレームおきに敵が登場するか
 	constexpr int kEnemyInterval = 40;
-
 	// 一度に搭乗できる弾の最大数
 	constexpr int kShotMax = 256;
-
 	// 画面がワイプするのにかかるフレーム数
 	constexpr int kWipeFrame = 30;
 }
@@ -57,7 +50,6 @@ SceneMain::SceneMain() :
 	m_pBg->SetHandle(m_bgHandle);
 
 	// 敵の準備
-	// m_pEnemy(vector)何もしなければサイズは0
 
 	// resize関数でkEnemyMaxだけデータを保存できるようにする
 	m_pEnemy.resize(kEnemyMax);
@@ -177,27 +169,6 @@ void SceneMain::Update()
 
 			continue;
 		}
-
-		// 敵と弾との当たり判定
-		// 現状はどの弾が当たっても
-		// 両方消える
-		/*Rect shotRect = shot->GetColRect();
-
-		for (auto& enemy : m_pEnemy)
-		{
-			if (!enemy) continue;
-
-			if (shotRect.IsCollsion(enemy->GetColRect()))
-			{
-				delete shot;
-				shot = nullptr;
-
-				delete enemy;
-				enemy = nullptr;
-
-				break;
-			}
-		}*/
 	}
 
 	// 敵キャラクターを登場させる
