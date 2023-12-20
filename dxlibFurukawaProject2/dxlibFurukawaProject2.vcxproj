@@ -18,6 +18,42 @@
       <Platform>x64</Platform>
     </ProjectConfiguration>
   </ItemGroup>
+  <ItemGroup>
+    <ClInclude Include="Bg.h" />
+    <ClInclude Include="EnemyBase.h" />
+    <ClInclude Include="EnemyLeft.h" />
+    <ClInclude Include="EnemyRight.h" />
+    <ClInclude Include="EnemyToPlayer.h" />
+    <ClInclude Include="Game.h" />
+    <ClInclude Include="Pad.h" />
+    <ClInclude Include="Player.h" />
+    <ClInclude Include="Rect.h" />
+    <ClInclude Include="SceneMain.h" />
+    <ClInclude Include="SceneManager.h" />
+    <ClInclude Include="SceneMapEdit.h" />
+    <ClInclude Include="ShotBase.h" />
+    <ClInclude Include="ShotBible.h" />
+    <ClInclude Include="ShotMagicWand.h" />
+    <ClInclude Include="Vec2.h" />
+  </ItemGroup>
+  <ItemGroup>
+    <ClCompile Include="Bg.cpp" />
+    <ClCompile Include="EnemyBase.cpp" />
+    <ClCompile Include="EnemyLeft.cpp" />
+    <ClCompile Include="EnemyRight.cpp" />
+    <ClCompile Include="EnemyToPlayer.cpp" />
+    <ClCompile Include="main.cpp" />
+    <ClCompile Include="Pad.cpp" />
+    <ClCompile Include="Player.cpp" />
+    <ClCompile Include="Rect.cpp" />
+    <ClCompile Include="SceneMain.cpp" />
+    <ClCompile Include="SceneManager.cpp" />
+    <ClCompile Include="SceneMapEdit.cpp" />
+    <ClCompile Include="ShotBase.cpp" />
+    <ClCompile Include="ShotBible.cpp" />
+    <ClCompile Include="ShotMagicWand.cpp" />
+    <ClCompile Include="Vec2.cpp" />
+  </ItemGroup>
   <PropertyGroup Label="Globals">
     <VCProjectVersion>16.0</VCProjectVersion>
     <Keyword>Win32Proj</Keyword>
