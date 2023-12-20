@@ -1,6 +1,6 @@
 #include <DxLib.h>
 #include "Game.h"
-#include "scene/SceneManager.h"
+#include "SceneManager.h"
 
 // プログラムは WinMain から始まります
 int WINAPI WinMain(_In_ HINSTANCE hInstance, _In_opt_ HINSTANCE hPrevInstance, _In_ LPSTR lpCmdLine, _In_ int nCmdShow)
@@ -8,19 +8,19 @@ int WINAPI WinMain(_In_ HINSTANCE hInstance, _In_opt_ HINSTANCE hPrevInstance, _
 	// 一部の関数はDxLib_Init()の前に実行する必要がある
 	ChangeWindowMode(true);
 	// 画面サイズの変更
-
+		
 
 	if (DxLib_Init() == -1)		// ＤＸライブラリ初期化処理
 	{
 		return -1;			// エラーが起きたら直ちに終了
 	}
-
+ 
 	// ダブルバッファリング
 	SetDrawScreen(DX_SCREEN_BACK);
 
 	// Scene開始
 	SceneManager* pScene = new SceneManager;
-	//pScene->Init();
+	pScene->Init();
 
 	// ゲームループ
 	while (ProcessMessage() != -1)
@@ -32,9 +32,9 @@ int WINAPI WinMain(_In_ HINSTANCE hInstance, _In_opt_ HINSTANCE hPrevInstance, _
 		ClearDrawScreen();
 
 		// ゲームの処理
-		//pScene->Update();
+		pScene->Update();
 
-		//pScene->Draw();
+		pScene->Draw();
 
 
 		// 画面が切り替わるのを待つ
@@ -50,7 +50,7 @@ int WINAPI WinMain(_In_ HINSTANCE hInstance, _In_opt_ HINSTANCE hPrevInstance, _
 		// 16.66ms(16667マイクロ秒)経過するまで待つ
 		while (GetNowHiPerformanceCount() - start < 16667) {}
 	}
-	//pScene->End();
+	pScene->End();
 
 	// メモリの解放
 	delete pScene;
