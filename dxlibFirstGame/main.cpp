@@ -13,7 +13,6 @@ int WINAPI WinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, LPSTR lpCmdLine
 	/*変数*/
 	LONGLONG roopStartTime;
 
-
 	/*ゲームループ部*/
 	while(true)
 	{
@@ -42,7 +41,6 @@ int WINAPI WinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, LPSTR lpCmdLine
 		while (GetNowHiPerformanceCount() - roopStartTime < 16667) {}
 
 	}
-
 
 	/*終了処理*/
 	DxLib_End();//Dxlib終了処理
