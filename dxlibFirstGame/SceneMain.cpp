@@ -1,14 +1,13 @@
 #include "SceneMain.h"
-#include "SceneBase.h"
 #include "GameCommon.h"
 #include "Player.h"
 #include "DxLib.h"
 
 /*コンストラクタ*/
-SceneMain::SceneMain():
-	m_player()
+SceneMain::SceneMain()
 {
-
+	/*メンバ初期化*/
+	p_player = new Player();
 }
 
 /*メンバ関数*/
@@ -16,13 +15,13 @@ SceneMain::SceneMain():
 void SceneMain::Update() const
 {
 	//Player
+	p_player->Update();
 }
 //frame毎の描画処理
 void SceneMain::Draw() const
 {
 	//Player
-	DrawGraph();
-	m_player->m_drawHandle;
+	p_player->Draw();
 
 }
 //frame毎の音声処理

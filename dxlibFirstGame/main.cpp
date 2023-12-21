@@ -1,5 +1,7 @@
 #include "DxLib.h"
 #include "GameCommon.h"
+#include "SceneBase.h"
+#include "SceneMain.h"
 
 // プログラムは WinMain から始まります
 int WINAPI WinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, LPSTR lpCmdLine, int nCmdShow)
@@ -12,6 +14,7 @@ int WINAPI WinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, LPSTR lpCmdLine
 
 	/*変数*/
 	LONGLONG roopStartTime;
+	SceneMain* scene = new SceneMain();
 
 	/*ゲームループ部*/
 	while(true)
@@ -23,7 +26,8 @@ int WINAPI WinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, LPSTR lpCmdLine
 		ClearDrawScreen();
 
 		/*ゲーム処理部*/
-
+		scene->Update();
+		scene->Draw();
 
 
 

@@ -1,16 +1,18 @@
 #pragma once
+#include "GameCommon.h"
 
 class Player
 {
 public:
 	/*コンストラクタ*/
 	Player();
-
-private:
-	/*メンバ変数*/
-	int m_drawHandle;
-
 	/*メンバ関数*/
 	void Update();
+	void Draw();
+	void Sound();
+private:
+	/*メンバ変数*/
+	int _drawHandle;//画像ハンドル
+	Vector _pos;//座標
 };
 
