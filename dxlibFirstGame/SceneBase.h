@@ -5,10 +5,10 @@
 /// </summary>
 class SceneBase
 {
-protected:
-	/*メンバ変数*/
+public:
 	//レイヤー番号を確保(layer0が背景)
-	int m_layer=-1;
+	int m_layer = -1;
+protected:
 	/*メンバ関数*/
 	//frame毎の計算処理
 	virtual void Update() const = 0;

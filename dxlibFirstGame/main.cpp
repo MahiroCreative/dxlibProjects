@@ -1,11 +1,11 @@
 #include "DxLib.h"
-#include "Game.h"
+#include "GameCommon.h"
 
 // プログラムは WinMain から始まります
 int WINAPI WinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, LPSTR lpCmdLine, int nCmdShow)
 {
 	/*Dxlib初期化*/
-	SetGraphMode(Game::ScreenSizeX, Game::ScreenSizeY, 32);//画面サイズと解像度
+	SetGraphMode(GameConst::ScreenSizeX, GameConst::ScreenSizeY, 32);//画面サイズと解像度
 	ChangeWindowMode(true);//Windowモード
 	if (DxLib_Init() == -1) { return -1;}//Dxlib初期化
 	SetDrawScreen(DX_SCREEN_BACK);//ダブルバッファリング
