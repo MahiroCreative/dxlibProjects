@@ -11,10 +11,10 @@ protected:
 	int m_layer=-1;
 	/*ƒƒ“ƒoŠÖ”*/
 	//frame–ˆ‚ÌŒvZˆ—
-	virtual void Update();
+	virtual void Update() const = 0;
 	//frame–ˆ‚Ì•`‰æˆ—
-	virtual void Draw();
+	virtual void Draw() const = 0;
 	//frame–ˆ‚Ì‰¹ºˆ—
-	virtual void Sound();
+	virtual void Sound() const = 0;
 };
 
