@@ -20,6 +20,5 @@ public:
 private:
     /*ƒƒ“ƒo•Ï”*/
     Player* p_player;
-
 };
 

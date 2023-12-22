@@ -14,4 +14,3 @@ public:
     //frame–ˆ‚Ì‰¹ºˆ—
     void Sound() const override;
 };
-

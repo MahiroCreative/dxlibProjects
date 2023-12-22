@@ -15,6 +15,16 @@ public:
 	GameScene* gameScene = nullptr;
 	TitleScene* titleScene = nullptr;
 
+	/*コンストラクタ*/
+	SceneManager()
+	{
+		//シーンの作成
+		gameScene = new GameScene();
+		titleScene = new TitleScene();
+		//Input first.
+		nowScene = gameScene;
+	}
+
 	/*メンバ関数*/
 	//処理の更新
 	void Update()

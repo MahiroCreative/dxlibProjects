@@ -27,12 +27,9 @@ int WINAPI WinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, LPSTR lpCmdLine
 		ClearDrawScreen();
 
 		/*ゲーム処理部*/
-		//シーン処理更新
-		scene.Update();
-		//シーン描画更新
-		scene.Draw();
-		//シーン音更新
-		scene.Soud();
+		scene.Update();//処理更新
+		scene.Draw();//描画更新
+		scene.Soud();//音更新
 
 		//裏画面を表へ
 		ScreenFlip();
