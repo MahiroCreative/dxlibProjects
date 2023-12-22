@@ -1,7 +1,6 @@
 #include "DxLib.h"
 #include "GameCommon.h"
-#include "SceneBase.h"
-#include "SceneMain.h"
+#include "SceneManager.h"
 
 // プログラムは WinMain から始まります
 int WINAPI WinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, LPSTR lpCmdLine, int nCmdShow)
@@ -9,15 +8,17 @@ int WINAPI WinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, LPSTR lpCmdLine
 	/*Dxlib初期化*/
 	SetGraphMode(GameConst::ScreenSizeX, GameConst::ScreenSizeY, 32);//画面サイズと解像度
 	ChangeWindowMode(true);//Windowモード
-	if (DxLib_Init() == -1) { return -1;}//Dxlib初期化
+	if (DxLib_Init() == -1) { return -1; }//Dxlib初期化
 	SetDrawScreen(DX_SCREEN_BACK);//ダブルバッファリング
 
 	/*変数*/
 	LONGLONG roopStartTime;
-	SceneMain* scene = new SceneMain();
+
+	/*Sceneの作成*/
+	SceneManager scene;
 
 	/*ゲームループ部*/
-	while(true)
+	while (true)
 	{
 		//ループ開始時刻の確保
 		roopStartTime = GetNowHiPerformanceCount();
@@ -26,10 +27,12 @@ int WINAPI WinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, LPSTR lpCmdLine
 		ClearDrawScreen();
 
 		/*ゲーム処理部*/
-		scene->Update();
-		scene->Draw();
-
-
+		//シーン処理更新
+		scene.Update();
+		//シーン描画更新
+		scene.Draw();
+		//シーン音更新
+		scene.Soud();
 
 		//裏画面を表へ
 		ScreenFlip();
@@ -46,7 +49,8 @@ int WINAPI WinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, LPSTR lpCmdLine
 
 	}
 
+
 	/*終了処理*/
-	DxLib_End();//Dxlib終了処理
+	DxLib::DxLib_End();//Dxlib終了処理
 	return 0;//終了 
 }

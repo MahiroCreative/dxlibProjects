@@ -6,8 +6,14 @@
 class SceneBase
 {
 public:
+	/*メンバ変数*/
 	//レイヤー番号を確保(layer0が背景)
 	int Layer = -1;
+
+	/*コンストラクタ・デストラクタ*/
+	SceneBase();//コンストラクタはvirtual付けない。
+	virtual ~SceneBase();//小で親のデストラクタが呼ばれないように
+
 	/*メンバ関数*/
 	//frame毎の計算処理
 	virtual void Update() const = 0;

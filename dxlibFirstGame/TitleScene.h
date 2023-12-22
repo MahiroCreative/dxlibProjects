@@ -1,15 +1,11 @@
 #pragma once
 #include "SceneBase.h"
-
-/*プロタイプ宣言*/
-class Player;
-
-class SceneMain :
+class TitleScene :
     public SceneBase
 {
 public:
     /*コンストラクタ*/
-    SceneMain();
+    TitleScene();
     /*メンバ関数*/
     //frame毎の計算処理
     void Update() const override;
@@ -17,9 +13,5 @@ public:
     void Draw() const override;
     //frame毎の音声処理
     void Sound() const override;
-private:
-    /*メンバ変数*/
-    Player* p_player;
-
 };
 

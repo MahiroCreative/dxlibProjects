@@ -13,6 +13,6 @@ public:
 private:
 	/*メンバ変数*/
 	int _drawHandle;//画像ハンドル
-	Vector _pos;//座標
+	IntVector _pos;//座標
 };
 

@@ -1,10 +1,10 @@
-#include "SceneMain.h"
+#include "GameScene.h"
 #include "GameCommon.h"
 #include "Player.h"
 #include "DxLib.h"
 
 /*コンストラクタ*/
-SceneMain::SceneMain()
+GameScene::GameScene()
 {
 	/*メンバ初期化*/
 	p_player = new Player();
@@ -12,20 +12,20 @@ SceneMain::SceneMain()
 
 /*メンバ関数*/
 //frame毎の計算処理
-void SceneMain::Update() const
+void GameScene::Update() const
 {
 	//Player
 	p_player->Update();
 }
 //frame毎の描画処理
-void SceneMain::Draw() const
+void GameScene::Draw() const
 {
 	//Player
 	p_player->Draw();
 
 }
 //frame毎の音声処理
-void SceneMain::Sound() const
+void GameScene::Sound() const
 {
 	
 }

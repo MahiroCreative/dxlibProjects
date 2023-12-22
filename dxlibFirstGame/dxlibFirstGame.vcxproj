@@ -137,13 +137,16 @@
   <ItemGroup>
     <ClCompile Include="main.cpp" />
     <ClCompile Include="Player.cpp" />
-    <ClCompile Include="SceneMain.cpp" />
+    <ClCompile Include="GameScene.cpp" />
+    <ClCompile Include="TitleScene.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="GameCommon.h" />
     <ClInclude Include="Player.h" />
     <ClInclude Include="SceneBase.h" />
-    <ClInclude Include="SceneMain.h" />
+    <ClInclude Include="GameScene.h" />
+    <ClInclude Include="SceneManager.h" />
+    <ClInclude Include="TitleScene.h" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">

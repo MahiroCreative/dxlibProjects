@@ -4,19 +4,19 @@
 
 Player::Player()
 {
-	_pos = Vector();
+	_pos = IntVector();
 	_drawHandle = LoadGraph("Resources/player.png");
 }
 //frame–ˆ‚ÌŒvZˆ—
 void Player::Update()
 {
-	_pos.X += 0.1f;
-	_pos.Y += 0.1f;
+	_pos.X += 1;
+	_pos.Y += 1;
 }
 //frame–ˆ‚Ì•`‰æˆ—
 void Player::Draw()
 {
-	DrawGraphF(_pos.X, _pos.Y, _drawHandle, false);
+	DrawGraph(_pos.X, _pos.Y, _drawHandle, false);
 }
 //frame–ˆ‚Ì‰¹ºˆ—
 void Player::Sound()
