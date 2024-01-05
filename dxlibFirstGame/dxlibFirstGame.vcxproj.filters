@@ -38,10 +38,7 @@
     <ClInclude Include="SceneManager.h">
       <Filter>ヘッダー ファイル</Filter>
     </ClInclude>
-    <ClInclude Include="Arrow.h">
-      <Filter>ヘッダー ファイル</Filter>
-    </ClInclude>
-    <ClInclude Include="ObjectBase.h">
+    <ClInclude Include="GameObjectBase.h">
       <Filter>ヘッダー ファイル\BaseClass</Filter>
     </ClInclude>
     <ClInclude Include="SceneBase.h">

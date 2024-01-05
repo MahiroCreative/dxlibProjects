@@ -4,7 +4,7 @@
 /// ゲームオブジェクト全てが継承する抽象クラス。
 /// 共通処理以外は継承先でオーバーライドして実装。 
 /// </summary>
-class ObjectBase
+class GameObjectBase
 {
 public:
 	/*メンバ変数*/
@@ -12,19 +12,19 @@ public:
 	int Layer = -1;
 
 	/*コンストラクタ・デストラクタ*/
-	ObjectBase() {};//コンストラクタはvirtual付けない。
-	virtual ~ObjectBase() {};//小で親のデストラクタが呼ばれないように
+	GameObjectBase() {};//コンストラクタはvirtual付けない。
+	virtual ~GameObjectBase() {};//小で親のデストラクタが呼ばれないように
 
 	/*メンバ関数*/
 	//frame毎の計算処理
-	virtual void Update() const = 0;
+	virtual void Update() = 0;
 	//frame毎の描画処理
 	virtual void Draw() const = 0;
 	//frame毎の音声処理
 	virtual void Sound() const = 0;
 private:
 	/*メンバ変数*/
-	int _drawHandle;//画像ハンドル
+	int _drawHandle=-1;//画像ハンドル
 	IntVector _pos;//座標
 };
 

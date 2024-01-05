@@ -12,7 +12,8 @@ int WINAPI WinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, LPSTR lpCmdLine
 	SetDrawScreen(DX_SCREEN_BACK);//ダブルバッファリング
 
 	/*変数*/
-	LONGLONG roopStartTime;
+	LONGLONG roopStartTime=0;
+	bool gameState = false;
 
 	/*Sceneの作成*/
 	SceneManager scene;
@@ -43,7 +44,6 @@ int WINAPI WinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, LPSTR lpCmdLine
 		//fps固定(60fps:16.66ms)
 		//ループ開始時刻から16.66ms経つまで停止
 		while (GetNowHiPerformanceCount() - roopStartTime < 16667) {}
-
 	}
 
 

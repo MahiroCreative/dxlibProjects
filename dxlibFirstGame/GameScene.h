@@ -6,6 +6,9 @@
 
 class GameScene : public SceneBase
 {
+private:
+	/*メンバ変数*/
+	Player* p_player;
 public:
 	/*コンストラクタ*/
 	GameScene()
@@ -15,7 +18,7 @@ public:
 	}
 	/*メンバ関数*/
 	//frame毎の計算処理
-	void Update() const override
+	void Update(SceneBase* nextScene) override
 	{
 		//Player
 		p_player->Update();
@@ -31,8 +34,5 @@ public:
 	{
 		p_player->Sound();
 	}
-private:
-	/*メンバ変数*/
-	Player* p_player;
 };
 

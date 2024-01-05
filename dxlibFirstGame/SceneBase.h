@@ -13,7 +13,7 @@ public:
 
 	/*ƒƒ“ƒoŠÖ”*/
 	//frame–ˆ‚ÌŒvZˆ—
-	virtual void Update() const = 0;
+	virtual void Update(SceneBase* nextScene) = 0;
 	//frame–ˆ‚Ì•`‰æˆ—
 	virtual void Draw() const = 0;
 	//frame–ˆ‚Ì‰¹ºˆ—

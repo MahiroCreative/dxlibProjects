@@ -1,10 +1,14 @@
 #pragma once
 #include "GameCommon.h"
 #include "DxLib.h"
-#include "GameCommon.h"
+#include "GameObjectBase.h"
 
-class Player
+class Player : public GameObjectBase
 {
+private:
+	/*メンバ変数*/
+	int _drawHandle;//画像ハンドル
+	IntVector _pos;//座標
 public:
 	/*コンストラクタ*/
 	Player()
@@ -13,19 +17,18 @@ public:
 		_drawHandle = LoadGraph("Resources/player.png");
 	}
 	/*メンバ関数*/
-	void Update()
+	void Update() override
 	{
 		_pos.X += 1;
 		_pos.Y += 1;
 	}
-	void Draw()
+	void Draw() const override
 	{
 		DrawGraph(_pos.X, _pos.Y, _drawHandle, false);
 	}
-	void Sound(){}
-private:
-	/*メンバ変数*/
-	int _drawHandle;//画像ハンドル
-	IntVector _pos;//座標
+	void Sound() const override
+	{
+
+	}
 };
 

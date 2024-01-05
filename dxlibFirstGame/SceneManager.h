@@ -5,7 +5,7 @@
 
 class SceneManager
 {
-public:
+private:
 	/*メンバ変数*/
 	//シーン更新用
 	SceneBase* backScene = nullptr;//直前のシーン
@@ -14,22 +14,29 @@ public:
 	//シーン確保用
 	GameScene* gameScene = nullptr;
 	TitleScene* titleScene = nullptr;
-
+public:
 	/*コンストラクタ*/
 	SceneManager()
 	{
 		//シーンの作成
-		gameScene = new GameScene();
+		//gameScene = new GameScene();
 		titleScene = new TitleScene();
 		//Input first.
-		nowScene = gameScene;
+		nowScene = titleScene;
 	}
 
 	/*メンバ関数*/
 	//処理の更新
 	void Update()
 	{
-		nowScene->Update();
+		nowScene->Update(nextScene);
+
+		/*シーン変更*/
+		if (nextScene != nullptr)
+		{
+			nowScene = nextScene;
+			nextScene = nullptr;
+		}
 	}
 	//描画の更新
 	void Draw()
