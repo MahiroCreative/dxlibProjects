@@ -5,12 +5,12 @@ class TitleScene :
 {
 public:
     /*コンストラクタ*/
-    TitleScene();
+    TitleScene(){}
     /*メンバ関数*/
     //frame毎の計算処理
-    void Update() const override;
+    void Update() const override{}
     //frame毎の描画処理
-    void Draw() const override;
+    void Draw() const override {}
     //frame毎の音声処理
-    void Sound() const override;
+    void Sound() const override {}
 };
