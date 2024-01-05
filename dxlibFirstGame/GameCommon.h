@@ -12,6 +12,9 @@ namespace GameConst
 	constexpr int ScreenSizeY = 720;//高さ
 }
 
+/// <summary>
+/// int成分のベクター型
+/// </summary>
 struct IntVector
 {
 public:
