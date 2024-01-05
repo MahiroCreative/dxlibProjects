@@ -10,8 +10,6 @@ namespace GameConst
 	/*画面サイズ*/
 	constexpr int ScreenSizeX = 1280;//幅
 	constexpr int ScreenSizeY = 720;//高さ
-	/*リソースハンドル*/
-	const int playerDrawHandle = LoadGraph("Resources/player.png");
 }
 
 struct IntVector

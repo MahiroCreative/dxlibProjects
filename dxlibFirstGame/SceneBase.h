@@ -11,8 +11,8 @@ public:
 	int Layer = -1;
 
 	/*コンストラクタ・デストラクタ*/
-	SceneBase();//コンストラクタはvirtual付けない。
-	virtual ~SceneBase();//小で親のデストラクタが呼ばれないように
+	SceneBase() {};//コンストラクタはvirtual付けない。
+	virtual ~SceneBase() {};//小で親のデストラクタが呼ばれないように
 
 	/*メンバ関数*/
 	//frame毎の計算処理

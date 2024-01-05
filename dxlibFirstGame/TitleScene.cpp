@@ -1,4 +1,6 @@
 #include "TitleScene.h"
+#include "SceneBase.h"
+#include "DxLib.h"
 
 /*コンストラクタ*/
 TitleScene::TitleScene()
