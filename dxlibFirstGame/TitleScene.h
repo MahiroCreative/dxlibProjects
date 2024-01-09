@@ -9,6 +9,7 @@ private:
 	IntVector _movePos;
 	IntVector _tempPos;
 	int _inputTime;
+	int _bgmHandle;
 public:
 	/*コンストラクタ*/
 	TitleScene()
@@ -17,6 +18,7 @@ public:
 		_movePos = IntVector(560,520);
 		_tempPos = IntVector();
 		_inputTime = -1;
+		_bgmHandle = PlaySoundMem("Resources/player.png");
 	}
 	/*メンバ関数*/
 	//frame毎の計算処理
