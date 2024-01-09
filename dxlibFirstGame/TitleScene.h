@@ -18,7 +18,8 @@ public:
 		_movePos = IntVector(560,520);
 		_tempPos = IntVector();
 		_inputTime = -1;
-		_bgmHandle = PlaySoundMem("Resources/player.png");
+		_bgmHandle = LoadSoundMem("Resources/bgm_title.mp3");
+		//PlaySoundMem(_bgmHandle, DX_PLAYTYPE_NORMAL);
 	}
 	/*ƒƒ“ƒoŠÖ”*/
 	//frame–ˆ‚ÌŒvZˆ—
@@ -73,6 +74,6 @@ public:
 	//frame–ˆ‚Ì‰¹ºˆ—
 	void Sound() const override
 	{
-
+		
 	}
 };
