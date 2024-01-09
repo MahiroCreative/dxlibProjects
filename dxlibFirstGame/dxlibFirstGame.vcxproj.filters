@@ -44,7 +44,7 @@
     <ClInclude Include="SceneBase.h">
       <Filter>ヘッダー ファイル\BaseClass</Filter>
     </ClInclude>
-    <ClInclude Include="GameCommon.h">
+    <ClInclude Include="MyGameLib.h">
       <Filter>ヘッダー ファイル\Common</Filter>
     </ClInclude>
   </ItemGroup>

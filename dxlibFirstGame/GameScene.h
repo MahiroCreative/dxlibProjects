@@ -1,6 +1,6 @@
 #pragma once
 #include "SceneBase.h"
-#include "GameCommon.h"
+#include "MyGameLib.h"
 #include "Player.h"
 #include "DxLib.h"
 

@@ -1,5 +1,5 @@
 #pragma once
-#include "GameCommon.h"
+#include "MyGameLib.h"
 #include "DxLib.h"
 #include "GameObjectBase.h"
 

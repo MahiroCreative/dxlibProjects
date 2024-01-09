@@ -1,5 +1,6 @@
 #pragma once
-#include "GameCommon.h"
+#include "MyGameLib.h"
+
 /// <summary>
 /// ゲームオブジェクト全てが継承する抽象クラス。
 /// 共通処理以外は継承先でオーバーライドして実装。 

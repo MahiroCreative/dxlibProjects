@@ -1,25 +1,29 @@
 #pragma once
 #include "SceneBase.h"
-#include "GameScene.h"
 #include "TitleScene.h"
+
+/*グローバル変数*/
+enum SceneKind
+{
+	gameEnd,
+	titleScene,
+};
 
 class SceneManager
 {
 private:
 	/*メンバ変数*/
-	//シーン更新用
-	SceneBase* backScene = nullptr;//直前のシーン
+	//シーン処理用
 	SceneBase* nowScene = nullptr;//現在のシーン
-	SceneBase* nextScene = nullptr;//次のシーン
 	//シーン確保用
-	GameScene* gameScene = nullptr;
 	TitleScene* titleScene = nullptr;
+	//シーン更新用
+	SceneBase::SceneKind  _nextScene;
 public:
 	/*コンストラクタ*/
 	SceneManager()
 	{
 		//シーンの作成
-		//gameScene = new GameScene();
 		titleScene = new TitleScene();
 		//Input first.
 		nowScene = titleScene;
@@ -27,26 +31,20 @@ public:
 
 	/*メンバ関数*/
 	//処理の更新
-	void Update()
+	bool Update()
 	{
-		nowScene->Update(nextScene);
+		/*シーン計算処理*/
+		_nextScene = nowScene->Update();
 
-		/*シーン変更*/
-		if (nextScene != nullptr)
-		{
-			nowScene = nextScene;
-			nextScene = nullptr;
-		}
-	}
-	//描画の更新
-	void Draw()
-	{
+		/*シーン描画処理*/
 		nowScene->Draw();
-	}
-	//音の更新
-	void Soud()
-	{
-		nowScene->Sound();
+
+		/*シーン変更処理*/
+
+		/*ゲーム終了確認*/
+		//作成中
+		if (_nextScene == SceneKind::gameEnd){return false;}
+		else{return true;}
 	}
 };
 

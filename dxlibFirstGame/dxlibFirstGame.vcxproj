@@ -138,7 +138,7 @@
     <ClCompile Include="main.cpp" />
   </ItemGroup>
   <ItemGroup>
-    <ClInclude Include="GameCommon.h" />
+    <ClInclude Include="MyGameLib.h" />
     <ClInclude Include="GameObjectBase.h" />
     <ClInclude Include="Player.h" />
     <ClInclude Include="SceneBase.h" />

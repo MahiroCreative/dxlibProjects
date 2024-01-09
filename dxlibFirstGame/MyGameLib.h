@@ -3,17 +3,7 @@
 #include <math.h>
 
 /// <summary>
-/// 画面サイズなどの共通定数
-/// </summary>
-namespace GameConst
-{
-	/*画面サイズ*/
-	constexpr int ScreenSizeX = 1280;//幅
-	constexpr int ScreenSizeY = 720;//高さ
-}
-
-/// <summary>
-/// int成分のベクター型
+/// int成分のベクター型.
 /// </summary>
 struct IntVector
 {

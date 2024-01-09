@@ -1,25 +1,29 @@
 #include "DxLib.h"
-#include "GameCommon.h"
 #include "SceneManager.h"
 
 // プログラムは WinMain から始まります
 int WINAPI WinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, LPSTR lpCmdLine, int nCmdShow)
 {
+	/*定数*/
+	//画面サイズ
+	constexpr int ScreenSizeX = 1280;//幅
+	constexpr int ScreenSizeY = 720;//高さ
+
+	/*変数*/
+	LONGLONG roopStartTime = 0;
+	bool gameRoop = true;
+
 	/*Dxlib初期化*/
-	SetGraphMode(GameConst::ScreenSizeX, GameConst::ScreenSizeY, 32);//画面サイズと解像度
+	SetGraphMode(ScreenSizeX, ScreenSizeY, 32);//画面サイズと解像度
 	ChangeWindowMode(true);//Windowモード
 	if (DxLib_Init() == -1) { return -1; }//Dxlib初期化
 	SetDrawScreen(DX_SCREEN_BACK);//ダブルバッファリング
 
-	/*変数*/
-	LONGLONG roopStartTime=0;
-	bool gameState = false;
-
 	/*Sceneの作成*/
-	SceneManager scene;
+	SceneManager sceneManager;
 
 	/*ゲームループ部*/
-	while (true)
+	while (gameRoop)
 	{
 		//ループ開始時刻の確保
 		roopStartTime = GetNowHiPerformanceCount();
@@ -28,9 +32,7 @@ int WINAPI WinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, LPSTR lpCmdLine
 		ClearDrawScreen();
 
 		/*ゲーム処理部*/
-		scene.Update();//処理更新
-		scene.Draw();//描画更新
-		scene.Soud();//音更新
+		gameRoop = sceneManager.Update();//処理更新
 
 		//裏画面を表へ
 		ScreenFlip();
