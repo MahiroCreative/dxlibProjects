@@ -18,21 +18,22 @@ public:
 	}
 	/*ƒƒ“ƒoŠÖ”*/
 	//frame–ˆ‚ÌŒvZˆ—
-	void Update(SceneBase* nextScene) override
+	SceneBase::SceneKind Update() override
 	{
 		//Player
 		p_player->Update();
+
+
+		//debug.
+		if (CheckHitKey(KEY_INPUT_RETURN)) { return SceneKind::titleScene; }
+
+		return SceneKind::gameScene;
 	}
 	//frame–ˆ‚Ì•`‰æˆ—
 	void Draw() const override
 	{
 		//Player
 		p_player->Draw();
-	}
-	//frame–ˆ‚Ì‰¹ºˆ—
-	void Sound() const override
-	{
-		p_player->Sound();
 	}
 };
 

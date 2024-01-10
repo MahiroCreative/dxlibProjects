@@ -48,6 +48,10 @@ public:
 				{
 					_nextScene = SceneKind::gameEnd;
 				}
+				else
+				{
+					_nextScene = SceneKind::gameScene;
+				}
 
 			}
 

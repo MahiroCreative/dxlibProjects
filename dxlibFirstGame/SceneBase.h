@@ -12,8 +12,10 @@ public:
 	static enum SceneKind
 	{
 		gameEnd,
-		titleScene
+		titleScene,
+		gameScene
 	};
+
 	/*コンストラクタ・デストラクタ*/
 	SceneBase() {};//コンストラクタはvirtual付けない。
 	virtual ~SceneBase() {};//小で親のデストラクタが呼ばれないように

@@ -1,13 +1,7 @@
 #pragma once
 #include "SceneBase.h"
 #include "TitleScene.h"
-
-/*グローバル変数*/
-enum SceneKind
-{
-	gameEnd,
-	titleScene,
-};
+#include "GameScene.h"
 
 class SceneManager
 {
@@ -17,6 +11,7 @@ private:
 	SceneBase* nowScene = nullptr;//現在のシーン
 	//シーン確保用
 	TitleScene* titleScene = nullptr;
+	GameScene* gameScene = nullptr;
 	//シーン更新用
 	SceneBase::SceneKind  _nextScene;
 public:
@@ -25,8 +20,11 @@ public:
 	{
 		//シーンの作成
 		titleScene = new TitleScene();
+		gameScene = new GameScene();
 		//Input first.
 		nowScene = titleScene;
+		//nextScene.
+		_nextScene = SceneBase::SceneKind::titleScene;
 	}
 
 	/*メンバ関数*/
@@ -39,12 +37,25 @@ public:
 		/*シーン描画処理*/
 		nowScene->Draw();
 
-		/*シーン変更処理*/
+		/*シーン変更・終了処理*/
+		switch (_nextScene)
+		{
+		case SceneBase::SceneKind::titleScene://titleScene.
+			nowScene = titleScene;
+			break;
+		case SceneBase::SceneKind::gameScene://gameScene.
+			nowScene = gameScene;
+			break;
+		case SceneBase::SceneKind::gameEnd://ゲーム終了
+			//メモリ解放
+			delete titleScene;
+			delete gameScene;
+			//return.
+			return false;
+		}
 
-		/*ゲーム終了確認*/
-		//作成中
-		if (_nextScene == SceneKind::gameEnd){return false;}
-		else{return true;}
+		/*正常終了*/
+		return true;
 	}
 };
 
