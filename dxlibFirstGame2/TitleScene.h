@@ -20,14 +20,22 @@ public:
 		//debug.
 		if (MyKeyInput::isDownKey(KEY_INPUT_RETURN))
 		{
-			ans = -1;
+			ans += 1;
 		}
 
-		return ans;
+		return 0;
 	}
 	void Draw()
 	{
-		DrawString(600, 480, "title", GetColor(255, 255, 255));
+		if (ans > 1)
+		{
+			DrawString(600, 480, "title2", GetColor(255, 255, 255));
+		}
+		else
+		{
+			DrawString(600, 480, "title", GetColor(255, 255, 255));
+		}
+
 	}
 
 };
