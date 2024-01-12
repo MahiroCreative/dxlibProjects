@@ -1,5 +1,6 @@
 #pragma once
 #include "MyGameLib.h"
+#include "SceneManager.h"
 
 /// <summary>
 /// シーン全てが継承する抽象クラス。
@@ -8,21 +9,13 @@
 class SceneBase
 {
 public:
-	/*staticメンバ変数*/
-	static enum SceneKind
-	{
-		gameEnd,
-		titleScene,
-		gameScene
-	};
-
 	/*コンストラクタ・デストラクタ*/
 	SceneBase() {};//コンストラクタはvirtual付けない。
 	virtual ~SceneBase() {};//小で親のデストラクタが呼ばれないように
 
 	/*メンバ関数*/
 	//frame毎の計算処理
-	virtual SceneKind Update() = 0;
+	virtual int Update() = 0;
 	//frame毎の描画処理
 	virtual void Draw() const = 0;
 };

@@ -1,8 +1,26 @@
 #pragma once
 #include "SceneBase.h"
 #include "TitleScene.h"
-#include "GameScene.h"
+//#include "GameScene.h"
 
+/*シーン管理用*/
+/// <summary>
+/// シーン管理用の定数郡
+/// </summary>
+namespace SceneKind
+{
+	enum SceneName
+	{
+		ENDGAME,
+		TITLESCENE,
+		GAMESCENE,
+	};
+}
+
+/*クラス定義*/
+/// <summary>
+/// シーン管理するマネージャークラス
+/// </summary>
 class SceneManager
 {
 private:
@@ -11,20 +29,22 @@ private:
 	SceneBase* nowScene = nullptr;//現在のシーン
 	//シーン確保用
 	TitleScene* titleScene = nullptr;
-	GameScene* gameScene = nullptr;
-	//シーン更新用
-	SceneBase::SceneKind  _nextScene;
+	//GameScene* gameScene = nullptr;
 public:
+	/*staticメンバ変数*/
+	//シーン更新用
+	static SceneKind::SceneName s_nextScene;
+
 	/*コンストラクタ*/
 	SceneManager()
 	{
 		//シーンの作成
 		titleScene = new TitleScene();
-		gameScene = new GameScene();
+		//gameScene = new GameScene();
 		//Input first.
 		nowScene = titleScene;
 		//nextScene.
-		_nextScene = SceneBase::SceneKind::titleScene;
+		s_nextScene = SceneKind::TITLESCENE;
 	}
 
 	/*メンバ関数*/
@@ -32,24 +52,24 @@ public:
 	bool Update()
 	{
 		/*シーン計算処理*/
-		_nextScene = nowScene->Update();
+		s_nextScene = nowScene->Update();
 
 		/*シーン描画処理*/
 		nowScene->Draw();
 
 		/*シーン変更・終了処理*/
-		switch (_nextScene)
+		switch (s_nextScene)
 		{
-		case SceneBase::SceneKind::titleScene://titleScene.
+		case SceneKind::TITLESCENE://titleScene.
 			nowScene = titleScene;
 			break;
-		case SceneBase::SceneKind::gameScene://gameScene.
-			nowScene = gameScene;
+		case SceneKind::GAMESCENE://gameScene.
+			//nowScene = gameScene;
 			break;
-		case SceneBase::SceneKind::gameEnd://ゲーム終了
+		case SceneKind::ENDGAME://ゲーム終了
 			//メモリ解放
 			delete titleScene;
-			delete gameScene;
+			//delete gameScene;
 			//return.
 			return false;
 		}

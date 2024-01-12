@@ -1,5 +1,6 @@
 #pragma once
 #include "SceneBase.h"
+#include "SceneManager.h"
 
 class TitleScene :
 	public SceneBase
@@ -10,7 +11,7 @@ private:
 	IntVector _tempPos;
 	int _inputTime;
 	int _bgmHandle;
-	SceneBase::SceneKind _nextScene;
+	int _nextScene;
 public:
 	/*コンストラクタ*/
 	TitleScene()
@@ -20,7 +21,7 @@ public:
 		_movePos = IntVector(560,520);
 		_tempPos = IntVector();
 		_inputTime = -1;
-		_nextScene = SceneKind::titleScene;
+		_nextScene = SceneKind::TITLESCENE;
 		_bgmHandle = LoadSoundMem("Resources/bgm_title.mp3");
 		/*初期実行*/
 		//BGM再生
@@ -28,41 +29,32 @@ public:
 	}
 	/*メンバ関数*/
 	//frame毎の計算処理
-	SceneBase::SceneKind Update() override
+	int Update() override
 	{
-		/*Key入力操作(超雑作り直せ)*/
-		if (_inputTime == -1)
-		{
-			if (CheckHitKey(KEY_INPUT_UP) || CheckHitKey(KEY_INPUT_DOWN))
-			{
-				//入れ替え
-				_tempPos = _arrowPos;
-				_arrowPos = _movePos;
-				_movePos = _tempPos;
-				//タイマ更新
-				_inputTime = 0;
-			}
-			else if (CheckHitKey(KEY_INPUT_RETURN))
-			{
-				if (_arrowPos.Y == 520)
-				{
-					_nextScene = SceneKind::gameEnd;
-				}
-				else
-				{
-					_nextScene = SceneKind::gameScene;
-				}
+		/*Key入力の確認*/
+		MyKeyInput::Update();
 
+		/*入力操作*/
+		//上下キー
+		if (MyKeyInput::isDownKey(KEY_INPUT_UP) || MyKeyInput::isDownKey(KEY_INPUT_DOWN))
+		{
+			//入れ替え
+			_tempPos = _arrowPos;
+			_arrowPos = _movePos;
+			_movePos = _tempPos;
+		}
+		//エンターキー
+		if (MyKeyInput::isDownKey(KEY_INPUT_RETURN))
+		{
+			//矢印の位置でシーン遷移先を変更
+			if (_arrowPos.Y == 520)
+			{
+				_nextScene = SceneKind::GAMESCENE;
 			}
-
-		}
-		else if (_inputTime < 8 && _inputTime != -1)
-		{
-			_inputTime += 1;
-		}
-		else
-		{
-			_inputTime = -1;
+			else
+			{
+				_nextScene = SceneKind::ENDGAME;
+			}
 		}
 
 		/*返り値*/

@@ -48,7 +48,6 @@ int WINAPI WinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, LPSTR lpCmdLine
 		while (GetNowHiPerformanceCount() - roopStartTime < 16667) {}
 	}
 
-
 	/*I—¹ˆ—*/
 	DxLib::DxLib_End();//DxlibI—¹ˆ—
 	return 0;//I—¹ 
