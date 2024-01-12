@@ -4,15 +4,26 @@
 
 class TitleScene
 {
+private:
+	int ans;
 public:
+	TitleScene() :
+		ans(0)
+	{
+	};
 	/*ƒƒ“ƒoŠÖ”*/
 	int Update()
 	{
+		/*Key“ü—Í‚ÌXV*/
+		MyKeyInput::Update();
+
+		//debug.
 		if (MyKeyInput::isDownKey(KEY_INPUT_RETURN))
 		{
-			DrawString(600, 480, "titlefefeef", GetColor(255, 255, 255));
+			ans = -1;
 		}
-		return 0;
+
+		return ans;
 	}
 	void Draw()
 	{

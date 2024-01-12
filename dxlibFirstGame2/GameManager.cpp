@@ -21,8 +21,7 @@ int WINAPI WinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, LPSTR lpCmdLine
 	SetDrawScreen(DX_SCREEN_BACK);//ダブルバッファリング
 
 	/*Sceneの作成*/
-	std::unique_ptr<TitleScene> p_titleScene;
-	
+	auto p_titleScene = std::make_unique<TitleScene>();
 
 	/*ゲームループ部*/
 	int nextScene = 0;
@@ -35,10 +34,11 @@ int WINAPI WinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, LPSTR lpCmdLine
 		ClearDrawScreen();
 
 		/*ゲーム処理部*/
-
-		//計算処理
+		//入力更新
+		MyKeyInput::Update();
 		if (nextScene == 0)
 		{
+			//計算処理
 			nextScene = p_titleScene->Update();
 			//描画処理
 			p_titleScene->Draw();
