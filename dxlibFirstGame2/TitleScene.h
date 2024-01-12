@@ -1,6 +1,4 @@
 #pragma once
-#include "MyGameLib.h"
-#include "DxLib.h"
 
 class TitleScene
 {
@@ -14,9 +12,6 @@ public:
 	/*ƒƒ“ƒoŠÖ”*/
 	int Update()
 	{
-		/*Key“ü—Í‚ÌXV*/
-		MyKeyInput::Update();
-
 		//debug.
 		if (MyKeyInput::isDownKey(KEY_INPUT_RETURN))
 		{

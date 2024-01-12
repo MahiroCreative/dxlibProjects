@@ -1,6 +1,7 @@
-#include "DxLib.h"
-#include "TitleScene.h"
 #include <memory>
+#include "DxLib.h"
+#include "MyGameLib.h"
+#include "TitleScene.h"
 
 //Dxlibのエントリーポイント
 int WINAPI WinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, LPSTR lpCmdLine, int nCmdShow)
