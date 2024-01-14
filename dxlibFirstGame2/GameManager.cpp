@@ -35,10 +35,10 @@ int WINAPI WinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, LPSTR lpCmdLine
 		ClearDrawScreen();
 
 		/*ゲーム処理部*/
-		//入力更新
-		MyKeyInput::Update();
 		if (nextScene == 0)
 		{
+			//入出力処理
+			MyKeyInput::Update();
 			//計算処理
 			nextScene = p_titleScene->Update();
 			//描画処理
