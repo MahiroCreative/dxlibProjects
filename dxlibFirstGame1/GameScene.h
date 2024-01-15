@@ -31,4 +31,12 @@ public:
 		//現在のシーン名を描画
 		DrawString(600, 480, "gameScene", GetColor(255, 255, 255));
 	}
+	/// <summary>
+	/// インスタンスの初期化
+	/// </summary>
+	void Init()
+	{
+		//メンバ変数の初期化
+		_nextScene = SceneKind::GAMESCENE;
+	}
 };

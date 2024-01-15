@@ -82,11 +82,11 @@ int WINAPI WinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, LPSTR lpCmdLine
 			//‚»‚ê‚¼‚ê‚ÌƒV[ƒ“‚Ì‰Šú‰»ˆ—
 			if (nowScene == SceneKind::TITLESCENE)
 			{
-				nowScene;
+				p_titleScene->Init();
 			}
-			else if(nowScene == SceneKind::RANKING)
+			else if(nowScene == SceneKind::GAMESCENE)
 			{
-				nowScene;
+				p_gameScene->Init();
 			}
 		}
 

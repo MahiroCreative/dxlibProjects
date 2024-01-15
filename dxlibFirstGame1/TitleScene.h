@@ -12,6 +12,7 @@ private:
 public:
 	TitleScene() :
 		_nextScene(SceneKind::TITLESCENE),
+		_tempScene(SceneKind::TITLESCENE),
 		_arrowY(480),
 		_countFrame(0)
 	{
@@ -82,5 +83,15 @@ public:
 			DrawString(560, _arrowY, "=>", GetColor(255, 255, 255));
 		}
 
+	}
+	/// <summary>
+	/// インスタンスの初期化
+	/// </summary>
+	void Init()
+	{
+		_nextScene = SceneKind::TITLESCENE;
+		_tempScene = SceneKind::TITLESCENE;
+		_arrowY = 480;
+		_countFrame = 0;
 	}
 };
