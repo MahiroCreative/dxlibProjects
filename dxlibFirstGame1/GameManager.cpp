@@ -29,7 +29,10 @@ int WINAPI WinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, LPSTR lpCmdLine
 	auto p_rankingScene = std::make_unique<RankingScene>();
 
 	/*ゲームループ部*/
+	//Scene変数
+	SceneKind nowScene = SceneKind::TITLESCENE;
 	SceneKind nextScene = SceneKind::TITLESCENE;
+	//gameRoop.
 	while (gameRoop)
 	{
 		//ループ開始時刻の確保
@@ -39,7 +42,7 @@ int WINAPI WinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, LPSTR lpCmdLine
 		ClearDrawScreen();
 
 		/*ゲーム処理部*/
-		if (nextScene == SceneKind::TITLESCENE)
+		if (nowScene == SceneKind::TITLESCENE)
 		{
 			//入出力処理
 			MyKeyInput::Update();
@@ -48,7 +51,7 @@ int WINAPI WinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, LPSTR lpCmdLine
 			//描画処理
 			p_titleScene->Draw();
 		}
-		else if (nextScene == SceneKind::GAMESCENE)
+		else if (nowScene == SceneKind::GAMESCENE)
 		{
 			//入出力処理
 			MyKeyInput::Update();
@@ -57,7 +60,7 @@ int WINAPI WinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, LPSTR lpCmdLine
 			//描画処理
 			p_gameScene->Draw();
 		}
-		else if (nextScene == SceneKind::RANKING)
+		else if (nowScene == SceneKind::RANKING)
 		{
 			//入出力処理
 			MyKeyInput::Update();
@@ -66,9 +69,25 @@ int WINAPI WinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, LPSTR lpCmdLine
 			//描画処理
 			p_rankingScene->Draw();
 		}
-		else if(nextScene == SceneKind::GAMEEND)
+		else if (nowScene == SceneKind::GAMEEND)
 		{
 			gameRoop = false;
+		}
+
+		/*Scene変更初期化処理*/
+		if (nextScene != nowScene)
+		{
+			//シーン切り替え
+			nowScene = nextScene;
+			//それぞれのシーンの初期化処理
+			if (nowScene == SceneKind::TITLESCENE)
+			{
+				nowScene;
+			}
+			else if(nowScene == SceneKind::RANKING)
+			{
+				nowScene;
+			}
 		}
 
 
