@@ -1,6 +1,5 @@
 #include <memory>
 #include "DxLib.h"
-#include "MyGameLib.h"
 #include "GameCommon.h"
 #include "TitleScene.h"
 #include "GameScene1.h"
