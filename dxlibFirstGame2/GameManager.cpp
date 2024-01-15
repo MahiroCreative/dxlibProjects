@@ -1,7 +1,10 @@
 #include <memory>
 #include "DxLib.h"
 #include "MyGameLib.h"
+#include "GameCommon.h"
 #include "TitleScene.h"
+#include "GameScene1.h"
+#include "GameScene2.h"
 
 //Dxlibのエントリーポイント
 int WINAPI WinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, LPSTR lpCmdLine, int nCmdShow)
@@ -23,9 +26,11 @@ int WINAPI WinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, LPSTR lpCmdLine
 
 	/*Sceneの作成*/
 	auto p_titleScene = std::make_unique<TitleScene>();
+	auto p_gameScene1 = std::make_unique<GameScene1>();
+	auto p_gameScene2 = std::make_unique<GameScene2>();
 
 	/*ゲームループ部*/
-	int nextScene = 0;
+	SceneKind nextScene = SceneKind::TITLESCENE;
 	while (gameRoop)
 	{
 		//ループ開始時刻の確保
@@ -35,7 +40,7 @@ int WINAPI WinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, LPSTR lpCmdLine
 		ClearDrawScreen();
 
 		/*ゲーム処理部*/
-		if (nextScene == 0)
+		if (nextScene == SceneKind::TITLESCENE)
 		{
 			//入出力処理
 			MyKeyInput::Update();
@@ -44,7 +49,25 @@ int WINAPI WinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, LPSTR lpCmdLine
 			//描画処理
 			p_titleScene->Draw();
 		}
-		else if(nextScene == -1)
+		else if (nextScene == SceneKind::GAMESCENE1)
+		{
+			//入出力処理
+			MyKeyInput::Update();
+			//計算処理
+			nextScene = p_gameScene1->Update();
+			//描画処理
+			p_gameScene1->Draw();
+		}
+		else if (nextScene == SceneKind::GAMESCENE2)
+		{
+			//入出力処理
+			MyKeyInput::Update();
+			//計算処理
+			nextScene = p_gameScene2->Update();
+			//描画処理
+			p_gameScene2->Draw();
+		}
+		else if(nextScene == SceneKind::GAMEEND)
 		{
 			gameRoop = false;
 		}
