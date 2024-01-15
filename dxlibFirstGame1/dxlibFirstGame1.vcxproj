@@ -23,8 +23,8 @@
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="GameCommon.h" />
-    <ClInclude Include="GameScene1.h" />
-    <ClInclude Include="GameScene2.h" />
+    <ClInclude Include="GameScene.h" />
+    <ClInclude Include="RankingScene.h" />
     <ClInclude Include="MyGameLib.h" />
     <ClInclude Include="TitleScene.h" />
   </ItemGroup>

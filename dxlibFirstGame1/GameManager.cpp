@@ -2,8 +2,8 @@
 #include "DxLib.h"
 #include "GameCommon.h"
 #include "TitleScene.h"
-#include "GameScene1.h"
-#include "GameScene2.h"
+#include "GameScene.h"
+#include "RankingScene.h"
 
 //Dxlibのエントリーポイント
 int WINAPI WinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, LPSTR lpCmdLine, int nCmdShow)
@@ -25,8 +25,8 @@ int WINAPI WinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, LPSTR lpCmdLine
 
 	/*Sceneの作成*/
 	auto p_titleScene = std::make_unique<TitleScene>();
-	auto p_gameScene1 = std::make_unique<GameScene1>();
-	auto p_gameScene2 = std::make_unique<GameScene2>();
+	auto p_gameScene = std::make_unique<GameScene>();
+	auto p_rankingScene = std::make_unique<RankingScene>();
 
 	/*ゲームループ部*/
 	SceneKind nextScene = SceneKind::TITLESCENE;
@@ -48,23 +48,23 @@ int WINAPI WinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, LPSTR lpCmdLine
 			//描画処理
 			p_titleScene->Draw();
 		}
-		else if (nextScene == SceneKind::GAMESCENE1)
+		else if (nextScene == SceneKind::GAMESCENE)
 		{
 			//入出力処理
 			MyKeyInput::Update();
 			//計算処理
-			nextScene = p_gameScene1->Update();
+			nextScene = p_gameScene->Update();
 			//描画処理
-			p_gameScene1->Draw();
+			p_gameScene->Draw();
 		}
-		else if (nextScene == SceneKind::GAMESCENE2)
+		else if (nextScene == SceneKind::RANKING)
 		{
 			//入出力処理
 			MyKeyInput::Update();
 			//計算処理
-			nextScene = p_gameScene2->Update();
+			nextScene = p_rankingScene->Update();
 			//描画処理
-			p_gameScene2->Draw();
+			p_rankingScene->Draw();
 		}
 		else if(nextScene == SceneKind::GAMEEND)
 		{

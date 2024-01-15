@@ -1,19 +1,18 @@
 #pragma once
-#pragma once
 #include "GameCommon.h"
 #include "DxLib.h"
 #include "MyGameLib.h"
 
 
-class GameScene2
+class GameScene
 {
 private:
 	/*メンバ変数*/
 	SceneKind _nextScene;//シーン更新用
 public:
 	/*コンストラクタ*/
-	GameScene2() :
-		_nextScene(SceneKind::GAMESCENE2)
+	GameScene() :
+		_nextScene(SceneKind::GAMESCENE)
 	{
 	};
 	/*メンバ関数*/
@@ -23,15 +22,13 @@ public:
 		//Enterキーを押したら指定シーンに遷移
 		if (MyKeyInput::isDownKey(KEY_INPUT_RETURN))
 		{
-			_nextScene = SceneKind::GAMEEND;
+			_nextScene = SceneKind::TITLESCENE;
 		}
-
 		return _nextScene;
 	}
 	void Draw()
 	{
 		//現在のシーン名を描画
-		DrawString(600, 480, "gameScene2", GetColor(255, 255, 255));
+		DrawString(600, 480, "gameScene", GetColor(255, 255, 255));
 	}
-
 };
