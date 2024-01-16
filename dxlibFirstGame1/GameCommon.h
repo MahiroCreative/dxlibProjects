@@ -9,3 +9,8 @@ enum SceneKind
 	GAMESCENE,
 	RANKING
 };
+
+namespace
+{
+
+}

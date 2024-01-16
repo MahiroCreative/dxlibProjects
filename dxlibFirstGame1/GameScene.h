@@ -27,12 +27,12 @@ public:
 
 		/*ƒLƒƒƒ‰‘€ì*/
 		//up.
-		if (MyKeyInput::isHoldKey(KEY_INPUT_UP))
+		if (MyKeyInput::isHoldKey(KEY_INPUT_UP) && _charaPos.Y > 0)
 		{
 			_charaPos.Y -= 3;
 		}
 		//down.
-		if (MyKeyInput::isHoldKey(KEY_INPUT_DOWN))
+		if (MyKeyInput::isHoldKey(KEY_INPUT_DOWN) && _charaPos.Y < 680)
 		{
 			_charaPos.Y += 3;
 		}
