@@ -29,9 +29,11 @@ int WINAPI WinMain(_In_ HINSTANCE hInstance, _In_opt_  HINSTANCE hPrevInstance, 
 	auto p_rankingScene = std::make_unique<RankingScene>();
 
 	/*ƒQ[ƒ€ƒ‹[ƒv•”*/
+	//Debug•Ï”
+	SceneKind firstScene = SceneKind::GAMESCENE;
 	//Scene•Ï”
-	SceneKind nowScene = SceneKind::TITLESCENE;
-	SceneKind nextScene = SceneKind::TITLESCENE;
+	SceneKind nowScene = firstScene;
+	SceneKind nextScene = firstScene;
 	//gameRoop.
 	while (gameRoop)
 	{
@@ -87,6 +89,10 @@ int WINAPI WinMain(_In_ HINSTANCE hInstance, _In_opt_  HINSTANCE hPrevInstance, 
 			else if(nowScene == SceneKind::GAMESCENE)
 			{
 				p_gameScene->Init();
+			}
+			else if (nowScene == SceneKind::RANKING)
+			{
+				p_rankingScene->Init();
 			}
 		}
 

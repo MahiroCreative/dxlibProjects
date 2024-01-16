@@ -9,13 +9,11 @@ class RankingScene
 {
 private:
 	/*メンバ変数*/
-	SceneKind _nextScene;//シーン更新用
-	int _countFrame;//タイマ用
+	SceneKind _nextScene;//シーン遷移用
 public:
 	/*コンストラクタ*/
 	RankingScene() :
-		_nextScene(SceneKind::GAMESCENE),
-		_countFrame(0)
+		_nextScene(SceneKind::RANKING)
 	{
 	};
 	/*メンバ関数*/
@@ -33,7 +31,15 @@ public:
 	void Draw()
 	{
 		//現在のシーン名を描画
-		DrawString(600, 480, "RankingScene", GetColor(255, 255, 255));
+		DrawString(8, 8, "SceneName:RankingScene", GetColor(255, 255, 255));
+	}
+	/// <summary>
+	/// インスタンスの初期化
+	/// </summary>
+	void Init()
+	{
+		//メンバ変数の初期化
+		_nextScene = SceneKind::RANKING;
 	}
 
 };

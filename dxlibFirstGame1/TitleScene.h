@@ -6,7 +6,7 @@
 class TitleScene
 {
 private:
-	SceneKind _nextScene, _tempScene;
+	SceneKind _nextScene, _tempScene;//シーン遷移用
 	int _arrowY;
 	int _countFrame;//タイマ用
 public:

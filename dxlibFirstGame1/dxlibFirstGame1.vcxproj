@@ -28,6 +28,9 @@
     <ClInclude Include="MyGameLib.h" />
     <ClInclude Include="TitleScene.h" />
   </ItemGroup>
+  <ItemGroup>
+    <Image Include="Chara.png" />
+  </ItemGroup>
   <PropertyGroup Label="Globals">
     <VCProjectVersion>16.0</VCProjectVersion>
     <Keyword>Win32Proj</Keyword>
