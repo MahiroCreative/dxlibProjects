@@ -72,7 +72,12 @@ public:
 	}
 	void Draw()
 	{
+		//タイトル表示
+		SetFontSize(80);//フォントサイズ上昇
+		DrawString(360, 240, "DxlibFirstGame", GetColor(255, 255, 255));
+
 		//ボタン表示
+		SetFontSize(20);//フォントサイズをデフォルトに戻す
 		DrawString(600, 480, "GameStart", GetColor(255, 255, 255));
 		DrawString(600, 520, "Ranking", GetColor(255, 255, 255));
 		DrawString(600, 560, "END", GetColor(255, 255, 255));
