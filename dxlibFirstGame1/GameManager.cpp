@@ -52,6 +52,7 @@ int WINAPI WinMain(_In_ HINSTANCE hInstance, _In_opt_  HINSTANCE hPrevInstance, 
 			nextScene = p_titleScene->Update();
 			//•`‰æˆ—
 			p_titleScene->Draw();
+			//Debugˆ—
 		}
 		else if (nowScene == SceneKind::GAMESCENE)
 		{
@@ -61,6 +62,8 @@ int WINAPI WinMain(_In_ HINSTANCE hInstance, _In_opt_  HINSTANCE hPrevInstance, 
 			nextScene = p_gameScene->Update();
 			//•`‰æˆ—
 			p_gameScene->Draw();
+			//Debugˆ—
+			p_gameScene->DebugDraw();
 		}
 		else if (nowScene == SceneKind::RANKING)
 		{
@@ -70,6 +73,7 @@ int WINAPI WinMain(_In_ HINSTANCE hInstance, _In_opt_  HINSTANCE hPrevInstance, 
 			nextScene = p_rankingScene->Update();
 			//•`‰æˆ—
 			p_rankingScene->Draw();
+			//Debugˆ—
 		}
 		else if (nowScene == SceneKind::GAMEEND)
 		{

@@ -10,13 +10,28 @@ private:
 	/*メンバ変数*/
 	SceneKind _nextScene;//シーン更新用
 	IntVector _charaPos;//キャラクタの位置
-	int _charaHandle;
+	IntVector _charaColPos;//キャラクタのコリジョンの位置
+	IntVector _bulletPos;//弾丸の位置
+	IntVector _bulletColPos;//弾丸のコリジョンの位置
+	int _charaHandle;//キャラの画像ハンドル
+	int _charaSpeed;//キャラの移動速度
+	int _charaColR;//キャラコリジョンの半径
+	int _bulletColR;//弾丸コリジョンの半径
+	int _debugInt;//Debug用
+	bool _isHitFlag;//当たり判定フラグ
 public:
 	/*コンストラクタ*/
 	GameScene() :
 		_nextScene(SceneKind::GAMESCENE),
-		_charaPos(240,240),
-		_charaHandle(-1)
+		_charaPos(240, 240),
+		_charaColPos(_charaPos.X + 23, _charaPos.Y + 20),
+		_charaColR(16),
+		_charaHandle(-1),
+		_charaSpeed(4),
+		_bulletPos(800,320),
+		_bulletColPos(800, 320),
+		_bulletColR(8),
+		_isHitFlag(false)
 	{
 		_charaHandle = LoadGraph("Chara.png");
 	};
@@ -25,27 +40,52 @@ public:
 	SceneKind Update()
 	{
 
-		/*キャラ操作*/
+		/*キャラ更新*/
+		//移動操作
 		//up.
 		if (MyKeyInput::isHoldKey(KEY_INPUT_UP) && _charaPos.Y > 0)
 		{
-			_charaPos.Y -= 3;
+			_charaPos.Y -= _charaSpeed;
 		}
 		//down.
 		if (MyKeyInput::isHoldKey(KEY_INPUT_DOWN) && _charaPos.Y < 680)
 		{
-			_charaPos.Y += 3;
+			_charaPos.Y += _charaSpeed;
 		}
 		//left.
 		if (MyKeyInput::isHoldKey(KEY_INPUT_LEFT))
 		{
-			_charaPos.X -= 3;
+			_charaPos.X -= _charaSpeed;
 		}
 		//right.
 		if (MyKeyInput::isHoldKey(KEY_INPUT_RIGHT))
 		{
-			_charaPos.X += 3;
+			_charaPos.X += _charaSpeed;
 		}
+		//コリジョン位置の更新
+		_charaColPos.X = _charaPos.X + 23;
+		_charaColPos.Y = _charaPos.Y + 20;
+
+		/*弾丸更新*/
+		//移動
+		//_bulletPos.X -= 8;
+		//_bulletColPos.X -= 8;
+
+		/*キャラ当たり判定*/
+		int HitLength = _charaColR + _bulletColR;
+		IntVector delVec = _charaColPos - _bulletColPos;
+		int delLength = delVec.Length();
+		//hitCount = delLength;
+		
+		if (HitLength > delLength)
+		{
+			_isHitFlag = true;
+		}
+		else
+		{
+			_isHitFlag = false;
+		}
+
 
 
 		/*シーン遷移処理*/
@@ -63,7 +103,20 @@ public:
 		DrawString(8, 8, "SceneName:GameScene", GetColor(255, 255, 255));
 
 		//キャラクターの描画
-		DrawGraph(_charaPos.X,_charaPos.Y,_charaHandle,TRUE);
+		DrawGraph(_charaPos.X, _charaPos.Y, _charaHandle, TRUE);
+
+		//キャラクターのコリジョンの描画
+		DrawCircle(_charaColPos.X, _charaColPos.Y, _charaColR, GetColor(0,255,0), 0);
+
+		//弾丸の描画
+		DrawCircle(_bulletPos.X,_bulletPos.Y,8, GetColor(255, 0, 0),1);
+
+		//弾丸のコリジョンの描画
+		DrawCircle(_bulletColPos.X, _bulletColPos.Y, _bulletColR, GetColor(0, 0, 255), 0);
+	}
+	void DebugDraw()
+	{
+		DrawFormatString(10,700,GetColor(0,0,255), "%d", _isHitFlag);
 	}
 	/// <summary>
 	/// インスタンスの初期化
