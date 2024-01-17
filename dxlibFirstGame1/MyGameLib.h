@@ -139,6 +139,19 @@ public:
 		}
 		return false;
 	}
+	/// <summary>
+	/// Keyが押されているフレーム数を取得する
+	/// Update()を毎フレーム行っている前提の関数。
+	/// </summary>
+	/// <returns>DxlibのKeyCode</returns>
+	static int HoldKeyTime(int KeyCode)
+	{
+		if (KeyFrame[KeyCode] >= 1)
+		{
+			return KeyFrame[KeyCode];
+		}
+		return 0;
+	}
 };
 //静的メンバ変数の実態作成
 int MyKeyInput::KeyFrame[256];

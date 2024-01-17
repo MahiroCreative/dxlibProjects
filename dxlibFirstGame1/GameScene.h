@@ -18,6 +18,7 @@ private:
 	int _charaColR;//キャラコリジョンの半径
 	int _bulletColR;//弾丸コリジョンの半径
 	int _debugInt;//Debug用
+	int _time;
 	bool _isHitFlag;//当たり判定フラグ
 public:
 	/*コンストラクタ*/
@@ -67,9 +68,11 @@ public:
 		_charaColPos.Y = _charaPos.Y + 20;
 
 		/*弾丸更新*/
-		//移動
-		//_bulletPos.X -= 8;
-		//_bulletColPos.X -= 8;
+		//弾丸1:移動
+		_bulletPos.X -= 8;
+		_bulletColPos.X -= 8;
+		//弾丸2:移動
+		//弾丸3:移動
 
 		/*キャラ当たり判定*/
 		int HitLength = _charaColR + _bulletColR;
@@ -86,7 +89,7 @@ public:
 			_isHitFlag = false;
 		}
 
-
+		_time = MyKeyInput::HoldKeyTime(KEY_INPUT_Z);
 
 		/*シーン遷移処理*/
 		//Enterキーを押したらTitleシーンに遷移
@@ -97,6 +100,7 @@ public:
 
 		return _nextScene;
 	}
+	//描画更新
 	void Draw()
 	{
 		//現在のシーン名を描画
@@ -114,9 +118,11 @@ public:
 		//弾丸のコリジョンの描画
 		DrawCircle(_bulletColPos.X, _bulletColPos.Y, _bulletColR, GetColor(0, 0, 255), 0);
 	}
+	//デバッグ用の描画更新
 	void DebugDraw()
 	{
 		DrawFormatString(10,700,GetColor(0,0,255), "%d", _isHitFlag);
+		DrawFormatString(30, 700, GetColor(0, 0, 255), "%d", _time);
 	}
 	/// <summary>
 	/// インスタンスの初期化
