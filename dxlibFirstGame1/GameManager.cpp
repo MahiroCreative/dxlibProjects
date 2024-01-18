@@ -47,7 +47,8 @@ int WINAPI WinMain(_In_ HINSTANCE hInstance, _In_opt_  HINSTANCE hPrevInstance, 
 		if (nowScene == SceneKind::TITLESCENE)
 		{
 			//入出力処理
-			MyKeyInput::Update();
+			MyKeyInput::Update();//Keybord.
+			MyMouseInput::Update();//Mouse.
 			//計算処理
 			nextScene = p_titleScene->Update();
 			//描画処理
@@ -57,7 +58,8 @@ int WINAPI WinMain(_In_ HINSTANCE hInstance, _In_opt_  HINSTANCE hPrevInstance, 
 		else if (nowScene == SceneKind::GAMESCENE)
 		{
 			//入出力処理
-			MyKeyInput::Update();
+			MyKeyInput::Update();//Keybord.
+			MyMouseInput::Update();//Mouse.
 			//計算処理
 			nextScene = p_gameScene->Update();
 			//描画処理
@@ -68,7 +70,8 @@ int WINAPI WinMain(_In_ HINSTANCE hInstance, _In_opt_  HINSTANCE hPrevInstance, 
 		else if (nowScene == SceneKind::RANKING)
 		{
 			//入出力処理
-			MyKeyInput::Update();
+			MyKeyInput::Update();//Keybord.
+			MyMouseInput::Update();//Mouse.
 			//計算処理
 			nextScene = p_rankingScene->Update();
 			//描画処理
