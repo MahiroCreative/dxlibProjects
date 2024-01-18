@@ -11,6 +11,8 @@ private:
 	/*メンバ変数*/
 	SceneKind _nextScene;//シーン遷移用
 public:
+	/*メンバ変数*/
+	static int _maxScore;
 	/*コンストラクタ*/
 	RankingScene() :
 		_nextScene(SceneKind::RANKING)
@@ -43,3 +45,4 @@ public:
 	}
 
 };
+int RankingScene::_maxScore = 0;

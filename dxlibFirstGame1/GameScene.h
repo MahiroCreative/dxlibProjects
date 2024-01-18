@@ -11,6 +11,7 @@ private:
 	SceneKind _nextScene;//シーン更新用
 	IntVector _charaPos;//キャラクタの位置
 	IntVector _charaColPos;//キャラクタのコリジョンの位置
+	IntVector _enemyPos;//エネミーの位置
 	IntVector _shotPos;//ショットの位置
 	IntVector _bulletPos;//弾丸の位置
 	IntVector _bullet2Pos;//弾丸の位置
@@ -20,12 +21,15 @@ private:
 	int _charaHandle;//キャラの画像ハンドル
 	int _charaSpeed;//キャラの移動速度
 	int _charaColR;//キャラコリジョンの半径
+	int _enemyR;//エネミーの半径
 	int _bulletColR;//弾丸コリジョンの半径
 	int _debugInt;//Debug用
 	int _bulletSpeed;
 	int _shotR;
 	int _debug;
+	int _score;
 	bool _isHitFlag;//当たり判定フラグ
+	bool _isEnemyHitFlag;
 	bool _isShotFlag;
 public:
 	/*コンストラクタ*/
@@ -36,6 +40,8 @@ public:
 		_charaColR(16),
 		_charaHandle(-1),
 		_charaSpeed(4),
+		_enemyPos(1280,360),
+		_enemyR(240),
 		_shotPos(_charaPos.X, _charaPos.Y + 20),
 		_bulletPos(800, 120),
 		_bullet2Pos(800, 240),
@@ -46,7 +52,9 @@ public:
 		_bulletSpeed(4),
 		_shotR(8),
 		_debug(0),
+		_score(0),
 		_isHitFlag(false),
+		_isEnemyHitFlag(false),
 		_isShotFlag(false)
 	{
 		_charaHandle = LoadGraph("Chara.png");
@@ -98,15 +106,22 @@ public:
 		if (_bulletPos.X < 0)
 		{
 			//1.
-			_bulletPos.X = 1280;
+			_bulletPos.X = 1100;
+			_bulletPos.Y = rand() % 240;
 			//2.
-			_bullet2Pos.X = 1280;
+			_bullet2Pos.X = 1100;
+			_bullet2Pos.Y = rand() % 120 + 120;
 			//3
-			_bullet3Pos.X = 1280;
+			_bullet3Pos.X = 1100;
+			_bullet3Pos.Y = rand() % 240 + 240;
 			//4.
-			_bullet4Pos.X = 1280;
+			_bullet4Pos.X = 1100;
+			_bullet4Pos.Y = rand() % 360 + 360;
 			//5.
-			_bullet5Pos.X = 1280;
+			_bullet5Pos.X = 1100;
+			_bullet5Pos.Y = rand() % 240 + 480;
+			//弾丸速度更新
+			_bulletSpeed += 2;
 		}
 
 		/*キャラ当たり判定*/
@@ -168,10 +183,30 @@ public:
 			_shotPos.X += 16;
 		}
 
+		/*ショットと敵の当たり判定*/
+		int HitLengthEnemy = _shotR + _enemyR;
+		IntVector delVecEnemy = _shotPos - _enemyPos;
+		int delEnemyLength = delVecEnemy.Length();
+		if (HitLengthEnemy > delEnemyLength)
+		{
+			_isEnemyHitFlag = true;
+			_score++;
+		}
+		else
+		{
+			_isEnemyHitFlag = false;
+		}
+
 		/*シーン遷移処理*/
 		//Enterキーを押したらTitleシーンに遷移
 		if (MyKeyInput::isDownKey(KEY_INPUT_RETURN))
 		{
+			_nextScene = SceneKind::TITLESCENE;
+		}
+		//敵と当たっていたらタイトル画面へ。
+		if (_isHitFlag)
+		{
+			RankingScene::
 			_nextScene = SceneKind::TITLESCENE;
 		}
 
@@ -185,6 +220,18 @@ public:
 
 		//キャラクターの描画
 		DrawGraph(_charaPos.X, _charaPos.Y, _charaHandle, TRUE);
+
+		//エネミーの描画
+		if (_isEnemyHitFlag)
+		{
+			DrawCircle(_enemyPos.X, _enemyPos.Y, _enemyR, GetColor(0, 155, 155), 1);
+
+		}
+		else
+		{
+			DrawCircle(_enemyPos.X, _enemyPos.Y, _enemyR, GetColor(255, 255, 255), 1);
+		}
+
 
 		//弾丸の描画
 		DrawCircle(_bulletPos.X, _bulletPos.Y, 8, GetColor(255, 0, 0), 1);
@@ -214,7 +261,7 @@ public:
 		DrawCircle(_bullet5Pos.X, _bullet5Pos.Y, _bulletColR, GetColor(0, 0, 255), 0);
 
 		//DebugNum
-		DrawFormatString(10, 700, GetColor(0, 0, 255), "%d", _isHitFlag);
+		DrawFormatString(10, 700, GetColor(0, 0, 255), "%d", _score);
 	}
 	/// <summary>
 	/// インスタンスの初期化
@@ -223,5 +270,21 @@ public:
 	{
 		//メンバ変数の初期化
 		_nextScene = SceneKind::GAMESCENE;
+		//弾丸初期化
+		//1.
+		_bulletPos.X = 1100;
+		_bulletPos.Y = 120;
+		//2.
+		_bullet2Pos.X = 1100;
+		_bullet2Pos.Y = 240;
+		//3
+		_bullet3Pos.X = 1100;
+		_bullet3Pos.Y = 360;
+		//4.
+		_bullet4Pos.X = 1100;
+		_bullet4Pos.Y = 480;
+		//5.
+		_bullet5Pos.X = 1100;
+		_bullet5Pos.Y = 600;
 	}
 };
