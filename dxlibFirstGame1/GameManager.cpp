@@ -30,7 +30,7 @@ int WINAPI WinMain(_In_ HINSTANCE hInstance, _In_opt_  HINSTANCE hPrevInstance, 
 
 	/*ƒQ[ƒ€ƒ‹[ƒv•”*/
 	//Debug•Ï”
-	SceneKind firstScene = SceneKind::GAMESCENE;
+	SceneKind firstScene = SceneKind::TITLESCENE;
 	//Scene•Ï”
 	SceneKind nowScene = firstScene;
 	SceneKind nextScene = firstScene;

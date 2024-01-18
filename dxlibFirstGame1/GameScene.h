@@ -206,8 +206,8 @@ public:
 		//敵と当たっていたらタイトル画面へ。
 		if (_isHitFlag)
 		{
-			RankingScene::
-			_nextScene = SceneKind::TITLESCENE;
+			/*RankingScene::
+			_nextScene = SceneKind::TITLESCENE;*/
 		}
 
 		return _nextScene;
