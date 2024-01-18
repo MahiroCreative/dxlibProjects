@@ -34,6 +34,10 @@ public:
 	{
 		//現在のシーン名を描画
 		DrawString(8, 8, "SceneName:RankingScene", GetColor(255, 255, 255));
+
+		//スコアの表示
+		DrawString(500, 500, "SceneName:RankingScene", GetColor(255, 255, 255));
+
 	}
 	/// <summary>
 	/// インスタンスの初期化

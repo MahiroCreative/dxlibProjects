@@ -2,6 +2,7 @@
 #include "GameCommon.h"
 #include "DxLib.h"
 #include "MyGameLib.h"
+#include "RankingScene.h"
 
 
 class GameScene
@@ -206,8 +207,12 @@ public:
 		//敵と当たっていたらタイトル画面へ。
 		if (_isHitFlag)
 		{
-			/*RankingScene::
-			_nextScene = SceneKind::TITLESCENE;*/
+			if (RankingScene::_maxScore < _score)
+			{
+				RankingScene::_maxScore = _score;
+			}
+
+			_nextScene = SceneKind::TITLESCENE;
 		}
 
 		return _nextScene;
@@ -261,7 +266,7 @@ public:
 		DrawCircle(_bullet5Pos.X, _bullet5Pos.Y, _bulletColR, GetColor(0, 0, 255), 0);
 
 		//DebugNum
-		DrawFormatString(10, 700, GetColor(0, 0, 255), "%d", _score);
+		DrawFormatString(10, 700, GetColor(0, 0, 255), "Score:%d", _score);
 	}
 	/// <summary>
 	/// インスタンスの初期化
@@ -270,6 +275,7 @@ public:
 	{
 		//メンバ変数の初期化
 		_nextScene = SceneKind::GAMESCENE;
+
 		//弾丸初期化
 		//1.
 		_bulletPos.X = 1100;
@@ -286,5 +292,8 @@ public:
 		//5.
 		_bullet5Pos.X = 1100;
 		_bullet5Pos.Y = 600;
+
+		//score初期化
+		_score = 0;
 	}
 };
