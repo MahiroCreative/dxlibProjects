@@ -220,9 +220,6 @@ public:
 	//描画更新
 	void Draw()
 	{
-		//現在のシーン名を描画
-		DrawString(8, 8, "SceneName:GameScene", GetColor(255, 255, 255));
-
 		//キャラクターの描画
 		DrawGraph(_charaPos.X, _charaPos.Y, _charaHandle, TRUE);
 
@@ -255,18 +252,21 @@ public:
 	//デバッグ用の描画更新
 	void DebugDraw()
 	{
+		//現在のシーン名を描画
+		DrawString(8, 8, "SceneName:GameScene", GetColor(0, 255, 255));
+
 		//キャラクターのコリジョンの描画
-		DrawCircle(_charaColPos.X, _charaColPos.Y, _charaColR, GetColor(0, 255, 0), 0);
+		DrawCircle(_charaColPos.X, _charaColPos.Y, _charaColR, GetColor(0, 255, 255), 0);
 
 		//弾丸のコリジョンの描画
-		DrawCircle(_bulletPos.X, _bulletPos.Y, _bulletColR, GetColor(0, 0, 255), 0);
-		DrawCircle(_bullet2Pos.X, _bullet2Pos.Y, _bulletColR, GetColor(0, 0, 255), 0);
-		DrawCircle(_bullet3Pos.X, _bullet3Pos.Y, _bulletColR, GetColor(0, 0, 255), 0);
-		DrawCircle(_bullet4Pos.X, _bullet4Pos.Y, _bulletColR, GetColor(0, 0, 255), 0);
-		DrawCircle(_bullet5Pos.X, _bullet5Pos.Y, _bulletColR, GetColor(0, 0, 255), 0);
+		DrawCircle(_bulletPos.X, _bulletPos.Y, _bulletColR, GetColor(0, 255, 255), 0);
+		DrawCircle(_bullet2Pos.X, _bullet2Pos.Y, _bulletColR, GetColor(0, 255, 255), 0);
+		DrawCircle(_bullet3Pos.X, _bullet3Pos.Y, _bulletColR, GetColor(0, 255, 255), 0);
+		DrawCircle(_bullet4Pos.X, _bullet4Pos.Y, _bulletColR, GetColor(0, 255, 255), 0);
+		DrawCircle(_bullet5Pos.X, _bullet5Pos.Y, _bulletColR, GetColor(0, 255, 255), 0);
 
 		//DebugNum
-		DrawFormatString(10, 700, GetColor(0, 0, 255), "Score:%d", _score);
+		DrawFormatString(10, 700, GetColor(0, 255, 255), "Score:%d", _score);
 	}
 	/// <summary>
 	/// インスタンスの初期化
@@ -292,6 +292,9 @@ public:
 		//5.
 		_bullet5Pos.X = 1100;
 		_bullet5Pos.Y = 600;
+
+		//弾丸速度の初期化
+		_bulletSpeed = 4;
 
 		//score初期化
 		_score = 0;

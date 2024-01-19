@@ -1,5 +1,4 @@
 #pragma once
-#pragma once
 #include "GameCommon.h"
 #include "DxLib.h"
 #include "MyGameLib.h"
@@ -32,12 +31,17 @@ public:
 	}
 	void Draw()
 	{
-		//現在のシーン名を描画
-		DrawString(8, 8, "SceneName:RankingScene", GetColor(255, 255, 255));
-
 		//スコアの表示
-		DrawString(500, 500, "SceneName:RankingScene", GetColor(255, 255, 255));
+		SetFontSize(80);//フォントサイズ上昇
+		DrawFormatString(400, 240, GetColor(255, 255, 2555), "MaxScore:%d", _maxScore);
+		SetFontSize(20);//フォントサイズをデフォルトに戻す
+		DrawFormatString(480, 500, GetColor(255, 255, 255), "-- Return with enter --");
 
+	}
+	void DebugDraw()
+	{
+		//現在のシーン名を描画
+		DrawString(8, 8, "SceneName:RankingScene", GetColor(0, 255, 255));
 	}
 	/// <summary>
 	/// インスタンスの初期化

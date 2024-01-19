@@ -77,6 +77,7 @@ int WINAPI WinMain(_In_ HINSTANCE hInstance, _In_opt_  HINSTANCE hPrevInstance, 
 			//•`‰æˆ—
 			p_rankingScene->Draw();
 			//Debugˆ—
+			p_rankingScene->DebugDraw();
 		}
 		else if (nowScene == SceneKind::GAMEEND)
 		{
