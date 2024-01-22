@@ -1,29 +1,31 @@
 #include "DxLib.h"
 
 /*概要*/
-//C言語の機能のみで組んだシーン管理(シーンマネージャー)
-//その中でも関数までで組んでいる。
-//このレベルが分からない学生はCの文法を復習してください。
+//C言語の『関数まで』で組んだシーン管理(シーンマネージャー)
+//分からない学生はCの『基礎文法』を復習してください。
 
 /*構造*/
 //それぞれのシーンを関数(メソッド)として分割して、
 //実行するメソッドを切り替える事でシーン管理をしている。
 
-
-//プロトタイプ宣言
-//定義はMainの下。
-int TitleScene();
-int GameScene();
-bool InputKey(int KeyCode, int InputFrame);
-
 /*グローバル変数*/
-enum SceneKind//シーン管理用
-{
-	GAMEEND,
-	TITLESCENE,
-	GAMESCENE
-};
-int InputKeyTime = 0;//InputKey用のグローバル変数
+//定数
+constexpr int GAMEEND = 0;
+constexpr int TITLESCENE = 1;
+constexpr int GAMESCENE = 2;
+//変数
+bool isInputEnterHold = false;//InputEnter用の変数
+bool isInputUpHold = false;//InputUp用の変数
+bool isInputDownHold = false;//InputDown用の変数
+
+/*プロトタイプ宣言*/
+//定義はMainの下。
+int TitleScene();//タイトルシーン
+int GameScene();//ゲームシーン
+bool InputEnter();//Enterが押されたかどうかを判定する関数
+bool InputUp();//Upが押されたかどうかを判定する関数
+bool InputDown();//Downが押されたかどうかを判定する関数
+
 
 //Dxlibのエントリーポイント
 int WINAPI WinMain(_In_ HINSTANCE hInstance, _In_opt_  HINSTANCE hPrevInstance, _In_ LPSTR lpCmdLine, _In_ int nShowCmd)
@@ -36,13 +38,13 @@ int WINAPI WinMain(_In_ HINSTANCE hInstance, _In_opt_  HINSTANCE hPrevInstance, 
 	/*変数*/
 	LONGLONG roopStartTime = 0;
 	bool gameRoop = true;
-	int nextScene = SceneKind::TITLESCENE;
+	int nextScene = TITLESCENE;
 
 	/*Dxlib初期化*/
 	SetGraphMode(ScreenSizeX, ScreenSizeY, 32);//画面サイズと解像度
 	ChangeWindowMode(true);//Windowモード
 	if (DxLib_Init() == -1) { return -1; }//Dxlib初期化
-	SetDrawScreen(DX_SCREEN_BACK);//ダブルバッファリング
+	//SetDrawScreen(DX_SCREEN_BACK);//ダブルバッファリング
 
 	/*ゲームループ部*/
 	//gameRoop.
@@ -56,21 +58,22 @@ int WINAPI WinMain(_In_ HINSTANCE hInstance, _In_opt_  HINSTANCE hPrevInstance, 
 
 		/*ゲーム処理部*/
 		//シーン管理
-		if (nextScene == SceneKind::TITLESCENE)
+		if (nextScene == TITLESCENE)
 		{
 			nextScene = TitleScene();
 		}
-		else if (nextScene == SceneKind::GAMESCENE)
+		else if (nextScene == GAMESCENE)
 		{
+
 			nextScene = GameScene();
 		}
-		else if (nextScene == SceneKind::GAMEEND)
+		else if (nextScene == GAMEEND)
 		{
 			break;
 		}
 
 		//裏画面を表へ
-		ScreenFlip();
+		//ScreenFlip();
 
 		//リフレッシュ処理(-1ならエラー)
 		if (ProcessMessage() < 0) { break; }
@@ -93,63 +96,133 @@ int WINAPI WinMain(_In_ HINSTANCE hInstance, _In_opt_  HINSTANCE hPrevInstance, 
 //返り値で次に実行するシーンを指定する。
 int TitleScene()
 {
+	/*変数*/
+	bool gameRoop = true;
+	int nextScene = TITLESCENE;
+	int arrowPosY = 440;
+
 	/*ゲーム処理*/
-
-
-	/*Draw処理*/
-	//タイトルロゴ
-	SetFontSize(80);//フォントサイズ上昇
-	DrawString(460, 240, "DxlibGame", GetColor(255, 255, 255));
-	SetFontSize(20);//フォントサイズ初期化
-
-
-
-	/*DebugDraw処理*/
-	DrawString(0, 0, "TitleScene", GetColor(255, 255, 255));//シーン名表示
-
-
-	/*シーン遷移処理*/
-	//4フレーム以上Enterを押したらシーン変更
-	if (InputKey(KEY_INPUT_RETURN, 4))
+	while (gameRoop)
 	{
-		return SceneKind::GAMESCENE;
+		/*計算処理*/
+
+		/*Draw処理*/
+		//Draw処理のために必要
+		SetDrawScreen(DX_SCREEN_BACK);//ダブルバッファリング
+		//タイトルロゴ
+		SetFontSize(80);//フォントサイズ上昇
+		DrawString(460, 240, "DxlibGame", GetColor(255, 255, 255));
+		SetFontSize(20);//フォントサイズ初期化
+		//ゲームシーンテキスト
+		DrawString(600, 440, "START", GetColor(255, 255, 255));
+		//ゲームエンドテキスト
+		DrawString(600, 480, "END", GetColor(255, 255, 255));
+		//矢印
+		DrawString(560, arrowPosY, "->", GetColor(255, 255, 255));
+		//裏画面を表へ
+		ScreenFlip();
+
+		/*DebugDraw処理*/
+		//Draw処理のために必要
+		SetDrawScreen(DX_SCREEN_BACK);
+		DrawString(0, 0, "TitleScene", GetColor(255, 255, 255));//シーン名表示
+		//裏画面を表へ
+		ScreenFlip();
+
+		/*シーン遷移処理*/
+		//エンターでシーン変更
+		if (InputEnter())
+		{
+			return GAMESCENE;
+		}
 	}
-	return SceneKind::TITLESCENE;
+
+	//例外処理
+	return TITLESCENE;
 }
 //ゲーム画面を実行するシーン。
 //返り値で次に実行するシーンを指定する。
 int GameScene()
 {
-	//シーン名の表示
-	SetFontSize(80);//フォントサイズ上昇
-	DrawString(420, 240, "GameScene", GetColor(255, 255, 255));
-	SetFontSize(20);//フォントサイズ初期化
+	/*変数*/
+	bool gameRoop = true;
 
-	//シーン変更処理
-	//4フレーム以上Enterを押したらシーン変更
-	if (InputKey(KEY_INPUT_RETURN,4))
+	/*ゲーム処理*/
+	while (gameRoop)
 	{
-		return SceneKind::TITLESCENE;
+		/*計算処理*/
+
+
+		/*Draw処理*/
+
+
+		/*DebugDraw処理*/
+		//Draw処理のために必要
+		SetDrawScreen(DX_SCREEN_BACK);
+		DrawString(0, 0, "GameScene", GetColor(255, 255, 255));//シーン名表示
+		//裏画面を表へ
+		ScreenFlip();
+
+		/*シーン遷移処理*/
+		//エンターでシーン変更
+		if (InputEnter())
+		{
+			return TITLESCENE;
+		}
 	}
 
-	return SceneKind::GAMESCENE;
+	//例外処理
+	return TITLESCENE;
 }
 
-/*関数*/
+/*Input関数*/
 //Enterが押されたかどうかを判定する関数
-//指定したフレーム以上押されたら押されたと判定する。
-//理解しやすさを優先した一時的なものなので、当然今後作り直していきます。
-bool InputKey(int KeyCode,int InputFrame)
+//Enterしか分からずイケてない。当然今後作り直していきます。
+bool InputEnter()
 {
-	//4フレーム以上押していたら押した判定
-	if (CheckHitKey(KeyCode) && InputKeyTime > InputFrame)
+	//指定フレーム以上押していたら押した判定
+	if (CheckHitKey(KEY_INPUT_RETURN) && !isInputEnterHold)
 	{
-		InputKeyTime = 0;
+		isInputEnterHold = true;
 		return true;
 	}
-	else if (CheckHitKey(KeyCode))
+	else if(!CheckHitKey(KEY_INPUT_RETURN))
 	{
-		InputKeyTime++;
+		isInputEnterHold = false;
+	}
+
+	return false;
+}
+//Upが押されたかどうかを判定する関数
+//Upしか分からずイケてない。当然今後作り直していきます。
+bool InputUp()
+{
+	//指定フレーム以上押していたら押した判定
+	if (CheckHitKey(KEY_INPUT_UP) && !isInputDownHold)
+	{
+		isInputDownHold = true;
+		return true;
+	}
+	else if (!CheckHitKey(KEY_INPUT_UP))
+	{
+		isInputDownHold = false;
+	}
+
+	return false;
+}
+//Downが押されたかどうかを判定する関数
+//Downしか分からずイケてない。当然今後作り直していきます。
+bool InputDown()
+{
+	//指定フレーム以上押していたら押した判定
+	if (CheckHitKey(KEY_INPUT_DOWN) && !isInputDownHold)
+	{
+		isInputDownHold = true;
+		return true;
+	}
+	else if (!CheckHitKey(KEY_INPUT_DOWN))
+	{
+		isInputDownHold = false;
 	}
 
 	return false;
