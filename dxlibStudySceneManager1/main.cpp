@@ -44,7 +44,7 @@ int WINAPI WinMain(_In_ HINSTANCE hInstance, _In_opt_  HINSTANCE hPrevInstance, 
 	SetGraphMode(ScreenSizeX, ScreenSizeY, 32);//画面サイズと解像度
 	ChangeWindowMode(true);//Windowモード
 	if (DxLib_Init() == -1) { return -1; }//Dxlib初期化
-	//SetDrawScreen(DX_SCREEN_BACK);//ダブルバッファリング
+	SetDrawScreen(DX_SCREEN_BACK);//ダブルバッファリング
 
 	/*ゲームループ部*/
 	//gameRoop.
@@ -73,7 +73,7 @@ int WINAPI WinMain(_In_ HINSTANCE hInstance, _In_opt_  HINSTANCE hPrevInstance, 
 		}
 
 		//裏画面を表へ
-		//ScreenFlip();
+		ScreenFlip();
 
 		//リフレッシュ処理(-1ならエラー)
 		if (ProcessMessage() < 0) { break; }
@@ -104,28 +104,55 @@ int TitleScene()
 	/*ゲーム処理*/
 	while (gameRoop)
 	{
-		/*計算処理*/
 
+		/*計算処理*/
+		//Down.
+		if (InputDown())
+		{
+			if (arrowPosY == 440)
+			{
+				arrowPosY = 480;
+			}
+			else
+			{
+				arrowPosY = 440;
+			}
+		}
+		//Up.
+		if (InputUp())
+		{
+			if (arrowPosY == 440)
+			{
+				arrowPosY = 480;
+			}
+			else
+			{
+				arrowPosY = 440;
+			}
+		}
+
+			
 		/*Draw処理*/
-		//Draw処理のために必要
-		SetDrawScreen(DX_SCREEN_BACK);//ダブルバッファリング
+		//裏画面の初期化
+		ClearDrawScreen();
+
 		//タイトルロゴ
 		SetFontSize(80);//フォントサイズ上昇
 		DrawString(460, 240, "DxlibGame", GetColor(255, 255, 255));
 		SetFontSize(20);//フォントサイズ初期化
+
 		//ゲームシーンテキスト
 		DrawString(600, 440, "START", GetColor(255, 255, 255));
+
 		//ゲームエンドテキスト
 		DrawString(600, 480, "END", GetColor(255, 255, 255));
+
 		//矢印
 		DrawString(560, arrowPosY, "->", GetColor(255, 255, 255));
-		//裏画面を表へ
-		ScreenFlip();
 
-		/*DebugDraw処理*/
-		//Draw処理のために必要
-		SetDrawScreen(DX_SCREEN_BACK);
+		//DebugDraw処理
 		DrawString(0, 0, "TitleScene", GetColor(255, 255, 255));//シーン名表示
+
 		//裏画面を表へ
 		ScreenFlip();
 
@@ -135,6 +162,7 @@ int TitleScene()
 		{
 			return GAMESCENE;
 		}
+
 	}
 
 	//例外処理
@@ -146,20 +174,21 @@ int GameScene()
 {
 	/*変数*/
 	bool gameRoop = true;
+	int nextScene = GAMESCENE;
 
 	/*ゲーム処理*/
 	while (gameRoop)
 	{
+
 		/*計算処理*/
 
-
 		/*Draw処理*/
+		//裏画面の初期化
+		ClearDrawScreen();
 
+		//DebugDraw処理
+		DrawString(0, 0, "TitleScene", GetColor(255, 255, 255));//シーン名表示
 
-		/*DebugDraw処理*/
-		//Draw処理のために必要
-		SetDrawScreen(DX_SCREEN_BACK);
-		DrawString(0, 0, "GameScene", GetColor(255, 255, 255));//シーン名表示
 		//裏画面を表へ
 		ScreenFlip();
 
@@ -169,6 +198,7 @@ int GameScene()
 		{
 			return TITLESCENE;
 		}
+
 	}
 
 	//例外処理
