@@ -1,9 +1,29 @@
 #include "DxLib.h"
 
-/*1番原始的なシーンマネージャー*/
-//クラスとかオブジェクト指向とは一切してないシーンマネージャー
-//このレベルが分からない場合は、C言語の文法を勉強してください。
+/*概要*/
+//C言語の機能のみで組んだシーン管理(シーンマネージャー)
+//その中でも関数までで組んでいる。
+//ここが分からない学生はC/C++の文法を学習してください。
 
+/*構造*/
+//それぞれのシーンを関数(メソッド)として分割して、
+//実行するメソッドを切り替える事でシーン管理をしている。
+
+
+//プロトタイプ宣言
+//定義はMainの下。
+int TitleScene();
+int GameScene();
+bool InputKey(int KeyCode, int InputFrame);
+
+/*グローバル変数*/
+enum SceneKind//シーン管理用
+{
+	GAMEEND,
+	TITLESCENE,
+	GAMESCENE
+};
+int InputKeyTime = 0;//InputKey用のグローバル変数
 
 //Dxlibのエントリーポイント
 int WINAPI WinMain(_In_ HINSTANCE hInstance, _In_opt_  HINSTANCE hPrevInstance, _In_ LPSTR lpCmdLine, _In_ int nShowCmd)
@@ -16,6 +36,7 @@ int WINAPI WinMain(_In_ HINSTANCE hInstance, _In_opt_  HINSTANCE hPrevInstance, 
 	/*変数*/
 	LONGLONG roopStartTime = 0;
 	bool gameRoop = true;
+	int nextScene = SceneKind::TITLESCENE;
 
 	/*Dxlib初期化*/
 	SetGraphMode(ScreenSizeX, ScreenSizeY, 32);//画面サイズと解像度
@@ -34,9 +55,19 @@ int WINAPI WinMain(_In_ HINSTANCE hInstance, _In_opt_  HINSTANCE hPrevInstance, 
 		ClearDrawScreen();
 
 		/*ゲーム処理部*/
-
-
-
+		//シーン管理
+		if (nextScene == SceneKind::TITLESCENE)
+		{
+			nextScene = TitleScene();
+		}
+		else if (nextScene == SceneKind::GAMESCENE)
+		{
+			nextScene = GameScene();
+		}
+		else if (nextScene == SceneKind::GAMEEND)
+		{
+			break;
+		}
 
 		//裏画面を表へ
 		ScreenFlip();
@@ -55,4 +86,60 @@ int WINAPI WinMain(_In_ HINSTANCE hInstance, _In_opt_  HINSTANCE hPrevInstance, 
 	/*終了処理*/
 	DxLib_End();//Dxlib終了処理
 	return 0;//終了 
+}
+
+/*シーン定義*/
+//タイトル画面を実行するシーン。
+//返り値で次に実行するシーンを指定する。
+int TitleScene()
+{
+	//シーン名の表示
+	DrawString(420, 240, "TitleScene", GetColor(255, 255, 255));
+
+	//シーン変更処理
+	//4フレーム以上Enterを押したらシーン変更
+	if (InputKey(KEY_INPUT_RETURN,4))
+	{
+		return SceneKind::GAMESCENE;
+	}
+
+	return SceneKind::TITLESCENE;
+}
+//ゲーム画面を実行するシーン。
+//返り値で次に実行するシーンを指定する。
+int GameScene()
+{
+	//シーン名の表示
+	SetFontSize(80);//フォントサイズ上昇
+	DrawString(420, 240, "GameScene", GetColor(255, 255, 255));
+	SetFontSize(20);//フォントサイズ初期化
+
+	//シーン変更処理
+	//4フレーム以上Enterを押したらシーン変更
+	if (InputKey(KEY_INPUT_RETURN,4))
+	{
+		return SceneKind::TITLESCENE;
+	}
+
+	return SceneKind::GAMESCENE;
+}
+
+/*関数*/
+//Enterが押されたかどうかを判定する関数
+//指定したフレーム以上押されたら押されたと判定する。
+//理解しやすさを優先した一時的なものなので、当然今後作り直していきます。
+bool InputKey(int KeyCode,int InputFrame)
+{
+	//4フレーム以上押していたら押した判定
+	if (CheckHitKey(KeyCode) && InputKeyTime > InputFrame)
+	{
+		InputKeyTime = 0;
+		return true;
+	}
+	else if (CheckHitKey(KeyCode))
+	{
+		InputKeyTime++;
+	}
+
+	return false;
 }
