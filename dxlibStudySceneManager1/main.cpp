@@ -3,7 +3,7 @@
 /*概要*/
 //C言語の機能のみで組んだシーン管理(シーンマネージャー)
 //その中でも関数までで組んでいる。
-//ここが分からない学生はC/C++の文法を学習してください。
+//このレベルが分からない学生はCの文法を復習してください。
 
 /*構造*/
 //それぞれのシーンを関数(メソッド)として分割して、
@@ -93,16 +93,27 @@ int WINAPI WinMain(_In_ HINSTANCE hInstance, _In_opt_  HINSTANCE hPrevInstance, 
 //返り値で次に実行するシーンを指定する。
 int TitleScene()
 {
-	//シーン名の表示
-	DrawString(420, 240, "TitleScene", GetColor(255, 255, 255));
+	/*ゲーム処理*/
 
-	//シーン変更処理
+
+	/*Draw処理*/
+	//タイトルロゴ
+	SetFontSize(80);//フォントサイズ上昇
+	DrawString(460, 240, "DxlibGame", GetColor(255, 255, 255));
+	SetFontSize(20);//フォントサイズ初期化
+
+
+
+	/*DebugDraw処理*/
+	DrawString(0, 0, "TitleScene", GetColor(255, 255, 255));//シーン名表示
+
+
+	/*シーン遷移処理*/
 	//4フレーム以上Enterを押したらシーン変更
-	if (InputKey(KEY_INPUT_RETURN,4))
+	if (InputKey(KEY_INPUT_RETURN, 4))
 	{
 		return SceneKind::GAMESCENE;
 	}
-
 	return SceneKind::TITLESCENE;
 }
 //ゲーム画面を実行するシーン。
