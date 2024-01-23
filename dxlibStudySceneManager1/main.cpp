@@ -8,6 +8,10 @@
 //それぞれのシーンを関数(メソッド)として分割して、
 //実行するメソッドを切り替える事でシーン管理をしている。
 
+/*注意*/
+//fpsの差による挙動の違いは考慮していません。
+//環境により、オブジェクトの速度などが変わってしまいます。
+
 /*グローバル変数*/
 //定数
 constexpr int GAMEEND = 0;
@@ -17,8 +21,6 @@ constexpr int GAMESCENE = 2;
 bool isInputEnterHold = false;//InputEnter用の変数
 bool isInputUpHold = false;//InputUp用の変数
 bool isInputDownHold = false;//InputDown用の変数
-//画像をメモリに読み込む
-int playerHandle = LoadGraph("Chara.png");
 
 /*プロトタイプ宣言*/
 //定義はMainの下。
@@ -182,10 +184,15 @@ int GameScene()
 {
 	/*変数*/
 	bool gameRoop = true;
+	bool isShot = false;
 	int nextScene = GAMESCENE;
 	int playerHandle = LoadGraph("Chara.png");
 	int playerPosX = 100;
-	int playerPosY = 100;
+	int playerPosY = 300;
+	int bulletPosX = playerPosX;
+	int bulletPosY = playerPosY;
+	int playerSpeed = 3;
+	int bulletSpeed = 8;
 
 	/*ゲーム処理*/
 	while (gameRoop)
@@ -193,11 +200,32 @@ int GameScene()
 
 		/*計算処理*/
 		//player操作
-		playerPosY -= CheckHitKey(KEY_INPUT_W);//up
-		playerPosY += CheckHitKey(KEY_INPUT_S);//down
-		playerPosX += CheckHitKey(KEY_INPUT_D);//right.
-		playerPosX -= CheckHitKey(KEY_INPUT_A);//left.
-
+		playerPosY -= CheckHitKey(KEY_INPUT_W) * playerSpeed;//up
+		playerPosY += CheckHitKey(KEY_INPUT_S) * playerSpeed;//down
+		playerPosX += CheckHitKey(KEY_INPUT_D) * playerSpeed;//right.
+		playerPosX -= CheckHitKey(KEY_INPUT_A) * playerSpeed;//left.
+		//shot操作
+		if (isShot == false)
+		{
+			if (GetMouseInput() == MOUSE_INPUT_LEFT) isShot = true;
+		}
+		//bullet位置更新
+		if (isShot)
+		{
+			bulletPosX = bulletPosX + bulletSpeed;
+		}
+		else
+		{
+			bulletPosX = playerPosX;
+			bulletPosY = playerPosY;
+		}
+		//bullet位置初期化
+		if(bulletPosX>1280)
+		{
+			isShot = false;
+			bulletPosX = playerPosX;
+			bulletPosY = playerPosY;
+		}
 
 
 		/*Draw処理*/
@@ -206,6 +234,12 @@ int GameScene()
 
 		//player
 		DrawGraph(playerPosX,playerPosY,playerHandle,true);
+		//bullet.
+		if (isShot)
+		{
+			DrawCircle(bulletPosX, bulletPosY, 8, GetColor(255, 0, 0), 1);
+		}
+
 
 		//DebugDraw処理
 		DrawString(0, 0, "GameScene:WASDで操作", GetColor(255, 255, 255));//シーン名表示
