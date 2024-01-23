@@ -192,6 +192,13 @@ int GameScene()
 	{
 
 		/*計算処理*/
+		//player操作
+		playerPosY -= CheckHitKey(KEY_INPUT_W);//up
+		playerPosY += CheckHitKey(KEY_INPUT_S);//down
+		playerPosX += CheckHitKey(KEY_INPUT_D);//right.
+		playerPosX -= CheckHitKey(KEY_INPUT_A);//left.
+
+
 
 		/*Draw処理*/
 		//裏画面の初期化
@@ -201,7 +208,7 @@ int GameScene()
 		DrawGraph(playerPosX,playerPosY,playerHandle,true);
 
 		//DebugDraw処理
-		DrawString(0, 0, "GameScene", GetColor(255, 255, 255));//シーン名表示
+		DrawString(0, 0, "GameScene:WASDで操作", GetColor(255, 255, 255));//シーン名表示
 
 		//裏画面を表へ
 		ScreenFlip();
