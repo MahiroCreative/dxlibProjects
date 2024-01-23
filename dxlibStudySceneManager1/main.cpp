@@ -17,6 +17,8 @@ constexpr int GAMESCENE = 2;
 bool isInputEnterHold = false;//InputEnter用の変数
 bool isInputUpHold = false;//InputUp用の変数
 bool isInputDownHold = false;//InputDown用の変数
+//画像をメモリに読み込む
+int playerHandle = LoadGraph("Chara.png");
 
 /*プロトタイプ宣言*/
 //定義はMainの下。
@@ -181,6 +183,9 @@ int GameScene()
 	/*変数*/
 	bool gameRoop = true;
 	int nextScene = GAMESCENE;
+	int playerHandle = LoadGraph("Chara.png");
+	int playerPosX = 100;
+	int playerPosY = 100;
 
 	/*ゲーム処理*/
 	while (gameRoop)
@@ -191,6 +196,9 @@ int GameScene()
 		/*Draw処理*/
 		//裏画面の初期化
 		ClearDrawScreen();
+
+		//player
+		DrawGraph(playerPosX,playerPosY,playerHandle,true);
 
 		//DebugDraw処理
 		DrawString(0, 0, "GameScene", GetColor(255, 255, 255));//シーン名表示
