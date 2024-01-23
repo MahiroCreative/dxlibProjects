@@ -130,7 +130,6 @@ int TitleScene()
 				arrowPosY = 440;
 			}
 		}
-
 			
 		/*Draw処理*/
 		//裏画面の初期化
@@ -160,9 +159,16 @@ int TitleScene()
 		//エンターでシーン変更
 		if (InputEnter())
 		{
-			return GAMESCENE;
-		}
+			if (arrowPosY ==440)
+			{
+				return GAMESCENE;
+			}
+			else
+			{
+				return GAMEEND;
+			}
 
+		}
 	}
 
 	//例外処理
@@ -187,7 +193,7 @@ int GameScene()
 		ClearDrawScreen();
 
 		//DebugDraw処理
-		DrawString(0, 0, "TitleScene", GetColor(255, 255, 255));//シーン名表示
+		DrawString(0, 0, "GameScene", GetColor(255, 255, 255));//シーン名表示
 
 		//裏画面を表へ
 		ScreenFlip();
@@ -245,14 +251,14 @@ bool InputUp()
 bool InputDown()
 {
 	//指定フレーム以上押していたら押した判定
-	if (CheckHitKey(KEY_INPUT_DOWN) && !isInputDownHold)
+	if (CheckHitKey(KEY_INPUT_DOWN) && !isInputUpHold)
 	{
-		isInputDownHold = true;
+		isInputUpHold = true;
 		return true;
 	}
 	else if (!CheckHitKey(KEY_INPUT_DOWN))
 	{
-		isInputDownHold = false;
+		isInputUpHold = false;
 	}
 
 	return false;
