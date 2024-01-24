@@ -189,6 +189,10 @@ int GameScene()
 	int playerHandle = LoadGraph("Chara.png");
 	int playerPosX = 100;
 	int playerPosY = 300;
+	int playerColR = 14;
+	int enemyPosX = 1200;
+	int enemyPosY = 360;
+	int enemyColR = 240;
 	int bulletPosX = playerPosX;
 	int bulletPosY = playerPosY;
 	int playerSpeed = 3;
@@ -233,16 +237,20 @@ int GameScene()
 		ClearDrawScreen();
 
 		//player
-		DrawGraph(playerPosX,playerPosY,playerHandle,true);
+		DrawRotaGraph(playerPosX,playerPosY,1,0,playerHandle,true);//指定した位置に画像の中心が来る
 		//bullet.
 		if (isShot)
 		{
 			DrawCircle(bulletPosX, bulletPosY, 8, GetColor(255, 0, 0), 1);
 		}
+		//enemy
+		DrawCircle(enemyPosX,enemyPosY, 240, GetColor(0, 0, 255), 1);
 
 
 		//DebugDraw処理
 		DrawString(0, 0, "GameScene:WASDで操作", GetColor(255, 255, 255));//シーン名表示
+		DrawCircle(playerPosX,playerPosY,playerColR,GetColor(0,255,0),0);//PlayerCol
+		DrawCircle(enemyPosX, enemyPosY, enemyColR, GetColor(0, 255, 0), 0);//enemyCol
 
 		//裏画面を表へ
 		ScreenFlip();
