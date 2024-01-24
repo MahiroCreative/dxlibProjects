@@ -3,7 +3,7 @@
 
 /*概要*/
 //名称:DxlibGameTemplate1
-//C言語の『関数まで』で組んだテンプレートです。
+//C言語の『配列/ポインタ/構造体』を使って組んだテンプレートです。
 // 非常に簡易的ですが
 // ・シーン遷移(グローバル変数とif文で実装)
 // ・インプットシステム(グローバル変数の乱用により実装)
@@ -14,14 +14,24 @@
 // 分からない学生はCの学習をやり直してください。
 
 /*構造*/
-//それぞれのシーンを関数(メソッド)として分割して、
-//実行するメソッドを切り替える事でシーン管理をしている。
-//シーンからの返り値で次にいくシーンを判断しています。
+//『配列/ポインタ/構造体』を使用することで、
+// 前回までグローバル変数で無理やりやっていたことを多少スマートにしています。
+// 特に複数の返り値が欲しかった場面で使用しています。
+// シーンの切り替えは前回同様実行メソッドを切り替える事でシーン管理をしています。
+// また、シーン管理には列挙型を用いています。
 
 /*注意*/
 //fpsの差による挙動の違いは考慮していません。
 //環境により、オブジェクトの速度などが変わってしまいます。
 
+
+//Scene管理用
+enum SceneKind
+{
+	GAMEENED,
+	TITLESCENE,
+	GAMESCENE
+};
 
 //Dxlibのエントリーポイント
 int WINAPI WinMain(_In_ HINSTANCE hInstance, _In_opt_  HINSTANCE hPrevInstance, _In_ LPSTR lpCmdLine, _In_ int nShowCmd)
@@ -34,6 +44,7 @@ int WINAPI WinMain(_In_ HINSTANCE hInstance, _In_opt_  HINSTANCE hPrevInstance, 
 	/*変数*/
 	LONGLONG roopStartTime = 0;
 	bool gameRoop = true;
+	SceneKind nextScene;//Scene管理用
 
 	/*Dxlib初期化*/
 	SetGraphMode(ScreenSizeX, ScreenSizeY, 32);//画面サイズと解像度
@@ -52,7 +63,20 @@ int WINAPI WinMain(_In_ HINSTANCE hInstance, _In_opt_  HINSTANCE hPrevInstance, 
 		ClearDrawScreen();
 
 		/*ゲーム処理部*/
+		if (nextScene == TITLESCENE)
+		{
+			nextScene = TitleScene();
+		}
+		else if (nextScene == GAMESCENE)
+		{
 
+			nextScene = GameScene();
+		}
+		else if (nextScene == GAMEEND)
+		{
+
+			break;
+		}
 
 		//裏画面を表へ
 		ScreenFlip();
