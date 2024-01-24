@@ -1,4 +1,7 @@
 #include "DxLib.h"
+#include <math.h>
+
+using namespace DxLib;
 
 /*概要*/
 //C言語の『関数まで』で組んだシーン管理(シーンマネージャー)
@@ -17,7 +20,9 @@
 constexpr int GAMEEND = 0;
 constexpr int TITLESCENE = 1;
 constexpr int GAMESCENE = 2;
-//変数
+//int変数
+int MaxScore = 0;
+//bool変数
 bool isInputEnterHold = false;//InputEnter用の変数
 bool isInputUpHold = false;//InputUp用の変数
 bool isInputDownHold = false;//InputDown用の変数
@@ -185,6 +190,8 @@ int GameScene()
 	/*変数*/
 	bool gameRoop = true;
 	bool isShot = false;
+	bool isHitEnemy = false;
+	bool isHitPlayer = false;
 	int nextScene = GAMESCENE;
 	int playerHandle = LoadGraph("Chara.png");
 	int playerPosX = 100;
@@ -195,8 +202,10 @@ int GameScene()
 	int enemyColR = 240;
 	int bulletPosX = playerPosX;
 	int bulletPosY = playerPosY;
+	int bulletR = 8;
 	int playerSpeed = 3;
 	int bulletSpeed = 8;
+	int score = 0;
 
 	/*ゲーム処理*/
 	while (gameRoop)
@@ -231,6 +240,33 @@ int GameScene()
 			bulletPosY = playerPosY;
 		}
 
+		//エネミーの当たり判定
+		int delX = bulletPosX - enemyPosX;
+		int delY = bulletPosY - enemyPosY;
+		int Length = (int)sqrt(delX*delX + delY*delY);//エネミーと弾の距離
+		if (bulletR + enemyColR > Length)
+		{
+			isHitEnemy = true;
+		}
+		else
+		{
+			isHitEnemy = false;
+		}
+		//プレイヤーの当たり判定
+
+
+		//スコアの更新
+		if (isHitEnemy)
+		{
+			score++;
+		}
+
+		//ハイスコアの更新
+		if (score < MaxScore)
+		{
+			MaxScore = score;
+		}
+
 
 		/*Draw処理*/
 		//裏画面の初期化
@@ -241,11 +277,19 @@ int GameScene()
 		//bullet.
 		if (isShot)
 		{
-			DrawCircle(bulletPosX, bulletPosY, 8, GetColor(255, 0, 0), 1);
+			DrawCircle(bulletPosX, bulletPosY, bulletR, GetColor(255, 0, 0), 1);
 		}
 		//enemy
-		DrawCircle(enemyPosX,enemyPosY, 240, GetColor(0, 0, 255), 1);
-
+		if (isHitEnemy)
+		{
+			DrawCircle(enemyPosX, enemyPosY, 240, GetColor(0, 255, 255), 1);
+		}
+		else
+		{
+			DrawCircle(enemyPosX, enemyPosY, 240, GetColor(0, 0, 255), 1);
+		}
+		//score
+		DrawFormatString(10, 700, GetColor(0, 255, 255), "Score:%d", score);
 
 		//DebugDraw処理
 		DrawString(0, 0, "GameScene:WASDで操作", GetColor(255, 255, 255));//シーン名表示
