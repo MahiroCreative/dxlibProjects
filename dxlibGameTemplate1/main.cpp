@@ -18,6 +18,15 @@
 //実行するメソッドを切り替える事でシーン管理をしている。
 //シーンからの返り値で次にいくシーンを判断しています。
 
+/*ゲームの仕様*/
+//・タイトル画面
+//	-START : ゲームシーンに移動
+//	-END : ゲーム終了
+//・ゲームシーン
+// - Player :WASDで動く。マウス左クリックで弾を発射する。エネミーの弾が当たるとタイトルに戻る。
+// - Enemy:上下に動く。一定間隔で弾を発射。撃つたびに弾の速度が早くなる。プレイヤーの弾が当たるとスコアが上昇する。弾が当たってる間は色が変わる。
+// - Score:右上に表示。プレイ中のマックススコアが表示される。
+
 /*注意*/
 //fpsの差による挙動の違いは考慮していません。
 //環境により、オブジェクトの速度などが変わってしまいます。
@@ -360,7 +369,7 @@ int GameScene()
 		DrawFormatString(1100, 0, GetColor(255, 255, 255), "MaxScore:%d", MaxScore);
 
 		/*DebugDraw処理*/
-		DrawString(0, 0, "GameScene：WASDで操作・Enterでタイトル", GetColor(255, 255, 255));//シーン名表示
+		DrawString(0, 0, "GameScene：WASDで操作 / マウス左クリックで発射 / Enterでタイトル", GetColor(255, 255, 255));//シーン名表示
 		DrawCircle(playerPosX, playerPosY, playerColR, GetColor(0, 255, 0), 0);//PlayerCol
 		DrawCircle(enemyPosX, enemyPosY, enemyColR, GetColor(0, 255, 0), 0);//enemyCol
 		DrawCircle(enemyBulletPosX, enemyBulletPosY, enemyBulletR, GetColor(0, 255, 0), 0);//enemyCol
