@@ -6,8 +6,8 @@
 //C言語の『配列/ポインタ/構造体』を使って組んだテンプレートです。
 // 非常に簡易的ですが
 // ・シーン遷移(グローバル変数とif文で実装)
-// ・インプットシステム(グローバル変数の乱用により実装)
-// ・円の当たり判定(ベクトルを使わずに実装)
+// ・インプットシステム(構造体を用いて多少スマートに)
+// ・円の当たり判定(ベクトル成分のみ構造体で実装)
 // などを備えています。
 // 作成するゲームの下地として使うよりは『読んで理解できるか？』で学習進度を確認してください。
 // 教科書やDxlibのリファレンスを見ながらの理解で構いません。
@@ -46,16 +46,14 @@
 //fpsの差による挙動の違いは考慮していません。
 //環境により、オブジェクトの速度などが変わってしまいます。
 
-/*Scene種類管理用*/
-enum SceneKind
+/*グローバル定数*/
+enum SceneKind//シーン管理用
 {
 	GAMEENED,
 	TITLESCENE,
 	GAMESCENE,
 	RANKINGSCENE
 };
-
-/*グローバル定数*/
 constexpr int MAXPLAYERBULLET = 3;
 constexpr int MAXENEMYBULLET = 8;
 
@@ -141,34 +139,20 @@ int WINAPI WinMain(_In_ HINSTANCE hInstance, _In_opt_  HINSTANCE hPrevInstance, 
 /*シーン関数*/
 void TitleScene(SceneKind* _nextScene)
 {
+	/*構造体の作成*/
 	//Player
-	struct Player
-	{
-		int X;
-		int Y;
-		int R;
-	};
+	struct Player{int X;int Y;int R;};
 	//Enemy
-	struct Enemy
-	{
-		int X;
-		int Y;
-		int R;
-	};
+	struct Enemy { int X; int Y; int R; };
 	//EnemyBullet
-	struct PlayerBullet
-	{
-		int X;
-		int Y;
-		int R;
-	};
+	struct PlayerBullet{int X;int Y;int R;};
 	//PlayerBullet
-	struct EnemyBullet
-	{
-		int X;
-		int Y;
-		int R;
-	};
+	struct EnemyBullet{int X;int Y;int R;};
+
+	/*変数の作成*/
+
+	/*ゲームループの作成*/
+
 
 }
 void GameScene(SceneKind* _nextScene)
