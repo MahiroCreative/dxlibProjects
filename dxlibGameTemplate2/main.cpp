@@ -55,70 +55,17 @@ enum SceneKind
 	RANKINGSCENE
 };
 
-/*Scene管理*/
-struct SceneManager
-{
-	SceneKind _backScene = SceneKind::TITLESCENE;
-	SceneKind _nextScene = SceneKind::TITLESCENE;
-};
-
-/*Input管理*/
-struct KeyInput
-{
-	bool isInputEnterHold = false;//Enter用の変数
-	bool isInputUpHold = false;//Up用の変数
-	bool isInputDownHold = false;//Down用の変数
-};
-
-/*各シーン用の変数作成*/
-//Player
-struct Player
-{
-	int X;
-	int Y;
-	int R;
-};
-//Enemy
-struct Enemy
-{
-	int X;
-	int Y;
-	int R;
-};
-//EnemyBullet
-struct PlayerBullet
-{
-	int X;
-	int Y;
-	int R;
-};
-//PlayerBullet
-struct EnemyBullet
-{
-	int X;
-	int Y;
-	int R;
-};
-//Score
-struct Score
-{
-	int NowScore;
-	int MaxScore;
-};
-//Timer
-struct FrameCount
-{
-	int count;
-};
-//グローバル変数
+/*グローバル定数*/
 constexpr int MAXPLAYERBULLET = 3;
 constexpr int MAXENEMYBULLET = 8;
 
+/*グローバル変数*/
+int MaxScore = 0;
+
 /*プロトタイプ宣言*/
-void AllSceneInit(Player* _player, Enemy* _enemy, PlayerBullet* _playerBullet, EnemyBullet* _enemyBullet, Score* _score);
-void TitleScene(SceneManager* _sceneManager);
-void GameScene(SceneManager* _sceneManager, Player* _player, Enemy* _enemy, PlayerBullet* _playerBullet, EnemyBullet* _enemyBullet, Score* _score);
-void RankingScene(SceneManager* _sceneManager, Score* _score);
+void TitleScene(SceneKind* _nextScene);
+void GameScene(SceneKind* _nextScene);
+void RankingScene(SceneKind* _nextScene);
 
 
 //Dxlibのエントリーポイント
@@ -139,13 +86,10 @@ int WINAPI WinMain(_In_ HINSTANCE hInstance, _In_opt_  HINSTANCE hPrevInstance, 
 	if (DxLib_Init() == -1) { return -1; }//Dxlib初期化
 	SetDrawScreen(DX_SCREEN_BACK);//ダブルバッファリング
 
-	/*ゲーム用変数の作成*/
-	SceneManager sceneManager;
-	Player player;
-	Enemy enemy;
-	PlayerBullet playerBullet[MAXPLAYERBULLET];
-	EnemyBullet enemyBullet[MAXENEMYBULLET];
-	Score score;
+	/*シーン管理用*/
+	SceneKind nextScene;
+	//初期化
+	nextScene = SceneKind::TITLESCENE;
 
 	/*シーンループ部*/
 	//gameRoop.
@@ -157,27 +101,20 @@ int WINAPI WinMain(_In_ HINSTANCE hInstance, _In_opt_  HINSTANCE hPrevInstance, 
 		//裏画面の初期化
 		ClearDrawScreen();
 
-		/*シーン初期化*/
-		//シーン変更時に初期化
-		if (sceneManager._backScene != sceneManager._nextScene)
-		{
-			AllSceneInit(&player, &enemy, playerBullet, enemyBullet, &score);
-		}
-
 		/*シーン遷移処理*/
-		if (sceneManager._nextScene == SceneKind::TITLESCENE)
+		if (nextScene == SceneKind::TITLESCENE)
 		{
-			TitleScene(&sceneManager);
+			TitleScene(&nextScene);
 		}
-		else if (sceneManager._nextScene == SceneKind::GAMESCENE)
+		else if (nextScene == SceneKind::GAMESCENE)
 		{
-			GameScene(&sceneManager, &player, &enemy, playerBullet, enemyBullet, &score);
+			GameScene(&nextScene);
 		}
-		else if (sceneManager._nextScene == SceneKind::RANKINGSCENE)
+		else if (nextScene == SceneKind::RANKINGSCENE)
 		{
-			RankingScene(&sceneManager, &score);
+			RankingScene(&nextScene);
 		}
-		else if (sceneManager._nextScene == SceneKind::GAMEENED)
+		else if (nextScene == SceneKind::GAMEENED)
 		{
 			break;
 		}
@@ -201,81 +138,97 @@ int WINAPI WinMain(_In_ HINSTANCE hInstance, _In_opt_  HINSTANCE hPrevInstance, 
 	return 0;//終了 
 }
 
-/*各シーン*/
-void AllSceneInit(Player* _player, Enemy* _enemy, PlayerBullet* _playerBullet, EnemyBullet* _enemyBullet,Score* _score)
+/*シーン関数*/
+void TitleScene(SceneKind* _nextScene)
+{
+	//Player
+	struct Player
+	{
+		int X;
+		int Y;
+		int R;
+	};
+	//Enemy
+	struct Enemy
+	{
+		int X;
+		int Y;
+		int R;
+	};
+	//EnemyBullet
+	struct PlayerBullet
+	{
+		int X;
+		int Y;
+		int R;
+	};
+	//PlayerBullet
+	struct EnemyBullet
+	{
+		int X;
+		int Y;
+		int R;
+	};
+
+}
+void GameScene(SceneKind* _nextScene)
 {
 
 }
-void TitleScene(SceneManager* _sceneManager)
-{
-	/*ローカル変数*/
-
-	//タイトルロゴ
-	SetFontSize(80);//フォントサイズ変更
-	DrawString(440, 240, "DxlibGame", GetColor(255, 255, 255));
-	SetFontSize(40);//フォントサイズ上
-	DrawString(460, 320, "-GameTemplate2-", GetColor(255, 255, 255));
-	SetFontSize(20);//フォントサイズ初期化
-	//ゲームシーンテキスト
-	DrawString(600, 440, "START", GetColor(255, 255, 255));
-	//ゲームエンドテキスト
-	DrawString(600, 480, "END", GetColor(255, 255, 255));
-
-
-	/*DebugDraw処理*/
-	DrawString(0, 0, "TitleScene", GetColor(255, 255, 255));//シーン名表示
-}
-void GameScene(SceneManager* _sceneManager, Player* _player, Enemy* _enemy, PlayerBullet* _playerBullet, EnemyBullet* _enemyBullet, Score* _score)
-{
-
-}
-void RankingScene(SceneManager* _sceneManager, Score* _score)
+void RankingScene(SceneKind* _nextScene)
 {
 
 }
 
 /*Input関数*/
-//Enterが押されたかどうかを判定する関数
-bool InputEnter(KeyInput* _Key)
+//Keyフラグ管理
+struct IsKeyInput
 {
-	if (CheckHitKey(KEY_INPUT_RETURN) && !_Key->isInputEnterHold)
+	bool isInputEnterHold = false;//Enter用の変数
+	bool isInputUpHold = false;//Up用の変数
+	bool isInputDownHold = false;//Down用の変数
+};
+//Enterが押されたかどうかを判定する関数
+bool InputEnter(IsKeyInput* _isKey)
+{
+	if (CheckHitKey(KEY_INPUT_RETURN) && !_isKey->isInputEnterHold)
 	{
-		_Key->isInputEnterHold = true;
+		_isKey->isInputEnterHold = true;
 		return true;
 	}
 	else if (!CheckHitKey(KEY_INPUT_RETURN))
 	{
-		_Key->isInputEnterHold = false;
+		_isKey->isInputEnterHold = false;
 	}
 
 	return false;
 }
 //Upが押されたかどうかを判定する関数
-bool InputUp(KeyInput* _Key)
+bool InputUp(IsKeyInput* _isKey)
 {
-	if (CheckHitKey(KEY_INPUT_UP) && !_Key->isInputDownHold)
+	if (CheckHitKey(KEY_INPUT_UP) && !_isKey->isInputDownHold)
 	{
-		_Key->isInputDownHold = true;
+		_isKey->isInputDownHold = true;
 		return true;
 	}
 	else if (!CheckHitKey(KEY_INPUT_UP))
 	{
-		_Key->isInputDownHold = false;
+		_isKey->isInputDownHold = false;
 	}
 
 	return false;
 }
 //Downが押されたかどうかを判定する関数
-bool InputDown(KeyInput* _Key)
+bool InputDown(IsKeyInput* _isKey)
 {
-	if (CheckHitKey(KEY_INPUT_DOWN) && !_Key->isInputUpHold)
+	if (CheckHitKey(KEY_INPUT_DOWN) && !_isKey->isInputUpHold)
 	{
-		_Key->isInputUpHold = true;
+		_isKey->isInputUpHold = true;
 		return true;
 	}
 	else if (!CheckHitKey(KEY_INPUT_DOWN))
 	{
-		_Key->isInputUpHold = false;
+		_isKey->isInputUpHold = false;
 	}
 
 	return false;
