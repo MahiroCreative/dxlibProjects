@@ -42,8 +42,9 @@
 //環境により、オブジェクトの速度などが変わってしまいます。
 
 /*プロトタイプ宣言*/
-
-
+void TitleScene();
+void GameScene();
+void RankingScene();
 
 //Scene管理用
 enum SceneKind
@@ -128,6 +129,8 @@ int WINAPI WinMain(_In_ HINSTANCE hInstance, _In_opt_  HINSTANCE hPrevInstance, 
 	DxLib_End();//Dxlib終了処理
 	return 0;//終了 
 }
+
+/*各シーン*/
 
 void TitleScene(SceneKind* _nextScene)
 {
