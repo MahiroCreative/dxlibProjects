@@ -404,7 +404,6 @@ int GameScene()
 //Enterしか分からずイケてない。当然今後作り直していきます。
 bool InputEnter()
 {
-	//指定フレーム以上押していたら押した判定
 	if (CheckHitKey(KEY_INPUT_RETURN) && !isInputEnterHold)
 	{
 		isInputEnterHold = true;
@@ -421,7 +420,6 @@ bool InputEnter()
 //Upしか分からずイケてない。当然今後作り直していきます。
 bool InputUp()
 {
-	//指定フレーム以上押していたら押した判定
 	if (CheckHitKey(KEY_INPUT_UP) && !isInputDownHold)
 	{
 		isInputDownHold = true;
@@ -438,7 +436,6 @@ bool InputUp()
 //Downしか分からずイケてない。当然今後作り直していきます。
 bool InputDown()
 {
-	//指定フレーム以上押していたら押した判定
 	if (CheckHitKey(KEY_INPUT_DOWN) && !isInputUpHold)
 	{
 		isInputUpHold = true;
