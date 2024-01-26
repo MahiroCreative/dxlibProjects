@@ -147,7 +147,7 @@ int WINAPI WinMain(_In_ HINSTANCE hInstance, _In_opt_  HINSTANCE hPrevInstance, 
 	EnemyBullet enemyBullet[MAXENEMYBULLET];
 	Score score;
 
-	/*ゲームループ部*/
+	/*シーンループ部*/
 	//gameRoop.
 	while (gameRoop)
 	{
