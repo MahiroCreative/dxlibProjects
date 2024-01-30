@@ -55,7 +55,8 @@ int WINAPI WinMain(_In_ HINSTANCE hInstance, _In_opt_  HINSTANCE hPrevInstance, 
 	//どのような数字を扱うかによって型が変わる。
 	//基本的には整数はint,実数はfloatと考えるとよい。
 	int drawHandle;//整数型
-	float cout2;//実数
+	int posX = 400;
+	int moveX = 1;
 
 
 	/*画像の読み込み*/
@@ -75,16 +76,26 @@ int WINAPI WinMain(_In_ HINSTANCE hInstance, _In_opt_  HINSTANCE hPrevInstance, 
 		//裏画面の初期化(ダブルバッファリング1)
 		ClearDrawScreen();
 
-		/*ゲーム処理部(ダブルバッファリング2)*/
 
+		/*ゲーム処理部(ダブルバッファリング2)*/
 		//円の表示
 		DrawCircle(100,100,20,200,1,1);//(x座標,y座標,半径,色,塗り潰すかどうか,表示するか)
-
 		//線の表示
 		DrawLine(200,200,300,300,200,1);//(始点x,始点y,終点x,終点y,色,表示するか)
-
 		//画像の表示
-		DrawGraph(400,400,drawHandle,1);//(x座標,y座標,読み込んだ画像のハンドル,表示するか)
+		DrawGraph(posX,400,drawHandle,1);//(x座標,y座標,読み込んだ画像のハンドル,表示するか)
+
+		//画像の移動
+		//左右に振幅運動をさせている。
+		posX += moveX;
+		if (posX > 1200)
+		{
+			moveX = -moveX;
+		}
+		else if (posX < 100)
+		{
+			moveX = -moveX;
+		}
 
 
 		//裏画面を表へ(ダブルバッファリング3)
