@@ -9,7 +9,7 @@
 /*今回の要素*/
 //・DxLibでの画像表示
 // 　‐　ダブルバッファリング
-// 　‐　線の描き方
+// 　‐　円の描き方
 // 　‐　縁の描き方
 // 　‐　画像の表示
 //・変数
@@ -50,6 +50,20 @@ int WINAPI WinMain(_In_ HINSTANCE hInstance, _In_opt_  HINSTANCE hPrevInstance, 
 	SetDrawScreen(DX_SCREEN_BACK);
 
 
+	/*変数*/
+	//計算などをする際に一時的値を保存するために使う。
+	//どのような数字を扱うかによって型が変わる。
+	//基本的には整数はint,実数はfloatと考えるとよい。
+	int drawHandle;//整数型
+	float cout2;//実数
+
+
+	/*画像の読み込み*/
+	//メモリに読み込み、その位置を入れている。
+	//こういう物を画像ハンドルと言う。
+	drawHandle = LoadGraph("Chara.png");
+
+
 	/*ゲームループ部*/
 	//一般的なゲームは単位時間毎に何度も何度も表示を繰り返す事で表現されます。
 	//これをゲームループと言います。これが通常のプログラミングとの大きな違いです。
@@ -63,7 +77,14 @@ int WINAPI WinMain(_In_ HINSTANCE hInstance, _In_opt_  HINSTANCE hPrevInstance, 
 
 		/*ゲーム処理部(ダブルバッファリング2)*/
 
+		//円の表示
+		DrawCircle(100,100,20,200,1,1);//(x座標,y座標,半径,色,塗り潰すかどうか,表示するか)
 
+		//線の表示
+		DrawLine(200,200,300,300,200,1);//(始点x,始点y,終点x,終点y,色,表示するか)
+
+		//画像の表示
+		DrawGraph(400,400,drawHandle,1);//(x座標,y座標,読み込んだ画像のハンドル,表示するか)
 
 
 		//裏画面を表へ(ダブルバッファリング3)
