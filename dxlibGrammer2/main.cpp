@@ -92,7 +92,8 @@ int WINAPI WinMain(_In_ HINSTANCE hInstance, _In_opt_  HINSTANCE hPrevInstance, 
 
 		/*Draw*/
 		//ƒLƒƒƒ‰ƒNƒ^•`‰æ
-		DrawGraph(pPosX, pPosY, drawHandle, 1);
+		//DrawGraph(pPosX, pPosY, drawHandle, 1);
+		DrawRotaGraph();
 		//’e‚Ì•`‰æ
 		if (isBullet)
 		{
