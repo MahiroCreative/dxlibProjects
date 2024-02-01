@@ -10,6 +10,7 @@
 /*今回の要素*/
 //・DxLib
 // 　- 円の当たり判定
+//   - DrawRotaGraph()
 
 //Dxlibのエントリーポイント
 int WINAPI WinMain(_In_ HINSTANCE hInstance, _In_opt_  HINSTANCE hPrevInstance, _In_ LPSTR lpCmdLine, _In_ int nShowCmd)
@@ -25,8 +26,10 @@ int WINAPI WinMain(_In_ HINSTANCE hInstance, _In_opt_  HINSTANCE hPrevInstance, 
 
 	/*変数*/
 	//Player変数
-	int pPosX = 100;
-	int pPosY = 300;
+	int pPosX = 100;//x座標
+	int pPosY = 300;//y座標
+	double pScale = 1;//画像の倍率
+	double pRotate = 0;//回転角度(ラジアン)
 	int pSpeed = 2;
 	//Bullet変数
 	int bPosX = pPosX;
@@ -66,6 +69,24 @@ int WINAPI WinMain(_In_ HINSTANCE hInstance, _In_opt_  HINSTANCE hPrevInstance, 
 		{
 			pPosX -= pSpeed;
 		}
+		//回転処理
+		if (CheckHitKey(KEY_INPUT_R))
+		{
+			pRotate += 0.1;
+		}
+		else if (pRotate > (3.14 *2))
+		{
+			pRotate = 0;
+		}
+		//拡大処理
+		if (CheckHitKey(KEY_INPUT_Q))
+		{
+			pScale += 0.1f;
+		}
+		else//面倒なのでボタン押してないとすぐ戻る
+		{
+			pScale = 1;
+		}
 
 		/*Bullet処理*/
 		//弾の発射
@@ -92,8 +113,10 @@ int WINAPI WinMain(_In_ HINSTANCE hInstance, _In_opt_  HINSTANCE hPrevInstance, 
 
 		/*Draw*/
 		//キャラクタ描画
-		//DrawGraph(pPosX, pPosY, drawHandle, 1);
-		DrawRotaGraph();
+		//前回まで使っていたDrawGraphだと指定座標が読み込んだ画像の左上になってしまう。
+		//それを防ぐために真ん中を表示するこちらを使用
+		//こちらの関数は拡大率と回転角度なども指定できる。
+		DrawRotaGraph(pPosX,pPosY,pScale,pRotate,drawHandle,1);
 		//弾の描画
 		if (isBullet)
 		{
@@ -101,6 +124,10 @@ int WINAPI WinMain(_In_ HINSTANCE hInstance, _In_opt_  HINSTANCE hPrevInstance, 
 		}
 		//エネミー描画
 		DrawCircle(ePosX, ePosY, eR, GetColor(255, 0, 255), 1);
+
+
+		/*DebugDraw*/
+		DrawString(0,0,"操作説明:WASD(上左下右),R(回転),Q(拡大),Enter(発射)",GetColor(255,0,0));
 
 
 

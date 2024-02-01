@@ -91,6 +91,8 @@ int WINAPI WinMain(_In_ HINSTANCE hInstance, _In_opt_  HINSTANCE hPrevInstance, 
 			DrawCircle(bPosX,bPosY,4,GetColor(255,255,255),1);//GetColorはカラーコードで色を指定できる
 		}
 
+		/*DebugDraw*/
+		DrawString(0, 0,"操作説明:WASDで上左下右,Enterで発射",GetColor(255,0,0));//文字列を表示する関数
 
 		//裏画面を表へ(ダブルバッファリング3)
 		ScreenFlip();
