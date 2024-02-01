@@ -11,9 +11,11 @@
 
 /*今回の要素*/
 //・DxLib
-// 　‐ Key入力
+// 　- Key入力
+// 　- 弾の発射
 //・C文法
 //   - if文
+//   - bool代数
 
 /*Dxlibのエントリーポイント*/
 int WINAPI WinMain(_In_ HINSTANCE hInstance, _In_opt_  HINSTANCE hPrevInstance, _In_ LPSTR lpCmdLine, _In_ int nShowCmd)
@@ -47,33 +49,46 @@ int WINAPI WinMain(_In_ HINSTANCE hInstance, _In_opt_  HINSTANCE hPrevInstance, 
 		//CheckHitKeyに対応キーの数値を入れることで使う(詳細はリファレンス)。
 
 		//Playerの移動
-		if (CheckHitKey(KEY_INPUT_UP))//矢印↑
+		if (CheckHitKey(KEY_INPUT_W))//Wで上移動
 		{
 			pPosY -= pSpeed;
 		}
-		else if (CheckHitKey(KEY_INPUT_DOWN))//矢印↓
+		else if (CheckHitKey(KEY_INPUT_S))//Sで下移動
 		{
 			pPosY += pSpeed;
 		}
+		else if (CheckHitKey(KEY_INPUT_D))//Dで右移動
+		{
+			pPosX += pSpeed;
+		}
+		else if (CheckHitKey(KEY_INPUT_A))//Aで左移動
+		{
+			pPosX -= pSpeed;
+		}
 
 		//弾の発射
-		if (CheckHitKey(KEY_INPUT_RETURN))
+		if (CheckHitKey(KEY_INPUT_RETURN) && isBullet==false)//弾は一発しか発射できない
 		{
 			isBullet = true;
 		}
-
 		//弾の移動
-		if ()
+		if (isBullet)
 		{
-
+			bPosX += bSpeed;
+		}
+		//弾の位置初期化
+		if (bPosX>1280)//画面外に出たら
+		{
+			bPosX = pPosX;
+			bPosY = pPosY;
+			isBullet = false;
 		}
 
-
 		/*Draw*/
-		DrawGraph(pPosX,pPosY,drawHandle,1);//キャラクタ
+		DrawGraph(pPosX,pPosY,drawHandle,1);//キャラクタ描画
 		if (isBullet)//弾の描画
 		{
-			DrawGraph(bPosX, bPosY, drawHandle, 1);//弾
+			DrawCircle(bPosX,bPosY,4,GetColor(255,255,255),1);//GetColorはカラーコードで色を指定できる
 		}
 
 
