@@ -27,9 +27,15 @@ int WINAPI WinMain(_In_ HINSTANCE hInstance, _In_opt_  HINSTANCE hPrevInstance, 
 	/*画像の読み込み*/
 	int drawHandle = LoadGraph("Chara.png");
 
-	//変数
-	int posX=100;
-	int posY=300;
+	//Player変数
+	int pPosX = 100;
+	int pPosY = 300;
+	int pSpeed = 2;
+	//Bullet変数
+	int bPosX = pPosX;
+	int bPosY = pPosY;
+	int bSpeed = 8;
+	bool isBullet = false;
 
 	/*ゲームループ部*/
 	while (TRUE)
@@ -39,17 +45,38 @@ int WINAPI WinMain(_In_ HINSTANCE hInstance, _In_opt_  HINSTANCE hPrevInstance, 
 
 		/*Key入力の取得*/
 		//CheckHitKeyに対応キーの数値を入れることで使う(詳細はリファレンス)。
-		//今回はEnterが押されたかどうかを取得。
-		if (CheckHitKey(KEY_INPUT_UP))
+
+		//Playerの移動
+		if (CheckHitKey(KEY_INPUT_UP))//矢印↑
+		{
+			pPosY -= pSpeed;
+		}
+		else if (CheckHitKey(KEY_INPUT_DOWN))//矢印↓
+		{
+			pPosY += pSpeed;
+		}
+
+		//弾の発射
+		if (CheckHitKey(KEY_INPUT_RETURN))
+		{
+			isBullet = true;
+		}
+
+		//弾の移動
+		if ()
 		{
 
 		}
-		else if (CheckHitKey(KEY_INPUT_DOWN))
-		{
 
+
+		/*Draw*/
+		DrawGraph(pPosX,pPosY,drawHandle,1);//キャラクタ
+		if (isBullet)//弾の描画
+		{
+			DrawGraph(bPosX, bPosY, drawHandle, 1);//弾
 		}
 
-		
+
 		//裏画面を表へ(ダブルバッファリング3)
 		ScreenFlip();
 		/*リフレッシュ処理(-1ならエラー)*/
