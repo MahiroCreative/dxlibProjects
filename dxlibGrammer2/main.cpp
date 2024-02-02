@@ -40,7 +40,7 @@ int WINAPI WinMain(_In_ HINSTANCE hInstance, _In_opt_  HINSTANCE hPrevInstance, 
 	//Enemyïœêî
 	int ePosX = 1000;
 	int ePosY = 360;
-	int eR = 64;
+	int eR = 80;
 	int eSpeed = 8;
 	bool isHit = false;
 
