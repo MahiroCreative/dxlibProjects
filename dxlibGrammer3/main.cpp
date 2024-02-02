@@ -77,7 +77,7 @@ int WINAPI WinMain(_In_ HINSTANCE hInstance, _In_opt_  HINSTANCE hPrevInstance, 
 	eBullet.posY = Enemy.posY;
 	eBullet.R = 32;
 	eBullet.speed = 4;
-	eBullet.color = GetColor(255, 255, 255);
+	eBullet.color = GetColor(0, 255, 0);
 	//ƒtƒ‰ƒO—p•Ï”
 	bool isPlayerBullet = false;
 	bool isEnemyBullet = false;
@@ -122,6 +122,7 @@ int WINAPI WinMain(_In_ HINSTANCE hInstance, _In_opt_  HINSTANCE hPrevInstance, 
 		if (CheckHitKey(KEY_INPUT_RETURN) && !isPlayerBullet)//’e‚Íˆê”­‚µ‚©”­ŽË‚Å‚«‚È‚¢
 		{
 			isPlayerBullet = true;
+			eBullet.speed += 1;//ƒGƒlƒ~[‚Ì’e‚Ì‘¬“x‚ðŒ‚‚Â‚½‚Ñ‚É‘‚­‚·‚é
 		}
 
 		/*Enemyˆ—*/
@@ -130,6 +131,11 @@ int WINAPI WinMain(_In_ HINSTANCE hInstance, _In_opt_  HINSTANCE hPrevInstance, 
 		if (Enemy.posY > 640 || Enemy.posY < 80)//ã‰º‰^“®‚ð‚³‚¹‚Ä‚¢‚éB
 		{
 			Enemy.speed = -Enemy.speed;
+		}
+		//’e‚Ì”­ŽË
+		if (!isEnemyBullet)//’e‚Íˆê”­‚µ‚©”­ŽË‚Å‚«‚È‚¢
+		{
+			isEnemyBullet = true;
 		}
 
 		/*PlayerBulletˆ—*/
@@ -145,8 +151,21 @@ int WINAPI WinMain(_In_ HINSTANCE hInstance, _In_opt_  HINSTANCE hPrevInstance, 
 		}
 
 		/*EnemyBulletˆ—*/
-		//
+		if (isEnemyBullet)
+		{
+			eBullet.posX -= eBullet.speed;//ˆÚ“®ˆ—
+			//ˆÊ’u‚Ì‰Šú‰»
+			if (eBullet.posX < 0)
+			{
+				eBullet.posX = Enemy.posX;
+				eBullet.posY = Enemy.posY;
+				isEnemyBullet = false;
+			}
+		}
 
+		/*“–‚½‚è”»’è*/
+		//Player‚Ì“–‚½‚è”»’è.
+		int delX = ;
 
 
 		/*Draw*/
@@ -160,6 +179,10 @@ int WINAPI WinMain(_In_ HINSTANCE hInstance, _In_opt_  HINSTANCE hPrevInstance, 
 		//Enemy.
 		DrawCircle(Enemy.posX, Enemy.posY, Enemy.R, Enemy.color, 1);
 		//EnemyBullet.
+		if (isEnemyBullet)
+		{
+			DrawCircle(eBullet.posX, eBullet.posY, eBullet.R, eBullet.color, 1);
+		}
 
 
 		/*DebugDraw*/
