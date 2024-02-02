@@ -108,7 +108,25 @@ int WINAPI WinMain(_In_ HINSTANCE hInstance, _In_opt_  HINSTANCE hPrevInstance, 
 		}
 
 		/*Enemy処理*/
-
+		//円の当たり判定
+		//『弾の中心からエネミーの中心までの距離』<『弾の半径 + エネミーの半径』なら、当たっていると言える。
+		//本来なら √(弾の座標 - エネミーの座標)^2 < 弾の半径+エネミーの半径 を比較することになるが、
+		//ルートの計算はプログラミング的には重く、誤差も出やすい。そこで両辺を2乗して簡単にする。
+		//(弾の座標 - エネミーの座標)^2 < (弾の半径+エネミーの半径)^2　を比較することで判定する。
+		//三平方の定理より、(弾の座標 - エネミーの座標)^2 = (弾のx座標 - エネミーのx座標)^2 + (弾のy座標 - エネミーのy座標)^2
+		int delBulletToEnemyX = bPosX - ePosX;//Xの座標の差
+		int delBulletToEnemyY = bPosY - ePosY;//Yの座標の差
+		int delBulletToEnemyMag = delBulletToEnemyX * delBulletToEnemyX + delBulletToEnemyY * delBulletToEnemyY;
+		int delRMag = (bR + eR) * (bR + eR);
+		//当たり判定の計算
+		if (delBulletToEnemyMag < delRMag)
+		{
+			isHit = true;
+		}
+		else
+		{
+			isHit = false;
+		}
 
 
 		/*Draw*/
@@ -123,7 +141,15 @@ int WINAPI WinMain(_In_ HINSTANCE hInstance, _In_opt_  HINSTANCE hPrevInstance, 
 			DrawCircle(bPosX, bPosY, bR, GetColor(255, 255, 255), 1);
 		}
 		//エネミー描画
-		DrawCircle(ePosX, ePosY, eR, GetColor(255, 0, 255), 1);
+		if (isHit)//弾が当たっていたら色が変わる
+		{
+			DrawCircle(ePosX, ePosY, eR, GetColor(0, 0, 255), 1);
+		}
+		else
+		{
+			DrawCircle(ePosX, ePosY, eR, GetColor(255, 0, 255), 1);
+		}
+
 
 
 		/*DebugDraw*/

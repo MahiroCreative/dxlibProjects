@@ -276,7 +276,6 @@ void GameScene(SceneKind* _nextScene)
 		/*DebugDraw*/
 		//シーン名表示
 		DrawString(0, 0, "GameScene", GetColor(255, 255, 255));
-		//
 
 		/*シーン遷移*/
 		if (InputEnter(&_isKeyInput))
