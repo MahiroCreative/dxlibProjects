@@ -9,7 +9,7 @@
 
 /*今回の要素*/
 //・DxLib
-// 　- 円の当たり判定
+// 　- 円の当たり判定(CircleCollision)
 //   - DrawRotaGraph()
 
 //Dxlibのエントリーポイント
