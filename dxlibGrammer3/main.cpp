@@ -1,26 +1,97 @@
 #include "DxLib.h"
 
+/*概要*/
+//この『Grammerシリーズ』ではDxLibの基礎的な使い方とC++文法の考え方を段階的にやります。
+// リファレンスを随時参考にして学習してください。
+//【リファレンス】
+// https://dxlib.xsrv.jp/dxfunc.html
+
+/*今回の要素*/
+//・DxLib
+// 　- プレイヤーの当たり判定(円の当たり判定)
+//   - 敵の弾の発射
+// 　- fpsの固定
+//・C文法
+//   - 構造体
 
 //Dxlibのエントリーポイント
 int WINAPI WinMain(_In_ HINSTANCE hInstance, _In_opt_  HINSTANCE hPrevInstance, _In_ LPSTR lpCmdLine, _In_ int nShowCmd)
 {
-	/*定数*/
-	//画面サイズ
-	constexpr int ScreenSizeX = 1280;//幅
-	constexpr int ScreenSizeY = 720;//高さ
-
 	/*変数*/
 	LONGLONG roopStartTime = 0;
 	bool gameRoop = true;
 
 	/*Dxlib初期化*/
-	SetGraphMode(ScreenSizeX, ScreenSizeY, 32);//画面サイズと解像度
+	SetGraphMode(1280, 720, 32);//画面サイズと解像度
 	ChangeWindowMode(true);//Windowモード
 	if (DxLib_Init() == -1) { return -1; }//Dxlib初期化
 	SetDrawScreen(DX_SCREEN_BACK);//ダブルバッファリング
 
+	/*構造体の作成*/
+	//ゲームオブジェクト用の構造体
+	//構造体は変数を１つにまとめれる。関連する変数を１つにまとめておこう。
+	//ゲーム画面に登場するものをすべてゲームオブジェクトとしておく。
+	//画像ハンドル・座標・スケール・回転度・半径・スピード・色・ダメージ色　を持つ。
+	//全ての変数を使うわけでないことに注意
+	struct GameObject
+	{
+		int drawHandle;
+		int posX;
+		int posY;
+		int R;
+		int speed;
+		double scale;
+		double rotate;
+		unsigned int color;//GetColorで得られるのはunsigned int なので。
+		unsigned int hitColor;
+	};
+
+	/*変数*/
+	//Player.
+	GameObject Player;
+	Player.drawHandle = LoadGraph("Chara.png");
+	Player.posX = 100;//x座標
+	Player.posY = 300;//y座標
+	Player.R = 2;//半径
+	Player.speed = 2;//スピード
+	Player.scale = 1;//スケール
+	Player.rotate = 0;//回転度
+	//Enemy.
+	GameObject Enemy;
+	Enemy.posX = 1000;
+	Enemy.posY = 360;
+	Enemy.R = 80;
+	Enemy.speed = 1;
+	Enemy.color = GetColor(255, 0, 255);
+	Enemy.hitColor = GetColor(0, 0, 255);
+	//PlayerBullet.
+	GameObject pBullet;
+	pBullet.posX = Player.posX;
+	pBullet.posY = Player.posY;
+	pBullet.R = 4;
+	pBullet.speed = 8;
+	pBullet.color = GetColor(255, 255, 255);
+	//EnemyBullet.
+	GameObject eBullet;
+	eBullet.posX = Enemy.posX;
+	eBullet.posY = Enemy.posY;
+	eBullet.R = 32;
+	eBullet.speed = 4;
+	eBullet.color = GetColor(255, 255, 255);
+	//フラグ用変数
+	bool isPlayerBullet = false;
+	bool isEnemyBullet = false;
+	bool isEnemyHit = false;
+
 	/*ゲームループ部*/
 	//gameRoop.
+	//ループの最初と最後に注目して欲しい。
+	//それぞれGetNowHiPerformanceCount()で現在の時刻を取得している。
+	//何をしているかというと、ループの開始時の時刻からループ終了時の時刻を引いている。
+	//この値が16.66msになるまで次のループに行かないようにしている。
+	//こうすることで、1秒間にループを何回回るかを制限できる。今回は60fpsにしている。
+	//このように制限することでゲームの動作を一定の間隔に保つことができ、いわゆるラグというものの発生を減らせる。
+	//(※前回までのコードだと弾の発射位置がたまにズレていた筈です。)
 	while (gameRoop)
 	{
 		//ループ開始時刻の確保
@@ -29,8 +100,70 @@ int WINAPI WinMain(_In_ HINSTANCE hInstance, _In_opt_  HINSTANCE hPrevInstance, 
 		//裏画面の初期化
 		ClearDrawScreen();
 
-		/*ゲーム処理部*/
+		/*Player処理*/
+		//移動処理
+		if (CheckHitKey(KEY_INPUT_W))//Wで上移動
+		{
+			Player.posY -= Player.speed;
+		}
+		else if (CheckHitKey(KEY_INPUT_S))//Sで下移動
+		{
+			Player.posY += Player.speed;
+		}
+		else if (CheckHitKey(KEY_INPUT_D))//Dで右移動
+		{
+			Player.posX += Player.speed;
+		}
+		else if (CheckHitKey(KEY_INPUT_A))//Aで左移動
+		{
+			Player.posX -= Player.speed;
+		}
+		//弾の発射
+		if (CheckHitKey(KEY_INPUT_RETURN) && !isPlayerBullet)//弾は一発しか発射できない
+		{
+			isPlayerBullet = true;
+		}
 
+		/*Enemy処理*/
+		//移動処理
+		Enemy.posY += Enemy.speed;
+		if (Enemy.posY > 640 || Enemy.posY < 80)//上下運動をさせている。
+		{
+			Enemy.speed = -Enemy.speed;
+		}
+
+		/*PlayerBullet処理*/
+		if (isPlayerBullet && pBullet.posX < 1280)//弾が発射されており、画面内なら移動
+		{
+			pBullet.posX += pBullet.speed;
+		}
+		else//画面外なら初期化
+		{
+			pBullet.posX = Player.posX;
+			pBullet.posY = Player.posY;
+			isPlayerBullet = false;
+		}
+
+		/*EnemyBullet処理*/
+		//
+
+
+
+		/*Draw*/
+		//Player.
+		DrawRotaGraph(Player.posX, Player.posY, Player.scale, Player.rotate, Player.drawHandle, 1);
+		//PlayerBullet.
+		if (isPlayerBullet)
+		{
+			DrawCircle(pBullet.posX, pBullet.posY, pBullet.R, pBullet.color, 1);
+		}
+		//Enemy.
+		DrawCircle(Enemy.posX, Enemy.posY, Enemy.R, Enemy.color, 1);
+		//EnemyBullet.
+
+
+		/*DebugDraw*/
+		DrawString(0, 0, "操作説明:WASD(上左下右),Enter(発射)", GetColor(255, 0, 0));
 
 		//裏画面を表へ
 		ScreenFlip();
