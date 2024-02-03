@@ -31,26 +31,41 @@ int WINAPI WinMain(_In_ HINSTANCE hInstance, _In_opt_  HINSTANCE hPrevInstance, 
 
 	/*構造体の作成*/
 	//ゲームオブジェクト用の構造体
-	//構造体は変数を１つにまとめれる。関連する変数を１つにまとめておこう。
-	//ゲーム画面に登場するものをすべてゲームオブジェクトとしておく。
-	//画像ハンドル・座標・スケール・回転度・半径・スピード・色・ダメージ色　を持つ。
-	//全ての変数を使うわけでないことに注意
-	struct GameObject
+	//構造体は変数を１つにまとめれる。Playerやエネミーなど関連する変数を１つにまとめておこう。
+	//Player.
+	struct Player
 	{
-		int drawHandle;
-		int posX;
-		int posY;
-		int R;
-		int speed;
-		double scale;
-		double rotate;
-		unsigned int color;//GetColorで得られるのはunsigned int なので。
+		int drawHandle;//画像ハンドル
+		int posX;//X座標
+		int posY;//Y座標
+		int R;//半径
+		int speed;//速度
+		double scale;//スケール
+		double rotate;//回転度
+	};
+	//Enemy.
+	struct Enemy
+	{
+		int posX;//X座標
+		int posY;//Y座標
+		int R;//半径
+		int speed;//速度
+		unsigned int color;//色.iroGetColorで得られるのはunsigned int なので。
 		unsigned int hitColor;//弾が当たった時の色
+	};
+	//Bullet.
+	struct Bullet
+	{
+		int posX;//X座標
+		int posY;//Y座標
+		int R;//半径
+		int speed;//速度
+		unsigned int color;//色.
 	};
 
 	/*変数*/
 	//Player.
-	GameObject Player;
+	Player Player;
 	Player.drawHandle = LoadGraph("Chara.png");
 	Player.posX = 100;//x座標
 	Player.posY = 300;//y座標
@@ -59,7 +74,7 @@ int WINAPI WinMain(_In_ HINSTANCE hInstance, _In_opt_  HINSTANCE hPrevInstance, 
 	Player.scale = 1;//スケール
 	Player.rotate = 0;//回転度
 	//Enemy.
-	GameObject Enemy;
+	Enemy Enemy;
 	Enemy.posX = 1000;
 	Enemy.posY = 360;
 	Enemy.R = 80;
@@ -67,14 +82,14 @@ int WINAPI WinMain(_In_ HINSTANCE hInstance, _In_opt_  HINSTANCE hPrevInstance, 
 	Enemy.color = GetColor(255, 0, 255);
 	Enemy.hitColor = GetColor(0, 0, 255);
 	//PlayerBullet.
-	GameObject pBullet;
+	Bullet pBullet;
 	pBullet.posX = Player.posX;
 	pBullet.posY = Player.posY;
 	pBullet.R = 4;
 	pBullet.speed = 8;
 	pBullet.color = GetColor(255, 255, 255);
 	//EnemyBullet.
-	GameObject eBullet;
+	Bullet eBullet;
 	eBullet.posX = Enemy.posX;
 	eBullet.posY = Enemy.posY;
 	eBullet.R = 32;
