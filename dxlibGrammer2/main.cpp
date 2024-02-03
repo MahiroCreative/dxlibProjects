@@ -1,7 +1,7 @@
 #include "DxLib.h"
 
 /*概要*/
-//この『Grammerシリーズ』ではDxLibの基礎的な使い方と考え方を段階的にやります。
+//この『Grammerシリーズ』ではDxLibやゲームプログラミングの基礎的な使い方と考え方を段階的にやります。
 //ただし、このシリーズで解説する内容は必要必要、というレベルです。抜けが出ます。
 //Dxlibのリファレンスを頻繁に見て関数に意味などを確認しながら進めるのが正しい使い方です。
 //【リファレンス】
@@ -9,8 +9,9 @@
 
 /*今回の要素*/
 //・DxLib
-// 　- 円の当たり判定(CircleCollision)
-//   - DrawRotaGraph()
+// 　- 	DrawRotaGraph();
+//・ゲームプログラミング
+//   - 円の当たり判定
 
 //Dxlibのエントリーポイント
 int WINAPI WinMain(_In_ HINSTANCE hInstance, _In_opt_  HINSTANCE hPrevInstance, _In_ LPSTR lpCmdLine, _In_ int nShowCmd)
