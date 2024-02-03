@@ -14,6 +14,7 @@
 // 　- Key入力
 //   - 文字の表示
 //・ゲームプログラミング
+//   - デバッグ表示(DebugDraw)
 //   - キャラクタ操作
 // 　- 弾の発射
 //・C/C++言語
@@ -94,6 +95,7 @@ int WINAPI WinMain(_In_ HINSTANCE hInstance, _In_opt_  HINSTANCE hPrevInstance, 
 		}
 
 		/*DebugDraw*/
+		//ゲームプレイには直接必要ではないが、開発中には必要な内容を表示している。
 		DrawString(0, 0,"操作説明:WASDで上左下右,Enterで発射",GetColor(255,0,0));//文字列を表示する関数
 
 		//裏画面を表へ(ダブルバッファリング3)
