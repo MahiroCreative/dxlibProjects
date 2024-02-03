@@ -45,7 +45,7 @@ struct GameObject
 //プロトタイプ宣言.
 bool IsHitCollision(GameObject _hitObj, GameObject _Bullets[]);//第一引数と第二引数群が当たったかを判定
 void Draw(GameObject _player, GameObject _enemy, GameObject _pBullets[], GameObject _eBullets[]);//画面表示
-void DebugDraw(GameObject _player, GameObject _pBullets[], GameObject _eBullets[]);//Debug表示
+void DebugDraw(GameObject _player, GameObject _enemy, GameObject _pBullets[], GameObject _eBullets[]);//Debug表示
 
 
 //Dxlibのエントリーポイント
@@ -132,11 +132,10 @@ int WINAPI WinMain(_In_ HINSTANCE hInstance, _In_opt_  HINSTANCE hPrevInstance, 
 		/*ゲーム処理部*/
 
 		/*Draw*/
-		Draw(Player,Enemy,pBullet);
+		Draw(Player,Enemy,pBullet,eBullet);
 
 		/*DebugDraw*/
-		DebugDraw(Player,Enemy,);
-
+		DebugDraw(Player, Enemy, pBullet, eBullet);
 
 		//裏画面を表へ
 		ScreenFlip();
@@ -155,4 +154,20 @@ int WINAPI WinMain(_In_ HINSTANCE hInstance, _In_opt_  HINSTANCE hPrevInstance, 
 	/*終了処理*/
 	DxLib_End();//Dxlib終了処理
 	return 0;//終了 
+}
+
+
+/// <summary>
+/// Dxlibを用いて画面表示を行う関数。
+/// </summary>
+void Draw()
+{
+
+}
+/// <summary>
+/// Dxlibを用いて画面表示を行う関数(Debug用)。
+/// </summary>
+void Draw(GameObject _player, GameObject _enemy, GameObject _pBullets[], GameObject _eBullets[])
+{
+
 }
