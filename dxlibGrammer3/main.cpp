@@ -43,7 +43,7 @@ int WINAPI WinMain(_In_ HINSTANCE hInstance, _In_opt_  HINSTANCE hPrevInstance, 
 		double scale;
 		double rotate;
 		unsigned int color;//GetColorで得られるのはunsigned int なので。
-		unsigned int hitColor;
+		unsigned int hitColor;//弾が当たった時の色
 	};
 
 	/*変数*/
@@ -82,6 +82,7 @@ int WINAPI WinMain(_In_ HINSTANCE hInstance, _In_opt_  HINSTANCE hPrevInstance, 
 	bool isPlayerBullet = false;
 	bool isEnemyBullet = false;
 	bool isEnemyHit = false;
+	bool isPlayerHit = false;
 
 	/*ゲームループ部*/
 	//gameRoop.
@@ -122,7 +123,6 @@ int WINAPI WinMain(_In_ HINSTANCE hInstance, _In_opt_  HINSTANCE hPrevInstance, 
 		if (CheckHitKey(KEY_INPUT_RETURN) && !isPlayerBullet)//弾は一発しか発射できない
 		{
 			isPlayerBullet = true;
-			eBullet.speed += 1;//エネミーの弾の速度を撃つたびに早くする
 		}
 
 		/*Enemy処理*/
@@ -136,6 +136,7 @@ int WINAPI WinMain(_In_ HINSTANCE hInstance, _In_opt_  HINSTANCE hPrevInstance, 
 		if (!isEnemyBullet)//弾は一発しか発射できない
 		{
 			isEnemyBullet = true;
+			eBullet.speed += 1;//エネミーの弾の速度を撃つたびに早くする
 		}
 
 		/*PlayerBullet処理*/
@@ -165,7 +166,32 @@ int WINAPI WinMain(_In_ HINSTANCE hInstance, _In_opt_  HINSTANCE hPrevInstance, 
 
 		/*当たり判定*/
 		//Playerの当たり判定.
-		int delX = ;
+		int delX = Player.posX - eBullet.posX;//x成分の相対座標
+		int delY = Player.posY - eBullet.posY;//y成分の相対座標
+		int delR = Player.R + eBullet.R;//それぞれの半径を足す
+		//円の当たり判定
+		// お互いの中心距離が、お互いの半径を足した距離より小さくなっていれば当たっている。
+		// 三平方の定理から二乗を外して以下の式を作る。
+		if ((delX*delX + delY*delY) < (delR*delR))
+		{
+			isPlayerHit = true;
+		}
+		else
+		{
+			isPlayerHit = false;
+		}
+		//Enemyの当たり判定
+		delX = Enemy.posX - pBullet.posX;
+		delY = Enemy.posY - pBullet.posY;
+		delR = Enemy.R + pBullet.R;
+		if ((delX * delX + delY * delY) < (delR * delR))
+		{
+			isEnemyHit = true;
+		}
+		else
+		{
+			isEnemyHit = false;
+		}
 
 
 		/*Draw*/
@@ -177,7 +203,14 @@ int WINAPI WinMain(_In_ HINSTANCE hInstance, _In_opt_  HINSTANCE hPrevInstance, 
 			DrawCircle(pBullet.posX, pBullet.posY, pBullet.R, pBullet.color, 1);
 		}
 		//Enemy.
-		DrawCircle(Enemy.posX, Enemy.posY, Enemy.R, Enemy.color, 1);
+		if (isEnemyHit)
+		{
+			DrawCircle(Enemy.posX, Enemy.posY, Enemy.R, Enemy.hitColor, 1);
+		}
+		else
+		{
+			DrawCircle(Enemy.posX, Enemy.posY, Enemy.R, Enemy.color, 1);
+		}
 		//EnemyBullet.
 		if (isEnemyBullet)
 		{
@@ -187,6 +220,7 @@ int WINAPI WinMain(_In_ HINSTANCE hInstance, _In_opt_  HINSTANCE hPrevInstance, 
 
 		/*DebugDraw*/
 		DrawString(0, 0, "操作説明:WASD(上左下右),Enter(発射)", GetColor(255, 0, 0));
+		DrawFormatString(0,20, GetColor(255, 0, 0),"Playerの当たり判定:%d", isPlayerHit);
 
 		//裏画面を表へ
 		ScreenFlip();
@@ -195,7 +229,7 @@ int WINAPI WinMain(_In_ HINSTANCE hInstance, _In_opt_  HINSTANCE hPrevInstance, 
 		if (ProcessMessage() < 0) { break; }
 
 		//ループ終了処理
-		if (CheckHitKey(KEY_INPUT_ESCAPE)) { break; }
+		if (CheckHitKey(KEY_INPUT_ESCAPE)) { break; }//escで強制終了
 
 		//fps固定(60fps:16.66ms)
 		//ループ開始時刻から16.66ms経つまで停止
