@@ -9,10 +9,16 @@
 
 /*今回の要素*/
 //・ゲームプログラミング
-// 　- 可能な限りの関数化
-//   - 一番単純なシーン管理
+// 　- ポインタを積極的に利用して可能な限り関数化
 //・C/C++言語
 //   - ポインタ
+
+/*コメント*/
+//・関数型の処理(ポインタ含む)
+//・オブジェクト指向処理
+// の順で理解してほしくて、このように長々と回りくどくやってきました。
+//ここまでやったら関数型の処理はもう大丈夫でしょう。
+//次回からはオブジェクト指向になります。
 
 /*構造体の作成*/
 //GameOject.
@@ -32,7 +38,7 @@ struct GameObject
 	bool IsHit = NULL;//当たり判定
 	bool IsVisible = NULL;//表示されているか
 };
-//KeyInput.(Keyが現在押されているかなどを保存しておく)
+//KeyInput
 struct IsKeyInput
 {
 	bool IsNow = false;//押された瞬間True
@@ -40,8 +46,16 @@ struct IsKeyInput
 };
 
 /*プロトタイプ宣言*/
+//オブジェクト系.
+//ポインタでアドレスを受け取ることで、グローバルでなくとも変更可能
+//また、配列はポインタなので(使いやすくなっている)、ポインタとして渡せる。
+void PlayerUpdate(GameObject* _pPlayer,GameObject* _pPBullet,IsKeyInput _keyFlag);
+void EnemyUpdate(GameObject* _pEnemy, GameObject* _pEBullet);
+void PlayerBulletUpdate(GameObject* _pPlayer, GameObject* _pPBullet);
+void EnemyBuletUpdate(GameObject* _pEnemy,GameObject* _pEBullet);
+//機能系.
 bool IsHitCollision(GameObject _hitObj, GameObject _bullets[], int MAX);//第一引数と第二引数の当たり判定.第三引数は配列の最大数
-IsKeyInput InputKeyUpdate(IsKeyInput _keyFlag,int _keyCode);//第一引数でキーフラグを渡し、第二引数でチェックしたいキーコードを渡して、更新を引数で得る
+IsKeyInput InputKeyUpdate(IsKeyInput _keyFlag);//第一引数でキーフラグを渡し、更新を引数で得る
 void Draw(GameObject _gameObjects[], int _objNum);//画面表示
 void DebugDraw(GameObject _gameObjects[], int _objNum);//Debug表示
 
@@ -129,98 +143,16 @@ int WINAPI WinMain(_In_ HINSTANCE hInstance, _In_opt_  HINSTANCE hPrevInstance, 
 		IsKeyFlag = InputKeyUpdate(IsKeyFlag);
 
 		/*Player処理*/
-		//移動処理
-		if (CheckHitKey(KEY_INPUT_W))//Wで上移動
-		{
-			Player.Y -= Player.Speed;
-		}
-		else if (CheckHitKey(KEY_INPUT_S))//Sで下移動
-		{
-			Player.Y += Player.Speed;
-		}
-		else if (CheckHitKey(KEY_INPUT_D))//Dで右移動
-		{
-			Player.X += Player.Speed;
-		}
-		else if (CheckHitKey(KEY_INPUT_A))//Aで左移動
-		{
-			Player.X -= Player.Speed;
-		}
-		//弾の発射
-		if (IsKeyFlag.IsNow && Player.ShotCount < Player.MaxShotNum)
-		{
-			//現在撃っている球数の更新
-			Player.ShotCount++;
-			for (int i = 0; i < Player.ShotCount; i++)
-			{
-				pBullet[i].IsVisible = true;
-			}
-		}
+		PlayerUpdate(&Player,pBullet,IsKeyFlag);//参照渡しをすることで、アドレスを引数として渡せる。
 
 		/*PlayerBulletの処理*/
-		for (int i = 0; i < Player.MaxShotNum; i++)
-		{
-			if (pBullet[i].IsVisible && pBullet[i].X > 1280)//画面外に出たなら初期化
-			{
-				//初期化
-				pBullet[i].X = Player.X;
-				pBullet[i].Y = Player.Y;
-				pBullet[i].IsVisible = false;
-				//初期化された数だけ撃っている球数を減らす
-				Player.ShotCount--;
-			}
-			else if (pBullet[i].IsVisible)//画面内なら移動
-			{
-				//移動処理
-				pBullet[i].X += pBullet[i].Speed;
-			}
-			else//見えてない状態でもプレイヤーに追随
-			{
-				pBullet[i].X = Player.X;
-				pBullet[i].Y = Player.Y;
-			}
-		}
+		PlayerBulletUpdate(&Player,pBullet);
 
 		/*Enemy処理*/
-		//移動処理
-		Enemy.Y += Enemy.Speed;
-		if (Enemy.Y > 640 || Enemy.Y < 60)//上下運動をさせている。
-		{
-			Enemy.Speed = -Enemy.Speed;
-		}
-		//変則的に発射
-		if (Enemy.ShotCount < Enemy.MaxShotNum)//最大玉数に達していない。
-		{
-			if (Enemy.Y % 80 == 0)//かつ、Y座標が80で割り切れるとき
-			{
-				eBullet[Enemy.ShotCount].IsVisible = true;
-				Enemy.ShotCount++;
-			}
-		}
+		EnemyUpdate(&Enemy, eBullet);
 
 		/*EnemyBulletの処理*/
-		for (int i = 0; i < Enemy.MaxShotNum; i++)
-		{
-			if (eBullet[i].IsVisible && eBullet[i].X < 0)//画面外に出たなら初期化
-			{
-				//初期化
-				eBullet[i].X = Enemy.X;
-				eBullet[i].Y = Enemy.Y;
-				eBullet[i].IsVisible = false;
-				//撃っている弾丸数を初期化
-				Enemy.ShotCount = 0;
-			}
-			else if (eBullet[i].IsVisible)//画面内なら移動
-			{
-				//移動処理
-				eBullet[i].X -= eBullet[i].Speed;
-			}
-			else//見えてない状態でもエネミーに追随
-			{
-				eBullet[i].X = Enemy.X;
-				eBullet[i].Y = Enemy.Y;
-			}
-		}
+		EnemyBuletUpdate(&Enemy,eBullet);
 
 		/*当たり判定*/
 		Player.IsHit = IsHitCollision(Player, eBullet, MAX_SHOT_NUM);//Playerの当たり判定
@@ -268,19 +200,140 @@ int WINAPI WinMain(_In_ HINSTANCE hInstance, _In_opt_  HINSTANCE hPrevInstance, 
 }
 
 
-/*関数*/
-//下記のような書き方で、引数にもコメントが付けれます。
+/*オブジェクト系関数*/
+/// <summary>
+/// プレイヤー処理の更新
+/// </summary>
+/// <param name="_pPlayer">プレイヤーのポインタ</param>
+/// <param name="_pPBullet">ポインタとして配列を渡す</param>
+/// <param name="_keyFlag">キーフラグ</param>
+void PlayerUpdate(GameObject* _pPlayer, GameObject* _pPBullet,IsKeyInput _keyFlag)
+{
+	//移動処理
+	if (CheckHitKey(KEY_INPUT_W))//Wで上移動
+	{
+		_pPlayer->Y -= _pPlayer->Speed;
+	}
+	else if (CheckHitKey(KEY_INPUT_S))//Sで下移動
+	{
+		_pPlayer->Y += _pPlayer->Speed;
+	}
+	else if (CheckHitKey(KEY_INPUT_D))//Dで右移動
+	{
+		_pPlayer->X += _pPlayer->Speed;
+	}
+	else if (CheckHitKey(KEY_INPUT_A))//Aで左移動
+	{
+		_pPlayer->X -= _pPlayer->Speed;
+	}
+	//弾の発射
+	if (_keyFlag.IsNow && _pPlayer->ShotCount < _pPlayer->MaxShotNum)
+	{
+		//現在撃っている球数の更新
+		_pPlayer->ShotCount++;
+		for (int i = 0; i < _pPlayer->ShotCount; i++)
+		{
+			_pPBullet[i].IsVisible = true;
+		}
+	}
+}
+/// <summary>
+/// Playerの弾丸の更新
+/// </summary>
+/// <param name="_pPlayer">プレイヤーのポインタ</param>
+/// <param name="_pPBullet">ポインタとして配列を渡す</param>
+void PlayerBulletUpdate(GameObject* _pPlayer,GameObject* _pPBullet)
+{
+	/*PlayerBulletの処理*/
+	for (int i = 0; i < _pPlayer->MaxShotNum; i++)
+	{
+		if (_pPBullet[i].IsVisible && _pPBullet[i].X > 1280)//画面外に出たなら初期化
+		{
+			//初期化
+			_pPBullet[i].X = _pPlayer->X;
+			_pPBullet[i].Y = _pPlayer->Y;
+			_pPBullet[i].IsVisible = false;
+			//初期化された数だけ撃っている球数を減らす
+			_pPlayer->ShotCount--;
+		}
+		else if (_pPBullet[i].IsVisible)//画面内なら移動
+		{
+			//移動処理
+			_pPBullet[i].X += _pPBullet[i].Speed;
+		}
+		else//見えてない状態でもプレイヤーに追随
+		{
+			_pPBullet[i].X = _pPlayer->X;
+			_pPBullet[i].Y = _pPlayer->Y;
+		}
+	}
+}
+/// <summary>
+/// エネミー処理の更新
+/// </summary>
+/// <param name="_pEnemy">エネミーのポインタ</param>
+/// <param name="_pEBullet">ポインタとして配列を渡す</param>
+void EnemyUpdate(GameObject* _pEnemy, GameObject* _pEBullet)
+{
+	//移動処理
+	_pEnemy->Y += _pEnemy->Speed;
+	if (_pEnemy->Y > 640 || _pEnemy->Y < 60)//上下運動をさせている。
+	{
+		_pEnemy->Speed = -_pEnemy->Speed;
+	}
+	//変則的に発射
+	if (_pEnemy->ShotCount < _pEnemy->MaxShotNum)//最大玉数に達していない。
+	{
+		if (_pEnemy->Y % 80 == 0)//かつ、Y座標が80で割り切れるとき
+		{
+			_pEBullet[_pEnemy->ShotCount].IsVisible = true;
+			_pEnemy->ShotCount++;
+		}
+	}
+}
+/// <summary>
+/// Playerの弾丸の更新
+/// </summary>
+/// <param name="_pEnemy">エネミーのポインタ</param>
+/// <param name="_pEBullet">ポインタとして配列を渡す</param>
+void EnemyBuletUpdate(GameObject* _pEnemy, GameObject* _pEBullet)
+{
+	for (int i = 0; i < _pEnemy->MaxShotNum; i++)
+	{
+		if (_pEBullet[i].IsVisible && _pEBullet[i].X < 0)//画面外に出たなら初期化
+		{
+			//初期化
+			_pEBullet[i].X = _pEnemy->X;
+			_pEBullet[i].Y = _pEnemy->Y;
+			_pEBullet[i].IsVisible = false;
+			//撃っている弾丸数を初期化
+			_pEnemy->ShotCount = 0;
+		}
+		else if (_pEBullet[i].IsVisible)//画面内なら移動
+		{
+			//移動処理
+			_pEBullet[i].X -= _pEBullet[i].Speed;
+		}
+		else//見えてない状態でもエネミーに追随
+		{
+			_pEBullet[i].X = _pEnemy->X;
+			_pEBullet[i].Y = _pEnemy->Y;
+		}
+	}
+}
 
+
+
+/*機能系関数*/
 /// <summary>
 /// キーの状態をを取得.押された瞬間か、または押され続けているのかが返される。
 /// ChceckHitKey()では押されている間もずっと反応するので、押した瞬間を取得できない(一回だけ押したつもりでも10回くらい押された扱いになる)。
 /// そのため、この関数で『押された瞬間』を取得する。今回はプレイヤーの弾の発射で使用する。
-/// 第一引数でキーフラグを渡し、第二引数でチェックしたいキーコードを渡して、更新を引数で得る.
+/// 第一引数でキーフラグを渡し、更新を引数で得る.
 /// ゲームループ中に毎フレーム実行することで確認している。
 /// 今回はエンターだけをチェックしている。
 /// </summary>
 /// <param name="_keyFlag">自身で作成したキーフラグ</param>
-/// <param name="_keyCode">Dxlibのキーコード</param>
 /// <returns></returns>
 IsKeyInput InputKeyUpdate(IsKeyInput _keyFlag)
 {
@@ -307,7 +360,6 @@ IsKeyInput InputKeyUpdate(IsKeyInput _keyFlag)
 
 	return ans;
 }
-
 /// <summary>
 /// 第一引数と第二引数の当たり判定
 /// </summary>
@@ -332,10 +384,8 @@ bool IsHitCollision(GameObject _hitObj, GameObject _bullets[], int MAX)
 			return true;
 		}
 	}
-
 	return false;
 }
-
 /// <summary>
 /// Dxlibを用いて画面表示を行う関数。
 /// </summary>
@@ -361,11 +411,9 @@ void Draw(GameObject _gameObjects[], int _objNum)
 			{
 				DrawCircle(_gameObjects[i].X, _gameObjects[i].Y, _gameObjects[i].R, _gameObjects[i].Color);
 			}
-
 		}
 	}
 }
-
 /// <summary>
 /// Dxlibを用いて画面表示を行う関数(Debug用)。
 /// </summary>
@@ -391,6 +439,4 @@ void DebugDraw(GameObject _gameObjects[], int _objNum)
 
 	/*操作説明*/
 	DrawString(0, 0, "操作説明:WASD(上左下右),Enter(発射)", GetColor(255, 0, 0));
-
-
 }
