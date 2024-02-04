@@ -9,18 +9,15 @@
 
 /*今回の要素*/
 //・ゲームプログラミング
-// 　- Input処理(Key入力の拡張)
-// 　- Draw(),DebgugDraw()の汎用性を高める。
+// 　- 可能な限りの関数化
+//   - 一番単純なシーン管理
 //・C/C++言語
-//   - 構造体でポリモーフィズムもどき
+//   - ポインタ
 
 /*構造体の作成*/
-//全てのオブジェクトを一つの構造体で作ることで、
-//関数に渡す引数を減らしたり、返り値で受け取りやすくしたり、データのやり取りを単純化する。
 //GameOject.
 struct GameObject
 {
-	//全てのオブジェクトに対応できるように変数を沢山用意(とりあえず全部NULLで初期化)
 	int DrawHandle = NULL;//画像ハンドル
 	int X = NULL;//X座標
 	int Y = NULL;//Y座標
@@ -44,7 +41,7 @@ struct IsKeyInput
 
 /*プロトタイプ宣言*/
 bool IsHitCollision(GameObject _hitObj, GameObject _bullets[], int MAX);//第一引数と第二引数の当たり判定.第三引数は配列の最大数
-IsKeyInput InputKeyUpdate(IsKeyInput _keyFlag);//第一引数でキーフラグを渡し、更新を引数で得る
+IsKeyInput InputKeyUpdate(IsKeyInput _keyFlag,int _keyCode);//第一引数でキーフラグを渡し、第二引数でチェックしたいキーコードを渡して、更新を引数で得る
 void Draw(GameObject _gameObjects[], int _objNum);//画面表示
 void DebugDraw(GameObject _gameObjects[], int _objNum);//Debug表示
 
@@ -154,7 +151,7 @@ int WINAPI WinMain(_In_ HINSTANCE hInstance, _In_opt_  HINSTANCE hPrevInstance, 
 		{
 			//現在撃っている球数の更新
 			Player.ShotCount++;
-			for (int i=0;i<Player.ShotCount;i++)
+			for (int i = 0; i < Player.ShotCount; i++)
 			{
 				pBullet[i].IsVisible = true;
 			}
@@ -278,11 +275,12 @@ int WINAPI WinMain(_In_ HINSTANCE hInstance, _In_opt_  HINSTANCE hPrevInstance, 
 /// キーの状態をを取得.押された瞬間か、または押され続けているのかが返される。
 /// ChceckHitKey()では押されている間もずっと反応するので、押した瞬間を取得できない(一回だけ押したつもりでも10回くらい押された扱いになる)。
 /// そのため、この関数で『押された瞬間』を取得する。今回はプレイヤーの弾の発射で使用する。
-/// 第一引数でキーフラグを渡し、更新を引数で得る.
+/// 第一引数でキーフラグを渡し、第二引数でチェックしたいキーコードを渡して、更新を引数で得る.
 /// ゲームループ中に毎フレーム実行することで確認している。
 /// 今回はエンターだけをチェックしている。
 /// </summary>
 /// <param name="_keyFlag">自身で作成したキーフラグ</param>
+/// <param name="_keyCode">Dxlibのキーコード</param>
 /// <returns></returns>
 IsKeyInput InputKeyUpdate(IsKeyInput _keyFlag)
 {
