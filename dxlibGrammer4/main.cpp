@@ -34,7 +34,7 @@ struct Player
 	double Scale = 1;//スケール
 	double Rotate = 0;//回転度
 	int Speed = 4;//速度
-	bool IsShot = 0;//現在弾を発射しているか
+	bool IsShot = false;//現在弾を発射しているか
 	bool IsHit = false;//当たり判定用のフラグ
 };
 //Enemy.
