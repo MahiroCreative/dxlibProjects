@@ -32,7 +32,7 @@ int WINAPI WinMain(_In_ HINSTANCE hInstance, _In_opt_  HINSTANCE hPrevInstance, 
 
 	/*ゲーム変数*/
 	VECTOR pos;
-
+	pos = VGet(0,0,0);
 
 	/*ゲームループ部*/
 	//gameRoop.
@@ -41,32 +41,50 @@ int WINAPI WinMain(_In_ HINSTANCE hInstance, _In_opt_  HINSTANCE hPrevInstance, 
 		//ループ開始時刻の確保
 		roopStartTime = GetNowHiPerformanceCount();
 
+		/*ゲーム処理部*/
+		//モデル制御
+		int key = GetJoypadInputState(DX_INPUT_KEY_PAD1);
+		// 上を押していたら上に進む
+		if (key & PAD_INPUT_UP)
+		{
+			pos.z += 1;
+		}
+		// 下を押していたら下に進む
+		if (key & PAD_INPUT_DOWN)
+		{
+			pos.z -= 1;
+		}
+		// 右を押していたら右に進む
+		if (key & PAD_INPUT_RIGHT)
+		{
+			pos.x += 1;
+		}
+		// 左を押していたら左に進む
+		if (key & PAD_INPUT_LEFT)
+		{
+			pos.x -= 1;
+		}
+		//モデル位置更新
+		MV1SetPosition(modelHandle, pos);
+
+		/*描画*/
 		//裏画面の初期化
 		ClearDrawScreen();
-
-		/*ゲーム処理部*/
-
-
-
-
-
-
-
+		//モデル描画
+		MV1DrawModel(modelHandle);
 		//裏画面を表へ
 		ScreenFlip();
 
 		//リフレッシュ処理(-1ならエラー)
 		if (ProcessMessage() < 0) { break; }
-
 		//ループ終了処理
 		if (CheckHitKey(KEY_INPUT_ESCAPE)) { break; }
-
 		//fps固定(60fps:16.66ms)
 		//ループ開始時刻から16.66ms経つまで停止
 		while (GetNowHiPerformanceCount() - roopStartTime < 16667) {}
 	}
 
 	/*終了処理*/
-	DxLib_End();//Dxlib終了処理
+	DxLib::DxLib_End();//Dxlib終了処理
 	return 0;//終了 
 }
