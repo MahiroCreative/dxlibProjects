@@ -1905,6 +1905,7 @@ extern	int			SleepThread( int WaitTime ) ;											// 指定の時間だけスレッドを
 
 // カウンタ及び時刻取得系関数
 extern	int			GetNowCount(							int UseRDTSCFlag DEFAULTPARAM( = FALSE ) ) ;	// ミリ秒単位の精度を持つカウンタの現在の値を得る
+// GetNowCountの高精度バージョン( μ秒単位の精度を持つカウンタの現在の値を得る )
 extern	LONGLONG	GetNowHiPerformanceCount(				int UseRDTSCFlag DEFAULTPARAM( = FALSE ) ) ;	// GetNowCountの高精度バージョン( μ秒単位の精度を持つカウンタの現在の値を得る )
 extern	ULONGLONG	GetNowSysPerformanceCount(				void ) ;						// OSが提供する高精度カウンタの現在の値を得る
 extern	ULONGLONG	GetSysPerformanceFrequency(				void ) ;						// OSが提供する高精度カウンタの周波数( 1秒辺りのカウント数 )を得る
