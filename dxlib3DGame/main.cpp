@@ -34,6 +34,8 @@ int WINAPI WinMain(_In_ HINSTANCE hInstance, _In_opt_  HINSTANCE hPrevInstance, 
 
 		/*ゲーム処理*/
 
+		/**/
+
 
 		//裏画面を表へ
 		ScreenFlip();
