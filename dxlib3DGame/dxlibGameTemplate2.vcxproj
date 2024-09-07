@@ -140,6 +140,7 @@
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="GameMath.h" />
+    <ClInclude Include="GameTool.h" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">
