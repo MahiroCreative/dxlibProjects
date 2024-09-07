@@ -1,4 +1,7 @@
 ﻿#include "DxLib.h"
+#include "string"
+
+using namespace std;
 
 /*概要*/
 //ここでは画面サイズとゲームループのみ行う。
@@ -34,7 +37,9 @@ int WINAPI WinMain(_In_ HINSTANCE hInstance, _In_opt_  HINSTANCE hPrevInstance, 
 
 		/*ゲーム処理*/
 
-		/**/
+		/*Debug表示*/
+		unsigned int Cr = GetColor(255,255,255);
+		DrawString(0,0,"test",Cr);
 
 
 		//裏画面を表へ
