@@ -1,28 +1,28 @@
-#pragma once
+ï»¿#pragma once
 #include<math.h>
 using namespace std;
 
 /// <summary>
-/// 3ŸŒ³ƒxƒNƒgƒ‹—p‚Ì\‘¢‘Ì
+/// 3æ¬¡å…ƒãƒ™ã‚¯ãƒˆãƒ«ç”¨ã®æ§‹é€ ä½“
 /// </summary>
 struct Vector3 {
-	/*ƒƒ“ƒo•Ï”*/
-	//XÀ•W(‘æ1¬•ª)
+	/*ãƒ¡ãƒ³ãƒå¤‰æ•°*/
+	//Xåº§æ¨™(ç¬¬1æˆåˆ†)
 	float X;
-	//YÀ•W(‘æ2¬•ª)
+	//Yåº§æ¨™(ç¬¬2æˆåˆ†)
 	float Y;
-	//ZÀ•W(‘æ3¬•ª)
+	//Zåº§æ¨™(ç¬¬3æˆåˆ†)
 	float Z;
 
-	/*ƒƒ“ƒoŠÖ”*/
-	//ƒxƒNƒgƒ‹‚Ì’·‚³‚ğæ“¾
+	/*ãƒ¡ãƒ³ãƒé–¢æ•°*/
+	//ãƒ™ã‚¯ãƒˆãƒ«ã®é•·ã•ã‚’å–å¾—
 	float Length()
 	{
 		return sqrt(X * X + Y * Y + Z * Z);
 	}
 
-	/*‰‰ZqƒI[ƒo[ƒ[ƒh*/
-	//’P€‰‰Zq(+)
+	/*æ¼”ç®—å­ã‚ªãƒ¼ãƒãƒ¼ãƒ­ãƒ¼ãƒ‰*/
+	//å˜é …æ¼”ç®—å­(+)
 	Vector3 operator+(const Vector3& temp)
 	{
 

@@ -1,55 +1,55 @@
-#include "DxLib.h"
+ï»¿#include "DxLib.h"
 
-/*ŠT—v*/
-//‚±‚±‚Å‚Í‰æ–ÊƒTƒCƒY‚ÆƒQ[ƒ€ƒ‹[ƒv‚Ì‚İs‚¤B
-//ƒQ[ƒ€‚»‚Ì‚à‚Ì‚Ìˆ—‚ÍGameMainˆÈ‰º‚Ås‚¤B
+/*æ¦‚è¦*/
+//ã“ã“ã§ã¯ç”»é¢ã‚µã‚¤ã‚ºã¨ã‚²ãƒ¼ãƒ ãƒ«ãƒ¼ãƒ—ã®ã¿è¡Œã†ã€‚
+//ã‚²ãƒ¼ãƒ ãã®ã‚‚ã®ã®å‡¦ç†ã¯GameMainä»¥ä¸‹ã§è¡Œã†ã€‚
 
 
-//Dxlib‚ÌƒGƒ“ƒgƒŠ[ƒ|ƒCƒ“ƒg
+//Dxlibã®ã‚¨ãƒ³ãƒˆãƒªãƒ¼ãƒã‚¤ãƒ³ãƒˆ
 int WINAPI WinMain(_In_ HINSTANCE hInstance, _In_opt_  HINSTANCE hPrevInstance, _In_ LPSTR lpCmdLine, _In_ int nShowCmd)
 {
-	/*’è”*/
-	//‰æ–ÊƒTƒCƒY
-	constexpr int ScreenSizeX = 1280;//•
-	constexpr int ScreenSizeY = 720;//‚‚³
+	/*å®šæ•°*/
+	//ç”»é¢ã‚µã‚¤ã‚º
+	constexpr int ScreenSizeX = 1280;//å¹…
+	constexpr int ScreenSizeY = 720;//é«˜ã•
 
-	/*•Ï”*/
+	/*å¤‰æ•°*/
 	LONGLONG roopStartTime = 0;
 	bool gameRoop = true;
 
-	/*Dxlib‰Šú‰»*/
-	SetGraphMode(ScreenSizeX, ScreenSizeY, 32);//‰æ–ÊƒTƒCƒY‚Æ‰ğ‘œ“x
-	ChangeWindowMode(true);//Windowƒ‚[ƒh
-	if (DxLib_Init() == -1) { return -1; }//Dxlib‰Šú‰»
-	SetDrawScreen(DX_SCREEN_BACK);//ƒ_ƒuƒ‹ƒoƒbƒtƒ@ƒŠƒ“ƒO
+	/*DxlibåˆæœŸåŒ–*/
+	SetGraphMode(ScreenSizeX, ScreenSizeY, 32);//ç”»é¢ã‚µã‚¤ã‚ºã¨è§£åƒåº¦
+	ChangeWindowMode(true);//Windowãƒ¢ãƒ¼ãƒ‰
+	if (DxLib_Init() == -1) { return -1; }//DxlibåˆæœŸåŒ–
+	SetDrawScreen(DX_SCREEN_BACK);//ãƒ€ãƒ–ãƒ«ãƒãƒƒãƒ•ã‚¡ãƒªãƒ³ã‚°
 
 	/*gameRoop.*/
 	while (gameRoop)
 	{
-		//ƒ‹[ƒvŠJn‚ÌŠm•Û
+		//ãƒ«ãƒ¼ãƒ—é–‹å§‹æ™‚åˆ»ã®ç¢ºä¿
 		roopStartTime = GetNowHiPerformanceCount();
 
-		//— ‰æ–Ê‚Ì‰Šú‰»
+		//è£ç”»é¢ã®åˆæœŸåŒ–
 		ClearDrawScreen();
 
-		/*ƒQ[ƒ€ˆ—*/
+		/*ã‚²ãƒ¼ãƒ å‡¦ç†*/
 
 
-		//— ‰æ–Ê‚ğ•\‚Ö
+		//è£ç”»é¢ã‚’è¡¨ã¸
 		ScreenFlip();
 
-		//ƒŠƒtƒŒƒbƒVƒ…ˆ—(-1‚È‚çƒGƒ‰[)
+		//ãƒªãƒ•ãƒ¬ãƒƒã‚·ãƒ¥å‡¦ç†(-1ãªã‚‰ã‚¨ãƒ©ãƒ¼)
 		if (ProcessMessage() < 0) { break; }
 
-		//ƒ‹[ƒvI—¹ˆ—
+		//ãƒ«ãƒ¼ãƒ—çµ‚äº†å‡¦ç†
 		if (CheckHitKey(KEY_INPUT_ESCAPE)) { break; }
 
-		//fpsŒÅ’è(60fps:16.66ms)
-		//ƒ‹[ƒvŠJn‚©‚ç16.66msŒo‚Â‚Ü‚Å’â~
+		//fpså›ºå®š(60fps:16.66ms)
+		//ãƒ«ãƒ¼ãƒ—é–‹å§‹æ™‚åˆ»ã‹ã‚‰16.66msçµŒã¤ã¾ã§åœæ­¢
 		while (GetNowHiPerformanceCount() - roopStartTime < 16667) {}
 	}
 
-	/*I—¹ˆ—*/
-	DxLib_End();//DxlibI—¹ˆ—
-	return 0;//I—¹ 
+	/*çµ‚äº†å‡¦ç†*/
+	DxLib_End();//Dxlibçµ‚äº†å‡¦ç†
+	return 0;//çµ‚äº† 
 }
