@@ -1,59 +1,59 @@
-#pragma once
+ï»¿#pragma once
 #include "Dxlib.h"
 
 namespace WindowSize
 {
-	constexpr int SIZE_X = 1280;//‰æ–ÊƒTƒCƒYX
-	constexpr int SIZE_Y = 720;//‰æ–ÊƒTƒCƒYY
+	constexpr int SIZE_X = 1280;//ç”»é¢ã‚µã‚¤ã‚ºX
+	constexpr int SIZE_Y = 720;//ç”»é¢ã‚µã‚¤ã‚ºY
 }
 
 namespace ColorCode
 {
-	//ƒvƒƒOƒ‰ƒ€ÀsŒˆ‚Ü‚é’è”‚Íconst.
-	//‰º‚Ìê‡‚¾‚ÆGetColorŠÖ”‚ÅŒvZ‚³‚ê‚Ä‚©‚çŒˆ‚Ü‚é‚Ì‚Åconst.
-	const unsigned int BLACK = GetColor(0, 0, 0);//•
-	const unsigned int RED = GetColor(255, 0, 0);//Ô
-	const unsigned int LIME = GetColor(0, 255, 0);//ƒ‰ƒCƒ€
-	const unsigned int BLUE = GetColor(0, 0, 255);//Â
-	const unsigned int YELLOW = GetColor(255, 255, 0);//‰©
-	const unsigned int AQUA = GetColor(0, 255, 255);//ƒAƒNƒA
-	const unsigned int MAGENTA = GetColor(255, 0, 255);//ƒ}ƒ[ƒ“ƒ^
+	//ãƒ—ãƒ­ã‚°ãƒ©ãƒ å®Ÿè¡Œæ™‚æ±ºã¾ã‚‹å®šæ•°ã¯const.
+	//ä¸‹ã®å ´åˆã ã¨GetColoré–¢æ•°ã§è¨ˆç®—ã•ã‚Œã¦ã‹ã‚‰æ±ºã¾ã‚‹ã®ã§const.
+	const unsigned int BLACK = GetColor(0, 0, 0);//é»’
+	const unsigned int RED = GetColor(255, 0, 0);//èµ¤
+	const unsigned int LIME = GetColor(0, 255, 0);//ãƒ©ã‚¤ãƒ 
+	const unsigned int BLUE = GetColor(0, 0, 255);//é’
+	const unsigned int YELLOW = GetColor(255, 255, 0);//é»„
+	const unsigned int AQUA = GetColor(0, 255, 255);//ã‚¢ã‚¯ã‚¢
+	const unsigned int MAGENTA = GetColor(255, 0, 255);//ãƒã‚¼ãƒ³ã‚¿
 }
 
 
 
 /*InputKey*/
-//KeyInputFlag.ƒL[ƒCƒ“ƒvƒbƒg—p‚Ìƒtƒ‰ƒO\‘¢‘Ì.
-// KeyCode‚Íint‚Å‚ÂB
+//KeyInputFlag.ã‚­ãƒ¼ã‚¤ãƒ³ãƒ—ãƒƒãƒˆç”¨ã®ãƒ•ãƒ©ã‚°æ§‹é€ ä½“.
+// KeyCodeã¯intã§æŒã¤ã€‚
 struct IsKeyInput
 {
-	bool IsNow = false;//‰Ÿ‚³‚ê‚½uŠÔTrue
-	bool IsHold = false;//‰Ÿ‚³‚ê‚Ä‚¢‚éÅ’†True
-	int KeyCode;//ƒL[ƒR[ƒh
+	bool IsNow = false;//æŠ¼ã•ã‚ŒãŸç¬é–“True
+	bool IsHold = false;//æŠ¼ã•ã‚Œã¦ã„ã‚‹æœ€ä¸­True
+	int KeyCode;//ã‚­ãƒ¼ã‚³ãƒ¼ãƒ‰
 };
 /// <summary>
-/// ‘æˆêˆø”‚ÅƒL[ƒtƒ‰ƒO‚ğ“n‚µAXV‚ğˆø”‚Å“¾‚é.
-/// ƒQ[ƒ€ƒ‹[ƒv’†‚É–ˆƒtƒŒ[ƒ€Às‚·‚é‚±‚Æ‚ÅŠm”F‚µ‚Ä‚¢‚éB
-/// Enter/Up/Down/Left/Right@‚Ì“ü—Í‚ğæ“¾‚·‚éB
+/// ç¬¬ä¸€å¼•æ•°ã§ã‚­ãƒ¼ãƒ•ãƒ©ã‚°ã‚’æ¸¡ã—ã€æ›´æ–°ã‚’å¼•æ•°ã§å¾—ã‚‹.
+/// ã‚²ãƒ¼ãƒ ãƒ«ãƒ¼ãƒ—ä¸­ã«æ¯ãƒ•ãƒ¬ãƒ¼ãƒ å®Ÿè¡Œã™ã‚‹ã“ã¨ã§ç¢ºèªã—ã¦ã„ã‚‹ã€‚
+/// Enter/Up/Down/Left/Rightã€€ã®å…¥åŠ›ã‚’å–å¾—ã™ã‚‹ã€‚
 /// </summary>
-/// <param name="_keyFlag">©g‚Åì¬‚µ‚½ƒL[ƒtƒ‰ƒO</param>
+/// <param name="_keyFlag">è‡ªèº«ã§ä½œæˆã—ãŸã‚­ãƒ¼ãƒ•ãƒ©ã‚°</param>
 /// <returns></returns>
 IsKeyInput InputKeyUpdate(IsKeyInput _keyFlag)
 {
 	//EnterKey.
-	if (CheckHitKey(_keyFlag.KeyCode) && !_keyFlag.IsHold)//‰Ÿ‚³‚ê‚½‚ªA‰Ÿ‚³‚ê‘±‚¯‚Ä‚¢‚È‚¢B
+	if (CheckHitKey(_keyFlag.KeyCode) && !_keyFlag.IsHold)//æŠ¼ã•ã‚ŒãŸãŒã€æŠ¼ã•ã‚Œç¶šã‘ã¦ã„ãªã„ã€‚
 	{
-		//‰Ÿ‚³‚ê‚½uŠÔ
+		//æŠ¼ã•ã‚ŒãŸç¬é–“
 		_keyFlag.IsNow = true;
 		_keyFlag.IsHold = true;
 	}
-	else if (CheckHitKey(_keyFlag.KeyCode) && _keyFlag.IsHold)//‰Ÿ‚³‚ê‚½‚ªA‰Ÿ‚³‚ê‘±‚¯‚Ä‚¢‚é.
+	else if (CheckHitKey(_keyFlag.KeyCode) && _keyFlag.IsHold)//æŠ¼ã•ã‚ŒãŸãŒã€æŠ¼ã•ã‚Œç¶šã‘ã¦ã„ã‚‹.
 	{
-		//‰Ÿ‚³‚ê‘±‚¯‚Ä‚¢‚é
+		//æŠ¼ã•ã‚Œç¶šã‘ã¦ã„ã‚‹
 		_keyFlag.IsNow = false;
 		_keyFlag.IsHold = true;
 	}
-	else//‰Ÿ‚³‚ê‚Ä‚¢‚È‚¢B
+	else//æŠ¼ã•ã‚Œã¦ã„ãªã„ã€‚
 	{
 		_keyFlag.IsNow = false;
 		_keyFlag.IsHold = false;
