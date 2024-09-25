@@ -53,6 +53,8 @@ int WINAPI WinMain(_In_ HINSTANCE hInstance, _In_opt_  HINSTANCE hPrevInstance, 
 		v6.Y = 0.2f;
 		v6 -= v2;
 
+		float ans = v6.Length();
+
 		/*Debug表示*/
 		dString.value1 = to_string(v3.X);
 		dString.value2 = to_string(v3.Y);
