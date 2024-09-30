@@ -1,4 +1,4 @@
-#pragma once
+ï»¿#pragma once
 #include "Bullet.h"
 #include "MyDxlibCommon.h"
 #include "DxLib.h"
@@ -6,10 +6,10 @@
 class Enemy
 {
 public:
-	/*publicƒƒ“ƒo•Ï”*/
-	int X=NULL;//xÀ•W
-	int Y=NULL;//yÀ•W
-	/*ƒRƒ“ƒXƒgƒ‰ƒNƒ^*/
+	/*publicãƒ¡ãƒ³ãƒå¤‰æ•°*/
+	int X=NULL;//xåº§æ¨™
+	int Y=NULL;//yåº§æ¨™
+	/*ã‚³ãƒ³ã‚¹ãƒˆãƒ©ã‚¯ã‚¿*/
 	Enemy();
 	/*Init*/
 	void Init(int x, int y, int r, int speed,int visible);
@@ -17,33 +17,33 @@ public:
 	int getR();
 	/*Setter*/
 	void setColor(unsigned int color);
-	/*ƒƒ“ƒoŠÖ”*/
-	void Update();//ˆ—‚ÌXV
-	void Draw();//•\¦‚ÌXV
-	void DebugDraw();//Debug•\¦‚ÌXV
+	/*ãƒ¡ãƒ³ãƒé–¢æ•°*/
+	void Update();//å‡¦ç†ã®æ›´æ–°
+	void Draw();//è¡¨ç¤ºã®æ›´æ–°
+	void DebugDraw();//Debugè¡¨ç¤ºã®æ›´æ–°
 private:
-	/*privateƒƒ“ƒo•Ï”*/
-	int _r=NULL;//”¼Œa
-	int _speed=NULL;//ƒXƒs[ƒh
-	int _bulletSpeed=NULL;//’eŠÛ‚Ì‘¬“x
-	//•ÏX‚³‚ê‚é‰Â”\«‚Ì–³‚¢‚à‚Ì‚Í‚±‚±‚Å‰Šú‰»
-	unsigned int _color = ColorCode::AQUA;//F
-	unsigned int _hitColor = ColorCode::RED;//HitF
-	bool _isHit = false;//“–‚½‚è”»’è
-	bool _isVisible = false;//•\¦”»’è
+	/*privateãƒ¡ãƒ³ãƒå¤‰æ•°*/
+	int _r=NULL;//åŠå¾„
+	int _speed=NULL;//ã‚¹ãƒ”ãƒ¼ãƒ‰
+	int _bulletSpeed=NULL;//å¼¾ä¸¸ã®é€Ÿåº¦
+	//å¤‰æ›´ã•ã‚Œã‚‹å¯èƒ½æ€§ã®ç„¡ã„ã‚‚ã®ã¯ã“ã“ã§åˆæœŸåŒ–
+	unsigned int _color = ColorCode::AQUA;//è‰²
+	unsigned int _hitColor = ColorCode::RED;//Hitè‰²
+	bool _isHit = false;//å½“ãŸã‚Šåˆ¤å®š
+	bool _isVisible = false;//è¡¨ç¤ºåˆ¤å®š
 };
 
-/*ƒRƒ“ƒXƒgƒ‰ƒNƒ^*/
+/*ã‚³ãƒ³ã‚¹ãƒˆãƒ©ã‚¯ã‚¿*/
 /// <summary>
-/// Enemy‚ÌƒRƒ“ƒXƒgƒ‰ƒNƒ^(ƒCƒ“ƒXƒ^ƒ“ƒXì¬‚Ì‚İ)
+/// Enemyã®ã‚³ãƒ³ã‚¹ãƒˆãƒ©ã‚¯ã‚¿(ã‚¤ãƒ³ã‚¹ã‚¿ãƒ³ã‚¹ä½œæˆã®ã¿)
 /// </summary>
 Enemy::Enemy(){}
 
 /*Setter*/
 /// <summary>
-/// F‚Ì•ÏX
+/// è‰²ã®å¤‰æ›´
 /// </summary>
-/// <param name="color">ƒJƒ‰[ƒR[ƒh</param>
+/// <param name="color">ã‚«ãƒ©ãƒ¼ã‚³ãƒ¼ãƒ‰</param>
 void Enemy::setColor(unsigned int color)
 {
 	_color = color;
@@ -51,7 +51,7 @@ void Enemy::setColor(unsigned int color)
 
 /*Getter*/
 /// <summary>
-/// ”¼Œa‚Ìæ“¾
+/// åŠå¾„ã®å–å¾—
 /// </summary>
 /// <returns>int</returns>
 int Enemy::getR()
@@ -70,13 +70,13 @@ void Enemy::Init(int x, int y, int r, int speed,int visible)
 }
 
 /// <summary>
-/// ŒvZˆ—‚ÌXV
+/// è¨ˆç®—å‡¦ç†ã®æ›´æ–°
 /// </summary>
 void Enemy::Update()
 {
-	//ˆÚ“®
+	//ç§»å‹•
 	Y += _speed;
-	//”½“]
+	//åè»¢
 	if (Y > 640 || Y < 80)
 	{
 		_speed = -_speed;
@@ -84,7 +84,7 @@ void Enemy::Update()
 }
 
 /// <summary>
-/// •\¦ˆ—‚ÌXV
+/// è¡¨ç¤ºå‡¦ç†ã®æ›´æ–°
 /// </summary>
 void Enemy::Draw()
 {

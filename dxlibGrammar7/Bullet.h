@@ -1,48 +1,48 @@
-#pragma once
+ï»¿#pragma once
 #include "MyDxlibCommon.h"
 #include "DxLib.h"
 
 class Bullet
 {
 public:
-	/*publicƒƒ“ƒo•Ï”*/
-	int X=NULL;//XÀ•W
-	int Y=NULL;//YÀ•W
-	/*ƒRƒ“ƒXƒgƒ‰ƒNƒ^*/
+	/*publicãƒ¡ãƒ³ãƒå¤‰æ•°*/
+	int X=NULL;//Xåº§æ¨™
+	int Y=NULL;//Yåº§æ¨™
+	/*ã‚³ãƒ³ã‚¹ãƒˆãƒ©ã‚¯ã‚¿*/
 	Bullet();
 	/*Init*/
 	void Init(int x,int y,int r,int speed,unsigned int color,bool visible);
 	/*Getter*/
 	bool getVisible();
 	int getR();
-	/*ƒƒ“ƒoŠÖ”*/
+	/*ãƒ¡ãƒ³ãƒé–¢æ•°*/
 	void Update();
 	void Draw();
 	void DebugDraw();
 private:
-	/*privateƒƒ“ƒo•Ï”*/
+	/*privateãƒ¡ãƒ³ãƒå¤‰æ•°*/
 	int _r=NULL;
 	int _speed=NULL;
 	unsigned int _color=NULL;
 	bool _isVisible = false;
 };
 
-/*ƒRƒ“ƒXƒgƒ‰ƒNƒ^*/
+/*ã‚³ãƒ³ã‚¹ãƒˆãƒ©ã‚¯ã‚¿*/
 /// <summary>
-/// Bullet‚ÌƒRƒ“ƒXƒgƒ‰ƒNƒ^
+/// Bulletã®ã‚³ãƒ³ã‚¹ãƒˆãƒ©ã‚¯ã‚¿
 /// </summary>
 Bullet::Bullet(){}
 
 /*Init*/
 /// <summary>
-/// ‰Šú‰»ˆ—
+/// åˆæœŸåŒ–å‡¦ç†
 /// </summary>
-/// <param name="x">XÀ•W</param>
-/// <param name="y">YÀ•W</param>
-/// <param name="r">”¼Œa</param>
-/// <param name="speed">‘¬“x</param>
-/// <param name="color">F</param>
-/// <param name="visible">•\¦ƒtƒ‰ƒO</param>
+/// <param name="x">Xåº§æ¨™</param>
+/// <param name="y">Yåº§æ¨™</param>
+/// <param name="r">åŠå¾„</param>
+/// <param name="speed">é€Ÿåº¦</param>
+/// <param name="color">è‰²</param>
+/// <param name="visible">è¡¨ç¤ºãƒ•ãƒ©ã‚°</param>
 void Bullet::Init(int x, int y, int r, int speed, unsigned int color, bool visible)
 {
 	X = x;
@@ -55,14 +55,14 @@ void Bullet::Init(int x, int y, int r, int speed, unsigned int color, bool visib
 
 /*Getter*/
 /// <summary>
-/// •\¦ƒtƒ‰ƒO‚Ìæ“¾
+/// è¡¨ç¤ºãƒ•ãƒ©ã‚°ã®å–å¾—
 /// </summary>
 bool Bullet::getVisible()
 {
 	return _isVisible;
 }
 /// <summary>
-/// ”¼Œa‚Ìæ“¾
+/// åŠå¾„ã®å–å¾—
 /// </summary>
 /// <returns></returns>
 int Bullet::getR()
@@ -70,13 +70,13 @@ int Bullet::getR()
 	return _r;
 }
 
-/*ƒƒ“ƒoŠÖ”*/
+/*ãƒ¡ãƒ³ãƒé–¢æ•°*/
 /// <summary>
-/// ŒvZˆ—‚ÌXV
+/// è¨ˆç®—å‡¦ç†ã®æ›´æ–°
 /// </summary>
 void Bullet::Update()
 {
-	//‰æ–Ê“à‚Å‚Ì‚İ‘Oi
+	//ç”»é¢å†…ã§ã®ã¿å‰é€²
 	if (X > -80 && X < 1360)
 	{
 		X += _speed;
@@ -88,7 +88,7 @@ void Bullet::Update()
 	}
 }
 /// <summary>
-/// •\¦ˆ—‚ÌXV
+/// è¡¨ç¤ºå‡¦ç†ã®æ›´æ–°
 /// </summary>
 void Bullet::Draw()
 {
@@ -99,7 +99,7 @@ void Bullet::Draw()
 
 }
 /// <summary>
-/// Debug•\¦‚ÌXV
+/// Debugè¡¨ç¤ºã®æ›´æ–°
 /// </summary>
 void Bullet::DebugDraw()
 {

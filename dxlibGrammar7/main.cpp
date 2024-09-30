@@ -1,48 +1,48 @@
-#pragma once
-//�I�u�W�F�N�g�w�b�_
+﻿#pragma once
+//オブジェクトヘッダ
 #include "Bullet.h"
 #include "Player.h"
 #include "Enemy.h"
-//���L�w�b�_(�ˑ��֌W���������̂قǍŌ�)
+//共有ヘッダ(依存関係が強いものほど最後)
 #include "MyDxlibCommon.h"
 #include "math.h"
-#include "DxLib.h"//�����ł��g���̂ōŌ�
+#include "DxLib.h"//何処でも使うので最後
 
 
-/*�T�v*/
-//���́wGrammer�V���[�Y�x�ł�DxLib��Q�[���v���O���~���O�̊�b�I�Ȏg�����ƍl������i�K�I�ɂ��܂��B
-//���������e�͕K�v�Œ���ł��B�������o�܂��B�܂��ڍׂȉ�������Ă��܂���B
-//�������t�@�����X��O���T�C�g���Q�l�ɂ��Ă��������B
-//�y���t�@�����X�z
+/*概要*/
+//この『Grammerシリーズ』ではDxLibやゲームプログラミングの基礎的な使い方と考え方を段階的にやります。
+//解説する内容は必要最低限です。抜けが出ます。また詳細な解説をしていません。
+//随時リファレンスや外部サイトを参考にしてください。
+//【リファレンス】
 // https://dxlib.xsrv.jp/dxfunc.html
 
-/*����̗v�f*/
-//�E�Q�[���v���O���~���O
-// �@- �I�u�W�F�N�g�w����p�����Q�[���v���O���~���O
-//�EC/C++����
-//   - �N���X
+/*今回の要素*/
+//・ゲームプログラミング
+// 　- オブジェクト指向を用いたゲームプログラミング
+//・C/C++言語
+//   - クラス
 
-/*�R�����g*/
-//�{���Ȃ�N���X�����ۂ�.h��.cpp�ɕ����邪�A�R�[�h�̊ȕ։��̂��߂ɑS��.h�ɋL�q���Ă���B
-//���ۂɃQ�[�����̍ۂɂ�.h��.cpp�ɕ����Ăق����B
-//�R���X�g���N�^�Ƃ��A�Q�b�^�[�Ƃ��Z�b�^�[�Ƃ��̉���͂����ł͂��Ȃ��B
-//�܂��A�����蔻��̃J���[�R�[�h�ȂǁA�悭�g���萔�Ȃǂ�"Common.h"�ɂ܂Ƃ߂��B
+/*コメント*/
+//本来ならクラスを作る際に.hと.cppに分けるが、コードの簡便化のために全て.hに記述している。
+//実際にゲーム作りの際には.hと.cppに分けてほしい。
+//コンストラクタとか、ゲッターとかセッターとかの解説はここではしない。
+//また、当たり判定のカラーコードなど、よく使う定数などは"Common.h"にまとめた。
 
 
-//Dxlib�̃G���g���[�|�C���g
+//Dxlibのエントリーポイント
 int WINAPI WinMain(_In_ HINSTANCE hInstance, _In_opt_  HINSTANCE hPrevInstance, _In_ LPSTR lpCmdLine, _In_ int nShowCmd)
 {
-	/*�ϐ�*/
+	/*変数*/
 	LONGLONG roopStartTime = 0;
 	bool gameRoop = true;
 
-	/*Dxlib������*/
-	SetGraphMode(WindowSize::SIZE_X, WindowSize::SIZE_Y, 32);//��ʃT�C�Y�Ɖ𑜓x
-	ChangeWindowMode(true);//Window���[�h
-	if (DxLib_Init() == -1) { return -1; }//Dxlib������
-	SetDrawScreen(DX_SCREEN_BACK);//�_�u���o�b�t�@�����O
+	/*Dxlib初期化*/
+	SetGraphMode(WindowSize::SIZE_X, WindowSize::SIZE_Y, 32);//画面サイズと解像度
+	ChangeWindowMode(true);//Windowモード
+	if (DxLib_Init() == -1) { return -1; }//Dxlib初期化
+	SetDrawScreen(DX_SCREEN_BACK);//ダブルバッファリング
 
-	/*�Q�[���萔*/
+	/*ゲーム定数*/
 	//Player.
 	constexpr int PLAYER_FIRST_POSX = 20;
 	constexpr int PLAYER_FIRST_POSY = 360;
@@ -59,45 +59,45 @@ int WINAPI WinMain(_In_ HINSTANCE hInstance, _In_opt_  HINSTANCE hPrevInstance, 
 	constexpr int ENEMY_SHOT_R = 24;
 	constexpr int ENEMY_SHOT_SPEED = -2;
 
-	/*�Q�[���ϐ�*/
+	/*ゲーム変数*/
 	int playerDrawHandle = LoadGraph("Chara.png");
 	int enemyShotSpeed = 4;
 	int enemyShotSize = 32;
 	int delSpeed = 1;
 	int delSize = 4;
 
-	/*�f�o�b�O�p�ϐ�*/
+	/*デバッグ用変数*/
 	int debugNum = 0;
 	int debugNum2 = 0;
 
-	/*�|�C���^�̍쐬*/
-	//�N���X�͊�{�I�Ƀ|�C���^�ŉ^�p����B
+	/*ポインタの作成*/
+	//クラスは基本的にポインタで運用する。
 	Player* pPlayer;
 	Enemy* pEnemy;
 	Bullet* pPBullet[PLAYER_SHOT_MAX];
 	Bullet* pEBullet;
 
-	/*�C���X�^���X�̍쐬*/
+	/*インスタンスの作成*/
 	pPlayer = new Player;
 	pEnemy = new Enemy;
 	pEBullet = new Bullet;
 	//PlayerBullet.
 	for (int i = 0; i < PLAYER_SHOT_MAX; i++)
 	{
-		pPBullet[i] = new Bullet;//�C���X�^���X����
+		pPBullet[i] = new Bullet;//インスタンス生成
 	}
 
-	/*������(Player��Enemy�̂�)*/
+	/*初期化(PlayerとEnemyのみ)*/
 	pPlayer->Init(LoadGraph("Chara.png"), PLAYER_FIRST_POSX, PLAYER_FIRST_POSY, PLAYER_R, PLAYER_SPEED, true, true);
 	pEnemy->Init(ENEMY_FIRST_POSX, ENEMY_FIRST_POSY, ENEMY_R, ENEMY_SPEED, true);
 
-	/*�Q�[�����[�v��*/
+	/*ゲームループ部*/
 	//gameRoop.
 	while (gameRoop)
 	{
-		//���[�v�J�n�����̊m��
+		//ループ開始時刻の確保
 		roopStartTime = GetNowHiPerformanceCount();
-		//����ʂ̏�����
+		//裏画面の初期化
 		ClearDrawScreen();
 
 		/*Update*/
@@ -120,7 +120,7 @@ int WINAPI WinMain(_In_ HINSTANCE hInstance, _In_opt_  HINSTANCE hPrevInstance, 
 
 		}
 
-		/*�e�ۂ̔���*/
+		/*弾丸の発射*/
 		//Player.
 		if (pPlayer->getShotFlag())
 		{
@@ -134,48 +134,48 @@ int WINAPI WinMain(_In_ HINSTANCE hInstance, _In_opt_  HINSTANCE hPrevInstance, 
 			}
 		}
 		//Enemy.
-		//��ʂ���o����e����������̂ŁA���̍ۂɍĔ���
+		//画面から出たら弾が消ええるので、その際に再発射
 		if (!pEBullet->getVisible())
 		{
 			pEBullet->Init(pEnemy->X, pEnemy->Y, enemyShotSize, -enemyShotSpeed, ColorCode::LIME, true);
-			//�e�̑��x�ƃT�C�Y�̍X�V
+			//弾の速度とサイズの更新
 			enemyShotSpeed += delSpeed;
 			enemyShotSize += delSize;
 		}
 
-		/*�����蔻��*/
-		///�G�l�~�[�̒e�ƃv���C���[�̓����蔻��
-		//�����̌v�Z
-		int delX = pPlayer->X - pEBullet->X;//x�̑��΋���
-		int delY = pPlayer->Y - pEBullet->Y;//y�̑��΋���
-		int magLen = delX * delX + delY * delY;//�����̃}�O�j�`���[�h(2��)
-		int delR = pPlayer->getR() + pEBullet->getR();//������������R
-		int magR = delR * delR;//R�̃}�O�j�`���[�h(2��)
-		//�����蔻��̌v�Z
+		/*当たり判定*/
+		///エネミーの弾とプレイヤーの当たり判定
+		//距離の計算
+		int delX = pPlayer->X - pEBullet->X;//xの相対距離
+		int delY = pPlayer->Y - pEBullet->Y;//yの相対距離
+		int magLen = delX * delX + delY * delY;//距離のマグニチュード(2乗)
+		int delR = pPlayer->getR() + pEBullet->getR();//当たった時のR
+		int magR = delR * delR;//Rのマグニチュード(2乗)
+		//当たり判定の計算
 		if (magLen < magR)
 		{
-			//�������Ă���debugNum�ύX
+			//当たってたらdebugNum変更
 			debugNum = 1;
 		}
 		else
 		{
 			debugNum = 0;
 		}
-		///�G�l�~�[��Player�̒e�̓����蔻��
+		///エネミーとPlayerの弾の当たり判定
 		for (int i = 0; i < PLAYER_SHOT_MAX; i++)
 		{
-			//�����̌v�Z
-			delX = pEnemy->X - pPBullet[i]->X;//x�̑��΋���
-			delY = pEnemy->Y - pPBullet[i]->Y;;//y�̑��΋���
-			magLen = delX * delX + delY * delY;//�����̃}�O�j�`���[�h(2��)
-			delR = pEnemy->getR() + pPBullet[i]->getR();//������������R
-			magR = delR * delR;//R�̃}�O�j�`���[�h(2��)
-			//�����蔻��̌v�Z
+			//距離の計算
+			delX = pEnemy->X - pPBullet[i]->X;//xの相対距離
+			delY = pEnemy->Y - pPBullet[i]->Y;;//yの相対距離
+			magLen = delX * delX + delY * delY;//距離のマグニチュード(2乗)
+			delR = pEnemy->getR() + pPBullet[i]->getR();//当たった時のR
+			magR = delR * delR;//Rのマグニチュード(2乗)
+			//当たり判定の計算
 			if (magLen < magR)
 			{
-				//�������Ă���G�l�~�[�̐F�ς���
+				//当たってたらエネミーの色変える
 				pEnemy->setColor(ColorCode::YELLOW);
-				break;//�ꔭ�ł��������Ă��瓖�����Ă������B
+				break;//一発でも当たってたら当たってた扱い。
 			}
 			else
 			{
@@ -197,25 +197,25 @@ int WINAPI WinMain(_In_ HINSTANCE hInstance, _In_opt_  HINSTANCE hPrevInstance, 
 		}
 
 		/*DebguDraw*/
-		//Debu����
-		DrawFormatString(0, 0, ColorCode::RED, "WSAD(�㉺���E),Enter(�V���b�g)");
+		//Debu文字
+		DrawFormatString(0, 0, ColorCode::RED, "WSAD(上下左右),Enter(ショット)");
 		DrawFormatString(0, 20, ColorCode::RED, "debugNum:%d", debugNum);
-		//�R���W�����\��
+		//コリジョン表示
 		pPlayer->DebugDraw();
 		pEnemy->DebugDraw();
 
-		//����ʂ�\��
+		//裏画面を表へ
 		ScreenFlip();
-		//���t���b�V������(-1�Ȃ�G���[)
+		//リフレッシュ処理(-1ならエラー)
 		if (ProcessMessage() < 0) { break; }
-		//���[�v�I������
+		//ループ終了処理
 		if (CheckHitKey(KEY_INPUT_ESCAPE)) { break; }
-		//fps�Œ�(60fps:16.66ms)
-		//���[�v�J�n��������16.66ms�o�܂Œ�~
+		//fps固定(60fps:16.66ms)
+		//ループ開始時刻から16.66ms経つまで停止
 		while (GetNowHiPerformanceCount() - roopStartTime < 16667) {}
 	}
 
-	/*�I������*/
-	DxLib_End();//Dxlib�I������
-	return 0;//�I�� 
+	/*終了処理*/
+	DxLib_End();//Dxlib終了処理
+	return 0;//終了 
 }

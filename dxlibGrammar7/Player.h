@@ -1,4 +1,4 @@
-#pragma once
+ï»¿#pragma once
 #include "Enemy.h"
 #include "MyDxlibCommon.h"
 #include "DxLib.h"
@@ -6,34 +6,34 @@
 class Player
 {
 public:
-	/*publicƒƒ“ƒo•Ï”*/
-	int X = NULL;//xÀ•W
-	int Y = NULL;//yÀ•W
-	/*ƒRƒ“ƒXƒgƒ‰ƒNƒ^*/
+	/*publicãƒ¡ãƒ³ãƒå¤‰æ•°*/
+	int X = NULL;//xåº§æ¨™
+	int Y = NULL;//yåº§æ¨™
+	/*ã‚³ãƒ³ã‚¹ãƒˆãƒ©ã‚¯ã‚¿*/
 	Player();
 	/*Init*/
 	void Init(int drawHandle, int x, int y, int r, int speed, bool visible, bool colVisible);
 	/*Getter*/
 	bool getShotFlag();
 	int getR();
-	/*ƒƒ“ƒoŠÖ”*/
-	void Update();//ˆ—‚ÌXV
-	void Draw();//•\¦‚ÌXV
-	void DebugDraw();//Debug•\¦‚ÌXV
+	/*ãƒ¡ãƒ³ãƒé–¢æ•°*/
+	void Update();//å‡¦ç†ã®æ›´æ–°
+	void Draw();//è¡¨ç¤ºã®æ›´æ–°
+	void DebugDraw();//Debugè¡¨ç¤ºã®æ›´æ–°
 private:
-	/*privateƒƒ“ƒo•Ï”*/
-	int _drawHandle = -1;//‰æ‘œƒnƒ“ƒhƒ‹
-	int _r = NULL;//”¼Œa
-	int _speed = NULL;//ƒXƒs[ƒh
-	//•ÏX‚³‚ê‚é‰Â”\«‚Ì–³‚¢‚à‚Ì‚Í‚±‚±‚Å‰Šú‰»
-	unsigned int _colColer = ColorCode::LIME;//ƒRƒŠƒWƒ‡ƒ“F
-	int _scale = 1;//ƒXƒP[ƒ‹
-	int _rotate = 0;//‰ñ“]“x
-	bool _isShotFlag = false;//ƒVƒ‡ƒbƒgƒtƒ‰ƒO
-	bool _isHit = false;//“–‚½‚è”»’è
-	bool _isVisible = false;//•\¦”»’è
-	bool _isColVisible = false;//ƒRƒŠƒWƒ‡ƒ“‚Ì•\¦”»’è
-	//Input—p‚Ì•Ï”
+	/*privateãƒ¡ãƒ³ãƒå¤‰æ•°*/
+	int _drawHandle = -1;//ç”»åƒãƒãƒ³ãƒ‰ãƒ«
+	int _r = NULL;//åŠå¾„
+	int _speed = NULL;//ã‚¹ãƒ”ãƒ¼ãƒ‰
+	//å¤‰æ›´ã•ã‚Œã‚‹å¯èƒ½æ€§ã®ç„¡ã„ã‚‚ã®ã¯ã“ã“ã§åˆæœŸåŒ–
+	unsigned int _colColer = ColorCode::LIME;//ã‚³ãƒªã‚¸ãƒ§ãƒ³è‰²
+	int _scale = 1;//ã‚¹ã‚±ãƒ¼ãƒ«
+	int _rotate = 0;//å›è»¢åº¦
+	bool _isShotFlag = false;//ã‚·ãƒ§ãƒƒãƒˆãƒ•ãƒ©ã‚°
+	bool _isHit = false;//å½“ãŸã‚Šåˆ¤å®š
+	bool _isVisible = false;//è¡¨ç¤ºåˆ¤å®š
+	bool _isColVisible = false;//ã‚³ãƒªã‚¸ãƒ§ãƒ³ã®è¡¨ç¤ºåˆ¤å®š
+	//Inputç”¨ã®å¤‰æ•°
 	IsKeyInput _isEnterInput{ false,false,KEY_INPUT_RETURN };//Enter.
 	IsKeyInput _isUpInput{ false,false,KEY_INPUT_W };//Up.
 	IsKeyInput _isDownInput{ false,false,KEY_INPUT_S };//Down.
@@ -41,23 +41,23 @@ private:
 	IsKeyInput _isRightInput{ false,false,KEY_INPUT_D };//Right.
 };
 
-/*ƒRƒ“ƒXƒgƒ‰ƒNƒ^*/
+/*ã‚³ãƒ³ã‚¹ãƒˆãƒ©ã‚¯ã‚¿*/
 /// <summary>
-/// Player‚ÌƒRƒ“ƒXƒgƒ‰ƒNƒ^(ƒCƒ“ƒXƒ^ƒ“ƒXì¬‚Ì‚İ)
+/// Playerã®ã‚³ãƒ³ã‚¹ãƒˆãƒ©ã‚¯ã‚¿(ã‚¤ãƒ³ã‚¹ã‚¿ãƒ³ã‚¹ä½œæˆã®ã¿)
 /// </summary>
 Player::Player(){}
 
 /*Init*/
 /// <summary>
-/// ƒƒ“ƒo•Ï”‚Ì‰Šú‰»
+/// ãƒ¡ãƒ³ãƒå¤‰æ•°ã®åˆæœŸåŒ–
 /// </summary>
-/// <param name="drawHandle">drawƒnƒ“ƒhƒ‹</param>
-/// <param name="x">XÀ•W</param>
-/// <param name="y">YÀ•W</param>
-/// <param name="r">”¼Œa</param>
-/// <param name="speed">ƒXƒs[ƒh</param>
-/// <param name="visible">•\¦ƒtƒ‰ƒO</param>
-/// /// <param name="colVisible">•\¦ƒtƒ‰ƒO</param>
+/// <param name="drawHandle">drawãƒãƒ³ãƒ‰ãƒ«</param>
+/// <param name="x">Xåº§æ¨™</param>
+/// <param name="y">Yåº§æ¨™</param>
+/// <param name="r">åŠå¾„</param>
+/// <param name="speed">ã‚¹ãƒ”ãƒ¼ãƒ‰</param>
+/// <param name="visible">è¡¨ç¤ºãƒ•ãƒ©ã‚°</param>
+/// /// <param name="colVisible">è¡¨ç¤ºãƒ•ãƒ©ã‚°</param>
 void Player::Init(int drawHandle, int x, int y, int r, int speed, bool visible, bool colVisible)
 {
 	_drawHandle = drawHandle;
@@ -71,7 +71,7 @@ void Player::Init(int drawHandle, int x, int y, int r, int speed, bool visible, 
 
 /*Getter*/
 /// <summary>
-/// ’eŠÛ‚ğ”­Ë‚µ‚½Û‚ÉTrueA‚»‚êˆÈŠO‚ÍFalse
+/// å¼¾ä¸¸ã‚’ç™ºå°„ã—ãŸéš›ã«Trueã€ãã‚Œä»¥å¤–ã¯False
 /// </summary>
 /// <returns>bool</returns>
 bool Player::getShotFlag()
@@ -79,7 +79,7 @@ bool Player::getShotFlag()
 	return _isShotFlag;
 }
 /// <summary>
-/// ”¼Œa‚Ìæ“¾
+/// åŠå¾„ã®å–å¾—
 /// </summary>
 /// <returns></returns>
 int Player::getR()
@@ -87,9 +87,9 @@ int Player::getR()
 	return _r;
 }
 
-/*ƒƒ“ƒoŠÖ”*/
+/*ãƒ¡ãƒ³ãƒé–¢æ•°*/
 /// <summary>
-/// ŒvZ‚ÌXV
+/// è¨ˆç®—ã®æ›´æ–°
 /// </summary>
 void Player::Update()
 {
@@ -100,7 +100,7 @@ void Player::Update()
 	_isLeftInput = InputKeyUpdate(_isLeftInput);//Left.
 	_isRightInput = InputKeyUpdate(_isRightInput);//Right.
 
-	/*ˆÚ“®ˆ—*/
+	/*ç§»å‹•å‡¦ç†*/
 	//Up.
 	if (_isUpInput.IsHold == true)
 	{
@@ -122,34 +122,34 @@ void Player::Update()
 		X += _speed;
 	}
 
-	/*PlayerBullet‚Ì”­Ë*/
-	if (_isEnterInput.IsNow)//”­Ë
+	/*PlayerBulletã®ç™ºå°„*/
+	if (_isEnterInput.IsNow)//ç™ºå°„æ™‚
 	{
 		_isShotFlag = true;
 	}
-	else//”ñ”­Ë
+	else//éç™ºå°„æ™‚
 	{
 		_isShotFlag = false;
 	}
 
 }
 /// <summary>
-/// •\¦ˆ—‚ÌXV
+/// è¡¨ç¤ºå‡¦ç†ã®æ›´æ–°
 /// </summary>
 void Player::Draw()
 {
-	//Player‚Ì•`‰æ
+	//Playerã®æç”»
 	if (_isVisible)
 	{
 		DrawRotaGraph(X, Y, 1, 0, _drawHandle, 1);
 	}
 }
 /// <summary>
-/// Debug•\¦‚ÌXV
+/// Debugè¡¨ç¤ºã®æ›´æ–°
 /// </summary>
 void Player::DebugDraw()
 {
-	//ƒRƒŠƒWƒ‡ƒ“‚Ì•`‰æ
+	//ã‚³ãƒªã‚¸ãƒ§ãƒ³ã®æç”»
 	if (_isColVisible)
 	{
 		DrawCircle(X, Y, _r, ColorCode::LIME, 0);
