@@ -1,78 +1,78 @@
-#include "DxLib.h"
+ï»¿#include "DxLib.h"
 
-/*ŠT—v*/
-//‚±‚ÌwGrammerƒVƒŠ[ƒYx‚Å‚ÍDxLib‚âƒQ[ƒ€ƒvƒƒOƒ‰ƒ~ƒ“ƒO‚ÌŠî‘b“I‚ÈŽg‚¢•û‚Æl‚¦•û‚ð’iŠK“I‚É‚â‚è‚Ü‚·B
-//‰ðà‚·‚é“à—e‚Í•K—vÅ’áŒÀ‚Å‚·B”²‚¯‚ªo‚Ü‚·B‚Ü‚½Ú×‚È‰ðà‚ð‚µ‚Ä‚¢‚Ü‚¹‚ñB
-//ŽžƒŠƒtƒ@ƒŒƒ“ƒX‚âŠO•”ƒTƒCƒg‚ðŽQl‚É‚µ‚Ä‚­‚¾‚³‚¢B
-//yƒŠƒtƒ@ƒŒƒ“ƒXz
+/*æ¦‚è¦*/
+//ã“ã®ã€ŽGrammerã‚·ãƒªãƒ¼ã‚ºã€ã§ã¯DxLibã‚„ã‚²ãƒ¼ãƒ ãƒ—ãƒ­ã‚°ãƒ©ãƒŸãƒ³ã‚°ã®åŸºç¤Žçš„ãªä½¿ã„æ–¹ã¨è€ƒãˆæ–¹ã‚’æ®µéšŽçš„ã«ã‚„ã‚Šã¾ã™ã€‚
+//è§£èª¬ã™ã‚‹å†…å®¹ã¯å¿…è¦æœ€ä½Žé™ã§ã™ã€‚æŠœã‘ãŒå‡ºã¾ã™ã€‚ã¾ãŸè©³ç´°ãªè§£èª¬ã‚’ã—ã¦ã„ã¾ã›ã‚“ã€‚
+//éšæ™‚ãƒªãƒ•ã‚¡ãƒ¬ãƒ³ã‚¹ã‚„å¤–éƒ¨ã‚µã‚¤ãƒˆã‚’å‚è€ƒã«ã—ã¦ãã ã•ã„ã€‚
+//ã€ãƒªãƒ•ã‚¡ãƒ¬ãƒ³ã‚¹ã€‘
 // https://dxlib.xsrv.jp/dxfunc.html
 
-/*¡‰ñ‚Ì—v‘f*/
-//EDxLib
-//   - ŽžŠÔ‚Ì‘ª’è
-// @- fps‚ÌŒÅ’è
-//EƒQ[ƒ€ƒvƒƒOƒ‰ƒ~ƒ“ƒO
-//   - fps‚ÌŒÅ’è
-//EC/C++Œ¾Œê
-//   - \‘¢‘Ì
+/*ä»Šå›žã®è¦ç´ */
+//ãƒ»DxLib
+//   - æ™‚é–“ã®æ¸¬å®š
+// ã€€- fpsã®å›ºå®š
+//ãƒ»ã‚²ãƒ¼ãƒ ãƒ—ãƒ­ã‚°ãƒ©ãƒŸãƒ³ã‚°
+//   - fpsã®å›ºå®š
+//ãƒ»C/C++è¨€èªž
+//   - æ§‹é€ ä½“
 
-//Dxlib‚ÌƒGƒ“ƒgƒŠ[ƒ|ƒCƒ“ƒg
+//Dxlibã®ã‚¨ãƒ³ãƒˆãƒªãƒ¼ãƒã‚¤ãƒ³ãƒˆ
 int WINAPI WinMain(_In_ HINSTANCE hInstance, _In_opt_  HINSTANCE hPrevInstance, _In_ LPSTR lpCmdLine, _In_ int nShowCmd)
 {
-	/*•Ï”*/
+	/*å¤‰æ•°*/
 	LONGLONG roopStartTime = 0;
 	bool gameRoop = true;
 
-	/*Dxlib‰Šú‰»*/
-	SetGraphMode(1280, 720, 32);//‰æ–ÊƒTƒCƒY‚Æ‰ð‘œ“x
-	ChangeWindowMode(true);//Windowƒ‚[ƒh
-	if (DxLib_Init() == -1) { return -1; }//Dxlib‰Šú‰»
-	SetDrawScreen(DX_SCREEN_BACK);//ƒ_ƒuƒ‹ƒoƒbƒtƒ@ƒŠƒ“ƒO
+	/*DxlibåˆæœŸåŒ–*/
+	SetGraphMode(1280, 720, 32);//ç”»é¢ã‚µã‚¤ã‚ºã¨è§£åƒåº¦
+	ChangeWindowMode(true);//Windowãƒ¢ãƒ¼ãƒ‰
+	if (DxLib_Init() == -1) { return -1; }//DxlibåˆæœŸåŒ–
+	SetDrawScreen(DX_SCREEN_BACK);//ãƒ€ãƒ–ãƒ«ãƒãƒƒãƒ•ã‚¡ãƒªãƒ³ã‚°
 
-	/*\‘¢‘Ì‚Ìì¬*/
-	//ƒQ[ƒ€ƒIƒuƒWƒFƒNƒg—p‚Ì\‘¢‘Ì
-	//\‘¢‘Ì‚Í•Ï”‚ð‚P‚Â‚É‚Ü‚Æ‚ß‚ê‚éBPlayer‚âƒGƒlƒ~[‚È‚ÇŠÖ˜A‚·‚é•Ï”‚ð‚P‚Â‚É‚Ü‚Æ‚ß‚Ä‚¨‚±‚¤B
+	/*æ§‹é€ ä½“ã®ä½œæˆ*/
+	//ã‚²ãƒ¼ãƒ ã‚ªãƒ–ã‚¸ã‚§ã‚¯ãƒˆç”¨ã®æ§‹é€ ä½“
+	//æ§‹é€ ä½“ã¯å¤‰æ•°ã‚’ï¼‘ã¤ã«ã¾ã¨ã‚ã‚Œã‚‹ã€‚Playerã‚„ã‚¨ãƒãƒŸãƒ¼ãªã©é–¢é€£ã™ã‚‹å¤‰æ•°ã‚’ï¼‘ã¤ã«ã¾ã¨ã‚ã¦ãŠã“ã†ã€‚
 	//Player.
 	struct Player
 	{
-		int drawHandle;//‰æ‘œƒnƒ“ƒhƒ‹
-		int posX;//XÀ•W
-		int posY;//YÀ•W
-		int R;//”¼Œa
-		int speed;//‘¬“x
-		double scale;//ƒXƒP[ƒ‹
-		double rotate;//‰ñ“]“x
+		int drawHandle;//ç”»åƒãƒãƒ³ãƒ‰ãƒ«
+		int posX;//Xåº§æ¨™
+		int posY;//Yåº§æ¨™
+		int R;//åŠå¾„
+		int speed;//é€Ÿåº¦
+		double scale;//ã‚¹ã‚±ãƒ¼ãƒ«
+		double rotate;//å›žè»¢åº¦
 	};
 	//Enemy.
 	struct Enemy
 	{
-		int posX;//XÀ•W
-		int posY;//YÀ•W
-		int R;//”¼Œa
-		int speed;//‘¬“x
-		unsigned int color;//F.iroGetColor‚Å“¾‚ç‚ê‚é‚Ì‚Íunsigned int ‚È‚Ì‚ÅB
-		unsigned int hitColor;//’e‚ª“–‚½‚Á‚½Žž‚ÌF
+		int posX;//Xåº§æ¨™
+		int posY;//Yåº§æ¨™
+		int R;//åŠå¾„
+		int speed;//é€Ÿåº¦
+		unsigned int color;//è‰².iroGetColorã§å¾—ã‚‰ã‚Œã‚‹ã®ã¯unsigned int ãªã®ã§ã€‚
+		unsigned int hitColor;//å¼¾ãŒå½“ãŸã£ãŸæ™‚ã®è‰²
 	};
 	//Bullet.
 	struct Bullet
 	{
-		int posX;//XÀ•W
-		int posY;//YÀ•W
-		int R;//”¼Œa
-		int speed;//‘¬“x
-		unsigned int color;//F.
+		int posX;//Xåº§æ¨™
+		int posY;//Yåº§æ¨™
+		int R;//åŠå¾„
+		int speed;//é€Ÿåº¦
+		unsigned int color;//è‰².
 	};
 
-	/*•Ï”*/
+	/*å¤‰æ•°*/
 	//Player.
 	Player Player;
 	Player.drawHandle = LoadGraph("Chara.png");
-	Player.posX = 100;//xÀ•W
-	Player.posY = 300;//yÀ•W
-	Player.R = 2;//”¼Œa
-	Player.speed = 2;//ƒXƒs[ƒh
-	Player.scale = 1;//ƒXƒP[ƒ‹
-	Player.rotate = 0;//‰ñ“]“x
+	Player.posX = 100;//xåº§æ¨™
+	Player.posY = 300;//yåº§æ¨™
+	Player.R = 2;//åŠå¾„
+	Player.speed = 2;//ã‚¹ãƒ”ãƒ¼ãƒ‰
+	Player.scale = 1;//ã‚¹ã‚±ãƒ¼ãƒ«
+	Player.rotate = 0;//å›žè»¢åº¦
 	//Enemy.
 	Enemy Enemy;
 	Enemy.posX = 1000;
@@ -95,84 +95,84 @@ int WINAPI WinMain(_In_ HINSTANCE hInstance, _In_opt_  HINSTANCE hPrevInstance, 
 	eBullet.R = 32;
 	eBullet.speed = 4;
 	eBullet.color = GetColor(0, 255, 0);
-	//ƒtƒ‰ƒO—p•Ï”
+	//ãƒ•ãƒ©ã‚°ç”¨å¤‰æ•°
 	bool isPlayerBullet = false;
 	bool isEnemyBullet = false;
 	bool isEnemyHit = false;
 	bool isPlayerHit = false;
 
-	/*ƒQ[ƒ€ƒ‹[ƒv•”*/
+	/*ã‚²ãƒ¼ãƒ ãƒ«ãƒ¼ãƒ—éƒ¨*/
 	//gameRoop.
-	//ƒ‹[ƒv‚ÌÅ‰‚ÆÅŒã‚É’–Ú‚µ‚Ä—~‚µ‚¢B
-	//‚»‚ê‚¼‚êGetNowHiPerformanceCount()‚ÅŒ»Ý‚ÌŽž‚ðŽæ“¾‚µ‚Ä‚¢‚éB
-	//‰½‚ð‚µ‚Ä‚¢‚é‚©‚Æ‚¢‚¤‚ÆAƒ‹[ƒv‚ÌŠJŽnŽž‚ÌŽž‚©‚çƒ‹[ƒvI—¹Žž‚ÌŽž‚ðˆø‚¢‚Ä‚¢‚éB
-	//‚±‚Ì’l‚ª16.66ms‚É‚È‚é‚Ü‚ÅŽŸ‚Ìƒ‹[ƒv‚És‚©‚È‚¢‚æ‚¤‚É‚µ‚Ä‚¢‚éB
-	//‚±‚¤‚·‚é‚±‚Æ‚ÅA1•bŠÔ‚Éƒ‹[ƒv‚ð‰½‰ñ‰ñ‚é‚©‚ð§ŒÀ‚Å‚«‚éB¡‰ñ‚Í60fps‚É‚µ‚Ä‚¢‚éB
-	//‚±‚Ì‚æ‚¤‚É§ŒÀ‚·‚é‚±‚Æ‚ÅƒQ[ƒ€‚Ì“®ì‚ðˆê’è‚ÌŠÔŠu‚É•Û‚Â‚±‚Æ‚ª‚Å‚«A‚¢‚í‚ä‚éƒ‰ƒO‚Æ‚¢‚¤‚à‚Ì‚Ì”­¶‚ðŒ¸‚ç‚¹‚éB
-	//(¦‘O‰ñ‚Ü‚Å‚ÌƒR[ƒh‚¾‚Æ’e‚Ì”­ŽËˆÊ’u‚ª‚½‚Ü‚ÉƒYƒŒ‚Ä‚¢‚½”¤‚Å‚·B)
+	//ãƒ«ãƒ¼ãƒ—ã®æœ€åˆã¨æœ€å¾Œã«æ³¨ç›®ã—ã¦æ¬²ã—ã„ã€‚
+	//ãã‚Œãžã‚ŒGetNowHiPerformanceCount()ã§ç¾åœ¨ã®æ™‚åˆ»ã‚’å–å¾—ã—ã¦ã„ã‚‹ã€‚
+	//ä½•ã‚’ã—ã¦ã„ã‚‹ã‹ã¨ã„ã†ã¨ã€ãƒ«ãƒ¼ãƒ—ã®é–‹å§‹æ™‚ã®æ™‚åˆ»ã‹ã‚‰ãƒ«ãƒ¼ãƒ—çµ‚äº†æ™‚ã®æ™‚åˆ»ã‚’å¼•ã„ã¦ã„ã‚‹ã€‚
+	//ã“ã®å€¤ãŒ16.66msã«ãªã‚‹ã¾ã§æ¬¡ã®ãƒ«ãƒ¼ãƒ—ã«è¡Œã‹ãªã„ã‚ˆã†ã«ã—ã¦ã„ã‚‹ã€‚
+	//ã“ã†ã™ã‚‹ã“ã¨ã§ã€1ç§’é–“ã«ãƒ«ãƒ¼ãƒ—ã‚’ä½•å›žå›žã‚‹ã‹ã‚’åˆ¶é™ã§ãã‚‹ã€‚ä»Šå›žã¯60fpsã«ã—ã¦ã„ã‚‹ã€‚
+	//ã“ã®ã‚ˆã†ã«åˆ¶é™ã™ã‚‹ã“ã¨ã§ã‚²ãƒ¼ãƒ ã®å‹•ä½œã‚’ä¸€å®šã®é–“éš”ã«ä¿ã¤ã“ã¨ãŒã§ãã€ã„ã‚ã‚†ã‚‹ãƒ©ã‚°ã¨ã„ã†ã‚‚ã®ã®ç™ºç”Ÿã‚’æ¸›ã‚‰ã›ã‚‹ã€‚
+	//(â€»å‰å›žã¾ã§ã®ã‚³ãƒ¼ãƒ‰ã ã¨å¼¾ã®ç™ºå°„ä½ç½®ãŒãŸã¾ã«ã‚ºãƒ¬ã¦ã„ãŸç­ˆã§ã™ã€‚)
 	while (gameRoop)
 	{
-		//ƒ‹[ƒvŠJŽnŽž‚ÌŠm•Û
+		//ãƒ«ãƒ¼ãƒ—é–‹å§‹æ™‚åˆ»ã®ç¢ºä¿
 		roopStartTime = GetNowHiPerformanceCount();
 
-		//— ‰æ–Ê‚Ì‰Šú‰»
+		//è£ç”»é¢ã®åˆæœŸåŒ–
 		ClearDrawScreen();
 
-		/*Playerˆ—*/
-		//ˆÚ“®ˆ—
-		if (CheckHitKey(KEY_INPUT_W))//W‚ÅãˆÚ“®
+		/*Playerå‡¦ç†*/
+		//ç§»å‹•å‡¦ç†
+		if (CheckHitKey(KEY_INPUT_W))//Wã§ä¸Šç§»å‹•
 		{
 			Player.posY -= Player.speed;
 		}
-		else if (CheckHitKey(KEY_INPUT_S))//S‚Å‰ºˆÚ“®
+		else if (CheckHitKey(KEY_INPUT_S))//Sã§ä¸‹ç§»å‹•
 		{
 			Player.posY += Player.speed;
 		}
-		else if (CheckHitKey(KEY_INPUT_D))//D‚Å‰EˆÚ“®
+		else if (CheckHitKey(KEY_INPUT_D))//Dã§å³ç§»å‹•
 		{
 			Player.posX += Player.speed;
 		}
-		else if (CheckHitKey(KEY_INPUT_A))//A‚Å¶ˆÚ“®
+		else if (CheckHitKey(KEY_INPUT_A))//Aã§å·¦ç§»å‹•
 		{
 			Player.posX -= Player.speed;
 		}
-		//’e‚Ì”­ŽË
-		if (CheckHitKey(KEY_INPUT_RETURN) && !isPlayerBullet)//’e‚Íˆê”­‚µ‚©”­ŽË‚Å‚«‚È‚¢
+		//å¼¾ã®ç™ºå°„
+		if (CheckHitKey(KEY_INPUT_RETURN) && !isPlayerBullet)//å¼¾ã¯ä¸€ç™ºã—ã‹ç™ºå°„ã§ããªã„
 		{
 			isPlayerBullet = true;
 		}
 
-		/*Enemyˆ—*/
-		//ˆÚ“®ˆ—
+		/*Enemyå‡¦ç†*/
+		//ç§»å‹•å‡¦ç†
 		Enemy.posY += Enemy.speed;
-		if (Enemy.posY > 640 || Enemy.posY < 80)//ã‰º‰^“®‚ð‚³‚¹‚Ä‚¢‚éB
+		if (Enemy.posY > 640 || Enemy.posY < 80)//ä¸Šä¸‹é‹å‹•ã‚’ã•ã›ã¦ã„ã‚‹ã€‚
 		{
 			Enemy.speed = -Enemy.speed;
 		}
-		//’e‚Ì”­ŽË
-		if (!isEnemyBullet)//’e‚Íˆê”­‚µ‚©”­ŽË‚Å‚«‚È‚¢
+		//å¼¾ã®ç™ºå°„
+		if (!isEnemyBullet)//å¼¾ã¯ä¸€ç™ºã—ã‹ç™ºå°„ã§ããªã„
 		{
 			isEnemyBullet = true;
-			eBullet.speed += 1;//ƒGƒlƒ~[‚Ì’e‚Ì‘¬“x‚ðŒ‚‚Â‚½‚Ñ‚É‘‚­‚·‚é
+			eBullet.speed += 1;//ã‚¨ãƒãƒŸãƒ¼ã®å¼¾ã®é€Ÿåº¦ã‚’æ’ƒã¤ãŸã³ã«æ—©ãã™ã‚‹
 		}
 
-		/*PlayerBulletˆ—*/
-		if (isPlayerBullet && pBullet.posX < 1280)//’e‚ª”­ŽË‚³‚ê‚Ä‚¨‚èA‰æ–Ê“à‚È‚çˆÚ“®
+		/*PlayerBulletå‡¦ç†*/
+		if (isPlayerBullet && pBullet.posX < 1280)//å¼¾ãŒç™ºå°„ã•ã‚Œã¦ãŠã‚Šã€ç”»é¢å†…ãªã‚‰ç§»å‹•
 		{
 			pBullet.posX += pBullet.speed;
 		}
-		else//‰æ–ÊŠO‚È‚ç‰Šú‰»
+		else//ç”»é¢å¤–ãªã‚‰åˆæœŸåŒ–
 		{
 			pBullet.posX = Player.posX;
 			pBullet.posY = Player.posY;
 			isPlayerBullet = false;
 		}
 
-		/*EnemyBulletˆ—*/
+		/*EnemyBulletå‡¦ç†*/
 		if (isEnemyBullet)
 		{
-			eBullet.posX -= eBullet.speed;//ˆÚ“®ˆ—
-			//ˆÊ’u‚Ì‰Šú‰»
+			eBullet.posX -= eBullet.speed;//ç§»å‹•å‡¦ç†
+			//ä½ç½®ã®åˆæœŸåŒ–
 			if (eBullet.posX < 0)
 			{
 				eBullet.posX = Enemy.posX;
@@ -181,14 +181,14 @@ int WINAPI WinMain(_In_ HINSTANCE hInstance, _In_opt_  HINSTANCE hPrevInstance, 
 			}
 		}
 
-		/*“–‚½‚è”»’è*/
-		//Player‚Ì“–‚½‚è”»’è.
-		int delX = Player.posX - eBullet.posX;//x¬•ª‚Ì‘Š‘ÎÀ•W
-		int delY = Player.posY - eBullet.posY;//y¬•ª‚Ì‘Š‘ÎÀ•W
-		int delR = Player.R + eBullet.R;//‚»‚ê‚¼‚ê‚Ì”¼Œa‚ð‘«‚·
-		//‰~‚Ì“–‚½‚è”»’è
-		// ‚¨ŒÝ‚¢‚Ì’†S‹——£‚ªA‚¨ŒÝ‚¢‚Ì”¼Œa‚ð‘«‚µ‚½‹——£‚æ‚è¬‚³‚­‚È‚Á‚Ä‚¢‚ê‚Î“–‚½‚Á‚Ä‚¢‚éB
-		// ŽO•½•û‚Ì’è—‚©‚ç“ñæ‚ðŠO‚µ‚ÄˆÈ‰º‚ÌŽ®‚ðì‚éB
+		/*å½“ãŸã‚Šåˆ¤å®š*/
+		//Playerã®å½“ãŸã‚Šåˆ¤å®š.
+		int delX = Player.posX - eBullet.posX;//xæˆåˆ†ã®ç›¸å¯¾åº§æ¨™
+		int delY = Player.posY - eBullet.posY;//yæˆåˆ†ã®ç›¸å¯¾åº§æ¨™
+		int delR = Player.R + eBullet.R;//ãã‚Œãžã‚Œã®åŠå¾„ã‚’è¶³ã™
+		//å††ã®å½“ãŸã‚Šåˆ¤å®š
+		// ãŠäº’ã„ã®ä¸­å¿ƒè·é›¢ãŒã€ãŠäº’ã„ã®åŠå¾„ã‚’è¶³ã—ãŸè·é›¢ã‚ˆã‚Šå°ã•ããªã£ã¦ã„ã‚Œã°å½“ãŸã£ã¦ã„ã‚‹ã€‚
+		// ä¸‰å¹³æ–¹ã®å®šç†ã‹ã‚‰äºŒä¹—ã‚’å¤–ã—ã¦ä»¥ä¸‹ã®å¼ã‚’ä½œã‚‹ã€‚
 		if ((delX*delX + delY*delY) < (delR*delR))
 		{
 			isPlayerHit = true;
@@ -197,7 +197,7 @@ int WINAPI WinMain(_In_ HINSTANCE hInstance, _In_opt_  HINSTANCE hPrevInstance, 
 		{
 			isPlayerHit = false;
 		}
-		//Enemy‚Ì“–‚½‚è”»’è
+		//Enemyã®å½“ãŸã‚Šåˆ¤å®š
 		delX = Enemy.posX - pBullet.posX;
 		delY = Enemy.posY - pBullet.posY;
 		delR = Enemy.R + pBullet.R;
@@ -236,24 +236,24 @@ int WINAPI WinMain(_In_ HINSTANCE hInstance, _In_opt_  HINSTANCE hPrevInstance, 
 
 
 		/*DebugDraw*/
-		DrawString(0, 0, "‘€ìà–¾:WASD(ã¶‰º‰E),Enter(”­ŽË)", GetColor(255, 0, 0));
-		DrawFormatString(0,20, GetColor(255, 0, 0),"Player‚Ì“–‚½‚è”»’è:%d", isPlayerHit);
+		DrawString(0, 0, "æ“ä½œèª¬æ˜Ž:WASD(ä¸Šå·¦ä¸‹å³),Enter(ç™ºå°„)", GetColor(255, 0, 0));
+		DrawFormatString(0,20, GetColor(255, 0, 0),"Playerã®å½“ãŸã‚Šåˆ¤å®š:%d", isPlayerHit);
 
-		//— ‰æ–Ê‚ð•\‚Ö
+		//è£ç”»é¢ã‚’è¡¨ã¸
 		ScreenFlip();
 
-		//ƒŠƒtƒŒƒbƒVƒ…ˆ—(-1‚È‚çƒGƒ‰[)
+		//ãƒªãƒ•ãƒ¬ãƒƒã‚·ãƒ¥å‡¦ç†(-1ãªã‚‰ã‚¨ãƒ©ãƒ¼)
 		if (ProcessMessage() < 0) { break; }
 
-		//ƒ‹[ƒvI—¹ˆ—
-		if (CheckHitKey(KEY_INPUT_ESCAPE)) { break; }//esc‚Å‹­§I—¹
+		//ãƒ«ãƒ¼ãƒ—çµ‚äº†å‡¦ç†
+		if (CheckHitKey(KEY_INPUT_ESCAPE)) { break; }//escã§å¼·åˆ¶çµ‚äº†
 
-		//fpsŒÅ’è(60fps:16.66ms)
-		//ƒ‹[ƒvŠJŽnŽž‚©‚ç16.66msŒo‚Â‚Ü‚Å’âŽ~
+		//fpså›ºå®š(60fps:16.66ms)
+		//ãƒ«ãƒ¼ãƒ—é–‹å§‹æ™‚åˆ»ã‹ã‚‰16.66msçµŒã¤ã¾ã§åœæ­¢
 		while (GetNowHiPerformanceCount() - roopStartTime < 16667) {}
 	}
 
-	/*I—¹ˆ—*/
-	DxLib_End();//DxlibI—¹ˆ—
-	return 0;//I—¹ 
+	/*çµ‚äº†å‡¦ç†*/
+	DxLib_End();//Dxlibçµ‚äº†å‡¦ç†
+	return 0;//çµ‚äº† 
 }
