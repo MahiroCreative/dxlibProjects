@@ -24,6 +24,11 @@ int WINAPI WinMain(_In_ HINSTANCE hInstance, _In_opt_  HINSTANCE hPrevInstance, 
 	Vector3 a{ 1,1,1 };
 	Vector3 b{ 1,2,3 };
 	Vector3 c{ 0,0,0 };
+	float k = 1.2f;
+	ans = a + b;
+	ans += ans;
+	ans += a;
+	ans = a * k;
 
 	/*GameRoop*/
 	while (gameRoop)
