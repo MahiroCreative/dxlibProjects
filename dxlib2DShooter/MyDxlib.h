@@ -48,15 +48,19 @@ struct Vector3
 	}
 	Vector3 operator*(const float& right)
 	{
+		Vector3 ans;
 		this->X = this->X * right;
 		this->Y = this->Y * right;
 		this->Z = this->Z * right;
+		return ans;
 	}
 	Vector3 operator/(const float& right)
 	{
+		Vector3 ans;
 		this->X = this->X / right;
 		this->Y = this->Y / right;
 		this->Z = this->Z / right;
+		return ans;
 	}
 	void operator+=(const Vector3& right)
 	{
