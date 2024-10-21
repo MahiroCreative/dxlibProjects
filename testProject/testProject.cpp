@@ -1,20 +1,41 @@
-﻿// testProject.cpp : このファイルには 'main' 関数が含まれています。プログラム実行の開始と終了がそこで行われます。
-//
+﻿#include <iostream>
+#include "MyDxlib.h"
 
-#include <iostream>
+void TestVector3();
 
 int main()
 {
-    std::cout << "Hello World!\n";
+	//Vector3のテスト
+	TestVector3();
 }
 
-// プログラムの実行: Ctrl + F5 または [デバッグ] > [デバッグなしで開始] メニュー
-// プログラムのデバッグ: F5 または [デバッグ] > [デバッグの開始] メニュー
+void TestVector3()
+{
+	/*Vector3*/
+	Vector3 ans1, ans2, ans3, ans4, ans5, ans6;
+	float ans7,ans8;
+	Vector3 left{ 1,2,3 };
+	Vector3 right{ 0.8f,1.6f,2.4f };
+	Vector3 right2{ 2,3,4 };
+	float kRight = 1.2f;
 
-// 作業を開始するためのヒント: 
-//    1. ソリューション エクスプローラー ウィンドウを使用してファイルを追加/管理します 
-//   2. チーム エクスプローラー ウィンドウを使用してソース管理に接続します
-//   3. 出力ウィンドウを使用して、ビルド出力とその他のメッセージを表示します
-//   4. エラー一覧ウィンドウを使用してエラーを表示します
-//   5. [プロジェクト] > [新しい項目の追加] と移動して新しいコード ファイルを作成するか、[プロジェクト] > [既存の項目の追加] と移動して既存のコード ファイルをプロジェクトに追加します
-//   6. 後ほどこのプロジェクトを再び開く場合、[ファイル] > [開く] > [プロジェクト] と移動して .sln ファイルを選択します
+	/*作成*/
+	ans1 = left + right;
+	ans2 = left - right;
+	ans3 = left * kRight;
+	ans4 = left / kRight;
+	ans5 += left;
+	ans6 -= right;
+	ans7 = Vector3::Dot(left,right2);
+	ans8 = left.Length();
+
+	/*出力テスト*/
+	std::cout << ans1.ToString() << std::endl;
+	std::cout << ans2.ToString() << std::endl;
+	std::cout << ans3.ToString() << std::endl;
+	std::cout << ans4.ToString() << std::endl;
+	std::cout << ans5.ToString() << std::endl;
+	std::cout << ans6.ToString() << std::endl;
+	std::cout << ans7 << std::endl;
+	std::cout << ans8 << std::endl;
+}

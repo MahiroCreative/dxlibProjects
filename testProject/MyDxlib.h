@@ -25,7 +25,7 @@ struct Vector3
 	/// <returns>string型</returns>
 	string ToString()
 	{
-		return to_string(X) + "," + to_string(Y) + "," + to_string(Z);
+		return to_string(X)+","+to_string(Y)+","+to_string(Z);
 	}
 
 	/*staticメンバ関数*/
@@ -35,7 +35,7 @@ struct Vector3
 	static float Dot(const Vector3& left, const Vector3& right)
 	{
 		float ans;
-		ans = left.X * right.X + left.Y * right.Y + left.Z * right.Z;
+		ans = left.X * right.X + left.Y * right.Y + left.Z *right.Z;
 
 		return ans;
 	}
