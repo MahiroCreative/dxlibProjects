@@ -3,6 +3,10 @@
 #include <math.h>
 using namespace std;
 
+/// <summary>
+/// ゲーム用のVector3.
+/// 演算子オーバーロードもしている。
+/// </summary>
 struct Vector3
 {
 	/*メンバ変数*/
@@ -89,3 +93,4 @@ struct Vector3
 
 
 };
+
