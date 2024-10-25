@@ -34,9 +34,25 @@ struct Vector3
 	/// </summary>
 	static float Dot(const Vector3& left, const Vector3& right)
 	{
+		//変数
 		float ans;
+		//計算
 		ans = left.X * right.X + left.Y * right.Y + left.Z *right.Z;
-
+		//return
+		return ans;
+	}
+	/// <summary>
+	/// 外積の計算
+	/// </summary>
+	static Vector3 Cross(const Vector3& left,const Vector3& right)
+	{
+		//変数
+		Vector3 ans;
+		//計算
+		ans.X = left.Y * right.Z - left.Z * right.Y;
+		ans.Y = left.Z * right.X - left.X * right.Z;
+		ans.Z = left.X * right.Y - left.Y * right.X;
+		//return
 		return ans;
 	}
 

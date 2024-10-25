@@ -1,6 +1,7 @@
 ﻿#include <iostream>
 #include "MyDxlib.h"
 
+//Vector3のテスト用
 void TestVector3();
 
 int main()
@@ -11,9 +12,19 @@ int main()
 
 void TestVector3()
 {
-	/*Vector3*/
-	Vector3 ans1, ans2, ans3, ans4, ans5, ans6;
-	float ans7,ans8;
+	/*変数作成*/
+	Vector3 ans;
+	Vector3 left{ 1,2,3 };
+	Vector3 right{ 0.1f,0.2f,0.3f };
+
+	/*計算確認*/
+	//+
+	ans = left + right;
+	//
+
+
+
+	float ans7, ans8;
 	Vector3 left{ 1,2,3 };
 	Vector3 right{ 0.8f,1.6f,2.4f };
 	Vector3 right2{ 2,3,4 };
@@ -26,7 +37,7 @@ void TestVector3()
 	ans4 = left / kRight;
 	ans5 += left;
 	ans6 -= right;
-	ans7 = Vector3::Dot(left,right2);
+	ans7 = Vector3::Dot(left, right2);
 	ans8 = left.Length();
 
 	/*出力テスト*/
