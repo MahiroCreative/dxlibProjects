@@ -130,7 +130,7 @@
     <ClCompile Include="testProject.cpp" />
   </ItemGroup>
   <ItemGroup>
-    <ClInclude Include="MyDxlib.h" />
+    <ClInclude Include="GameMath.h" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">

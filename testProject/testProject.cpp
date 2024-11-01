@@ -1,5 +1,5 @@
 ﻿#include <iostream>
-#include "MyDxlib.h"
+#include "GameMath.h"
 
 using namespace std;
 
@@ -9,7 +9,7 @@ void TestVector3();
 int main()
 {
 	//Vector3のテスト
-	TestVector3();
+	//TestVector3();
 }
 
 void TestVector3()
