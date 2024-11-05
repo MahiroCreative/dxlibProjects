@@ -7,7 +7,7 @@ using namespace std;
 struct Vector3
 {
 	/*メンバ定数*/
-	static const Vector3 Zero = new Vector3{0,0,0};
+	static const Vector3 Zero;
 
 
 	/*メンバ変数*/
@@ -17,7 +17,7 @@ struct Vector3
 	/// <summary>
 	/// ベクトルの長さを取得
 	/// </summary>
-	float Length()
+	float Length() const
 	{
 		//三平方の定理
 		return sqrtf(X * X + Y * Y + Z * Z);
@@ -26,7 +26,7 @@ struct Vector3
 	/// ベクトル成分を文字列で返す
 	/// </summary>
 	/// <returns>string型</returns>
-	string ToString()
+	string ToString() const
 	{
 		return to_string(X) + "," + to_string(Y) + "," + to_string(Z);
 	}
@@ -60,8 +60,8 @@ struct Vector3
 	}
 
 	/*演算子オーバーロード*/
-	//単項演算子
-	Vector3 operator+(const Vector3& right)
+	//単項演算子(const付けるとメンバ変数の変更を行えなくなる)
+	Vector3 operator+(const Vector3& right) const
 	{
 		Vector3 ans;
 		ans.X = this->X + right.X;
@@ -69,7 +69,7 @@ struct Vector3
 		ans.Z = this->Z + right.Z;
 		return ans;
 	}
-	Vector3 operator-(const Vector3& right)
+	Vector3 operator-(const Vector3& right) const
 	{
 		Vector3 ans;
 		ans.X = this->X - right.X;
@@ -77,7 +77,7 @@ struct Vector3
 		ans.Z = this->Z - right.Z;
 		return ans;
 	}
-	Vector3 operator*(const float& right)
+	Vector3 operator*(const float& right) const
 	{
 		Vector3 ans;
 		ans.X = this->X * right;
@@ -85,7 +85,7 @@ struct Vector3
 		ans.Z = this->Z * right;
 		return ans;
 	}
-	Vector3 operator/(const float& right)
+	Vector3 operator/(const float& right) const
 	{
 		Vector3 ans;
 		ans.X = this->X / right;
