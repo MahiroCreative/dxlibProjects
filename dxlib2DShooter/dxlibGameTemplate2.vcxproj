@@ -139,7 +139,9 @@
     <ClCompile Include="main.cpp" />
   </ItemGroup>
   <ItemGroup>
-    <ClInclude Include="GameMath.h" />
+    <ClInclude Include="MyMath.h" />
+    <ClInclude Include="MyDxlib.h" />
+    <ClInclude Include="MyTool.h" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">

@@ -1,14 +1,14 @@
 ﻿#pragma once
 #include <string>
 #include <math.h>
+
 using namespace std;
+
 
 struct Vector3
 {
 	/*メンバ変数*/
-	float X = 0;
-	float Y = 0;
-	float Z = 0;
+	float X = 0,Y = 0,Z=0;
 
 	/*メンバ関数*/
 	/// <summary>

@@ -1,10 +1,21 @@
-﻿#include "DxLib.h"
+﻿#include "DxLib.h"//Dxlib
+#include <iostream>
 //origin.
-#include "GameMath.h"
+#include "MyMath.h"
+#include "MyTool.h"
+//debug.
+#define DEBUG
 
 //Dxlibのエントリーポイント
 int WINAPI WinMain(_In_ HINSTANCE hInstance, _In_opt_  HINSTANCE hPrevInstance, _In_ LPSTR lpCmdLine, _In_ int nShowCmd)
 {
+#ifdef DEBUG
+	/*コンソールDebug用*/
+	AllocConsole();                                        // コンソール
+	FILE* out = 0; freopen_s(&out, "CON", "w", stdout); // stdout
+	FILE* in = 0; freopen_s(&in, "CON", "r", stdin);   // stdin
+#endif // DEBUG
+
 	/*定数*/
 	//画面サイズ
 	constexpr int ScreenSizeX = 1280;//幅
@@ -31,6 +42,7 @@ int WINAPI WinMain(_In_ HINSTANCE hInstance, _In_opt_  HINSTANCE hPrevInstance, 
 
 		/*シーン遷移処理*/
 
+
 		//裏画面を表へ
 		ScreenFlip();
 
@@ -40,6 +52,14 @@ int WINAPI WinMain(_In_ HINSTANCE hInstance, _In_opt_  HINSTANCE hPrevInstance, 
 		//ループ終了処理
 		if (CheckHitKey(KEY_INPUT_ESCAPE)) { break; }
 
+		//Debug.
+#ifdef DEBUG
+		//現在時刻
+		ShowNowTime();
+		printf(" test\n");
+#endif // DEBUG
+
+
 		//fps固定(60fps:16.66ms)
 		//ループ開始時刻から16.66ms経つまで停止
 		while (GetNowHiPerformanceCount() - roopStartTime < 16667) {}
@@ -47,5 +67,8 @@ int WINAPI WinMain(_In_ HINSTANCE hInstance, _In_opt_  HINSTANCE hPrevInstance, 
 
 	/*終了処理*/
 	DxLib_End();//Dxlib終了処理
-	return 0;//終了 
+#ifdef DEBUG
+	fclose(out); fclose(in); FreeConsole();//コンソール解放
+#endif // DEBUG
+	return 0;//プログラム終了 
 }
