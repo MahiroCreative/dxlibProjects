@@ -4,11 +4,14 @@
 
 using namespace std;
 
-
 struct Vector3
 {
+	/*メンバ定数*/
+	static const Vector3 Zero = new Vector3{0,0,0};
+
+
 	/*メンバ変数*/
-	float X = 0,Y = 0,Z=0;
+	float X = 0, Y = 0, Z = 0;
 
 	/*メンバ関数*/
 	/// <summary>
@@ -102,6 +105,5 @@ struct Vector3
 		this->Y -= right.Y;
 		this->Z -= right.Z;
 	}
-
-
 };
+
