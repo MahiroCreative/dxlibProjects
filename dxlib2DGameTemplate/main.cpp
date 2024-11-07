@@ -57,6 +57,8 @@ int WINAPI WinMain(_In_ HINSTANCE hInstance, _In_opt_  HINSTANCE hPrevInstance, 
 		//現在時刻
 		TimeTool::ShowNowTime();
 		string ans = TimeTool::GetNowTimeString();
+		Vector3 tes{ 0,0,0 };
+		tes = tes / 2;
 		printf(" \n");
 #endif // DEBUG
 
