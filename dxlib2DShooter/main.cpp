@@ -9,12 +9,12 @@
 //Dxlibのエントリーポイント
 int WINAPI WinMain(_In_ HINSTANCE hInstance, _In_opt_  HINSTANCE hPrevInstance, _In_ LPSTR lpCmdLine, _In_ int nShowCmd)
 {
-#ifdef DEBUG
 	/*コンソールDebug用*/
+#ifdef DEBUG
 	AllocConsole();                                        // コンソール
 	FILE* out = 0; freopen_s(&out, "CON", "w", stdout); // stdout
 	FILE* in = 0; freopen_s(&in, "CON", "r", stdin);   // stdin
-#endif // DEBUG
+#endif
 
 	/*定数*/
 	//画面サイズ
@@ -55,8 +55,9 @@ int WINAPI WinMain(_In_ HINSTANCE hInstance, _In_opt_  HINSTANCE hPrevInstance, 
 		//Debug.
 #ifdef DEBUG
 		//現在時刻
-		ShowNowTime();
-		printf(" test\n");
+		TimeTool::ShowNowTime();
+		string ans = TimeTool::GetNowTimeString();
+		printf(" \n");
 #endif // DEBUG
 
 
@@ -67,8 +68,8 @@ int WINAPI WinMain(_In_ HINSTANCE hInstance, _In_opt_  HINSTANCE hPrevInstance, 
 
 	/*終了処理*/
 	DxLib_End();//Dxlib終了処理
-#ifdef DEBUG
+#ifdef DEBUG//コンソールDebug用
 	fclose(out); fclose(in); FreeConsole();//コンソール解放
-#endif // DEBUG
+#endif
 	return 0;//プログラム終了 
 }

@@ -28,7 +28,7 @@ struct Vector3
 	/// <returns>string型</returns>
 	string ToString() const
 	{
-		return to_string(X) + "," + to_string(Y) + "," + to_string(Z);
+		return to_string(X) + ":" + to_string(Y) + ":" + to_string(Z);
 	}
 
 	/*staticメンバ関数*/
