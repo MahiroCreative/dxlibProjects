@@ -54,14 +54,10 @@ int WINAPI WinMain(_In_ HINSTANCE hInstance, _In_opt_  HINSTANCE hPrevInstance, 
 
 		//Debug.
 #ifdef DEBUG
-		//現在時刻
+		//現在時刻表示
 		TimeTool::ShowNowTime();
-		string ans = TimeTool::GetNowTimeString();
-		Vector3 tes{ 0,0,0 };
-		tes = tes / 2;
-		printf(" \n");
+		printf("\n");
 #endif // DEBUG
-
 
 		//fps固定(60fps:16.66ms)
 		//ループ開始時刻から16.66ms経つまで停止

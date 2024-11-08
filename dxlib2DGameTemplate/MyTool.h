@@ -1,4 +1,5 @@
-﻿#pragma once
+﻿///外部ライブラリに依存しない便利系ライブラリ
+#pragma once
 #include<string>
 #include<chrono>
 #include<ctime>

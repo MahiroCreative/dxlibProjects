@@ -1,4 +1,5 @@
-﻿#pragma once
+﻿///外部ライブラリに依存しない数学系ライブラリ
+#pragma once
 #include <cassert>
 #include <string>
 #include <cmath>
@@ -16,7 +17,7 @@ struct Vector3
 
 	/*演算子オーバーロード*/
 	//単項演算子(const付けるとメンバ変数の変更を行えなくなる)
-		Vector3 operator+(const Vector3 & right) const
+	Vector3 operator+(const Vector3 & right) const
 		{
 			Vector3 ans;
 			ans.X = this->X + right.X;
@@ -24,7 +25,7 @@ struct Vector3
 			ans.Z = this->Z + right.Z;
 			return ans;
 		}
-		Vector3 operator-(const Vector3 & right) const
+	Vector3 operator-(const Vector3 & right) const
 		{
 			Vector3 ans;
 			ans.X = this->X - right.X;
@@ -32,7 +33,7 @@ struct Vector3
 			ans.Z = this->Z - right.Z;
 			return ans;
 		}
-		Vector3 operator*(const float& right) const
+	Vector3 operator*(const float& right) const
 		{
 			Vector3 ans;
 			ans.X = this->X * right;
@@ -40,7 +41,7 @@ struct Vector3
 			ans.Z = this->Z * right;
 			return ans;
 		}
-		Vector3 operator/(const float& right) const
+	Vector3 operator/(const float& right) const
 		{
 			assert(right != 0.0f && "0で除算しています！");
 			//実処理
@@ -50,20 +51,18 @@ struct Vector3
 			ans.Z = this->Z / right;
 			return ans;
 		}
-		void operator+=(const Vector3 & right)
+	void operator+=(const Vector3 & right)
 		{
 			this->X += right.X;
 			this->Y += right.Y;
 			this->Z += right.Z;
 		}
-		void operator-=(const Vector3 & right)
+	void operator-=(const Vector3 & right)
 		{
 			this->X -= right.X;
 			this->Y -= right.Y;
 			this->Z -= right.Z;
 		}
-
-
 
 	/*メンバ関数*/
 	/// <summary>
@@ -103,11 +102,9 @@ struct Vector3
 		ans.Z = abs(this->Z);
 		return ans;
 	}
-
 	/// <summary>
 	/// ベクトル成分を文字列で返す
 	/// </summary>
-	/// <returns>string型</returns>
 	string ToString() const
 	{
 		return to_string(X) + ":" + to_string(Y) + ":" + to_string(Z);
@@ -141,7 +138,6 @@ struct Vector3
 		return ans;
 	}
 
-	
 };
 
 /// <summary>
@@ -157,3 +153,4 @@ namespace kVector3
 	constexpr Vector3 FOWARD{ 0,0,1 };
 	constexpr Vector3 BACK{ 0,0,-1 };
 }
+
