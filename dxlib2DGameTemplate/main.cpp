@@ -1,7 +1,6 @@
 ﻿#include "DxLib.h"//Dxlib
 #include <iostream>
 //origin.
-#include "MyMath.h"
 #include "MyTool.h"
 //debug.
 #define DEBUG
@@ -23,6 +22,7 @@ int WINAPI WinMain(_In_ HINSTANCE hInstance, _In_opt_  HINSTANCE hPrevInstance, 
 
 	/*変数*/
 	LONGLONG roopStartTime = 0;
+	LONGLONG frameTime = 0;
 	bool gameRoop = true;
 
 	/*Dxlib初期化*/
@@ -52,16 +52,22 @@ int WINAPI WinMain(_In_ HINSTANCE hInstance, _In_opt_  HINSTANCE hPrevInstance, 
 		//ループ終了処理
 		if (CheckHitKey(KEY_INPUT_ESCAPE)) { break; }
 
-		//Debug.
-#ifdef DEBUG
-		//現在時刻表示
-		TimeTool::ShowNowTime();
-		printf("\n");
-#endif // DEBUG
+		//現在の1frameにかかる時間を計測
+		frameTime = GetNowHiPerformanceCount() - roopStartTime;
 
 		//fps固定(60fps:16.66ms)
 		//ループ開始時刻から16.66ms経つまで停止
 		while (GetNowHiPerformanceCount() - roopStartTime < 16667) {}
+
+		//Debug表示
+#ifdef DEBUG
+		//現在のフレームラップを表示
+		printf("frame:%d ", frameTime);
+		//現在時刻を表示
+		TimeTool::ShowNowTime();
+		//改行
+		printf("\n");
+#endif // DEBUG
 	}
 
 	/*終了処理*/
