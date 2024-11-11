@@ -1,4 +1,4 @@
 ﻿#pragma once
-#include "MyDxlib.h"
-#include "MyMath.h"
-#include "MyTool.h"
+#include "MyDxlib/MyDxlib.h"
+#include "MyMath/MyMath.h"
+#include "MyTool/MyTool.h"

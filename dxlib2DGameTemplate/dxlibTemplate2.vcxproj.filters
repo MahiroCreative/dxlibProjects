@@ -13,21 +13,18 @@
       <UniqueIdentifier>{67DA6AB6-F800-4c08-8B7A-83BB121AAD01}</UniqueIdentifier>
       <Extensions>rc;ico;cur;bmp;dlg;rc2;rct;bin;rgs;gif;jpg;jpeg;jpe;resx;tiff;tif;png;wav;mfcribbon-ms</Extensions>
     </Filter>
-    <Filter Include="ヘッダー ファイル\MyDxlib">
-      <UniqueIdentifier>{2f3b583c-8235-49c9-be66-6630905f32de}</UniqueIdentifier>
+    <Filter Include="リソース ファイル\MyTool">
+      <UniqueIdentifier>{c4a90d44-65c4-4855-a349-d7c010e86c61}</UniqueIdentifier>
     </Filter>
-    <Filter Include="ヘッダー ファイル\MyMath">
+    <Filter Include="リソース ファイル\MyMath">
       <UniqueIdentifier>{6669e926-df9c-47fb-96a4-b89a55e1eaa1}</UniqueIdentifier>
     </Filter>
-    <Filter Include="ヘッダー ファイル\MyTool">
-      <UniqueIdentifier>{c4a90d44-65c4-4855-a349-d7c010e86c61}</UniqueIdentifier>
+    <Filter Include="リソース ファイル\MyDxlib">
+      <UniqueIdentifier>{2f3b583c-8235-49c9-be66-6630905f32de}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="main.cpp">
-      <Filter>ソース ファイル</Filter>
-    </ClCompile>
-    <ClCompile Include="TestGameScene.cpp">
       <Filter>ソース ファイル</Filter>
     </ClCompile>
   </ItemGroup>
@@ -37,20 +34,17 @@
     </None>
   </ItemGroup>
   <ItemGroup>
-    <ClInclude Include="MyDxlib.h">
-      <Filter>ヘッダー ファイル</Filter>
-    </ClInclude>
-    <ClInclude Include="MyMath.h">
-      <Filter>ヘッダー ファイル</Filter>
-    </ClInclude>
-    <ClInclude Include="MyTool.h">
-      <Filter>ヘッダー ファイル</Filter>
-    </ClInclude>
-    <ClInclude Include="TestGameScene.h">
-      <Filter>ヘッダー ファイル</Filter>
-    </ClInclude>
     <ClInclude Include="MyApp.h">
       <Filter>ヘッダー ファイル</Filter>
+    </ClInclude>
+    <ClInclude Include="MyDxlib.h">
+      <Filter>リソース ファイル\MyDxlib</Filter>
+    </ClInclude>
+    <ClInclude Include="MyMath.h">
+      <Filter>リソース ファイル\MyMath</Filter>
+    </ClInclude>
+    <ClInclude Include="MyTool.h">
+      <Filter>リソース ファイル\MyTool</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>

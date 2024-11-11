@@ -138,7 +138,6 @@
   </ItemDefinitionGroup>
   <ItemGroup>
     <ClCompile Include="main.cpp" />
-    <ClCompile Include="TestGameScene.cpp" />
   </ItemGroup>
   <ItemGroup>
     <None Include=".gitignore" />
@@ -148,7 +147,6 @@
     <ClInclude Include="MyDxlib.h" />
     <ClInclude Include="MyMath.h" />
     <ClInclude Include="MyTool.h" />
-    <ClInclude Include="TestGameScene.h" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">
