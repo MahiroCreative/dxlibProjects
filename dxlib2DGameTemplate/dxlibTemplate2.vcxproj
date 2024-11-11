@@ -144,6 +144,7 @@
     <None Include=".gitignore" />
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="MyApp.h" />
     <ClInclude Include="MyDxlib.h" />
     <ClInclude Include="MyMath.h" />
     <ClInclude Include="MyTool.h" />
