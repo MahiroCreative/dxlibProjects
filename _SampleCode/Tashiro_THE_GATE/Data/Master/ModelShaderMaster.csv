@@ -1,0 +1,16 @@
+﻿モデル名,使用頂点シェーダ名
+M_Wall,VS_Vertex
+M_DummyWall,VS_Vertex
+M_Floor,VS_Vertex
+M_FloorSmall,VS_Vertex
+M_Gate_A,VS_Vertex
+M_Gate_B,VS_Vertex
+M_Player,VS_SkinMesh
+M_WallArc,VS_Vertex
+M_Door,VS_Vertex
+M_DoorArch,VS_Vertex
+M_HandObj,VS_Vertex
+M_RoofDoor,VS_Vertex
+M_Button,VS_Vertex
+M_Turret,VS_Vertex
+M_Piston,VS_Vertex
