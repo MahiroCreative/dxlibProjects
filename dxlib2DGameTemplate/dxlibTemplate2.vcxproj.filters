@@ -27,9 +27,6 @@
     <ClCompile Include="main.cpp">
       <Filter>ソース ファイル</Filter>
     </ClCompile>
-    <ClCompile Include="MyDxlib\MyMath\Vector3.cpp">
-      <Filter>ヘッダー ファイル\MyDxlib\MyMath</Filter>
-    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <None Include=".gitignore">
@@ -48,6 +45,9 @@
     </ClInclude>
     <ClInclude Include="MyDxlib\MyTool\MyTool.h">
       <Filter>ヘッダー ファイル\MyDxlib\MyTool</Filter>
+    </ClInclude>
+    <ClInclude Include="MyDxlib\MyMath\Quaternion.h">
+      <Filter>ヘッダー ファイル\MyDxlib\MyMath</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>

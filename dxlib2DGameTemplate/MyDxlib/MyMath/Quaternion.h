@@ -1,10 +1,9 @@
-﻿///外部ライブラリに依存しない数学系ライブラリ
-#pragma once
+﻿#pragma once
+//数学系
 #include <cassert>
 #include <string>
 #include <cmath>
 #include <numbers>
-#include "Vector3.h"
 
 using namespace std;
 
@@ -158,4 +157,3 @@ struct Quaternion
 		return ans;
 	}
 };
-

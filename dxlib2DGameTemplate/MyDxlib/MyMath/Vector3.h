@@ -1,12 +1,14 @@
 ﻿#pragma once
 //数学系
-#include <cassert>
+#include <cassert>//ass
 #include <string>
 #include <cmath>
-#include <numbers>
 
 using namespace std;
 
+/// <summary>
+/// 3次元ベクトルの構造体(float)
+/// </summary>
 struct Vector3
 {
 	/*メンバ変数*/
@@ -59,6 +61,20 @@ struct Vector3
 		this->X -= right.X;
 		this->Y -= right.Y;
 		this->Z -= right.Z;
+	}
+	bool operator==(const Vector3& right) const
+	{
+		bool isX = X == right.X;
+		bool isY = Y == right.Y;
+		bool isZ = Z == right.Z;
+		return isX && isY && isZ;
+	}
+	bool operator!=(const Vector3& right) const
+	{
+		bool isX = X != right.X;
+		bool isY = Y != right.Y;
+		bool isZ = Z != right.Z;
+		return isX || isY || isZ;
 	}
 
 	/*メンバ関数*/
@@ -143,5 +159,64 @@ struct Vector3
 		//return
 		return ans;
 	}
+
+	/*staticメンバ関数(定数)*/
+	/// <summary>
+	/// 右ベクトル
+	/// </summary>
+	/// <returns>(1, 0, 0)</returns>
+	static constexpr Vector3 Right()
+	{
+		return Vector3{ 1.0f,0.0f,0.0f };
+	}
+	/// <summary>
+	/// 左ベクトル
+	/// </summary>
+	/// <returns>(-1, 0, 0)</returns>
+	static constexpr Vector3 Left()
+	{
+		return Vector3{ -1.0f,0.0f,0.0f };
+	}
+	/// <summary>
+	/// 上ベクトル
+	/// </summary>
+	/// <returns>(0, 1, 0)</returns>
+	static constexpr Vector3 Up()
+	{
+		return Vector3{ 0.0f,1.0f,0.0f };
+	}
+	/// <summary>
+	/// 下ベクトル
+	/// </summary>
+	/// <returns>(0, -1, 0)</returns>
+	static constexpr Vector3 Down()
+	{
+		return Vector3{ 0.0f,-1.0f,0.0f };
+	}
+	/// <summary>
+	/// 正面ベクトル
+	/// </summary>
+	/// <returns>(0, 0, 1)</returns>
+	static constexpr Vector3 Forward()
+	{
+		return Vector3{ 0.0f,0.0f,1.0f };
+	}
+	/// <summary>
+	/// 背面ベクトル
+	/// </summary>
+	/// <returns>(0, 0, -1)</returns>
+	static constexpr Vector3 Back()
+	{
+		return Vector3{ 0.0f,0.0f,-1.0f };
+	}
+	/// <summary>
+	/// ゼロベクトル
+	/// </summary>
+	/// <returns></returns>
+	static constexpr Vector3 Zero()
+	{
+		return Vector3{ 0.0f,0.0f,0.0f };
+	}
 };
+
 
