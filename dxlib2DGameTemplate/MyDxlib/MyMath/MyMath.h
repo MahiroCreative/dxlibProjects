@@ -4,6 +4,7 @@
 #include <string>
 #include <cmath>
 #include <numbers>
+#include "Vector3.h"
 
 using namespace std;
 
