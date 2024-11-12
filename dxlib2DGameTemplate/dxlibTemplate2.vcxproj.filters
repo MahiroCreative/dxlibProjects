@@ -13,19 +13,22 @@
       <UniqueIdentifier>{67DA6AB6-F800-4c08-8B7A-83BB121AAD01}</UniqueIdentifier>
       <Extensions>rc;ico;cur;bmp;dlg;rc2;rct;bin;rgs;gif;jpg;jpeg;jpe;resx;tiff;tif;png;wav;mfcribbon-ms</Extensions>
     </Filter>
-    <Filter Include="リソース ファイル\MyTool">
-      <UniqueIdentifier>{c4a90d44-65c4-4855-a349-d7c010e86c61}</UniqueIdentifier>
+    <Filter Include="ヘッダー ファイル\MyDxlib">
+      <UniqueIdentifier>{99839ab4-73ec-4dfc-bc0d-d3630004f3f0}</UniqueIdentifier>
     </Filter>
-    <Filter Include="リソース ファイル\MyMath">
-      <UniqueIdentifier>{6669e926-df9c-47fb-96a4-b89a55e1eaa1}</UniqueIdentifier>
+    <Filter Include="ヘッダー ファイル\MyDxlib\MyMath">
+      <UniqueIdentifier>{00ae00ef-5054-4c30-95f0-0eb3bf06e1b5}</UniqueIdentifier>
     </Filter>
-    <Filter Include="リソース ファイル\MyDxlib">
-      <UniqueIdentifier>{2f3b583c-8235-49c9-be66-6630905f32de}</UniqueIdentifier>
+    <Filter Include="ヘッダー ファイル\MyDxlib\MyTool">
+      <UniqueIdentifier>{a96bd01f-cfa1-4c4e-a3ed-0ebed4f4fb3e}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="main.cpp">
       <Filter>ソース ファイル</Filter>
+    </ClCompile>
+    <ClCompile Include="MyDxlib\MyMath\Vector3.cpp">
+      <Filter>ヘッダー ファイル\MyDxlib\MyMath</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -34,17 +37,17 @@
     </None>
   </ItemGroup>
   <ItemGroup>
-    <ClInclude Include="MyApp.h">
-      <Filter>ヘッダー ファイル</Filter>
+    <ClInclude Include="MyDxlib\Test.h">
+      <Filter>ヘッダー ファイル\MyDxlib</Filter>
     </ClInclude>
-    <ClInclude Include="MyDxlib\MyDxlib.h">
-      <Filter>リソース ファイル\MyDxlib</Filter>
+    <ClInclude Include="MyDxlib\MyMath\MyMath.h">
+      <Filter>ヘッダー ファイル\MyDxlib\MyMath</Filter>
     </ClInclude>
-    <ClInclude Include="MyMath\MyMath.h">
-      <Filter>リソース ファイル\MyMath</Filter>
+    <ClInclude Include="MyDxlib\MyMath\Vector3.h">
+      <Filter>ヘッダー ファイル\MyDxlib\MyMath</Filter>
     </ClInclude>
-    <ClInclude Include="MyTool\MyTool.h">
-      <Filter>リソース ファイル\MyTool</Filter>
+    <ClInclude Include="MyDxlib\MyTool\MyTool.h">
+      <Filter>ヘッダー ファイル\MyDxlib\MyTool</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>

@@ -138,15 +138,16 @@
   </ItemDefinitionGroup>
   <ItemGroup>
     <ClCompile Include="main.cpp" />
+    <ClCompile Include="MyDxlib\MyMath\Vector3.cpp" />
   </ItemGroup>
   <ItemGroup>
     <None Include=".gitignore" />
   </ItemGroup>
   <ItemGroup>
-    <ClInclude Include="MyApp.h" />
-    <ClInclude Include="MyDxlib\MyDxlib.h" />
-    <ClInclude Include="MyMath\MyMath.h" />
-    <ClInclude Include="MyTool\MyTool.h" />
+    <ClInclude Include="MyDxlib\MyMath\MyMath.h" />
+    <ClInclude Include="MyDxlib\MyMath\Vector3.h" />
+    <ClInclude Include="MyDxlib\MyTool\MyTool.h" />
+    <ClInclude Include="MyDxlib\Test.h" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">

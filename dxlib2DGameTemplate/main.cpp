@@ -1,7 +1,7 @@
 ﻿//STL.
 #include <iostream>
-//Game.
-#include "MyApp.h"
+//origin.
+#include "MyDxlib/MyDxlib.h"
 //debug.
 #define DEBUG
 
