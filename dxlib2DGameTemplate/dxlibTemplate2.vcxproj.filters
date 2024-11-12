@@ -37,13 +37,13 @@
     <ClInclude Include="MyApp.h">
       <Filter>ヘッダー ファイル</Filter>
     </ClInclude>
-    <ClInclude Include="MyDxlib.h">
+    <ClInclude Include="MyDxlib\MyDxlib.h">
       <Filter>リソース ファイル\MyDxlib</Filter>
     </ClInclude>
-    <ClInclude Include="MyMath.h">
+    <ClInclude Include="MyMath\MyMath.h">
       <Filter>リソース ファイル\MyMath</Filter>
     </ClInclude>
-    <ClInclude Include="MyTool.h">
+    <ClInclude Include="MyTool\MyTool.h">
       <Filter>リソース ファイル\MyTool</Filter>
     </ClInclude>
   </ItemGroup>
