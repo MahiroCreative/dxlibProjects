@@ -1,13 +1,35 @@
 ﻿#include <iostream>
 #include "GameMath.h"
+#include <vector>
+#include <algorithm>
 
 using namespace std;
 
 //Vector3のテスト用
 void TestVector3();
+//vectorのテスト用
 
 int main()
 {
+
+	std::vector<int> y = { 0, 1, 2, 3, 4 };
+
+	// std::count_if は条件を満たすコンテナ要素の個数を数える処理
+	//   - 第1引数と第2引数で範囲を指定
+	//   - 第3引数で関数オブジェクトで条件を指定
+	auto n = std::count_if(y.begin(), y.end(), [](const int v) {
+		// 0 より大きい 2 の倍数
+		if (v <= 0) {
+			return false;
+		}
+		if (v % 1 != 0) {
+			return false;
+		}
+		return true;
+	});
+	std::cout << n << std::endl;  // 2
+
+
 	//Vector3のテスト
 	//TestVector3();
 }
