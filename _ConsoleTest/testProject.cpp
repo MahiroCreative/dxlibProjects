@@ -2,6 +2,7 @@
 #include "GameMath.h"
 #include <vector>
 #include <algorithm>
+#include <memory>
 
 using namespace std;
 
@@ -11,14 +12,12 @@ void TestVector3();
 
 int main()
 {
-	std::vector<int> x = { 0, 1, 2, 3, 4 };
+	auto y = std::make_shared<int>(1000);
 
-	for (auto&& e : x) {
-		std::cout << e << std::endl;
-	}
+	// 所有権を移動したため、x は何も所有していない。
 
-	//Vector3のテスト
-	//TestVector3();
+	std::cout << *y << std::endl;
+
 }
 
 void TestVector3()
