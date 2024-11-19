@@ -34,9 +34,6 @@
     </None>
   </ItemGroup>
   <ItemGroup>
-    <ClInclude Include="MyDxlib\Test.h">
-      <Filter>ヘッダー ファイル\MyDxlib</Filter>
-    </ClInclude>
     <ClInclude Include="MyDxlib\MyMath\MyMath.h">
       <Filter>ヘッダー ファイル\MyDxlib\MyMath</Filter>
     </ClInclude>
@@ -48,6 +45,12 @@
     </ClInclude>
     <ClInclude Include="MyDxlib\MyMath\Quaternion.h">
       <Filter>ヘッダー ファイル\MyDxlib\MyMath</Filter>
+    </ClInclude>
+    <ClInclude Include="MyDxlib\MyDxlib.h">
+      <Filter>ヘッダー ファイル\MyDxlib</Filter>
+    </ClInclude>
+    <ClInclude Include="MyDxlib\Test.h">
+      <Filter>ヘッダー ファイル\MyDxlib</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>

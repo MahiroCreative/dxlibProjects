@@ -143,6 +143,7 @@
     <None Include=".gitignore" />
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="MyDxlib\MyDxlib.h" />
     <ClInclude Include="MyDxlib\MyMath\MyMath.h" />
     <ClInclude Include="MyDxlib\MyMath\Quaternion.h" />
     <ClInclude Include="MyDxlib\MyMath\Vector3.h" />
