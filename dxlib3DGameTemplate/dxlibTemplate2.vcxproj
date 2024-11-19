@@ -24,7 +24,7 @@
     <ProjectGuid>{a3c59dd0-855e-426d-bac0-e5e276433322}</ProjectGuid>
     <RootNamespace>dxlibTemplate2</RootNamespace>
     <WindowsTargetPlatformVersion>10.0</WindowsTargetPlatformVersion>
-    <ProjectName>dxlib2DGameTemplate</ProjectName>
+    <ProjectName>dxlib3DGameTemplate</ProjectName>
   </PropertyGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.Default.props" />
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'" Label="Configuration">
