@@ -1,27 +1,32 @@
-#pragma once
+ï»¿#pragma once
 #include "Collidable.h"
 #include "Geometry/Vec3.h"
 
-// MEMO: “–‚½‚è”»’è‚ ‚è‚É‚·‚é‚È‚çæ“ª‚Ì_‚ğŠO‚·
+// MEMO: å½“ãŸã‚Šåˆ¤å®šã‚ã‚Šã«ã™ã‚‹ãªã‚‰å…ˆé ­ã®_ã‚’å¤–ã™
 #define _USE_CAMERA_COLLIDABLE
 
 struct CameraInfo
 {
-	// Tpsƒtƒ‰ƒO
+	// Tpsãƒ•ãƒ©ã‚°
 	bool isTps = true;
 	// near, far
 	float n = 1.0f;
 	float f = 100.0f;
-	// ‹–ìŠp
+	// è¦–é‡è§’
 	float fov = 0.0f;
-	// ƒ^[ƒQƒbƒgˆÊ’u
+	// ã‚¿ãƒ¼ã‚²ãƒƒãƒˆä½ç½®
 	Vec3 targetPos;
-	// ³–Ê•ûŒü
+	// æ­£é¢æ–¹å‘
 	Vec3 front;
-	// ‰E•ûŒü
+	// å³æ–¹å‘
 	Vec3 right;
+	// ç¸¦æ–¹å‘ã®å›è»¢å…·åˆ
+	float vertexAngle;
+	// è¦‹ã¦ã„ã‚‹æ–¹å‘
+	Vec3 look;
+
 #ifndef USE_CAMERA_COLLIDABLE
-	// êŠ
+	// å ´æ‰€
 	Vec3 cameraPos;
 #endif
 };
@@ -29,12 +34,13 @@ struct CameraInfo
 namespace MyEngine
 {
 	class ColliderSphere;
+	struct CollideHitInfo;
 }
 struct Quaternion;
 class GateManager;
 
 #ifdef USE_CAMERA_COLLIDABLE
-class Camera final : public MyEngine::Collidable
+class Camera : public MyEngine::Collidable
 #else
 class Camera
 #endif
@@ -45,60 +51,53 @@ public:
 
 	void Update();
 #ifdef USE_CAMERA_COLLIDABLE
-	virtual void OnTriggerEnter(MyEngine::Collidable* colider, const Vec3& hitPos) override;
-	virtual void OnTriggerExit(MyEngine::Collidable* colider, const Vec3& hitPos) override;
+	virtual void OnCollideEnter(MyEngine::Collidable* colider, int colIndex, const MyEngine::CollideHitInfo& hitInfo) override;
+	virtual void OnTriggerExit(MyEngine::Collidable* colider, int colIndex, const MyEngine::CollideHitInfo& hitInfo) override;
 	void OnEntity();
 	void SetGateManager(const std::shared_ptr<GateManager>& gateMgr) { m_gateMgr = gateMgr; }
 #endif
 	/// <summary>
-	/// î•ñ‚Ìæ“¾
+	/// æƒ…å ±ã®å–å¾—
 	/// </summary>
-	/// <returns>î•ñŒQ</returns>
+	/// <returns>æƒ…å ±ç¾¤</returns>
 	const CameraInfo& GetInfo() const { return m_info; }
+	
 	/// <summary>
-	/// ‰Šúc•ûŒü‚Ì‰ñ“]
-	/// </summary>
-	/// <returns>rot</returns>
-	static const Quaternion& GetStartVerticalRot();
-
-	/// <summary>
-	/// near,far‚ğİ’è
+	/// near,farã‚’è¨­å®š
 	/// </summary>
 	/// <param name="n">near</param>
 	/// <param name="f">far</param>
 	void SetNearFar(float n, float f);
 	/// <summary>
-	/// ‹–ìŠp‚Ìİ’è
+	/// è¦–é‡è§’ã®è¨­å®š
 	/// </summary>
-	/// <param name="angle">Šp“x</param>
+	/// <param name="angle">è§’åº¦</param>
 	void SetFov(float angle);
 	/// <summary>
-	/// ‰ŠúˆÊ’u‚Ìİ’è
+	/// åˆæœŸä½ç½®ã®è¨­å®š
 	/// </summary>
-	/// <param name="targetPos">ƒJƒƒ‰‚Ì’‹“_</param>
+	/// <param name="targetPos">ã‚«ãƒ¡ãƒ©ã®æ³¨è¦–ç‚¹</param>
 	void SetTargetPos(const Vec3& targetPos);
 
 	/// <summary>
-	/// ƒJƒƒ‰‚Ì—LŒø‰»
+	/// ã‚«ãƒ¡ãƒ©ã®æœ‰åŠ¹åŒ–
 	/// </summary>
 	void AppInfo();
 
 	/// <summary>
-	/// ƒJƒƒ‰‚ÌêŠ‚ğæ“¾
+	/// ã‚«ãƒ¡ãƒ©ã®å ´æ‰€ã‚’å–å¾—
 	/// </summary>
 	/// <returns>pos</returns>
 	const Vec3& GetPos() const;
+	/// <summary>
+	/// TPSã‹FPSã‹
+	/// </summary>
+	/// <returns>true:TPS /false: FPS</returns>
+	bool IsTps() const { return m_info.isTps; }
 
 protected:
 	/// <summary>
-	/// ƒJƒƒ‰‚ÌŒü‚«‚ğ‰ñ“]
-	/// </summary>
-	/// <param name="angle">Šp“x</param>
-	/// <param name="axis">²</param>
-	void Rotation(float angle, const Vec3& axis = Vec3::Up());
-
-	/// <summary>
-	/// ƒJƒƒ‰‚Ì‹——£‚ğæ“¾
+	/// ã‚«ãƒ¡ãƒ©ã®è·é›¢ã‚’å–å¾—
 	/// </summary>
 	/// <returns></returns>
 	float GetDistance() const;
@@ -108,7 +107,7 @@ protected:
 	std::shared_ptr<GateManager> m_gateMgr;
 	MyEngine::ColliderSphere* m_collider;
 #endif
-	// î•ñ
+	// æƒ…å ±
 	CameraInfo m_info;
 };
 

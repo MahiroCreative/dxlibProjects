@@ -94,21 +94,21 @@ SceneStageSelect::SceneStageSelect() :
 {
 }
 
-void SceneStageSelect::Init()
+void SceneStageSelect::AsyncInit()
 {
 	// ファイル読み込み
 	auto& fileMgr = FileManager::GetInstance();
-	m_files[FILE_WINDOW_BACK]		= fileMgr.Load(FILE_WINDOW_BACK);
-	m_files[FILE_WINDOW]			= fileMgr.Load(FILE_WINDOW);
-	m_files[FILE_RELEASE_FRAME]		= fileMgr.Load(FILE_RELEASE_FRAME);
+	m_files[FILE_WINDOW_BACK] = fileMgr.Load(FILE_WINDOW_BACK);
+	m_files[FILE_WINDOW] = fileMgr.Load(FILE_WINDOW);
+	m_files[FILE_RELEASE_FRAME] = fileMgr.Load(FILE_RELEASE_FRAME);
 	m_files[FILE_NOT_RELEASE_FRAME] = fileMgr.Load(FILE_NOT_RELEASE_FRAME);
-	m_files[FILE_SELECT_FRAME]		= fileMgr.Load(FILE_SELECT_FRAME);
-	m_files[FILE_BEST_TIME_FRAME]	= fileMgr.Load(FILE_BEST_TIME_FRAME);
-	m_files[FILE_DECORATIVE_FRAME]	= fileMgr.Load(FILE_DECORATIVE_FRAME);
-	m_files[FILE_DIVIDING_LINE]		= fileMgr.Load(FILE_DIVIDING_LINE);
-	m_files[FILE_SELECT_OBI]		= fileMgr.Load(FILE_SELECT_OBI);
-	m_files[FILE_COMMON_FRAME]		= fileMgr.Load(FILE_COMMON_FRAME);
-	m_files[FILE_PAD_B]				= fileMgr.Load(FILE_PAD_B, true);
+	m_files[FILE_SELECT_FRAME] = fileMgr.Load(FILE_SELECT_FRAME);
+	m_files[FILE_BEST_TIME_FRAME] = fileMgr.Load(FILE_BEST_TIME_FRAME);
+	m_files[FILE_DECORATIVE_FRAME] = fileMgr.Load(FILE_DECORATIVE_FRAME);
+	m_files[FILE_DIVIDING_LINE] = fileMgr.Load(FILE_DIVIDING_LINE);
+	m_files[FILE_SELECT_OBI] = fileMgr.Load(FILE_SELECT_OBI);
+	m_files[FILE_COMMON_FRAME] = fileMgr.Load(FILE_COMMON_FRAME);
+	m_files[FILE_PAD_B] = fileMgr.Load(FILE_PAD_B, true);
 	auto stageNum = StageDataManager::GetInstance().GetStageNum();
 	for (int i = 0; i < stageNum; ++i)
 	{
@@ -119,10 +119,19 @@ void SceneStageSelect::Init()
 	}
 }
 
+void SceneStageSelect::Init()
+{
+}
+
 void SceneStageSelect::Update(bool isFade)
 {
 	++m_count;
+	if (isFade) return;
 	SelectUpdate();
+}
+
+void SceneStageSelect::End()
+{
 }
 
 void SceneStageSelect::Draw() const
@@ -200,10 +209,6 @@ void SceneStageSelect::Draw() const
 	DrawRotaGraphFast(DRAW_RETURN_TITLE_FRAME_X, DRAW_RETURN_TITLE_Y, FILE_SIZE_RETURN_TITLE_FRAME, 0.0f, m_files.at(FILE_COMMON_FRAME)->GetHandle(), true);
 	DrawRotaGraphFast(DRAW_RETURN_TITLE_BUTTON_X, DRAW_RETURN_TITLE_Y, FILE_SIZE_RETURN_TITLE_BUTTON, 0.0f, m_files.at(FILE_PAD_B)->GetHandle(), true);
 	DrawStringToHandle(DRAW_REUTRN_TITLE_STR_X, DRAW_REUTRN_TITLE_STR_Y, L"タイトルへ", COLOR_RETURN_TITLE, fontMgr.GetHandle(FONT_SIZE_RETURN_TITLE));
-}
-
-void SceneStageSelect::End()
-{
 }
 
 void SceneStageSelect::SelectUpdate()

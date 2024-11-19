@@ -2,6 +2,7 @@
 #include <DxLib.h>
 #include <chrono>
 #include <ctime>
+#include "NumUtility.h"
 #include "EffekseerManager.h"
 #include "SoundManager.h"
 #include "FileManager.h"
@@ -92,17 +93,20 @@ bool Application::Init()
 
 void Application::Run()
 {
-    InitManager();
     auto& scnMgr = SceneManager::GetInstance();
     auto& sndMgr = SoundManager::GetInstance();
+    auto& effMgr = EffekseerManager::GetInstance();
     auto& physics = MyEngine::Physics::GetInstance();
     auto& input = Input::GetInstance();
+    InitManager();
+    NumUtility::GetInstance().Init();
 #ifdef _DEBUG
     auto& debug = MyEngine::DebugDraw::GetInstance();
     LONGLONG updateTime;
     LONGLONG drawTime;
     bool isUpdate = true;
     bool isStep = false;
+    int frame = 0;
 #endif
 
     LONGLONG time;
@@ -141,15 +145,18 @@ void Application::Run()
 
         if (isUpdate)
         {
+            ++frame;
             printf("\n-------------------------------\n");
             ShowTime();
             printf("シーン:%s\n", SCENE_KIND.at(scnMgr.GetNowSceneKind()));
+            printf("経過フレーム:%d\n", frame);
             debug.Clear();
             updateTime = GetNowHiPerformanceCount();
 #endif
             scnMgr.Update();
             physics.Update();
             sndMgr.Update();
+            effMgr.Update();
 #ifdef _DEBUG
             drawTime = GetNowHiPerformanceCount();
             updateTime = drawTime - updateTime;
@@ -160,15 +167,15 @@ void Application::Run()
         scnMgr.Draw();
 
 #ifdef _DEBUG
-#if false
+#if true
         debug.Draw();
         if (isStep)
         {
-            DrawString(16, 652, L"動作：ステップ中", 0x00ff00);
+            DrawString(16, 636, L"動作：ステップ中", 0x00ff00);
         }
         else
         {
-            DrawString(16, 652, L"動作：通常中", 0x00ff00);
+            DrawString(16, 636, L"動作：通常中", 0x00ff00);
         }
         if (isUpdate)
         {
@@ -176,11 +183,19 @@ void Application::Run()
             isUpdate = false;
         }
         
-        DrawFormatString(16, 668, 0x00ff00, L"FPS : %.2f", GetFPS());
-        DrawBox(72, 684, 72 + static_cast<int>(updateTime / 1666.6f), 700, 0xff0000, true);
-        DrawFormatString(16, 684, 0x00ff00, L"更新 : %d", updateTime);
-        DrawBox(72, 700, 72 + static_cast<int>(drawTime / 1666.6f), 716, 0x0000ff, true);
-        DrawFormatString(16, 700, 0x00ff00, L"描画 : %d", drawTime);
+        DrawFormatString(16, 652, 0x00ff00, L"FPS : %.2f", GetFPS());
+        // 更新時間
+        int uW = static_cast<int>(Game::WINDOW_W * (updateTime / 16666.6f));
+        DrawBox(72, 668, 72 + uW, 684, 0xff0000, true);
+        DrawFormatString(16, 668, 0x00ff00, L"更新 : %d", updateTime);
+        // 描画時間
+        int dW = static_cast<int>(Game::WINDOW_W * (drawTime / 16666.6f));
+        DrawBox(72, 684, 72 + dW, 700, 0x0000ff, true);
+        DrawFormatString(16, 684, 0x00ff00, L"描画 : %d", drawTime);
+        // 合計時間
+        DrawBox(72, 700, 72 + uW, 716, 0xff0000, true);
+        DrawBox(72 + uW, 700, 72 + uW + dW, 716, 0x0000ff, true);
+        DrawFormatString(16, 700, 0x00ff00, L"合計 : %d", drawTime + updateTime);
 #endif
 #endif
         ScreenFlip();

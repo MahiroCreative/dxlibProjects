@@ -4,8 +4,6 @@
 #include "Vec3.h"
 #include "Quaternion.h"
 
-struct Quaternion;
-
 /// <summary>
 /// 4x4行列
 /// </summary>
@@ -384,22 +382,25 @@ public:
 	{
 		Matrix4x4 mat;
 
-		float x2 = q.x * q.x;
-		float y2 = q.y * q.y;
-		float z2 = q.z * q.z;
-		float w2 = q.w * q.w;
+		auto xy2 = q.x * q.y * 2;
+		auto xz2 = q.x * q.z * 2;
+		auto xw2 = q.x * q.w * 2;
+		auto yz2 = q.y * q.z * 2;
+		auto yw2 = q.y * q.w * 2;
+		auto zw2 = q.z * q.w * 2;
+		auto ww2 = q.w * q.w * 2;
 
-		float r00 = x2 - y2 - z2 + w2;
-		float r01 = 2.0f * (q.x * q.y + q.z * q.w);
-		float r02 = 2.0f * (q.x * q.z - q.y * q.w);
+		auto r00 = ww2 + 2 * q.x * q.x - 1;
+		auto r01 = xy2 + zw2;
+		auto r02 = xz2 - yw2;
 
-		float r10 = 2.0f * (q.x * q.y - q.z * q.w);
-		float r11 = -x2 + y2 - z2 + w2;
-		float r12 = 2.0f * (q.y * q.z + q.x * q.w);
+		auto r10 = xy2 - zw2;
+		auto r11 = ww2 + 2 * q.y * q.y - 1;
+		auto r12 = yz2 + xw2;
 
-		float r20 = 2.0f * (q.x * q.z + q.y * q.w);
-		float r21 = 2.0f * (q.y * q.z - q.x * q.w);
-		float r22 = -x2 - y2 + z2 + w2;
+		auto r20 = xz2 + yw2;
+		auto r21 = yz2 - xw2;
+		auto r22 = ww2 + 2 * q.z * q.z - 1;
 
 		mat.m[0][0] = r00;
 		mat.m[0][1] = r01;

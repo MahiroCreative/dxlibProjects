@@ -14,6 +14,7 @@
 #include "SaveDataManager.h"
 #include "StageDataManager.h"
 #include "RankingDataManager.h"
+#include "SoundManager.h"
 
 namespace
 {
@@ -57,6 +58,9 @@ namespace
 	const wchar_t* const FILE_RANK_A				= L"I_RankA";
 	const wchar_t* const FILE_RANK_B				= L"I_RankB";
 	const wchar_t* const FILE_RANK_C				= L"I_RankC";
+	const wchar_t* const FILE_CANCEL				= L"S_Cancel";
+	const wchar_t* const FILE_DECIDE				= L"S_Decide";
+	const wchar_t* const FILE_MOVE					= L"S_CursorMove";
 
 	/* メニュー */
 	// 文字列
@@ -126,6 +130,8 @@ namespace
 	constexpr int FONT_SIZE_DECIDE = 32;
 	// ファイルサイズ
 	constexpr float FILE_SIZE_DECIDE = 0.5f;
+	// 
+	constexpr float TIME_SIZE_2 = 1.0f;
 	// ウィンドウ位置
 	constexpr int DRAW_DECIDE_WINDOW_X = 1095;
 	constexpr int DRAW_DECIDE_WINDOW_Y = DRAW_SAVE_Y;
@@ -156,6 +162,7 @@ namespace
 	constexpr int FONT_SIZE_CHECK = 32;
 	// 画面外まで動かす量
 	constexpr int DRAW_ALERT_OUT_VAL = 700;
+
 	/* 警告関係 */
 	// 文字カラー
 	constexpr unsigned int COLOR_ALERT = 0xffffff;
@@ -207,6 +214,7 @@ namespace
 	constexpr int FONT_SIZE_RANKING_TIME = 56;
 	// ランク画像サイズ
 	constexpr float FILE_SIZE_RANKING_RANK = 0.125f;
+	constexpr float TIME_SIZE = 2.0f;
 	// ランク毎のファイルパス
 	const std::unordered_map<RankKind, const wchar_t* const> RANK_FILE_PATH =
 	{
@@ -247,7 +255,6 @@ SceneTitle::SceneTitle() :
 	m_rankingCurrent(0),
 	m_fadeFrame(0),
 	m_waveCount(0),
-	m_isStart(false),
 	m_isFade(false),
 	m_isFadeTime(false),
 	m_isDrawMenu(true),
@@ -255,58 +262,64 @@ SceneTitle::SceneTitle() :
 {
 }
 
-void SceneTitle::Init()
+void SceneTitle::AsyncInit()
 {
 	// ファイル読み込み
 	auto& fileMgr = FileManager::GetInstance();
-	m_files[FILE_COMMON_FRAME]			= fileMgr.Load(FILE_COMMON_FRAME);
-	m_files[FILE_COMMON_SELECT_FRAME]	= fileMgr.Load(FILE_COMMON_SELECT_FRAME);
-	m_files[FILE_SAVE_ARM]				= fileMgr.Load(FILE_SAVE_ARM);
-	m_files[FILE_SAVE_ARM_FRAME]		= fileMgr.Load(FILE_SAVE_ARM_FRAME);
-	m_files[FILE_SAVE_WINDOW]			= fileMgr.Load(FILE_SAVE_WINDOW);
-	m_files[FILE_DECIDE_ARM]			= fileMgr.Load(FILE_DECIDE_ARM);
-	m_files[FILE_DECIDE_ARM_FRAME]		= fileMgr.Load(FILE_DECIDE_ARM_FRAME);
-	m_files[FILE_DECIDE_WINDOW]			= fileMgr.Load(FILE_DECIDE_WINDOW);
-	m_files[FILE_ALERT_WINDOW]			= fileMgr.Load(FILE_ALERT_WINDOW);
-	m_files[FILE_RANKING_WINDOW]		= fileMgr.Load(FILE_RANKING_WINDOW);
-	m_files[FILE_RANKING_ARROW]			= fileMgr.Load(FILE_RANKING_ARROW);
-	m_files[FILE_RANK_S]				= fileMgr.Load(FILE_RANK_S);
-	m_files[FILE_RANK_A]				= fileMgr.Load(FILE_RANK_A);
-	m_files[FILE_RANK_B]				= fileMgr.Load(FILE_RANK_B);
-	m_files[FILE_RANK_C]				= fileMgr.Load(FILE_RANK_C);
+	m_files[FILE_COMMON_FRAME] = fileMgr.Load(FILE_COMMON_FRAME);
+	m_files[FILE_COMMON_SELECT_FRAME] = fileMgr.Load(FILE_COMMON_SELECT_FRAME);
+	m_files[FILE_SAVE_ARM] = fileMgr.Load(FILE_SAVE_ARM);
+	m_files[FILE_SAVE_ARM_FRAME] = fileMgr.Load(FILE_SAVE_ARM_FRAME);
+	m_files[FILE_SAVE_WINDOW] = fileMgr.Load(FILE_SAVE_WINDOW);
+	m_files[FILE_DECIDE_ARM] = fileMgr.Load(FILE_DECIDE_ARM);
+	m_files[FILE_DECIDE_ARM_FRAME] = fileMgr.Load(FILE_DECIDE_ARM_FRAME);
+	m_files[FILE_DECIDE_WINDOW] = fileMgr.Load(FILE_DECIDE_WINDOW);
+	m_files[FILE_ALERT_WINDOW] = fileMgr.Load(FILE_ALERT_WINDOW);
+	m_files[FILE_RANKING_WINDOW] = fileMgr.Load(FILE_RANKING_WINDOW);
+	m_files[FILE_RANKING_ARROW] = fileMgr.Load(FILE_RANKING_ARROW);
+	m_files[FILE_RANK_S] = fileMgr.Load(FILE_RANK_S);
+	m_files[FILE_RANK_A] = fileMgr.Load(FILE_RANK_A);
+	m_files[FILE_RANK_B] = fileMgr.Load(FILE_RANK_B);
+	m_files[FILE_RANK_C] = fileMgr.Load(FILE_RANK_C);
+	m_files[FILE_CANCEL] = fileMgr.Load(FILE_CANCEL);
+	m_files[FILE_DECIDE] = fileMgr.Load(FILE_DECIDE);
+	m_files[FILE_MOVE] = fileMgr.Load(FILE_MOVE);
+}
 
+void SceneTitle::Init()
+{
 	// UIデータ生成
-	m_menuUIList = UIMoveData::Make(static_cast<int>(MenuCurrent::MAX), DRAW_MENU_X, DRAW_MENU_Y, 0, DRAW_MENU_Y_INTERVAL);
-	m_saveUIList = UIMoveData::Make(SaveDataManager::GetInstance().GetSaveDataNum(), DRAW_SAVE_X + DRAW_OUT_VAL, DRAW_SAVE_Y, 0, DRAW_SAVE_Y_INTERVAL);
-	m_decideUIList = UIMoveData::Make(static_cast<int>(DecideCurrent::MAX), DRAW_DECIDE_X + DRAW_OUT_VAL, DRAW_DECIDE_Y, 0, DRAW_DECIDE_Y_INTERVAL);
-	m_checkUIList = UIMoveData::Make(static_cast<int>(CheckCurrent::MAX), DRAW_CHECK_X, DRAW_CHECK_Y - DRAW_ALERT_OUT_VAL, DRAW_CHECK_X_INTERVAL, 0);
-	m_saveInfoUI = std::make_shared<UIMoveData>();
-	*m_saveInfoUI = UIMoveData::Make(DRAW_DECIDE_X + DRAW_OUT_VAL, DRAW_DECIDE_Y);
-	m_saveArmWindowUI = std::make_shared<UIMoveData>();
-	*m_saveArmWindowUI = UIMoveData::Make(DRAW_SAVE_WINDOW_X + DRAW_OUT_VAL, DRAW_SAVE_WINDOW_Y);
-	m_decideArmWindowUI = std::make_shared<UIMoveData>();
-	*m_decideArmWindowUI = UIMoveData::Make(DRAW_DECIDE_WINDOW_X + DRAW_OUT_VAL, DRAW_DECIDE_WINDOW_Y);
-	m_alertUI = std::make_shared<UIMoveData>();
-	*m_alertUI = UIMoveData::Make(DRAW_ALERT_X, DRAW_ALERT_Y - DRAW_ALERT_OUT_VAL);
-	m_rankingUI = std::make_shared<UIMoveData>();
-	*m_rankingUI = UIMoveData::Make(Game::CENTER_X, Game::CENTER_Y);
+	m_menuUIList		= UIMoveData::Make(static_cast<int>(MenuCurrent::MAX), DRAW_MENU_X, DRAW_MENU_Y, 0, DRAW_MENU_Y_INTERVAL);
+	m_saveUIList		= UIMoveData::Make(SaveDataManager::GetInstance().GetSaveDataNum(), DRAW_SAVE_X + DRAW_OUT_VAL, DRAW_SAVE_Y, 0, DRAW_SAVE_Y_INTERVAL);
+	m_decideUIList		= UIMoveData::Make(static_cast<int>(DecideCurrent::MAX), DRAW_DECIDE_X + DRAW_OUT_VAL, DRAW_DECIDE_Y, 0, DRAW_DECIDE_Y_INTERVAL);
+	m_checkUIList		= UIMoveData::Make(static_cast<int>(CheckCurrent::MAX), DRAW_CHECK_X, DRAW_CHECK_Y - DRAW_ALERT_OUT_VAL, DRAW_CHECK_X_INTERVAL, 0);
+	m_saveInfoUI		= UIMoveData::Make(DRAW_DECIDE_X + DRAW_OUT_VAL, DRAW_DECIDE_Y);
+	m_saveArmWindowUI	= UIMoveData::Make(DRAW_SAVE_WINDOW_X + DRAW_OUT_VAL, DRAW_SAVE_WINDOW_Y);
+	m_decideArmWindowUI = UIMoveData::Make(DRAW_DECIDE_WINDOW_X + DRAW_OUT_VAL, DRAW_DECIDE_WINDOW_Y);
+	m_alertUI			= UIMoveData::Make(DRAW_ALERT_X, DRAW_ALERT_Y - DRAW_ALERT_OUT_VAL);
+	m_rankingUI			= UIMoveData::Make(Game::CENTER_X, Game::CENTER_Y);
 	// 初期化
 	m_menuUIList[0]->ChangeHorizontal(DRAW_MENU_X - DRAW_MENU_X_INTERVAL_1);
 }
 
+void SceneTitle::End()
+{
+}
+
 void SceneTitle::Update(bool isFade)
 {
-	if (m_isStart) return;
-	(this->*m_updateFunc)();
 	++m_waveCount;
+	m_alertUI->Update();
+	m_saveArmWindowUI->Update();
+	m_decideArmWindowUI->Update(MOVE_SPEED, EasingType::LERP);
+	m_saveInfoUI->Update(MOVE_SPEED, EasingType::LERP);
 	for (auto& data : m_menuUIList)	data->Update();
 	for (auto& data : m_saveUIList)	data->Update();
 	for (auto& data : m_decideUIList) data->Update();
 	for (auto& data : m_checkUIList) data->Update();
-	m_saveArmWindowUI->Update();
-	m_decideArmWindowUI->Update(MOVE_SPEED, EasingType::LERP);
-	m_saveInfoUI->Update(MOVE_SPEED, EasingType::LERP);
-	m_alertUI->Update();
+
+	if (isFade) return;
+	(this->*m_updateFunc)();
 	if (m_isFade)
 	{
 		--m_fadeFrame;
@@ -348,18 +361,19 @@ void SceneTitle::Draw() const
 	(this->*m_drawFunc)();
 }
 
-void SceneTitle::End()
-{
-}
-
 void SceneTitle::SelectMenuUpdate()
 {
-	if (CurrentUpdate(m_menuCurrent, m_menuUIList, DRAW_MENU_X, DRAW_MENU_X_INTERVAL_1, Command::BTN_UP, Command::BTN_DOWN)) m_waveCount = 0;
+	if (CurrentUpdate(m_menuCurrent, m_menuUIList, DRAW_MENU_X, DRAW_MENU_X_INTERVAL_1, Command::BTN_UP, Command::BTN_DOWN))
+	{
+		SoundManager::GetInstance().PlaySe(m_files.at(FILE_MOVE)->GetHandle());
+		m_waveCount = 0;
+	}
 
 	auto& input = Input::GetInstance();
 	// 決定
 	if (input.IsTriggerd(Command::BTN_OK))
 	{
+		SoundManager::GetInstance().PlaySe(m_files.at(FILE_DECIDE)->GetHandle());
 		// セーブデータ選択に移動
 		if (m_menuCurrent == static_cast<int>(MenuCurrent::SELECT_SAVE))
 		{
@@ -386,10 +400,20 @@ void SceneTitle::SelectMenuUpdate()
 
 void SceneTitle::RankingUpdate()
 {
+	bool isMove = false;
+	auto stageNum = StageDataManager::GetInstance().GetStageNum();
+	if (CursorUtility::CursorUp(m_rankingCurrent, stageNum, Command::BTN_LEFT)) isMove = true;
+	if (CursorUtility::CursorDown(m_rankingCurrent, stageNum, Command::BTN_RIGHT)) isMove = true;
+	if (isMove)
+	{
+		SoundManager::GetInstance().PlaySe(m_files.at(FILE_MOVE)->GetHandle());
+	}
+
 	auto& input = Input::GetInstance();
 	// キャンセル
 	if (input.IsTriggerd(Command::BTN_CANCEL))
 	{
+		SoundManager::GetInstance().PlaySe(m_files.at(FILE_CANCEL)->GetHandle());
 		m_updateFunc = &SceneTitle::SelectMenuUpdate;
 		m_drawFunc = &SceneTitle::DrawSelectMenu;
 	}
@@ -402,6 +426,7 @@ void SceneTitle::SelectSaveDataUpdate()
 	// カーソルが移動したら
 	if (CurrentUpdate(m_saveDataNo, m_saveUIList, DRAW_SAVE_X, DRAW_SAVE_X_INTERVAL, Command::BTN_UP, Command::BTN_DOWN))
 	{
+		SoundManager::GetInstance().PlaySe(m_files.at(FILE_MOVE)->GetHandle());
 		// ウェーブカウント初期化
 		m_waveCount = 0;
 		// 決定側のwindowとセーブデータ情報の位置を移動
@@ -417,6 +442,7 @@ void SceneTitle::SelectSaveDataUpdate()
 	// 決定
 	if (input.IsTriggerd(Command::BTN_OK))
 	{
+		SoundManager::GetInstance().PlaySe(m_files.at(FILE_DECIDE)->GetHandle());
 		auto& saveDataMgr = SaveDataManager::GetInstance();
 		// セーブデータが存在する場合
 		if (saveDataMgr.IsExist(m_saveDataNo))
@@ -438,6 +464,7 @@ void SceneTitle::SelectSaveDataUpdate()
 	// キャンセル
 	else if (input.IsTriggerd(Command::BTN_CANCEL))
 	{
+		SoundManager::GetInstance().PlaySe(m_files.at(FILE_CANCEL)->GetHandle());
 		// メニュー選択に戻る
 		OnSelectMenu();
 	}
@@ -445,12 +472,17 @@ void SceneTitle::SelectSaveDataUpdate()
 
 void SceneTitle::DecideSaveDataUpdate()
 {
-	if (CurrentUpdate(m_decideCurrent, m_decideUIList, DRAW_DECIDE_X, DRAW_DECIDE_X_INTERVAL, Command::BTN_UP, Command::BTN_DOWN)) m_waveCount = 0;
+	if (CurrentUpdate(m_decideCurrent, m_decideUIList, DRAW_DECIDE_X, DRAW_DECIDE_X_INTERVAL, Command::BTN_UP, Command::BTN_DOWN))
+	{
+		SoundManager::GetInstance().PlaySe(m_files.at(FILE_MOVE)->GetHandle());
+		m_waveCount = 0;
+	}
 
 	auto& input = Input::GetInstance();
 	// 決定
 	if (input.IsTriggerd(Command::BTN_OK))
 	{
+		SoundManager::GetInstance().PlaySe(m_files.at(FILE_DECIDE)->GetHandle());
 		// 続きから
 		if (m_decideCurrent == static_cast<int>(DecideCurrent::CONTINU))
 		{
@@ -467,6 +499,7 @@ void SceneTitle::DecideSaveDataUpdate()
 	// キャンセル
 	else if (input.IsTriggerd(Command::BTN_CANCEL))
 	{
+		SoundManager::GetInstance().PlaySe(m_files.at(FILE_CANCEL)->GetHandle());
 		// セーブデータ選択に移動
 		OnSelectSaveData();
 		m_isFade = true;
@@ -476,13 +509,20 @@ void SceneTitle::DecideSaveDataUpdate()
 
 void SceneTitle::CheckDeleteSaveDataUpdate()
 {
-	if (CursorUtility::CursorUp<CheckCurrent>(m_checkCurrent, CheckCurrent::MAX, Command::BTN_LEFT)) m_waveCount = 0;
-	if (CursorUtility::CursorDown<CheckCurrent>(m_checkCurrent, CheckCurrent::MAX, Command::BTN_RIGHT)) m_waveCount = 0;
+	bool isMove = false;
+	if (CursorUtility::CursorUp<CheckCurrent>(m_checkCurrent, CheckCurrent::MAX, Command::BTN_LEFT)) isMove = true;
+	if (CursorUtility::CursorDown<CheckCurrent>(m_checkCurrent, CheckCurrent::MAX, Command::BTN_RIGHT)) isMove = true;
+	if (isMove)
+	{
+		SoundManager::GetInstance().PlaySe(m_files.at(FILE_MOVE)->GetHandle());
+		m_waveCount = 0;
+	}
 
 	auto& input = Input::GetInstance();
 	// 決定
 	if (input.IsTriggerd(Command::BTN_OK))
 	{
+		SoundManager::GetInstance().PlaySe(m_files.at(FILE_DECIDE)->GetHandle());
 		// キャンセル
 		if (m_checkCurrent == static_cast<int>(CheckCurrent::CANCEL))
 		{
@@ -500,6 +540,7 @@ void SceneTitle::CheckDeleteSaveDataUpdate()
 	// キャンセル
 	else if (input.IsTriggerd(Command::BTN_CANCEL))
 	{
+		SoundManager::GetInstance().PlaySe(m_files.at(FILE_CANCEL)->GetHandle());
 		// セーブデータ決定に移動
 		OnDecideSaveData();
 	}
@@ -580,9 +621,9 @@ void SceneTitle::DrawSelectMenu() const
 {
 	// タイム取得
 	auto& saveDataMgr = SaveDataManager::GetInstance();
-	auto time = TimeUtility::FrameToTime(saveDataMgr.GetPlayTime(m_saveDataNo));
+	auto time = saveDataMgr.GetPlayTime(m_saveDataNo);
 	// セーブデータの情報描画
-	DrawFormatString(m_saveInfoUI->x, m_saveInfoUI->y, COLOR_NOT_SELECT, L"プレイ時間：%d:%d.%d", time.min, time.sec, time.dec);
+	TimeUtility::DrawTime(m_saveInfoUI->x, m_saveInfoUI->y, time, TIME_SIZE_2, 2);
 }
 
 void SceneTitle::DrawRanking() const
@@ -622,7 +663,7 @@ void SceneTitle::DrawRanking() const
 			const auto& rank = stageDataMgr.GetRank(stageName, timeFrame);
 			const auto& path = RANK_FILE_PATH.at(rank);
 			DrawRotaGraphFast(x + DRAW_RANKING_RANK_SUB_X, y, FILE_SIZE_RANKING_RANK, 0.0f, m_files.at(path)->GetHandle(), true);
-			TimeUtility::DrawTime(x + DRAW_RANKING_TIME_SUB_X, y - drawFontSubTime, COLOR_RANKING, FONT_SIZE_RANKING_TIME, timeFrame);
+			TimeUtility::DrawTime(x + DRAW_RANKING_TIME_SUB_X, y - drawFontSubTime, timeFrame, TIME_SIZE, 2);
 		}
 	}
 }
@@ -731,8 +772,6 @@ void SceneTitle::OnStart()
 	// シーンの変更
 	auto next = std::make_shared<SceneStageSelect>();
 	m_scnMgr.Change(next);
-	// ゲームを開始したことに
-	m_isStart = true;
 }
 
 void SceneTitle::ArmWindowDraw(const std::shared_ptr<UIMoveData>& data, int subArmFrameX, int subArmFrameY, int subArmX, int subArmY, const wchar_t* const windowFileName, const wchar_t* const armFrameFileName, const wchar_t* const armFileName) const

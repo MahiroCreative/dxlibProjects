@@ -1,9 +1,13 @@
 ﻿#include "LaserLaunchPad.h"
+#include "File.h"
+#include "SoundManager.h"
 #include "LaserBullet.h"
 #include "Collider/ColliderSphere.h"
 
 namespace
 {
+	const wchar_t* const FILE_SHOT = L"S_EnergyShot";
+	
 	// FIXME: 外部化
 	constexpr int CREATE_COUNT = 60;
 }
@@ -23,7 +27,19 @@ LaserLaunchPad::~LaserLaunchPad()
 
 void LaserLaunchPad::Init(const Vec3& dir)
 {
-	m_firingDir = dir;
+	m_firingDir = -dir;
+
+	m_shotSe = FileManager::GetInstance().Load(FILE_SHOT);
+}
+
+void LaserLaunchPad::End()
+{
+	Object3DBase::End();
+	if (m_bullet)
+	{
+		m_bullet->End();
+		m_bullet = nullptr;
+	}
 }
 
 void LaserLaunchPad::Restart()
@@ -49,9 +65,11 @@ void LaserLaunchPad::Update()
 	++m_createCount;
 	if (m_createCount > CREATE_COUNT)
 	{
+		SoundManager::GetInstance().PlaySe3D(m_shotSe->GetHandle(), shared_from_this());
 		// 弾生成
 		m_bullet = std::make_shared<LaserBullet>(this, m_gateMgr);
-		m_bullet->Init(m_rigid.GetPos() + m_firingDir * 5, m_firingDir, 600);
+		auto pos = m_rigid.GetPos() + m_firingDir * 10;
+		m_bullet->Init(pos, m_firingDir, 600);
 		// カウント初期化
 		m_createCount = 0;
 	}

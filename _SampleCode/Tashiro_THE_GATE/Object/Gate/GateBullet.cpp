@@ -1,5 +1,6 @@
 ﻿#include "GateBullet.h"
 #include "GateManager.h"
+#include "EffekseerManager.h"
 #include "Collider/ColliderSphere.h"
 #include "Collider/ColliderBox.h"
 
@@ -34,22 +35,41 @@ void GateBullet::Init(const Vec3& pos, const Vec3& dir)
 
 	m_throughTag.push_back(ObjectTag::CAMERA);
 	m_throughTag.push_back(ObjectTag::PALYER);
+
+	const wchar_t* const FILE_BULLET_BLUE = L"E_GateBulletBlue";
+	const wchar_t* const FILE_BULLET_ORANGE = L"E_GateBulletOrange";
+
+	auto& effMgr = EffekseerManager::GetInstance();
+	if (m_kind == GateKind::Blue)
+	{
+//		m_effHandle = effMgr.Play(FILE_BULLET_BLUE);
+	}
+	else
+	{
+//		m_effHandle = effMgr.Play(FILE_BULLET_ORANGE);
+	}
 }
 
-void GateBullet::OnCollideEnter(MyEngine::Collidable* collider, int colIndex, const MyEngine::CollideHitInfo& hitInfo)
+void GateBullet::Update()
 {
-	Collidable::OnCollideEnter(collider, colIndex, hitInfo);
+	auto& effMgr = EffekseerManager::GetInstance();
+//	effMgr.SetInfo(m_effHandle, m_rigid.GetPos(), Quaternion());
+}
 
-	auto tag = collider->GetTag();
-	if (tag == ObjectTag::SYSTEM_WALL)
+void GateBullet::OnCollideEnter(MyEngine::Collidable* colider, int selfIndex, int sendIndex, const MyEngine::CollideHitInfo& hitInfo)
+{
+	Collidable::OnCollideEnter(colider, selfIndex, sendIndex, hitInfo);
+
+	auto tag = colider->GetTag();
+	if (tag == ObjectTag::WALL)
 	{
-		m_gateMgr->CreateGate(m_kind, collider, hitInfo, Vec3::Up());
+		m_gateMgr->CreateGate(m_kind, colider, hitInfo, Vec3::Up());
 	}
-	else if (tag == ObjectTag::FLOOR)
+	else if (tag == ObjectTag::FLOOR || tag == ObjectTag::ROOF)
 	{
 		auto velDir = m_rigid.GetDir();
 		velDir.y = 0;
-		m_gateMgr->CreateGate(m_kind, collider, hitInfo, velDir.GetNormalized());
+		m_gateMgr->CreateGate(m_kind, colider, hitInfo, velDir.GetNormalized());
 	}
 
 	m_isBreak = true;

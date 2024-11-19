@@ -1,4 +1,4 @@
-#pragma once
+﻿#pragma once
 #include "Object/Object3DBase.h"
 
 class GimmickLinkObject;

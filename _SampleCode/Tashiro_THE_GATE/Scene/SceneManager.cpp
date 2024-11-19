@@ -5,13 +5,20 @@
 #endif
 #include "SceneTitle.h"
 #include "SceneOption.h"
-#include "EffekseerManager.h"
 #include "Game.h"
 #include "Application.h"
 #include "SoundManager.h"
+#include "File.h"
 
 namespace
 {
+	// オプションで使うファイルID
+	const wchar_t* const FILE_WINDOW = L"I_OptionWindow";
+	const wchar_t* const FILE_COMMON_FRAME = L"I_CommonFrame";
+	const wchar_t* const FILE_COMMON_SELECT_FRAME = L"I_CommonSelectFrame";
+	const wchar_t* const FILE_SOUND_BAR = L"I_MainSoundBar";
+	const wchar_t* const FILE_VOLUME_POINT = L"I_VolumePoint";
+
 	constexpr int FADE_FRAME = 30;
 	constexpr float FADE_SPEED = 1.0f / FADE_FRAME;
 }
@@ -21,9 +28,7 @@ SceneManager::SceneManager() :
 	m_updateFunc(&SceneManager::NormalUpdate),
 	m_drawFunc(&SceneManager::DrawNormal),
 	m_bgmH(-1),
-	m_fadeFunc(&SceneManager::FadeNone),
-	m_fadeRate(0.0f),
-	m_isFade(false)
+	m_fadeRate(0.0f)
 {
 }
 
@@ -49,9 +54,16 @@ void SceneManager::Init()
 	m_isFade = true;
 #endif
 
+	auto& fileMgr = FileManager::GetInstance();
+	fileMgr.Load(FILE_WINDOW, true);
+	fileMgr.Load(FILE_COMMON_FRAME, true);
+	fileMgr.Load(FILE_COMMON_SELECT_FRAME, true);
+	fileMgr.Load(FILE_SOUND_BAR, true);
+	fileMgr.Load(FILE_VOLUME_POINT, true);
 	m_scene->Init();
-
-	CheckFileLoadingStart();
+	// 非同期ロードの開始
+	m_updateFunc = &SceneManager::FileLoadingUpdate;
+	m_drawFunc = &SceneManager::FileLoadingDraw;
 }
 
 void SceneManager::Update()
@@ -62,8 +74,6 @@ void SceneManager::Update()
 		return;
 	}
 	(this->*m_updateFunc)();
-	auto& effMgr = EffekseerManager::GetInstance();
-	effMgr.Update();
 }
 
 void SceneManager::Draw() const
@@ -73,47 +83,23 @@ void SceneManager::Draw() const
 	{
 		m_option->Draw();
 	}
-
-	auto& app = Application::GetInstance();
-	int light = app.GetScreenLight();
-	int alpha = 255 - light - 50;
-	alpha = std::max<int>(alpha, 0);
-	SetDrawBlendMode(DX_BLENDMODE_ALPHA, alpha);
-	DrawBox(0, 0, Game::WINDOW_W, Game::WINDOW_H, 0, true);
-	SetDrawBlendMode(DX_BLENDMODE_NOBLEND, 0);
 }
 
 void SceneManager::End()
 {
 	m_scene->End();
-	auto& effMgr = EffekseerManager::GetInstance();
-	effMgr.AllStop();
 }
 
-void SceneManager::Change(const std::shared_ptr<SceneBase>& next, bool isFade)
+void SceneManager::Change(const std::shared_ptr<SceneBase>& next)
 {
-	if (isFade)
-	{
-		// フェード処理初期化
-		m_fadeRate = 0.0f;
-		m_isFade = true;
-		// フェードアウトへ
-		m_fadeFunc = &SceneManager::FadeOut;
+	printf("シーンの変更\n");
+	// フェード処理初期化
+	m_fadeRate = 0.0f;
+	// フェードアウトへ
+	m_updateFunc = &SceneManager::FadeOut;
+	m_drawFunc = &SceneManager::DrawFade;
 
-		m_nextScene = next;
-	}
-	else
-	{
-		// 終了処理
-		m_scene->End();
-
-		// シーン変更
-		m_scene = next;
-		// 初期化処理
-		m_scene->Init();
-
-		CheckFileLoadingStart();
-	}
+	m_nextScene = next;
 }
 
 void SceneManager::ChangeBgmH(int handle)
@@ -147,27 +133,83 @@ SceneKind SceneManager::GetNowSceneKind() const
 
 void SceneManager::NormalUpdate()
 {
-	(this->*m_fadeFunc)();
-	m_scene->Update(m_isFade);
+	m_scene->Update(false);
+}
+
+void SceneManager::FadeOut()
+{
+	m_scene->Update(true);
+	m_fadeRate += FADE_SPEED;
+
+	// フェードアウト完了したら
+	if (m_fadeRate > 1.0f)
+	{
+		// 終了処理
+		m_scene->End();
+		// シーン変更
+		m_scene = m_nextScene;
+		// 初期化処理(非同期)
+		m_scene->AsyncInit();
+		// 非同期ロードの開始
+		m_updateFunc = &SceneManager::FileLoadingUpdate;
+		m_drawFunc = &SceneManager::FileLoadingDraw;
+		return;
+	}
+
+	// ハンドルが入っていな場合は流さない
+	if (m_bgmH > -1)
+	{
+		auto& snd = SoundManager::GetInstance();
+		snd.PlayFadeBgm(m_bgmH, 1.0f - m_fadeRate);
+	}
 }
 
 void SceneManager::FileLoadingUpdate()
 {
-	// TODO: ここにロード終わる野を確認してNormalに代わる処理をかく
 	auto num = GetASyncLoadNum();
 	if (num == 0)
 	{
+		// 初期化処理(同期)
+		m_scene->Init();
+		// 割合補正
+		m_fadeRate = 1.0f;
+		// 通常処理へ
+		m_updateFunc = &SceneManager::FadeIn;
+		m_drawFunc = &SceneManager::DrawFade;
+	}
+}
+
+void SceneManager::FadeIn()
+{
+	m_scene->Update(true);
+	m_fadeRate -= FADE_SPEED;
+
+	// フェードイン完了したら
+	if (m_fadeRate < 0.0f)
+	{
+		// 割合補正
+		m_fadeRate = 0.0f;
+		// シーンの処理へ
 		m_updateFunc = &SceneManager::NormalUpdate;
 		m_drawFunc = &SceneManager::DrawNormal;
+	}
+
+	// ハンドルが入っていな場合は流さない
+	if (m_bgmH > -1)
+	{
+		auto& snd = SoundManager::GetInstance();
+		snd.PlayFadeBgm(m_bgmH, 1.0f - m_fadeRate);
 	}
 }
 
 void SceneManager::DrawNormal() const
 {
 	m_scene->Draw();
+}
 
-	if (!m_isFade) return;
-
+void SceneManager::DrawFade() const
+{
+	m_scene->Draw();
 	// フェード処理
 	int alpha = static_cast<int>(Game::ALPHA_VAL * m_fadeRate);
 	SetDrawBlendMode(DX_BLENDMODE_ALPHA, alpha);
@@ -180,78 +222,3 @@ void SceneManager::FileLoadingDraw() const
 	// TODO: ロード中はNowLoadingを出すようにする
 	DrawString(600, 360, L"ロード中", 0xffffff);
 }
-
-void SceneManager::FadeNone()
-{
-	// ハンドルが入っていな場合は流さない
-	if (m_bgmH > -1)
-	{
-		auto& snd = SoundManager::GetInstance();
-		snd.PlayBgm(m_bgmH);
-	}
-}
-
-void SceneManager::FadeIn()
-{
-	m_fadeRate -= FADE_SPEED;
-
-	// フェードイン完了したら
-	if (m_fadeRate < 0.0f)
-	{
-		m_fadeRate = 0.0f;
-		// フェード終了
-		m_isFade = false;
-		// シーンの処理へ
-		m_fadeFunc = &SceneManager::FadeNone;
-	}
-
-	// ハンドルが入っていな場合は流さない
-	if (m_bgmH > -1)
-	{
-		auto& snd = SoundManager::GetInstance();
-		snd.PlayFadeBgm(m_bgmH, 1.0f - m_fadeRate);
-	}
-}
-
-void SceneManager::FadeOut()
-{
-	m_fadeRate += FADE_SPEED;
-
-	// フェードアウト完了したら
-	if (m_fadeRate > 1.0f)
-	{
-		// 終了処理
-		m_scene->End();
-		// シーン変更
-		m_scene = m_nextScene;
-		// 初期化処理
-		m_scene->Init();
-		// フェード割合補正
-		m_fadeRate = 1.0f;
-		// フェードインへ
-		m_fadeFunc = &SceneManager::FadeIn;
-
-		CheckFileLoadingStart();
-		return;
-	}
-
-	// ハンドルが入っていな場合は流さない
-	if (m_bgmH > -1)
-	{
-		auto& snd = SoundManager::GetInstance();
-		snd.PlayFadeBgm(m_bgmH, 1.0f - m_fadeRate);
-	}
-}
-
-void SceneManager::CheckFileLoadingStart()
-{
-	auto num = GetASyncLoadNum();
-	// 非同期ロードしているものがあったらFileLoadingに変更
-	if (num > 0)
-	{
-		// 非同期ロードの開始
-		m_updateFunc = &SceneManager::FileLoadingUpdate;
-		m_drawFunc = &SceneManager::FileLoadingDraw;
-	}
-}
-

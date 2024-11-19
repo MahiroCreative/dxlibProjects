@@ -10,6 +10,7 @@ Object3DBase::Object3DBase(Priority priority, ObjectTag tag) :
 	MyEngine::Collidable(priority, tag),
 	m_modelHandle(-1),
 	m_vsH(-1),
+	m_psH(-1),
 	m_pivot { 0.0f, 0.0f, 0.0f },
 	m_scale { 1.0f, 1.0f, 1.0f },
 	m_rotation {},
@@ -18,6 +19,7 @@ Object3DBase::Object3DBase(Priority priority, ObjectTag tag) :
 {
 	m_createFunc[MyEngine::ColKind::BOX] = &Object3DBase::CreateColldierBox;
 	m_createFunc[MyEngine::ColKind::SPHERE] = &Object3DBase::CreateColldierSphere;
+	m_createFunc[MyEngine::ColKind::CAPSULE] = &Object3DBase::CreateColldierCapsule;
 }
 
 Object3DBase::~Object3DBase()
@@ -54,13 +56,18 @@ void Object3DBase::Draw() const
 	// モデルをロードしていない場合は描画しない
 	if (!m_isLoadModel) return;
 
-	SetUseVertexShader(m_vsH);
+	// シェーダの設定
+	auto err = SetUseVertexShader(m_vsH);
+	assert(err != -1 && "頂点シェーダの設定に失敗");
+	err = SetUsePixelShader(m_psH);
+	assert(err != -1 && "ピクセルシェーダの設定に失敗");
 
 	// スケール・回転・座標(pivot有り)を適用して描画
 	Matrix4x4 mat;
 	mat = Matrix4x4::Scale(m_scale) * Matrix4x4::Rot(m_rotation) * Matrix4x4::Pos(m_rigid.GetPos() + m_pivot);
 	MV1SetMatrix(m_modelHandle, mat.GetMATRIX());
-	MV1DrawModel(m_modelHandle);
+	err = MV1DrawModel(m_modelHandle);
+	assert(err != -1 && "3Dモデルの描画に失敗");
 }
 
 bool Object3DBase::LoadModel(const wchar_t* const fileId)
@@ -74,6 +81,7 @@ bool Object3DBase::LoadModel(const wchar_t* const fileId)
 	m_modelFile = fileMgr.Load(fileId);
 	m_modelHandle = MV1DuplicateModel(m_modelFile->GetHandle());
 	m_vsH = fileMgr.GetVS(fileId);
+	m_psH = fileMgr.GetPS(fileId);
 	m_isLoadModel = true;
 	return true;
 }
@@ -83,7 +91,6 @@ void Object3DBase::CreateColldierBox(MyEngine::ColliderBase* base)
 	auto box = dynamic_cast<MyEngine::ColliderBox*>(base);
 
 	auto col = std::dynamic_pointer_cast<MyEngine::ColliderBox>(CreateCollider(MyEngine::ColKind::BOX));
-//	memcpy(col.get(), box, sizeof(MyEngine::ColliderBox));
 	col->center = box->center;
 	col->isTrigger = box->isTrigger;
 	col->size = box->size;
@@ -96,9 +103,25 @@ void Object3DBase::CreateColldierSphere(MyEngine::ColliderBase* base)
 	auto sphere = dynamic_cast<MyEngine::ColliderSphere*>(base);
 
 	auto col = std::dynamic_pointer_cast<MyEngine::ColliderSphere>(CreateCollider(MyEngine::ColKind::SPHERE));
-//	memcpy(col.get(), sphere, sizeof(MyEngine::ColliderSphere));
 	col->center = sphere->center;
 	col->isTrigger = sphere->isTrigger;
 	col->radius = sphere->radius;
+}
+
+void Object3DBase::CreateColldierCapsule(MyEngine::ColliderBase* base)
+{
+	auto capsule = dynamic_cast<MyEngine::ColliderCapsule*>(base);
+
+	auto col = std::dynamic_pointer_cast<MyEngine::ColliderCapsule>(CreateCollider(MyEngine::ColKind::CAPSULE));
+	col->center = capsule->center;
+	col->isTrigger = capsule->isTrigger;
+	col->dir = capsule->dir;
+	col->size = capsule->size;
+	col->radius = capsule->radius;
+}
+
+bool Object3DBase::IsInCamera() const
+{
+	return false;
 }
 

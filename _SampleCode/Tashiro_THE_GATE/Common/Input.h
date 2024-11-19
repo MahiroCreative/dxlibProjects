@@ -62,8 +62,9 @@ public:
 	/// </summary>
 	/// <param name="command">コマンド</param>
 	/// <param name="repeatInterval">リピート間隔(def = 5)</param>
+	/// <param name="startInterval">最初のリピート間隔　-値ならリピート間隔をそのまま入れる</param>
 	/// <returns>true: 押した瞬間or一定間隔経った/ false: 押していないor一定時間経っていない</returns>
-	bool IsRepeat(const char* const command, int repeatInterval = 5);
+	bool IsRepeat(const char* const command, int repeatInterval = 5, int startInterval = -1);
 
 	InputTriggerData_t GetTriggerData() const { return m_trigger; }
 #ifdef _DEBUG

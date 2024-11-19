@@ -12,42 +12,48 @@ public:
 	SceneOption();
 	~SceneOption() {}
 
-	// シーンに入るときの初期化処理
+	// 初期化処理(非同期)
+	void AsyncInit() override;
+	// 初期化処理(同期)
 	void Init() override;
-	// 毎フレーム行う更新処理
-	void Update(bool isFade) override;
-	// 毎フレーム行う描画処理
-	void Draw() const override;
-	// シーンを抜けるときの処理
+	// 終了処理
 	void End() override;
+	// 更新処理(同期)
+	void Update(bool isFade) override;
+	// 描画処理
+	void Draw() const override;
 
 	void CheckOpenScene(SceneKind openScene);
 
 private:
-	void TitleUpdate();
-	void MainUpdate();
-
+	void FadeInUpdate();
+	void FadeOutUpdate();
+	void SelectTitleUpdate();
 	void SelectMainUpdate();
 	void CheckMainUpdate();
 
-	void DrawSoundBar(int y, int volume) const;
-
 	void SoundChangeUpdate(int current);
+
+	void DrawFade() const;
+	void DrawCommon() const;
+	void DrawSoundBar(int y, int volume, float volumeRate) const;
+	void DrawCheck() const;
 
 private:
 	using UpdateFunc_t = void(SceneOption::*)();
 	UpdateFunc_t m_updateFunc;
-	UpdateFunc_t m_mainUpdateFunc;
+	using DrawFunc_t = void(SceneOption::*)() const;
+	DrawFunc_t m_drawFunc;
 
 	std::unordered_map<SceneKind, std::vector<std::wstring>> m_selectStrList;
 
 	std::vector<std::shared_ptr<UIMoveData>> m_uiList;
-	std::shared_ptr<UIMoveData> m_soundUI;
 
 	SceneKind m_openScene;
 
 	int m_selectCurrent;
 	int m_checkCurrent;
+	int m_waveCount;
 
-	bool m_isCheck;
+	float m_fadeCount;
 };

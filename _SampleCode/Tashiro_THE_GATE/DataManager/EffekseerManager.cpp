@@ -47,13 +47,13 @@ void EffekseerManager::Update()
 	{
 		// 流しているエフェクトが終了していれば削除
 		auto& info = item.second;
-		info.t2.remove_if(
+		info.handleList.remove_if(
 			[](const auto& handle)
 			{
 				return IsEffekseer3DEffectPlaying(handle) == -1;
 			});
 		// 流しているエフェクトがなくなれば削除リストに追加
-		if (info.t2.empty())
+		if (info.handleList.empty())
 		{
 			eraseList.emplace_back(item.first);
 		}
@@ -80,16 +80,16 @@ int EffekseerManager::Play(const wchar_t* const id)
 	if (!isFind)
 	{
 		auto& mgr = FileManager::GetInstance();
-		PlayInfo_t info;
+		PlayInfo info;
 		// モデルのロード
-		info.t1 = mgr.Load(id);
+		info.file = mgr.Load(id);
 		m_playInfoList[id] = info;
 	}
 	auto& info = m_playInfoList.at(id);
 	// エフェクトの再生
-	auto handle = PlayEffekseer3DEffect(info.t1->GetHandle());
+	auto handle = PlayEffekseer3DEffect(info.file->GetHandle());
 	// mapのプレイリストに追加
-	info.t2.emplace_back(handle);
+	info.handleList.emplace_back(handle);
 	// ハンドルを返す
 	return handle;
 }
@@ -104,7 +104,7 @@ void EffekseerManager::AllStop()
 	// エフェクトの全停止
 	for (auto& item : m_playInfoList)
 	{
-		for (auto& handle : item.second.t2)
+		for (auto& handle : item.second.handleList)
 		{
 			StopEffekseer3DEffect(handle);
 		}

@@ -20,7 +20,7 @@ namespace
 	};
 	const std::unordered_map<std::wstring, ObjectTag> GATE_TAG_TABLE =
 	{
-		{ L"SystemWall", ObjectTag::SYSTEM_WALL },
+		{ L"SystemWall", ObjectTag::WALL },
 		{ L"Floor", ObjectTag::FLOOR },
 	};
 }

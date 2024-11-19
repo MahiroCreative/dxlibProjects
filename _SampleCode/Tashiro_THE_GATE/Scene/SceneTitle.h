@@ -11,14 +11,16 @@ public:
 	SceneTitle();
 	~SceneTitle() {}
 
-	// シーンに入るときの初期化処理
+	// 初期化処理(非同期)
+	void AsyncInit() override;
+	// 初期化処理(同期)
 	void Init() override;
-	// 毎フレーム行う更新処理
-	void Update(bool isFade) override;
-	// 毎フレーム行う描画処理
-	void Draw() const override;
-	// シーンを抜けるときの処理
+	// 終了処理
 	void End() override;
+	// 更新処理(同期)
+	void Update(bool isFade) override;
+	// 描画処理
+	void Draw() const override;
 
 private:
 	/// <summary>
@@ -127,7 +129,6 @@ private:
 	int m_fadeFrame;
 	int m_waveCount;
 
-	bool m_isStart;
 	bool m_isFade;
 	bool m_isFadeTime;
 	bool m_isDrawMenu;

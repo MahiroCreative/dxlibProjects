@@ -29,22 +29,26 @@ public:
 	virtual ~SceneBase() {}
 
 	/// <summary>
-	/// シーンに入るときの初期化処理
+	/// シーンに入る時の初期化処理(非同期で行うもの)
 	/// </summary>
-	virtual void Init() = 0;
+	virtual void AsyncInit() abstract;
 	/// <summary>
-	/// 毎フレーム行う更新処理
+	/// シーンに入るときの初期化処理(同期処理で行うの)
 	/// </summary>
-	/// <param name="isFade">true:フェードしている /false:フェードしていない</param>
-	virtual void Update(bool isFade) = 0;
-	/// <summary>
-	/// 毎フレーム行う描画処理
-	/// </summary>
-	virtual void Draw() const = 0;
+	virtual void Init() abstract;
 	/// <summary>
 	/// シーンを抜けるときの処理
 	/// </summary>
-	virtual void End() = 0;
+	virtual void End() abstract;
+	/// <summary>
+	/// 更新処理(同期)
+	/// </summary>
+	/// <param name="isFade">true:フェードしている /false:フェードしていない</param>
+	virtual void Update(bool isFade) abstract;
+	/// <summary>
+	/// 描画処理
+	/// </summary>
+	virtual void Draw() const abstract;
 
 	/// <summary>
 	/// 現在のシーンの種類

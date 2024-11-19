@@ -36,7 +36,8 @@ namespace MyEngine
 		{
 			std::weak_ptr<Collidable> own;
 			std::weak_ptr<Collidable> send;
-			int colIndex;
+			int ownColIndex;
+			int sendColIndex;
 			CollideHitInfo hitInfo;
 			OnCollideInfoKind kind;
 		};
@@ -123,10 +124,11 @@ namespace MyEngine
 		/// </summary>
 		/// <param name="own">送る側</param>
 		/// <param name="send">通知を受け取る側</param>
-		/// <param name="colIndex">判定データの要素番号</param>
+		/// <param name="ownIndex">判定データの要素番号(自身)</param>
+		/// <param name="sendIndex">判定データの要素番号(対象)</param>
 		/// <param name="hitInfo">当たった情報</param>
 		/// <param name="kind">通知の種類</param>
-		void OnCollideInfo(const std::weak_ptr<Collidable>& own, const std::weak_ptr<Collidable>& send, int colIndex, const CollideHitInfo& hitInfo, OnCollideInfoKind kind);
+		void OnCollideInfo(const std::weak_ptr<Collidable>& own, const std::weak_ptr<Collidable>& send, int ownIndex, int sendIndex, const CollideHitInfo& hitInfo, OnCollideInfoKind kind);
 		/// <summary>
 		/// 座標を確定させる
 		/// </summary>

@@ -1,6 +1,6 @@
-﻿#pragma once
-#include "Object/Object3DBase.h"
+﻿#include "Object/Object3DBase.h"
 
+class FileBase;
 class GateManager;
 class LaserBullet;
 
@@ -11,6 +11,7 @@ public:
 	~LaserLaunchPad();
 
 	void Init(const Vec3& dir);
+	void End() override;
 	void Restart() override;
 	void Update() override;
 
@@ -19,6 +20,7 @@ public:
 
 private:
 	const GateManager* m_gateMgr;
+	std::shared_ptr<FileBase> m_shotSe;
 	std::shared_ptr<LaserBullet> m_bullet;
 
 	Vec3 m_firingDir;

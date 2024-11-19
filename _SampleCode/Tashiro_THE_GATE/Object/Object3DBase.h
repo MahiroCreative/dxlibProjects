@@ -21,7 +21,7 @@ public:
 
 	virtual void Init() {}
 	virtual void Init(const Vec3& pos, const Vec3& scale, const Quaternion& rot, std::list<Tuple<MyEngine::ColKind, MyEngine::ColliderBase*>> list, bool isGravity);
-	virtual void End();
+	virtual void End() override;
 	virtual void Restart() {}
 	virtual void Update() {}
 	virtual void Draw() const;
@@ -38,12 +38,17 @@ public:
 private:
 	void CreateColldierBox(MyEngine::ColliderBase* base);
 	void CreateColldierSphere(MyEngine::ColliderBase* base);
+	void CreateColldierCapsule(MyEngine::ColliderBase* base);
+
+	bool IsInCamera() const;
 
 protected:
 	// モデルハンドル
 	int m_modelHandle;
 	// 頂点シェーダハンドル
 	int m_vsH;
+	// ピクセルシェーダハンドル
+	int m_psH;
 
 	// ピボット(モデルの中心をずらす)
 	Vec3 m_pivot;

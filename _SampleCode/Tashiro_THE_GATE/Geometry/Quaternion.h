@@ -2,6 +2,7 @@
 #include "Vec3.h"
 #include <cmath>
 #include <cassert>
+#include "Utility.h"
 
 /// <summary>
 /// クオータニオン
@@ -46,32 +47,6 @@ public:
 		Quaternion newPos = *this * posQ * this->Conjugated();
 
 		return Vec3(newPos.x, newPos.y, newPos.z);
-	}
-
-	/// <summary>
-	/// クオータニオンをX,Y,Zにどれくらい回転しているかにして返す
-	/// </summary>
-	/// <returns>弧度法での回転具合</returns>
-	Vec3 GetRadian() const
-	{
-		float q00 = w * w;
-		float q11 = x * x;
-		float q22 = y * y;
-		float q33 = z * z;
-		float q01 = w * x;
-		float q02 = w * y;
-		float q03 = w * z;
-		float q12 = x * y;
-		float q13 = x * z;
-		float q23 = y * z;
-
-		Vec3 res;
-
-		res.x = std::atan2f(2.0f * (q23 + q01), (q00 - q11 - q22 + q33));
-		res.y = -std::asinf(2.0f * (q13 - q02));
-		res.z = std::atan2f(2.0f * (q12 + q03), (q00 + q11 - q22 - q33));
-
-		return res;
 	}
 
 public:
@@ -119,12 +94,102 @@ public:
 		float dot = Vec3::Dot(norm1, norm2);
 		float angle = std::acosf(dot) * Game::RAD_2_DEG;
 		auto axis = Vec3::Cross(norm1, norm2);
-		if (axis.SqLength() == 0.0f)
+		if (axis.SqLength() < 0.0001f)
 		{
 			axis = axisWhenParallel;
 		}
 
 		return AngleAxis(angle, axis);
+	}
+	/// <summary>
+	/// クオータニオンからオイラー角に変換
+	/// </summary>
+	/// <param name="q">クオータニオン</param>
+	/// <returns>オイラー角(候補2つ)</returns>
+	static Tuple<Vec3, Vec3> GetEuler(const Quaternion& q)
+	{
+		auto sinX = 2 * q.y * q.z - 2 * q.x * q.w;
+
+		// X軸の回転が0度付近の場合、0になるか360で差が大きいので0に丸める
+		if (std::abs(sinX) < 0.001f)
+		{
+			sinX = 0.0f;
+		}
+
+		auto x = std::asinf(-sinX);
+		// X軸の回転がジンバルロック状態になっている場合(90度付近)
+		if (isnan(x) || std::abs((std::abs(x) - Game::PI_F * 0.5f)) < 0.001f)
+		{
+			x = signbit(-sinX) * Game::PI_F * 0.5f;
+			return Tuple<Vec3, Vec3>(ToEulerAngleZimbalLock(x, 0.0f, q), ToEulerAngleZimbalLock(x, 0.0f, q));
+		}
+		// ジンバルロック状態になっていない
+		else
+		{
+			auto x2 = Game::PI_F - x;
+			return Tuple<Vec3, Vec3>(GetEuler(x, q), GetEuler(x2, q));
+		}
+	}
+private:
+	/// <summary>
+	/// オイラー変換(ジンバルロックなし)
+	/// </summary>
+	/// <param name="x">x軸周りの回転</param>
+	/// <param name="q">クオータニオン</param>
+	/// <returns>オイラー角</returns>
+	static Vec3 GetEuler(float x, const Quaternion& q)
+	{
+		auto cosX = std::cosf(x);
+
+		auto sinY = (2 * q.x * q.z + 2 * q.y * q.w) / cosX;
+		auto cosY = (2 * std::powf(q.w, 2) + 2 * std::powf(q.z, 2) - 1) / cosX;
+		auto y = std::atan2(sinY, cosY);
+
+		auto sinZ = (2 * q.x * q.y + 2 * q.y * q.w) / cosX;
+		auto cosZ = (2 * std::powf(q.w, 2) + 2 * std::powf(q.y, 2) - 1) / cosX;
+		auto z = std::atan2(sinZ, cosZ);
+
+		Vec3 res;
+		res.x = Normalize(x * Game::RAD_2_DEG);
+		res.y = Normalize(y * Game::RAD_2_DEG);
+		res.z = Normalize(z * Game::RAD_2_DEG);
+		return res;
+	}
+	/// <summary>
+	/// オイラー変換(ジンバルロックの場合)
+	/// </summary>
+	/// <param name="x">x軸周りの回転</param>
+	/// <param name="z">z軸周りの回転(0.0fでいい？)</param>
+	/// <param name="q">クオータニオン</param>
+	/// <returns>オイラー角</returns>
+	static Vec3 ToEulerAngleZimbalLock(float x, float z, const Quaternion& q)
+	{
+		float y = 0.0f;
+		if (x > 0)
+		{
+			auto yMinusZ = std::atan2f(2 * q.x * q.y - 2 * q.z * q.w, 2 * std::powf(q.w, 2) + 2 * std::powf(q.x, 2) - 1);
+			y = yMinusZ + z;
+		}
+		else
+		{
+			auto yPlusZ = std::atan2f(-(2 * q.x * q.y - 2 * q.z * q.w), 2 * std::powf(q.w, 2) + 2 * std::powf(q.x, 2) - 1);
+			y = yPlusZ - z;
+		}
+
+		Vec3 res;
+		res.x = Normalize(x * Game::RAD_2_DEG);
+		res.y = Normalize(y * Game::RAD_2_DEG);
+		res.z = Normalize(z * Game::RAD_2_DEG);
+		return res;
+	}
+	/// <summary>
+	/// 範囲の制限
+	/// </summary>
+	/// <param name="in">値</param>
+	/// <returns>0~359.999f</returns>
+	static float Normalize(float in)
+	{
+		return std::fmod(in > 0.0f ? in : in + 360.0f, 360.0f);
 	}
 };
 

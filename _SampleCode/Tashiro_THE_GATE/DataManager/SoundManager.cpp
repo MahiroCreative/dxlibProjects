@@ -2,10 +2,16 @@
 #include <cassert>
 #include <algorithm>
 #include "SoundManager.h"
+#include "Collidable.h"
 
 namespace
 {
+	// 最大ボリューム
 	constexpr int VOLUME_MAX = 255;
+
+	// 音量を減少させる距離
+	constexpr float SOUND_DEL_DIS = 50.0f;
+	constexpr float SOUND_DEL_SQ_DIS = SOUND_DEL_DIS * SOUND_DEL_DIS;
 }
 
 SoundManager::SoundManager() :
@@ -32,6 +38,24 @@ void SoundManager::Update()
 {
 	if (m_isStop) return;
 
+	// Seの中心とするものがある場合
+	if (!m_seCenter.expired())
+	{
+		const auto& center = m_seCenter.lock()->GetPos();
+
+		for (auto& info : m_saveSeList)
+		{
+			// オブジェクトの距離によって音を変更しない場合次の処理へ
+			if (info.master.expired()) continue;
+			// サウンドが終了していれば次の処理へ
+			if (!CheckSoundMem(info.handle)) continue;
+
+			const auto& target = info.master.lock()->GetPos();
+			float rate = 1.0f - std::min<float>((target - center).SqLength() / SOUND_DEL_SQ_DIS, 1.0f);
+			ChangePlaySeVol(info.handle, rate);
+		}
+	}
+	
 	m_saveSeList.remove_if(
 		[](const auto& info)
 		{
@@ -116,30 +140,26 @@ void SoundManager::PlaySe(int seHandle, bool isOption)
 
 	auto err = PlaySoundMem(seHandle, DX_PLAYTYPE_BACK, true);
 	assert(err != -1);
-//	PlaySoundMem(seHandle, DX_PLAYTYPE_NORMAL, true);
 	m_soundHandle = seHandle;
 
 	if (!isOption)
 	{
-		m_saveSeList.emplace_back(SaveSeData{seHandle, 0});
+		m_saveSeList.emplace_back(SaveSeData{ seHandle, 0 });
 	}
 }
 
-void SoundManager::PlayFadeSe(int handle, float rate, bool isOption)
+void SoundManager::PlaySe3D(int seHandle, const std::weak_ptr<MyEngine::Collidable> master, bool isOption)
 {
-	if (IsNowPlay(handle))
-	{
-		ChangePlaySeVol(handle, rate);
-		return;
-	}
+	// 音量の変更
+	ChangeNextPlayVolumeSoundMem(m_seVolume, seHandle);
 
-	ChangeNextPlayVolumeSoundMem(static_cast<int>(m_seVolume * rate), handle);
-
-	PlaySoundMem(handle, DX_PLAYTYPE_BACK, true);
+	auto err = PlaySoundMem(seHandle, DX_PLAYTYPE_BACK, true);
+	assert(err != -1);
+	m_soundHandle = seHandle;
 
 	if (!isOption)
 	{
-		m_saveSeList.emplace_back(SaveSeData{ handle, 0 });
+		m_saveSeList.emplace_back(SaveSeData{ seHandle, 0, master });
 	}
 }
 
@@ -167,6 +187,8 @@ void SoundManager::Stop(int handle)
 void SoundManager::ChangeBgmVol(int volume, bool isApp)
 {
 	m_bgmVolume = std::max<int>(std::min<int>(volume, VOLUME_MAX), 0);
+
+	if (m_nowPlayBgm < 0) return;
 	
 	if (isApp)
 	{
@@ -177,6 +199,8 @@ void SoundManager::ChangeBgmVol(int volume, bool isApp)
 void SoundManager::ChangeSeVol(int volume)
 {
 	m_seVolume = std::max<int>(std::min<int>(volume, VOLUME_MAX), 0);
+
+	if (m_soundHandle < 0) return;
 
 	PlaySe(m_soundHandle);
 }

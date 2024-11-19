@@ -28,8 +28,7 @@ public:
 	/// <summary>
 	/// シーンの変更
 	/// </summary>
-	/// <param name="isFade">true: フェードを行う(default) / false: フェードを行わい</param>
-	void Change(const std::shared_ptr<SceneBase>& next, bool isFade = true);
+	void Change(const std::shared_ptr<SceneBase>& next);
 
 	/// <summary>
 	/// 流すBgmを変更する
@@ -57,19 +56,14 @@ public:
 private:
 	using UpdateFunc_t = void(SceneManager::*)();
 	void NormalUpdate();
+	void FadeOut();
 	void FileLoadingUpdate();
+	void FadeIn();
 
 	using DrawFunc_t = void(SceneManager::*)() const;
 	void DrawNormal() const;
+	void DrawFade() const;
 	void FileLoadingDraw() const;
-
-	// フェードアウトに使うもの
-	using FadeFunc_t = void(SceneManager::*)();
-	void FadeNone();
-	void FadeIn();
-	void FadeOut();
-
-	void CheckFileLoadingStart();
 
 private:
 	std::shared_ptr<SceneBase> m_option;
@@ -83,8 +77,6 @@ private:
 	int m_bgmH;
 
 	// フェードアウトに使うもの
-	FadeFunc_t m_fadeFunc;
 	float m_fadeRate;
-	bool m_isFade;
 };
 

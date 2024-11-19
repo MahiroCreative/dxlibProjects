@@ -90,37 +90,39 @@ bool Input::IsReleased(const char* const command) const
 	return !(m_padstate & cmd) && (m_prePadstate & cmd);
 }
 
-#ifdef _DEBUG
-bool Input::IsRepeat(const char* const command, int repeatInterval)
+bool Input::IsRepeat(const char* const command, int repeatInterval, int startInterval)
 {
 	auto& frame = m_repeatFrame[command];
 	// 押した瞬間
 	if (IsTriggerd(command))
 	{
-		// フレームをリピート時間にする
-		frame = repeatInterval;
+		// スタートリピート間隔が-ならリピート時間にする
+		if (startInterval < 0)	frame = repeatInterval;
+		// 違うならその値を入れる
+		else					frame = startInterval;
 		return true;
 	}
 	// 押している間
 	else if (IsPress(command))
 	{
+		bool isCheck = false;
+
 		// フレームが0未満になったら
 		if (frame < 0)
 		{
 			// フレームをリピート時間にする
 			frame = repeatInterval;
-			return true;
+			isCheck =  true;
 		}
-		// 違うなら
-		else
-		{
-			// フレーム時間を減らす
-			--frame;
-			return false;
-		}
+
+		// フレーム時間を減らす
+		--frame;
+		return isCheck;
 	}
 	return false;
 }
+
+#ifdef _DEBUG
 bool Input::IsPress(int key) const
 {
 	return m_keystate[key];

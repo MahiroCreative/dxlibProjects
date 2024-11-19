@@ -19,21 +19,16 @@ void PlayerCamera::Update(const Vec3& playerPos)
 	constexpr float ANGLE_CAMERA = 1.0f;
 	// カメラの回転
 	auto& input = Input::GetInstance();
-	const auto& trigger = input.GetTriggerData();
+	const auto& trigger = input.GetTriggerData().RStick;
 	m_info.targetPos = playerPos;
-	if (trigger.RStick.SqLength() > 0.0f)
-	{
-		// 左右回転
-		Rotation(trigger.RStick.x * ANGLE_CAMERA);
-		// 上下回転
-		if (trigger.RStick.y)
-		{
-			const auto& axis = Vec3::Cross(m_info.front, Vec3::Up());
-			Rotation(trigger.RStick.y * ANGLE_CAMERA, axis);
-		}
-		// MEMO: もし自由に動かしたい場合はこちらに変更
-		// m_camera->Rotation(trigger.RStick.y, info.right);
-	}
+	// 左右回転
+	auto rot = Quaternion::AngleAxis(trigger.x, Vec3::Up());
+	m_info.front = rot * m_info.front;
+	m_info.right = rot * m_info.right;
+	// 上下回転
+	m_info.vertexAngle = std::min<float>(std::max<float>(m_info.vertexAngle + trigger.y * -0.02f, -Game::PI_HALF_F), Game::PI_HALF_F);
+	
+	// FPS、TPS切り替え
 	if (input.IsTriggerd(Command::BTN_CHANGE_VIEW))
 	{
 		m_info.isTps = !m_info.isTps;
@@ -42,8 +37,9 @@ void PlayerCamera::Update(const Vec3& playerPos)
 
 void PlayerCamera::OnWarp(const Vec3& preVelDir, const Vec3& newVelDir, const Vec3& pos)
 {
-	auto rad = Quaternion::GetQuaternion(preVelDir, newVelDir).GetRadian();
-	auto rot = Quaternion::AngleAxis(rad.y * Game::RAD_2_DEG, Vec3::Up());
+	const auto& rotBase = Quaternion::GetQuaternion(preVelDir, newVelDir);
+	const auto& euler = Quaternion::GetEuler(rotBase);
+	const auto& rot = Quaternion::AngleAxis(euler.t1.y, Vec3::Up());
 	m_info.front = rot * m_info.front;
 	m_info.right = rot * m_info.right;
 	m_info.targetPos = pos;
@@ -51,7 +47,7 @@ void PlayerCamera::OnWarp(const Vec3& preVelDir, const Vec3& newVelDir, const Ve
 	auto newPos = m_info.targetPos - m_info.front * GetDistance();
 #ifdef USE_CAMERA_COLLIDABLE
 	m_rigid.SetPos(newPos);
-	m_collider->isTrigger = true;
+	GetColliderData(0)->isTrigger = true;
 #else
 	m_info.cameraPos = newPos;
 #endif

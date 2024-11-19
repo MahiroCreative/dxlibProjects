@@ -145,11 +145,6 @@ std::shared_ptr<FileBase> FileManager::Load(const wchar_t* const name, bool isEt
 	return CastCopyFile(file);
 }
 
-int FileManager::GetVS(const wchar_t* const name) const
-{
-	return m_shaderData.at(name);
-}
-
 void FileManager::SetTexture(int modelH, const std::wstring& name)
 {
 	// モデルにセットするテクスチャデータを取得
@@ -173,6 +168,8 @@ void FileManager::SetTexture(int modelH, const std::wstring& name)
 
 void FileManager::Delete(const wchar_t* const name)
 {
+	// 終了処理が呼ばれていた場合は何もしない
+	if (m_isEnd) return;
 	// 見つかなければ終了
 	if (m_file.find(name) == m_file.end()) return;
 
@@ -344,11 +341,10 @@ void FileManager::LoadModelShader()
 	for (auto& item : csv)
 	{
 		const auto& model = item[0];
-		const auto& shader = item[1];
+		const auto& vs = item[1];
+		const auto& ps = item[2];
 
-		auto file = Load(shader.c_str(), true);
-
-		m_shaderData[model] = file->GetHandle();
+		m_shaderData[model].vs = Load(vs.c_str(), true)->GetHandle();
+		m_shaderData[model].ps = Load(ps.c_str(), true)->GetHandle();
 	}
 }
-

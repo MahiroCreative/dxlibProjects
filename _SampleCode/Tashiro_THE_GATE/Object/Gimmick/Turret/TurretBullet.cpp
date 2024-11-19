@@ -34,9 +34,9 @@ void TurretBullet::Init(const Vec3& pos, const Vec3& dir, Player* player)
 	m_player = player;
 }
 
-void TurretBullet::OnTriggerEnter(MyEngine::Collidable* colider, int colIndex, const MyEngine::CollideHitInfo& hitInfo)
+void TurretBullet::OnTriggerEnter(MyEngine::Collidable* colider, int selfIndex, int sendIndex, const MyEngine::CollideHitInfo& hitInfo)
 {
-	MyEngine::Collidable::OnTriggerEnter(colider, colIndex, hitInfo);
+	MyEngine::Collidable::OnTriggerEnter(colider, selfIndex, sendIndex, hitInfo);
 
 	auto tag = colider->GetTag();
 	// タグがプレイヤーならダメージを与える

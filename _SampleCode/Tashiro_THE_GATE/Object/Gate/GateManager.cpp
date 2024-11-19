@@ -23,9 +23,8 @@ namespace
 
 GateManager::GateManager(const std::shared_ptr<CameraManager>& cameraMgr) :
 	m_cameraMgr(cameraMgr),
-	m_gateA(nullptr),
-	m_gateB(nullptr),
-	m_isCreateBoth(false),
+	m_gateOrange(nullptr),
+	m_gateBlue(nullptr),
 	m_lastShotKind(GateKind::Blue)
 {
 	m_isCreate[GateKind::Orange] = false;
@@ -36,20 +35,31 @@ GateManager::~GateManager()
 {
 }
 
+void GateManager::End()
+{
+	if (m_gateOrange)
+	{
+		m_gateOrange->End();
+		m_gateOrange = nullptr;
+	}
+	if (m_gateBlue)
+	{
+		m_gateBlue->End();
+		m_gateBlue = nullptr;
+	}
+}
+
 void GateManager::Update()
 {
-	if (m_isCreateBoth)
-	{
-		m_gateA->Update();
-		m_gateB->Update();
-	}
-	else
-	{
-		m_isCreateBoth = m_gateA != nullptr && m_gateB != nullptr;
-	}
+	if (m_isCreate.at(GateKind::Blue)) m_gateBlue->Update();
+	if (m_isCreate.at(GateKind::Orange)) m_gateOrange->Update();
 	for (auto& isChange : m_isChange)
 	{
 		isChange.second = false;
+	}
+	for (auto& bullet : m_bulletList)
+	{
+		bullet->Update();
 	}
 	m_bulletList.remove_if(
 		[](const auto& bullet)
@@ -65,24 +75,23 @@ void GateManager::Update()
 
 void GateManager::DrawGatePos() const
 {
-	if (m_isCreate.at(GateKind::Orange)) m_gateA->DrawGatePos();
-	if (m_isCreate.at(GateKind::Blue)) m_gateB->DrawGatePos();
+	if (m_isCreate.at(GateKind::Orange)) m_gateOrange->DrawGatePos();
+	if (m_isCreate.at(GateKind::Blue)) m_gateBlue->DrawGatePos();
 }
 
 void GateManager::DrawGate(int texA, int texB) const
 {
 	// TODO: 対象のゲートの位置からプレイヤーまでの距離を求めてのカメラに変更する
-	if (m_isCreate.at(GateKind::Orange)) m_gateA->DrawGate(texA);
-	if (m_isCreate.at(GateKind::Blue)) m_gateB->DrawGate(texB);
+	if (m_isCreate.at(GateKind::Orange)) m_gateOrange->DrawGate(texA);
+	if (m_isCreate.at(GateKind::Blue)) m_gateBlue->DrawGate(texB);
 }
 
 void GateManager::Restart()
 {
 	// ゲートの破棄
-	m_gateA = nullptr;
-	m_gateB = nullptr;
+	m_gateOrange = nullptr;
+	m_gateBlue = nullptr;
 	// 未生成に更新
-	m_isCreateBoth = false;
 	m_isCreate[GateKind::Orange] = false;
 	m_isCreate[GateKind::Blue] = false;
 	m_isChange[GateKind::Orange] = false;
@@ -108,11 +117,11 @@ void GateManager::CreateGate(GateKind kind, MyEngine::Collidable* collider, cons
 	std::shared_ptr<Gate> gate;
 	if (kind == GateKind::Orange)
 	{
-		gate = m_gateA;
+		gate = m_gateOrange;
 	}
 	else if (kind == GateKind::Blue)
 	{
-		gate = m_gateB;
+		gate = m_gateBlue;
 	}
 	else
 	{
@@ -129,7 +138,7 @@ void GateManager::CreateGate(GateKind kind, MyEngine::Collidable* collider, cons
 	{
 		++m_checkCount;
 		// 壁との判定
-		if (CheckCreateGateHit(pos, info, col, collider, ObjectTag::SYSTEM_WALL)) continue;
+		if (CheckCreateGateHit(pos, info, col, collider, ObjectTag::WALL)) continue;
 		// 床との判定
 		if (CheckCreateGateHit(pos, info, col, collider, ObjectTag::FLOOR)) continue;
 		isCreate = true;
@@ -142,11 +151,11 @@ void GateManager::CreateGate(GateKind kind, MyEngine::Collidable* collider, cons
 	{
 		if (kind == GateKind::Orange)
 		{
-			CreateGate(m_gateA, kind, collider->GetTag(), pos, hitInfo.fixDir, dir);
+			CreateGate(m_gateOrange, kind, collider->GetTag(), pos, hitInfo.fixDir, dir);
 		}
 		else if (kind == GateKind::Blue)
 		{
-			CreateGate(m_gateB, kind, collider->GetTag(), pos, hitInfo.fixDir, dir);
+			CreateGate(m_gateBlue, kind, collider->GetTag(), pos, hitInfo.fixDir, dir);
 		}
 	}
 	else
@@ -166,23 +175,23 @@ void GateManager::CreateGateOnTerrain(const wchar_t* const stageName)
 	const auto& pos = stageDataMgr.GetGatePos(stageName);
 	const auto& norm = stageDataMgr.GetGateNorm(stageName);
 	const auto& dir = stageDataMgr.GetGateDir(stageName);
-	CreateGate(m_gateB, GateKind::Blue, tag, pos, norm, dir);
+	CreateGate(m_gateBlue, GateKind::Blue, tag, pos, norm, dir);
 }
 
 std::shared_ptr<Gate> GateManager::GetPairGate(GateKind kind) const
 {
 	if (kind == GateKind::Orange)
 	{
-		return m_gateB;
+		return m_gateBlue;
 	}
 	else if (kind == GateKind::Blue)
 	{
-		return m_gateA;
+		return m_gateOrange;
 	}
 	else
 	{
 		assert(false && "存在しないゲートの種類です");
-		return m_gateA;
+		return m_gateOrange;
 	}
 }
 

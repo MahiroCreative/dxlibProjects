@@ -10,7 +10,8 @@ namespace
 
 MoveFloorManager::MoveFloorManager() :
     GimmickLinkObject(Priority::STATIC, ObjectTag::NONE),
-    m_createFrame(0)
+    m_createFrame(0),
+    m_isLoop(false)
 {
 }
 
@@ -38,6 +39,33 @@ void MoveFloorManager::Restart()
     }
     // 動く床の削除
     m_floorList.clear();
+    // ループの再設置
+    SetLoop(m_isLoop);
+}
+
+void MoveFloorManager::Draw() const
+{
+    for (auto& item : m_floorList)
+    {
+        item->Draw();
+    }
+}
+
+void MoveFloorManager::SetLoop(bool isLoop)
+{
+    m_isLoop = isLoop;
+    if (isLoop)
+    {
+        auto floor = std::make_shared<MoveFloor>(*this);
+        // 初期化
+        floor->LoadModel(FLIE_FLOOR);
+        floor->Init(m_rigid.GetPos(), m_scale, m_rotation, m_colList, false);
+        floor->InitDir(GetMoveDir(m_rigid.GetPos(), 1));
+        floor->SetFunc(true);
+        floor->StopMove();
+        // リストに追加
+        m_floorList.emplace_back(floor);
+    }
 }
 
 Vec3 MoveFloorManager::GetMoveDir(const Vec3& pos, int no) const
@@ -46,9 +74,9 @@ Vec3 MoveFloorManager::GetMoveDir(const Vec3& pos, int no) const
     return (next - pos).GetNormalized();
 }
 
-bool MoveFloorManager::CheckMovedNextCheckPt(const Vec3& pos, int no)
+bool MoveFloorManager::CheckMovedCheckPt(const Vec3& pos, int no)
 {
-    const auto& next = m_checkPtTable.at(no + 1);
+    const auto& next = m_checkPtTable.at(no);
 
     // 現在地から次のチェックポイントまでの距離が一定値以上ならばまだついていない
     auto dis = (next - pos).SqLength();
@@ -69,6 +97,9 @@ void MoveFloorManager::GimmickOffUpdate()
 
 void MoveFloorManager::CreateUpdate()
 {
+    // ループ時は生成しない
+    if (m_isLoop) return;
+
     --m_createFrame;
     if (m_createFrame < 0)
     {
@@ -77,6 +108,7 @@ void MoveFloorManager::CreateUpdate()
         floor->LoadModel(FLIE_FLOOR);
         floor->Init(m_rigid.GetPos(), m_scale, m_rotation, m_colList, false);
         floor->InitDir(GetMoveDir(m_rigid.GetPos(), 1));
+        floor->SetFunc(false);
         // リストに追加
         m_floorList.emplace_back(floor);
         // カウント初期化

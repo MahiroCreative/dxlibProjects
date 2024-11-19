@@ -17,7 +17,7 @@ public:
 
 	bool IsExist() const { return m_isExist; }
 
-	virtual void OnTriggerEnter(MyEngine::Collidable* colider, int colIndex, const MyEngine::CollideHitInfo& hitInfo) override;
+	virtual void OnTriggerEnter(MyEngine::Collidable* colider, int selfIndex, int sendIndex, const MyEngine::CollideHitInfo& hitInfo) override;
 
 private:
 	Player* m_player;

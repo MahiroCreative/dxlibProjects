@@ -46,44 +46,49 @@ namespace MyEngine
 		/// 物体同士が当たった時の通知処理
 		/// </summary>
 		/// <param name="colider">当たった対象の情報</param>
-		/// <param name="colIndex">判定の要素番号</param>
+		/// <param name="selfIndex">判定の要素番号(自身)</param>
+		/// <param name="sendIndex">判定の要素番号(対象)</param>
 		/// <param name="hitInfo">当たった場所</param>
-		virtual void OnCollideEnter(Collidable* colider, int colIndex, const CollideHitInfo& hitInfo);
+		virtual void OnCollideEnter(Collidable* colider, int selfIndex, int sendIndex, const CollideHitInfo& hitInfo);
 		/// <summary>
 		/// 物体同士が当たっている状態の通知処理
 		/// </summary>
 		/// <param name="colider">当たった対象の情報</param>
-		/// <param name="colIndex">判定の要素番号</param>
+		/// <param name="selfIndex">判定の要素番号(自身)</param>
+		/// <param name="sendIndex">判定の要素番号(対象)</param>
 		/// <param name="hitInfo">当たった場所</param>
-		virtual void OnCollideStay(Collidable* colider, int colIndex, const CollideHitInfo& hitInfo);
+		virtual void OnCollideStay(Collidable* colider, int selfIndex, int sendIndex, const CollideHitInfo& hitInfo);
 		/// <summary>
 		/// 物体同士が離れた時の通知処理
 		/// </summary>
 		/// <param name="colider">当たった対象の情報</param>
-		/// <param name="colIndex">判定の要素番号</param>
+		/// <param name="selfIndex">判定の要素番号(自身)</param>
+		/// <param name="sendIndex">判定の要素番号(対象)</param>
 		/// <param name="hitInfo">当たった場所</param>
-		virtual void OnCollideExit(Collidable* colider, int colIndex, const CollideHitInfo& hitInfo);
+		virtual void OnCollideExit(Collidable* colider, int selfIndex, int sendIndex, const CollideHitInfo& hitInfo);
 		/// <summary>
 		/// 物体が侵入した時の通知処理
 		/// </summary>
 		/// <param name="colider">当たった対象の情報</param>
 		/// <param name="colIndex">判定の要素番号</param>
 		/// <param name="hitInfo">当たった場所</param>
-		virtual void OnTriggerEnter(Collidable* colider, int colIndex, const CollideHitInfo& hitInfo);
+		virtual void OnTriggerEnter(Collidable* colider, int selfIndex, int sendIndex, const CollideHitInfo& hitInfo);
 		/// <summary>
 		/// 物体が通過中の通知処理
 		/// </summary>
 		/// <param name="colider">当たった対象の情報</param>
-		/// <param name="colIndex">判定の要素番号</param>
+		/// <param name="selfIndex">判定の要素番号(自身)</param>
+		/// <param name="sendIndex">判定の要素番号(対象)</param>
 		/// <param name="hitInfo">当たった場所</param>
-		virtual void OnTriggerStay(Collidable* colider, int colIndex, const CollideHitInfo& hitInfo);
+		virtual void OnTriggerStay(Collidable* colider, int selfIndex, int sendIndex, const CollideHitInfo& hitInfo);
 		/// <summary>
 		/// 物体が通過しきった時の通知処理
 		/// </summary>
 		/// <param name="colider">当たった対象の情報</param>
-		/// <param name="colIndex">判定の要素番号</param>
+		/// <param name="selfIndex">判定の要素番号(自身)</param>
+		/// <param name="sendIndex">判定の要素番号(対象)</param>
 		/// <param name="hitInfo">当たった場所</param>
-		virtual void OnTriggerExit(Collidable* colider, int colIndex, const CollideHitInfo& hitInfo);
+		virtual void OnTriggerExit(Collidable* colider, int selfIndex, int sendIndex, const CollideHitInfo& hitInfo);
 
 		/// <summary>
 		/// タグの取得
@@ -137,7 +142,9 @@ namespace MyEngine
 		/// <param name="start">{ Collide, Trigger }を入れる</param>
 		/// <param name="end">{ 当たった, 当たっている, 離れた }を入れる</param>
 		/// <param name="collider">対象の情報</param>
-		void SendCollideInfo(const char* start, const char* const end, Collidable* collider);
+		/// <param name="selfIndex">判定インデックス番号(自身)</parm>
+		/// <param name="sendIndex">判定インデックス番号(対象)</parm>
+		void SendCollideInfo(const char* start, const char* const end, Collidable* collider, int selfIndex, int sendIndex);
 #endif
 
 	protected:
@@ -147,6 +154,8 @@ namespace MyEngine
 		std::vector<std::shared_ptr<ColliderBase>> m_collider;
 		// Trigger判定だけを取るオブジェクトタグ
 		std::list<ObjectTag> m_throughTag;
+		// 地面判定タグ
+		std::list<ObjectTag> m_groundTag;
 
 	private:
 		// オブジェクトタグ

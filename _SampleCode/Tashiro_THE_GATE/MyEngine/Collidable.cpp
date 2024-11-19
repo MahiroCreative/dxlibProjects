@@ -12,6 +12,13 @@ Collidable::Collidable(Priority priority, ObjectTag tag) :
 	m_tag(tag),
 	m_isEntry(false)
 {
+	m_groundTag.emplace_back(ObjectTag::FLOOR);
+	m_groundTag.emplace_back(ObjectTag::FLOOR_MOVE);
+	m_groundTag.emplace_back(ObjectTag::NO_GATE_FLOOR);
+	m_groundTag.emplace_back(ObjectTag::ROOF);
+	m_groundTag.emplace_back(ObjectTag::NO_GATE_ROOF);
+	m_groundTag.emplace_back(ObjectTag::STAIRS);
+	m_groundTag.emplace_back(ObjectTag::CATWALK);
 }
 
 Collidable::~Collidable()
@@ -33,19 +40,21 @@ ColliderBase* Collidable::GetColliderData(int index) const
 	return m_collider.at(index).get();
 }
 
-void Collidable::OnCollideEnter(Collidable* colider, int colIndex, const CollideHitInfo& hitInfo)
+void Collidable::OnCollideEnter(Collidable* colider, int selfIndex, int sendIndex, const CollideHitInfo& hitInfo)
 {
 #ifdef _DEBUG
-	SendCollideInfo("Collide", "当たった", colider);
+	SendCollideInfo("Collide", "当たった", colider, selfIndex, sendIndex);
 #endif
 }
 
-void Collidable::OnCollideStay(Collidable* colider, int colIndex, const CollideHitInfo& hitInfo)
+void Collidable::OnCollideStay(Collidable* colider, int selfIndex, int sendIndex, const CollideHitInfo& hitInfo)
 {
 #ifdef _DEBUG
-	SendCollideInfo("Collide", "当たっている", colider);
+	SendCollideInfo("Collide", "当たっている", colider, selfIndex, sendIndex);
 #endif
-	if (colider->GetTag() == ObjectTag::FLOOR)
+	const auto& tag = colider->GetTag();
+	const auto& isFind = std::find(m_groundTag.begin(), m_groundTag.end(), tag) != m_groundTag.end();
+	if (isFind)
 	{
 		auto vel = m_rigid.GetVelocity();
 		vel.y = 0;
@@ -53,31 +62,31 @@ void Collidable::OnCollideStay(Collidable* colider, int colIndex, const CollideH
 	}
 }
 
-void Collidable::OnCollideExit(Collidable* colider, int colIndex, const CollideHitInfo& hitInfo)
+void Collidable::OnCollideExit(Collidable* colider, int selfIndex, int sendIndex, const CollideHitInfo& hitInfo)
 {
 #ifdef _DEBUG
-	SendCollideInfo("Collide", "離れた", colider);
+	SendCollideInfo("Collide", "離れた", colider, selfIndex, sendIndex);
 #endif
 }
 
-void Collidable::OnTriggerEnter(Collidable* colider, int colIndex, const CollideHitInfo& hitInfo)
+void Collidable::OnTriggerEnter(Collidable* colider, int selfIndex, int sendIndex, const CollideHitInfo& hitInfo)
 {
 #ifdef _DEBUG
-	SendCollideInfo("Trigger", "当たった", colider);
+	SendCollideInfo("Trigger", "当たった", colider, selfIndex, sendIndex);
 #endif
 }
 
-void Collidable::OnTriggerStay(Collidable* colider, int colIndex, const CollideHitInfo& hitInfo)
+void Collidable::OnTriggerStay(Collidable* colider, int selfIndex, int sendIndex, const CollideHitInfo& hitInfo)
 {
 #ifdef _DEBUG
-	SendCollideInfo("Trigger", "当たっている", colider);
+	SendCollideInfo("Trigger", "当たっている", colider, selfIndex, sendIndex);
 #endif
 }
 
-void Collidable::OnTriggerExit(Collidable* colider, int colIndex, const CollideHitInfo& hitInfo)
+void Collidable::OnTriggerExit(Collidable* colider, int selfIndex, int sendIndex, const CollideHitInfo& hitInfo)
 {
 #ifdef _DEBUG
-	SendCollideInfo("Trigger", "離れた", colider);
+	SendCollideInfo("Trigger", "離れた", colider, selfIndex, sendIndex);
 #endif
 }
 
@@ -151,36 +160,9 @@ std::shared_ptr<ColliderBase> Collidable::CreateCollider(const ColKind& kind)
 
 #ifdef _DEBUG
 #include "ObjectTag.h"
-#include <unordered_map>
-void Collidable::SendCollideInfo(const char* start, const char* const end, Collidable* collider)
+void Collidable::SendCollideInfo(const char* start, const char* const end, Collidable* collider, int selfIndex, int sendIndex)
 {
-	const std::unordered_map<ObjectTag, const char* const> TAG_NAME =
-	{
-		{ ObjectTag::PALYER, "プレイヤー" },
-		{ ObjectTag::CAMERA, "カメラ" },
-		{ ObjectTag::FLOOR, "床" },
-		{ ObjectTag::FLOOR_SMALL, "小さい床" },
-		{ ObjectTag::FLOOR_MOVE, "動く床" },
-		{ ObjectTag::ROOF,	 "天井" },
-		{ ObjectTag::SYSTEM_WALL, "システム壁" },
-		{ ObjectTag::NO_GATE_WALL, "ゲート生成不可壁" },
-		{ ObjectTag::DUMMY_WALL, "ダミー壁" },
-		{ ObjectTag::GATE, "ゲート" },
-		{ ObjectTag::GATE_BULLET, "ゲートの弾" },
-		{ ObjectTag::HAND_OBJ, "手で持てるオブジェ" },
-		{ ObjectTag::BUTTON, "ボタン" },
-		{ ObjectTag::PISTON, "ピストン" },
-		{ ObjectTag::TURRET, "タレット" },
-		{ ObjectTag::TURRET_BULLET, "タレットの球" },
-		{ ObjectTag::LASER_LAUNCH_PAD, "レーザーの開始地点" },
-		{ ObjectTag::LASER_CATCHER, "レーザーの終了地点" },
-		{ ObjectTag::LASER_BULLET, "レーザーの弾" },
-		{ ObjectTag::GIMMICK, "ギミック" },
-		{ ObjectTag::ELEVATOR, "エレベータ" },
-		{ ObjectTag::CHECK_POINT, "チェックポイント" },
-		{ ObjectTag::NONE, "何かしら" },
-	};
-
-	printf("%s:%sが%sと%s\n", start, TAG_NAME.at(m_tag), TAG_NAME.at(collider->GetTag()), end);
+	printf("%s:%sが%sと%s\n", start, Tags::TAG_NAME.at(m_tag), Tags::TAG_NAME.at(collider->GetTag()), end);
+	printf("selfIndex: %d/ sendIndex: %d\n", selfIndex, sendIndex);
 }
 #endif

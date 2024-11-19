@@ -44,9 +44,11 @@ public:
 	int GetTime(const wchar_t* const stageName, int rankingNo) { return m_localData.at(stageName).at(rankingNo); }
 
 private:
+	/// <summary>
+	/// データ初期化
+	/// </summary>
 	void Initialize();
 
-private:
 	/// <summary>
 	/// ランキングの更新
 	/// </summary>

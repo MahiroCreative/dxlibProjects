@@ -25,8 +25,8 @@ public:
 	void Init(const Vec3& pos, const Vec3& scale, const Quaternion& rot, std::list<Tuple<MyEngine::ColKind, MyEngine::ColliderBase*>> list, bool isGravity) override;
 	void Update() override;
 
-	virtual void OnCollideStay(MyEngine::Collidable* colider, int colIndex, const MyEngine::CollideHitInfo& hitInfo) override;
-	virtual void OnCollideExit(MyEngine::Collidable* colider, int colIndex, const MyEngine::CollideHitInfo& hitInfo) override;
+	virtual void OnCollideStay(MyEngine::Collidable* colider, int selfIndex, int sendIndex, const MyEngine::CollideHitInfo& hitInfo) override;
+	virtual void OnCollideExit(MyEngine::Collidable* colider, int selfIndex, int sendIndex, const MyEngine::CollideHitInfo& hitInfo) override;
 
 private:
 	void UpdateDown();
@@ -39,6 +39,8 @@ private:
 	StateMachine<State> m_stateMachine;
 
 	std::shared_ptr<FileBase> m_pushSe;
+	std::shared_ptr<FileBase> m_difPs;
+	std::shared_ptr<FileBase> m_norPs;
 
 	Vec3 m_startPos;
 

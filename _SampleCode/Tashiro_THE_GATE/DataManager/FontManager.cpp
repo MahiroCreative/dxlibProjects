@@ -47,13 +47,17 @@ void FontManager::Init()
 	}
 
 	// 使いそうなサイズを作っておく
+	m_handle[16] = CreateFontToHandle(kFontName, 16, -1);
 	m_handle[24] = CreateFontToHandle(kFontName, 24, -1);
 	m_handle[28] = CreateFontToHandle(kFontName, 28, -1);
 	m_handle[32] = CreateFontToHandle(kFontName, 32, -1);
 	m_handle[36] = CreateFontToHandle(kFontName, 36, -1);
+	m_handle[42] = CreateFontToHandle(kFontName, 42, -1);
 	m_handle[48] = CreateFontToHandle(kFontName, 48, -1);
 	m_handle[56] = CreateFontToHandle(kFontName, 56, -1);
+	m_handle[60] = CreateFontToHandle(kFontName, 60, -1);
 	m_handle[64] = CreateFontToHandle(kFontName, 64, -1);
+	m_handle[80] = CreateFontToHandle(kFontName, 80, -1);
 }
 
 int FontManager::GetHandle(int size) const

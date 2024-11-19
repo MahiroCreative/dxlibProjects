@@ -2,7 +2,6 @@
 #include <unordered_map>
 #include <list>
 #include <memory>
-#include <Utility.h>
 
 struct Vec3;
 struct Quaternion;
@@ -10,6 +9,13 @@ class FileBase;
 
 class EffekseerManager final
 {
+public:
+	struct PlayInfo
+	{
+		std::shared_ptr<FileBase> file;
+		std::list<int> handleList;
+	};
+
 private:
 	EffekseerManager();
 	~EffekseerManager();
@@ -70,7 +76,6 @@ public:
 	void SetInfo(int handle, const Vec3& pos, const Quaternion& rot, const Vec3& scale);
 
 private:
-	using PlayInfo_t = Tuple<std::shared_ptr<FileBase>, std::list<int>>;
-	std::unordered_map<const wchar_t*, PlayInfo_t> m_playInfoList;
+	std::unordered_map<const wchar_t*, PlayInfo> m_playInfoList;
 };
 

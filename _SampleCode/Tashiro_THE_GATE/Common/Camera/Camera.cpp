@@ -8,15 +8,15 @@
 
 namespace
 {
-	constexpr float DEF_NEAR = 1.0f;
+	constexpr float DEF_NEAR = 0.1f;
 	constexpr float DEF_FAR = 100.0f;
 
 	constexpr float DEF_FOV_ANGLE = 60.0f * Game::DEG_2_RAD;
 
 	constexpr float CAMERA_DISTANCE = 10.0f;
+	constexpr float START_VERTEX_ANGLE = 30.0f * Game::DEG_2_RAD;
 	const Vec3 DIR_RIGHT_BASE = Vec3(-1, 0, 0);
-	const Quaternion START_VERTICAL_ROTATION = Quaternion::AngleAxis(30.0f, DIR_RIGHT_BASE);
-	const Vec3 DIR_FRONT_BASE = (START_VERTICAL_ROTATION * Vec3(0, 0, -1)).GetNormalized();
+	const Vec3 DIR_FRONT_BASE = Vec3(0, 0, -1);
 }
 
 Camera::Camera()
@@ -32,6 +32,7 @@ Camera::Camera()
 	m_info.fov = DEF_FOV_ANGLE;
 	m_info.front = DIR_FRONT_BASE;
 	m_info.right = DIR_RIGHT_BASE;
+	m_info.vertexAngle = START_VERTEX_ANGLE;
 }
 
 Camera::~Camera()
@@ -41,25 +42,23 @@ Camera::~Camera()
 void Camera::Update()
 {
 	// 位置を更新
-#ifdef USE_CAMERA_COLLIDABLE
-	auto nowPos = m_rigid.GetPos();
-#else
-	auto& nowPos = m_info.cameraPos;
-#endif
-	auto newPos = m_info.targetPos - m_info.front * CAMERA_DISTANCE;
+	m_info.look = Quaternion::AngleAxis(m_info.vertexAngle * Game::RAD_2_DEG, m_info.right) * m_info.front;
+	auto newPos = m_info.targetPos - m_info.look * CAMERA_DISTANCE;
 
 #ifdef USE_CAMERA_COLLIDABLE
-	auto nextPos = Lerp(nowPos, newPos, 0.1f);
+	auto nowPos = m_rigid.GetPos();
+	auto nextPos = Easing::Lerp(nowPos, newPos, 0.1f);
 	m_rigid.SetVelocity(nextPos - nowPos);
 #else
+	auto& nowPos = m_info.cameraPos;
 	nowPos = Easing::Lerp(nowPos, newPos, 0.1f);
 #endif
 }
 
 #ifdef USE_CAMERA_COLLIDABLE
-void Camera::OnTriggerEnter(MyEngine::Collidable* colider, const Vec3& hitPos)
+void Camera::OnCollideEnter(MyEngine::Collidable* colider, int colIndex, const MyEngine::CollideHitInfo& hitInfo)
 {
-	MyEngine::Collidable::OnTriggerExit(colider, hitPos);
+	MyEngine::Collidable::OnTriggerExit(colider, colIndex, hitInfo);
 	
 	auto tag = colider->GetTag();
 	if (tag == ObjectTag::GATE)
@@ -72,9 +71,9 @@ void Camera::OnTriggerEnter(MyEngine::Collidable* colider, const Vec3& hitPos)
 	}
 }
 
-void Camera::OnTriggerExit(MyEngine::Collidable* colider, const Vec3& hitPos)
+void Camera::OnTriggerExit(MyEngine::Collidable* colider, int colIndex, const MyEngine::CollideHitInfo& hitInfo)
 {
-	MyEngine::Collidable::OnTriggerExit(colider, hitPos);
+	MyEngine::Collidable::OnTriggerExit(colider, colIndex, hitInfo);
 
 	auto tag = colider->GetTag();
 	if (tag == ObjectTag::GATE)
@@ -83,7 +82,7 @@ void Camera::OnTriggerExit(MyEngine::Collidable* colider, const Vec3& hitPos)
 		// 追加したスルータグを消す
 		m_throughTag.pop_back();
 	}
-	else if (tag == ObjectTag::SYSTEM_WALL || tag == ObjectTag::FLOOR)
+	else if (tag == ObjectTag::WALL || tag == ObjectTag::FLOOR || tag == ObjectTag::ROOF || tag == ObjectTag::NO_GATE_WALL || tag == ObjectTag::NO_GATE_FLOOR || tag == ObjectTag::NO_GATE_ROOF)
 	{
 		m_collider->isTrigger = false;
 	}
@@ -96,15 +95,10 @@ void Camera::OnEntity()
 	m_throughTag.emplace_back(ObjectTag::PALYER);
 	m_throughTag.emplace_back(ObjectTag::GATE);
 	m_throughTag.emplace_back(ObjectTag::GATE_BULLET);
-	m_collider = dynamic_cast<MyEngine::ColliderSphere*>(CreateCollider(MyEngine::ColliderBase::Kind::SPHERE).get());
+	m_collider = dynamic_cast<MyEngine::ColliderSphere*>(CreateCollider(MyEngine::ColKind::SPHERE).get());
 	m_collider->radius = 5.0f;
 }
 #endif
-
-const Quaternion& Camera::GetStartVerticalRot()
-{
-	return START_VERTICAL_ROTATION;
-}
 
 /// <summary>
 /// NearFarの設定
@@ -141,16 +135,6 @@ void Camera::SetTargetPos(const Vec3& targetPos)
 #endif
 }
 
-void Camera::Rotation(float angle, const Vec3& axis)
-{
-	// 回転度0なら早期リターン
-	if (!angle) return;
-
-	const auto& rot = Quaternion::AngleAxis(angle, axis);
-	m_info.front = rot * m_info.front;
-	m_info.right = rot * m_info.right;
-}
-
 void Camera::AppInfo()
 {
 	SetCameraNearFar(m_info.n, m_info.f);
@@ -164,7 +148,7 @@ void Camera::AppInfo()
 	}
 	else
 	{
-		SetCameraPositionAndTarget_UpVecY(m_info.targetPos.VGet(), (m_info.targetPos + m_info.front).VGet());
+		SetCameraPositionAndTarget_UpVecY(m_info.targetPos.VGet(), (m_info.targetPos + m_info.look).VGet());
 	}
 #endif
 }
@@ -173,7 +157,11 @@ const Vec3& Camera::GetPos() const
 {
 	if (m_info.isTps)
 	{
+#ifdef USE_CAMERA_COLLIDABLE
+		return m_rigid.GetPos();
+#else
 		return m_info.cameraPos;
+#endif
 	}
 	else
 	{

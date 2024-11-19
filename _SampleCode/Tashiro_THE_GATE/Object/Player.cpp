@@ -17,9 +17,17 @@
 #include "Gate/Gate.h"
 #include "Object/HandObject.h"
 #include "DebugDraw.h"
+#include "ObjectTag.h"
+#include "StringUtility.h"
 
 namespace
 {
+	enum class ColIndex
+	{
+		CENTER,
+		MODEL,
+	};
+
 	// ファイルID
 	const wchar_t* const FILE_PALYER = L"M_Player";
 	const wchar_t* const FILE_HP_FRAME = L"I_HpFrame";
@@ -54,14 +62,28 @@ namespace
 	constexpr float HAND_RADIUS = 2.0f;	// 物を持てる範囲
 	constexpr float HAND_DIS = 4.0f;	// 物を持つ当たり判定の中心との距離
 
-	constexpr float MODEL_SCALE = 0.02f;
+	// モデルのファイルサイズ
+	constexpr float MODEL_SIZE_SCALE = 0.0325f;
 
-	constexpr float RADIUS = 1.0f;	// 当たり半径
-	constexpr float SPEED = 0.2f;	// 移動速度
+	/* 判定系 */
+	constexpr float MODEL_COL_RADIUS = 1.0f;	// モデルカプセル半径
+	constexpr float MODEL_COL_SIZE = 3.5f;		// モデルカプセルサイズ
+	constexpr float CENTER_COL_RADIUS = 0.5f;	// 中心カプセル半径
+	constexpr float CENTER_COL_SIZE = 4.25f;	// 中心カプセルサイズ
+	/* 力系 */
+	constexpr float LANDING_SPEED = 0.3f;	// 地面での移動速度
+	constexpr float AERIAL_SPEED = 0.15f;	// 空中での移動速度
 	constexpr float JUMP_POWER = 0.55f;	// ジャンプ力
-	constexpr int SHOT_INTERVAL = 60;	// 撃つ間隔
-	constexpr int MAX_HP = 100;	// 最大HP
-	constexpr int RECEVER_WAIT_FRAME = 120;	// HP回復までの待機フレーム
+	// 撃つ間隔
+	constexpr int SHOT_INTERVAL = 60;	
+	// 最大HP
+	constexpr int MAX_HP = 100;	
+	// HP回復までの待機フレーム
+	constexpr int RECEVER_WAIT_FRAME = 120;	
+
+	// ピポット
+	const Vec3 LOOK_PIVOT = Vec3(0, MODEL_COL_SIZE * 0.5f, 0);	// 見る場所
+	const Vec3 MODEL_PIVOT = Vec3(0, -MODEL_COL_RADIUS - MODEL_COL_SIZE * 0.5f, 0);	// モデル場所
 
 	// HPバーを揺らすフレーム
 	constexpr int SHKE_HP_BAR_FRAME = 30;
@@ -85,7 +107,6 @@ Player::Player(const std::shared_ptr<PlayerCamera>& camera, const std::shared_pt
 	m_isDeath(false),
 	m_isRecever(false),
 	m_isGround(false),
-	m_isAddThroughTag(false),
 	m_isCatch(false),
 	m_isWarp(false)
 {
@@ -95,8 +116,9 @@ Player::~Player()
 {
 }
 
-void Player::Init(bool isOneHand)
+void Player::AsyncInit()
 {
+	// ファイル読み込み
 	LoadModel(FILE_PALYER);
 	auto& fileMgr = FileManager::GetInstance();
 	m_files[FILE_HP_FRAME] = fileMgr.Load(FILE_HP_FRAME);
@@ -106,23 +128,28 @@ void Player::Init(bool isOneHand)
 	m_files[FILE_LANDING] = fileMgr.Load(FILE_LANDING);
 	m_files[FILE_WALK] = fileMgr.Load(FILE_WALK);
 	m_files[FILE_SHOT] = fileMgr.Load(FILE_SHOT);
+}
 
+void Player::Init(const Vec3& pos, bool isOneHand)
+{
 	m_anim = std::make_shared<AnimController>();
 	m_anim->Init(ANIM_INFO_PATH, m_modelHandle, ANIM_IDLE);
 
 	OnEntryPhysics();
-	m_rigid.SetPos(Vec3(36, 50, 90));
-//	m_rigid.SetPos(Vec3(110, 1, -6));
+	m_rigid.SetPos(pos + Vec3(0, 1, 0));
 	m_updateFunc = &Player::IdleUpdate;
-	m_pivot.y = -RADIUS - 1.0f;
-	m_scale *= MODEL_SCALE;
+	m_pivot = MODEL_PIVOT;
+	m_scale *= MODEL_SIZE_SCALE;
 
 	auto col = std::dynamic_pointer_cast<MyEngine::ColliderCapsule>(CreateCollider(MyEngine::ColKind::CAPSULE));
-	col->radius = RADIUS;
-	col->size = 2.0f;
+	col->isTrigger = true;
+	col->radius = CENTER_COL_RADIUS;
+	col->size = CENTER_COL_SIZE;
 	col->dir = Vec3::Up();
-	m_centerCol = std::make_shared<MyEngine::ColliderSphere>();
-	m_centerCol->radius = 1.0f;
+	auto col2 = std::dynamic_pointer_cast<MyEngine::ColliderCapsule>(CreateCollider(MyEngine::ColKind::CAPSULE));
+	col2->radius = MODEL_COL_RADIUS;
+	col2->size = MODEL_COL_SIZE;
+	col2->dir = Vec3::Up();
 
 	m_handCol = std::make_shared<MyEngine::ColliderSphere>();
 	m_handCol->radius = HAND_RADIUS;
@@ -143,7 +170,6 @@ void Player::Restart(const Vec3& pos)
 
 	// 位置変更
 	m_rigid.SetPos(pos);
-//	m_rigid.SetPos(Vec3(-6, 1, -6));
 
 	// ものを持っていれば離す
 	if (m_isCatch)
@@ -176,15 +202,25 @@ void Player::Update()
 	}
 	HpBarUpdate();
 	(this->*m_updateFunc)();
+	// トリガーが入力されたら発射
+	const auto& trigger = Input::GetInstance().GetTriggerData();
+	if (trigger.LT > 0.0f || trigger.RT > 0.0f)
+	{
+		OnShot();
+	}
 	AnimUpdate();
 	m_rotation = Easing::Slerp(m_rotation, m_nextRot, 0.2f);
 
-	m_camera->Update(m_rigid.GetPos());
+	m_camera->Update(m_rigid.GetPos() + LOOK_PIVOT);
 #ifdef _DEBUG
 	const auto& pos = m_rigid.GetPos();
 	const auto& vel = m_rigid.GetVelocity();
 	printf("PlayerPos:(%.2f, %.2f, %.2f)", pos.x, pos.y, pos.z);
 	printf("PlayerVel:(%.2f, %.2f, %.2f)", vel.x, vel.y, vel.z);
+	for (auto& item : m_throughTag)
+	{
+		printf("%s\n", Tags::TAG_NAME.at(item));
+	}
 #endif
 }
 
@@ -246,6 +282,7 @@ void Player::OnDamage(int damage)
 	if (m_hp <= 0)
 	{
 		OnDeath();
+		m_hp = 0;
 	}
 	m_receverFrame = RECEVER_WAIT_FRAME;
 	m_isRecever = true;
@@ -256,77 +293,96 @@ std::shared_ptr<Camera> Player::GetCamera() const
 	return m_camera;
 }
 
-void Player::OnCollideEnter(Collidable* colider, int colIndex, const MyEngine::CollideHitInfo& hitInfo)
+void Player::OnCollideStay(MyEngine::Collidable* colider, int selfIndex, int sendIndex, const MyEngine::CollideHitInfo& hitInfo)
 {
-	MyEngine::Collidable::OnCollideEnter(colider, colIndex, hitInfo);
+	MyEngine::Collidable::OnCollideStay(colider, selfIndex, sendIndex, hitInfo);
 
 	auto tag = colider->GetTag();
-	if (tag == ObjectTag::FLOOR || tag == ObjectTag::FLOOR_MOVE)
+	const auto& isFind = std::find(m_groundTag.begin(), m_groundTag.end(), tag) != m_groundTag.end();
+	if (isFind)
 	{
 		OnLanding();
-	}
-}
-
-void Player::OnCollideStay(Collidable* colider, int colIndex, const MyEngine::CollideHitInfo& hitInfo)
-{
-	MyEngine::Collidable::OnCollideStay(colider, colIndex, hitInfo);
-
-	auto tag = colider->GetTag();
-	if (tag == ObjectTag::FLOOR_MOVE)
-	{
-		auto vel = m_rigid.GetVelocity();
-		vel.y = 0;
-		m_rigid.SetVelocity(vel);
-		auto pos = m_rigid.GetPos();
-		pos += colider->GetVelocity();
-		m_rigid.SetPos(pos);
-	}
-}
-
-void Player::OnTriggerStay(MyEngine::Collidable* colider, int colIndex, const MyEngine::CollideHitInfo& hitInfo)
-{
-	MyEngine::Collidable::OnTriggerStay(colider, colIndex, hitInfo);
-
-	auto tag = colider->GetTag();
-	if (tag == ObjectTag::GATE)
-	{
-		ThroughTagUpdate();
-		if (!m_isAddThroughTag) return;
-		auto gate = dynamic_cast<Gate*>(colider);
-		// ワープ判定
-		if (gate->CheckWarp(m_rigid.GetPos()))
+		if (tag == ObjectTag::FLOOR_MOVE)
 		{
-			auto preVelDir = m_rigid.GetDir();
-
-			gate->OnWarp(m_rigid.GetPos(), m_rigid, true);
-
-			m_camera->OnWarp(preVelDir, m_rigid.GetDir(), m_rigid.GetPos());
-				
-			OnAerial();
-				
-			// 現在持っているゲートによるスルータグを消す
-			m_throughTag.pop_back();
-			// ペアのゲートのスルータグに変更する
-			m_throughTag.emplace_back(gate->GetPairGate()->GetHitObjectTag());
+			auto vel = m_rigid.GetVelocity();
+			vel.y = 0;
+			m_rigid.SetVelocity(vel);
+			auto pos = m_rigid.GetPos();
+			pos += colider->GetVelocity();
+			m_rigid.SetPos(pos);
 		}
 	}
 }
 
-void Player::OnTriggerExit(MyEngine::Collidable* colider, int colIndex, const MyEngine::CollideHitInfo& hitInfo)
+void Player::OnTriggerStay(MyEngine::Collidable* colider, int selfIndex, int sendIndex, const MyEngine::CollideHitInfo& hitInfo)
 {
-	MyEngine::Collidable::OnTriggerExit(colider, colIndex, hitInfo);
+	MyEngine::Collidable::OnTriggerStay(colider, selfIndex, sendIndex, hitInfo);
 
 	auto tag = colider->GetTag();
 	if (tag == ObjectTag::GATE)
 	{
-		ThroughTagUpdate();
+		auto gate = dynamic_cast<Gate*>(colider);
+		// 中心の判定の場合
+		if (selfIndex == static_cast<int>(ColIndex::CENTER))
+		{
+			if (m_gateMgr->IsCreateBothGates() && !m_isAddTag[colider])
+			{
+				// スルータグ追加
+				auto gate = dynamic_cast<Gate*>(colider);
+				m_throughTag.emplace_back(gate->GetHitObjectTag());
+				m_isAddTag[colider] = true;
+			}
+		}
+		// モデルの判定の場合
+		else if (selfIndex == static_cast<int>(ColIndex::MODEL))
+		{
+			auto pairGate = gate->GetPairGate();
+			// ワープ判定
+			if (gate->CheckWarp(m_rigid.GetPos()))
+			{
+				gate->OnWarp(m_rigid.GetPos(), m_rigid, true);
+
+				m_camera->OnWarp(-gate->GetNorm(), pairGate->GetNorm(), m_rigid.GetPos());
+				OnAerial();
+
+				// スルータグの変更
+				if (m_isAddTag[colider]) m_throughTag.pop_back();
+				m_isAddTag[colider] = false;
+				m_throughTag.push_back(pairGate->GetHitObjectTag());
+				m_isAddTag[pairGate.get()] = true;
+			}
+		}
+	}
+}
+
+void Player::OnTriggerExit(MyEngine::Collidable* colider, int selfIndex, int sendIndex, const MyEngine::CollideHitInfo& hitInfo)
+{
+	MyEngine::Collidable::OnTriggerExit(colider, selfIndex, sendIndex, hitInfo);
+
+	auto tag = colider->GetTag();
+	if (tag == ObjectTag::GATE && selfIndex == static_cast<int>(ColIndex::CENTER))
+	{
+		if (m_isAddTag[colider])
+		{
+			// スルータグ外す
+			auto gate = dynamic_cast<Gate*>(colider);
+			auto hitTag = gate->GetHitObjectTag();
+			for (auto it = m_throughTag.begin(); it != m_throughTag.end(); ++it)
+			{
+				if (*it == hitTag)
+				{
+					m_throughTag.erase(it);
+					break;
+				}
+			}
+			m_isAddTag[colider] = false;
+		}
 	}
 }
 
 void Player::HandUpdate()
 {
-	m_handCol->center = m_camera->GetInfo().front * HAND_DIS;
-
+	m_handCol->center = m_camera->GetInfo().look * HAND_DIS + LOOK_PIVOT;
 	auto& phsyics = MyEngine::Physics::GetInstance();
 	const auto& res = phsyics.GetHitObject(m_rigid.GetPos(), m_handCol.get(), ObjectTag::HAND_OBJ);
 	if (!res.empty())
@@ -389,38 +445,12 @@ void Player::HpBarUpdate()
 	}
 }
 
-void Player::ThroughTagUpdate()
-{
-	// ゲートを両方とも生成してなければ処理なし
-	if (!m_gateMgr->IsCreateBothGates()) return;
-	
-#ifdef _DEBUG
-	auto& debug = MyEngine::DebugDraw::GetInstance();
-	debug.DrawSphere(m_rigid.GetPos(), m_centerCol->radius, 0x00ff00, true);
-#endif
-
-	auto& physics = MyEngine::Physics::GetInstance();
-	// 中心とゲートとの当たり判定
-	auto res = physics.GetHitObject(m_rigid.GetPos(), m_centerCol.get(), ObjectTag::GATE, MyEngine::PreHitInfo{}, true);
-	if (res.empty() && m_isAddThroughTag)
-	{
-		m_isAddThroughTag = false;
-		m_throughTag.pop_back();
-	}
-	else if (!res.empty() && !m_isAddThroughTag)
-	{
-		m_isAddThroughTag = true;
-		auto gate = dynamic_cast<Gate*>(res[0].col);
-		m_throughTag.emplace_back(gate->GetHitObjectTag());
-	}
-}
-
 void Player::AnimUpdate()
 {
 	if (m_nowState == State::MOVE)
 	{
 		auto sqSpeed = m_rigid.GetVelocity().SqLength();
-		auto rate = (sqSpeed / (SPEED * SPEED)) * 0.7f + 0.3f;
+		auto rate = (sqSpeed / (LANDING_SPEED * LANDING_SPEED)) * 0.7f + 0.3f;
 		m_anim->Update(rate);
 	}
 	else
@@ -443,18 +473,13 @@ void Player::IdleUpdate()
 	if (input.IsTriggerd(Command::BTN_JUMP))
 	{
 		OnJump();
-	}
-	// トリガーが入力されたら発射
-	if (trigger.LT > 0.0f || trigger.RT > 0.0f)
-	{
-		OnShot();
+		return;
 	}
 }
 
 void Player::WalkUpdate()
 {
 	auto& input = Input::GetInstance();
-	const auto& trigger = input.GetTriggerData();
 	// ジャンプに遷移
 	if (input.IsTriggerd(Command::BTN_JUMP))
 	{
@@ -462,29 +487,11 @@ void Player::WalkUpdate()
 		SoundManager::GetInstance().Stop(m_files.at(FILE_WALK)->GetHandle());
 	}
 	// 左スティックが入力されている間は移動
-	else if (trigger.LStick.SqLength() > 0.0f)
-	{
-		// Y軸を無視したカメラの正面方向・右方向を取得
-		auto& cInfo = m_camera->GetInfo();
-		auto cameraFront = cInfo.front;
-		cameraFront.y = 0;
-		cameraFront.Normalize();
-		// カメラの向いている方向に合わせて移動ベクトルを作成
-		Vec3 newVel;
-		newVel = cameraFront * trigger.LStick.y + cInfo.right * trigger.LStick.x;
-		// 次の回転方向のベクトルを取得
-		m_nextRot = Quaternion::GetQuaternion(Vec3::Back(), newVel);
-		// 移動ベクトルを移動スピードの長さに変換して、y軸を重力加速度に変更する
-		newVel *= SPEED;
-		newVel.y = m_rigid.GetVelocity().y;
-		m_rigid.SetVelocity(newVel);
-	}
+	if (Move(LANDING_SPEED)) return;
+
 	// 入力されていなかったらアイドル状態に遷移
-	else
-	{
-		OnIdle();
-		SoundManager::GetInstance().Stop(m_files.at(FILE_WALK)->GetHandle());
-	}
+	OnIdle();
+	SoundManager::GetInstance().Stop(m_files.at(FILE_WALK)->GetHandle());
 }
 
 void Player::JumpUpdate()
@@ -492,12 +499,13 @@ void Player::JumpUpdate()
 	if (m_anim->IsLoop())
 	{
 		OnAerial();
+		return;
 	}
 }
 
 void Player::AerialUpdate()
 {
-	// とくに処理なし
+	Move(AERIAL_SPEED);
 }
 
 void Player::LandingUpdate()
@@ -521,6 +529,34 @@ void Player::DeathUpdate()
 	// 特になし
 }
 
+bool Player::Move(float speed)
+{
+	auto& input = Input::GetInstance();
+	const auto& trigger = input.GetTriggerData();
+	if (trigger.LStick.SqLength() > 0.0f)
+	{
+		// Y軸を無視したカメラの正面方向・右方向を取得
+		auto& cInfo = m_camera->GetInfo();
+		auto cameraFront = cInfo.front;
+		cameraFront.y = 0;
+		cameraFront.Normalize();
+		// カメラの向いている方向に合わせて移動ベクトルを作成
+		Vec3 newVel;
+		newVel = cameraFront * trigger.LStick.y + cInfo.right * trigger.LStick.x;
+		// 次の回転方向のベクトルを取得
+		m_nextRot = Quaternion::GetQuaternion(Vec3::Back(), newVel);
+		// 移動ベクトルを移動スピードの長さに変換して、y軸を現在の速度にする
+		newVel *= AERIAL_SPEED;
+		newVel.y = m_rigid.GetVelocity().y;
+		m_rigid.SetVelocity(newVel);
+		return true;
+	}
+	else
+	{
+		return false;
+	}
+}
+
 void Player::OnIdle()
 {
 	// 速度ゼロ
@@ -532,7 +568,7 @@ void Player::OnIdle()
 
 void Player::OnWalk()
 {
-	SoundManager::GetInstance().PlaySe(m_files.at(FILE_WALK)->GetHandle());
+	SoundManager::GetInstance().PlaySe3D(m_files.at(FILE_WALK)->GetHandle(), shared_from_this());
 	m_anim->Change(ANIM_WALK);
 	m_updateFunc = &Player::WalkUpdate;
 	m_nowState = State::MOVE;
@@ -563,8 +599,7 @@ void Player::OnLanding()
 {
 	if (m_isGround) return;
 
-	auto& sndMgr = SoundManager::GetInstance();
-	sndMgr.PlaySe(m_files.at(FILE_LANDING)->GetHandle());
+	SoundManager::GetInstance().PlaySe3D(m_files.at(FILE_LANDING)->GetHandle(), shared_from_this());
 	m_isGround = true;
 	m_rigid.SetVelocity(Vec3());
 	m_anim->Change(ANIM_LANDING, true, true);
@@ -592,14 +627,14 @@ void Player::OnShot()
 	const auto& trigger = input.GetTriggerData();
 	bool isCreate = false;
 	GateKind kind;
-	// 左トリガーが押されていたらゲートAを撃つ
-	if (trigger.LT > 0.0f)
+	// 右トリガーが押されていたらオレンジゲートを撃つ
+	if (trigger.RT > 0.0f)
 	{
 		isCreate = true;
 		kind = GateKind::Orange;
 	}
-	// 片手ステージではないかつ左トリガーが押されていたらゲートBを撃つ
-	else if (!m_isOneHand && trigger.RT > 0.0f)
+	// 片手ステージではないかつ左トリガーが押されていたらブルーゲートを撃つ
+	else if (!m_isOneHand && trigger.LT > 0.0f)
 	{
 		isCreate = true;
 		kind = GateKind::Blue;
@@ -607,14 +642,13 @@ void Player::OnShot()
 	// 弾の生成
 	if (isCreate)
 	{
-		auto& sndMgr = SoundManager::GetInstance();
-		sndMgr.PlaySe(m_files.at(FILE_SHOT)->GetHandle());
+		SoundManager::GetInstance().PlaySe3D(m_files.at(FILE_SHOT)->GetHandle(), shared_from_this());
 		// インターバルを初期化
 		m_shotInteval = SHOT_INTERVAL;
 		// 生成
 		auto bullet = std::make_shared<GateBullet>(m_gateMgr, kind);
 		// カメラの向いている方向に弾を進ませる
-		bullet->Init(m_rigid.GetPos(), m_camera->GetInfo().front);
+		bullet->Init(m_rigid.GetPos(), m_camera->GetInfo().look);
 		// 追加
 		m_gateMgr->AddBullet(bullet);
 	}

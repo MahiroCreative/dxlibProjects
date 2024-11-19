@@ -13,7 +13,7 @@ namespace
 }
 
 Door::Door() :
-	GimmickLinkObject(Priority::STATIC, ObjectTag::GIMMICK),
+	GimmickLinkObject(Priority::STATIC, ObjectTag::DOOR),
 	m_isStart(true),
 	m_isOpen(false),
 	m_isClose(false)
@@ -86,22 +86,22 @@ void Door::GimmickOffUpdate()
 
 void Door::ProcessGimmickOn()
 {
-	if (m_isStart)
+	if (!m_isStart)
 	{
-		SoundManager::GetInstance().PlaySe(m_openSe->GetHandle());
-		m_isStart = false;
+		SoundManager::GetInstance().PlaySe3D(m_openSe->GetHandle(), shared_from_this());
 	}
+	m_isStart = false;
 	m_isOpen = false;
 	OnExistPhysics();
 }
 
 void Door::ProcessGimmickOff()
 {
-	if (m_isStart)
+	if (!m_isStart)
 	{
-		SoundManager::GetInstance().PlaySe(m_openSe->GetHandle());
-		m_isStart = false;
+		SoundManager::GetInstance().PlaySe3D(m_openSe->GetHandle(), shared_from_this());
 	}
+	m_isStart = false;
 	m_isClose = false;
 	OnEntryPhysics();
 }

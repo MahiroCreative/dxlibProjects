@@ -3,11 +3,13 @@
 #include "StageManager.h"
 #include "Quaternion.h"
 #include "Collider/ColliderCapsule.h"
+#include "Object/Gimmick/GimmickLinkObject.h"
 
 CheckPoint::CheckPoint(StageManager& mgr, const int no) :
 	Collidable(Priority::STATIC, ObjectTag::CHECK_POINT),
     m_mgr(mgr),
-    m_no(no)
+    m_no(no),
+    m_link(nullptr)
 {
 }
 
@@ -30,13 +32,17 @@ void CheckPoint::Init(const Vec3& pos, const Quaternion& rot, float size, float 
 }
 
 
-void CheckPoint::OnTriggerEnter(MyEngine::Collidable* colider, int colIndex, const MyEngine::CollideHitInfo& hitInfo)
+void CheckPoint::OnTriggerEnter(MyEngine::Collidable* colider, int selfIndex, int sendIndex, const MyEngine::CollideHitInfo& hitInfo)
 {
-    MyEngine::Collidable::OnTriggerEnter(colider, colIndex, hitInfo);
+    MyEngine::Collidable::OnTriggerEnter(colider, selfIndex, sendIndex, hitInfo);
 
     auto tag = colider->GetTag();
     if (tag == ObjectTag::PALYER)
     {
         m_mgr.UpdateCheckPoint(m_no);
+        if (m_link)
+        {
+            m_link->OnGimmick();
+        }
     }
 }

@@ -35,15 +35,15 @@ public:
 	/// <param name="x">初期X</param>
 	/// <param name="y">初期Y</param>
 	/// <returns>データ</returns>
-	static UIMoveData Make(int x, int y)
+	static std::shared_ptr<UIMoveData> Make(int x, int y)
 	{
 		// データの生成・初期化
-		UIMoveData data;
-		data.x = x;
-		data.y = y;
-		data.m_preX = x;
-		data.m_preY = y;
-		data.m_angle = 0.0f;
+		auto data = std::make_shared<UIMoveData>();
+		data->x = x;
+		data->y = y;
+		data->m_preX = x;
+		data->m_preY = y;
+		data->m_angle = 0.0f;
 		return data;
 	}
 	/// <summary>
@@ -61,8 +61,7 @@ public:
 		for (int i = 0; i < num; ++i)
 		{
 			auto& data = list[i];
-			data = std::make_shared<UIMoveData>();
-			*data = Make(x, y);
+			data = Make(x, y);
 
 			x += intervalX;
 			y += intervalY;

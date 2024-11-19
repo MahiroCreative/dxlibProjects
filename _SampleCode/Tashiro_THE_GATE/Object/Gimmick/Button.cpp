@@ -53,9 +53,9 @@ void Button::Update()
 	m_stateMachine.Update();
 }
 
-void Button::OnCollideStay(MyEngine::Collidable* colider, int colIndex, const MyEngine::CollideHitInfo& hitInfo)
+void Button::OnCollideStay(MyEngine::Collidable* colider, int selfIndex, int sendIndex, const MyEngine::CollideHitInfo& hitInfo)
 {
-	MyEngine::Collidable::OnCollideStay(colider, colIndex, hitInfo);
+	MyEngine::Collidable::OnCollideStay(colider, selfIndex, sendIndex, hitInfo);
 
 	auto tag = colider->GetTag();
 	if (tag == ObjectTag::PALYER || tag == ObjectTag::HAND_OBJ)
@@ -67,9 +67,9 @@ void Button::OnCollideStay(MyEngine::Collidable* colider, int colIndex, const My
 	}
 }
 
-void Button::OnCollideExit(MyEngine::Collidable* colider, int colIndex, const MyEngine::CollideHitInfo& hitInfo)
+void Button::OnCollideExit(MyEngine::Collidable* colider, int selfIndex, int sendIndex, const MyEngine::CollideHitInfo& hitInfo)
 {
-	MyEngine::Collidable::OnCollideExit(colider, colIndex, hitInfo);
+	MyEngine::Collidable::OnCollideExit(colider, selfIndex, sendIndex, hitInfo);
 
 	auto tag = colider->GetTag();
 	if (tag == ObjectTag::PALYER || tag == ObjectTag::HAND_OBJ)
@@ -112,7 +112,7 @@ void Button::UpdateUp()
 
 void Button::OnDown()
 {
-	SoundManager::GetInstance().PlaySe(m_pushSe->GetHandle());
+	SoundManager::GetInstance().PlaySe3D(m_pushSe->GetHandle(), shared_from_this());
 	m_isDown = true;
 }
 

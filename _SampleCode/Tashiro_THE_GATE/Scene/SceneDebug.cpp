@@ -6,7 +6,7 @@
 #include "SceneTitle.h"
 #include "SceneStageSelect.h"
 #include "SceneMain.h"
-#include "SceneClear.h"
+#include "SceneResult.h"
 #include "CursorUtility.h"
 #include "StageDataManager.h"
 
@@ -29,12 +29,21 @@ SceneDebug::SceneDebug() :
 {
 }
 
+void SceneDebug::AsyncInit()
+{
+}
+
 void SceneDebug::Init()
+{
+}
+
+void SceneDebug::End()
 {
 }
 
 void SceneDebug::Update(bool isFade)
 {
+	if (isFade) return;
 	CursorUtility::CursorUp<SceneKind>(m_next, SceneKind::MAX);
 	CursorUtility::CursorDown<SceneKind>(m_next, SceneKind::MAX);
 
@@ -54,13 +63,15 @@ void SceneDebug::Update(bool isFade)
 		else if (static_cast<SceneKind>(m_next) == SceneKind::MAIN)
 		{
 			auto& stageDataMgr = StageDataManager::GetInstance();
-			auto stageName = stageDataMgr.GetStageName(0);
-			auto main = std::make_shared<SceneMain>(stageName);
-			next = main;
+			auto stageName = stageDataMgr.GetStageName(1);
+			next = std::make_shared<SceneMain>(stageName);
 		}
 		else if (static_cast<SceneKind>(m_next) == SceneKind::CLEAR)
 		{
-			next = std::make_shared<SceneClear>();
+			auto& stageDataMgr = StageDataManager::GetInstance();
+			auto stageName = stageDataMgr.GetStageName(1);
+			next = std::make_shared<SceneResult>(stageName, 3600 * 12 + 60 * 34 + 56);
+			
 		}
 
 		m_scnMgr.Change(next);
@@ -88,9 +99,5 @@ void SceneDebug::Draw() const
 
 		y += 24;
 	}
-}
-
-void SceneDebug::End()
-{
 }
 #endif

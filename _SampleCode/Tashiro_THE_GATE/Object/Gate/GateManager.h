@@ -30,6 +30,7 @@ public:
 	GateManager(const std::shared_ptr<CameraManager>& cameraMgr);
 	~GateManager();
 
+	void End();
 	void Update();
 	void DrawGatePos() const;
 	void DrawGate(int texA, int texB) const;
@@ -43,7 +44,7 @@ public:
 	
 	std::shared_ptr<Gate> GetPairGate(GateKind kind) const;
 	const GateKind& GetLastShotKind() const { return m_lastShotKind; }
-	bool IsCreateBothGates() const { return m_isCreateBoth; }
+	bool IsCreateBothGates() const { return m_isCreate.at(GateKind::Blue) && m_isCreate.at(GateKind::Orange); }
 	bool IsCreate(GateKind kind) const { return m_isCreate.at(kind); }
  	bool IsChange(GateKind kind) const { return m_isChange.at(kind); }
 
@@ -54,15 +55,13 @@ private:
 
 private:
 	std::shared_ptr<CameraManager> m_cameraMgr;
-	std::shared_ptr<Gate> m_gateA;
-	std::shared_ptr<Gate> m_gateB;
+	std::shared_ptr<Gate> m_gateOrange;
+	std::shared_ptr<Gate> m_gateBlue;
 	std::list<std::shared_ptr<GateBullet>> m_bulletList;
 	std::weak_ptr<Player> m_player;
 
 	std::unordered_map<GateKind, bool> m_isChange;
 	std::unordered_map<GateKind, bool> m_isCreate;
-
-	bool m_isCreateBoth;
 
 	GateKind m_lastShotKind;
 };

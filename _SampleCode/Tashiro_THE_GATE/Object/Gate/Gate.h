@@ -35,7 +35,7 @@ public:
 	GateKind GetKind() const { return m_kind; }
 	ObjectTag GetHitObjectTag() const { return m_hitObjTag; }
 	const std::shared_ptr<MyEngine::ColliderCapsule> GetCol() const { return m_collider; }
-	const Gate* GetPairGate() const { return m_pairGate.lock().get(); }
+	const std::shared_ptr<Gate> GetPairGate() const { return m_pairGate.lock(); }
 	const Vec3& GetNorm() const { return m_norm; }
 
 private:
@@ -48,15 +48,33 @@ private:
 	UpdateFunc_t m_updateFunc;
 	std::shared_ptr<GateCamera> m_camera;
 	std::shared_ptr<GateCamera> m_cameraFromPair;
-	std::shared_ptr<FileBase> m_model;
-	int m_vsH;
+	std::shared_ptr<FileBase> m_dissolve;
+	std::shared_ptr<FileBase> m_warpSe;
 	std::shared_ptr<MyEngine::ColliderCapsule> m_collider;
-	GateKind m_kind;
-	ObjectTag m_hitObjTag;
-	Vec3 m_norm;
-	Vec3 m_right;
 
 	std::weak_ptr<Player> m_player;
 	std::weak_ptr<Gate> m_pairGate;
-};
 
+	GateKind m_kind;
+
+	ObjectTag m_hitObjTag;
+
+	Vec3 m_norm;
+	Vec3 m_right;
+
+	int m_cbuffH;
+
+private:
+	struct UserData
+	{
+		Vec3 center;
+		float radius;
+		Vec3 dir;
+		float size;
+		float frame;
+		bool isCreate;
+		bool dummy1[3];
+		float dummy2[2];
+	};
+	UserData* m_userData;
+};

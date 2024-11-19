@@ -42,6 +42,9 @@
     <ClCompile Include="DataManager\FontManager.cpp">
       <Filter>ソース ファイル</Filter>
     </ClCompile>
+    <ClCompile Include="DataManager\RankingDataManager.cpp">
+      <Filter>ソース ファイル</Filter>
+    </ClCompile>
     <ClCompile Include="DataManager\SaveDataManager.cpp">
       <Filter>ソース ファイル</Filter>
     </ClCompile>
@@ -126,6 +129,9 @@
     <ClCompile Include="Object\Gimmick\Button.cpp">
       <Filter>ソース ファイル</Filter>
     </ClCompile>
+    <ClCompile Include="Object\Gimmick\Door.cpp">
+      <Filter>ソース ファイル</Filter>
+    </ClCompile>
     <ClCompile Include="Object\Gimmick\GimmickLinkObject.cpp">
       <Filter>ソース ファイル</Filter>
     </ClCompile>
@@ -141,7 +147,13 @@
     <ClCompile Include="Object\Gimmick\Laser\LaserLaunchPad.cpp">
       <Filter>ソース ファイル</Filter>
     </ClCompile>
-    <ClCompile Include="Object\Gimmick\Door.cpp">
+    <ClCompile Include="Object\Gimmick\MoveFloor\MoveFloor.cpp">
+      <Filter>ソース ファイル</Filter>
+    </ClCompile>
+    <ClCompile Include="Object\Gimmick\MoveFloor\MoveFloorManager.cpp">
+      <Filter>ソース ファイル</Filter>
+    </ClCompile>
+    <ClCompile Include="Object\Gimmick\Piston.cpp">
       <Filter>ソース ファイル</Filter>
     </ClCompile>
     <ClCompile Include="Object\Gimmick\Turret\Turret.cpp">
@@ -159,10 +171,16 @@
     <ClCompile Include="Object\Player.cpp">
       <Filter>ソース ファイル</Filter>
     </ClCompile>
+    <ClCompile Include="Object\Stage\CheckPoint.cpp">
+      <Filter>ソース ファイル</Filter>
+    </ClCompile>
     <ClCompile Include="Object\Stage\StageManager.cpp">
       <Filter>ソース ファイル</Filter>
     </ClCompile>
     <ClCompile Include="Scene\SceneBase.cpp">
+      <Filter>ソース ファイル</Filter>
+    </ClCompile>
+    <ClCompile Include="Scene\SceneResult.cpp">
       <Filter>ソース ファイル</Filter>
     </ClCompile>
     <ClCompile Include="Scene\SceneDebug.cpp">
@@ -186,22 +204,7 @@
     <ClCompile Include="main.cpp">
       <Filter>ソース ファイル</Filter>
     </ClCompile>
-    <ClCompile Include="Object\Gimmick\MoveFloor\MoveFloor.cpp">
-      <Filter>ソース ファイル</Filter>
-    </ClCompile>
-    <ClCompile Include="Object\Gimmick\MoveFloor\MoveFloorManager.cpp">
-      <Filter>ソース ファイル</Filter>
-    </ClCompile>
-    <ClCompile Include="Object\Stage\CheckPoint.cpp">
-      <Filter>ソース ファイル</Filter>
-    </ClCompile>
-    <ClCompile Include="DataManager\RankingDataManager.cpp">
-      <Filter>ソース ファイル</Filter>
-    </ClCompile>
-    <ClCompile Include="Object\Gimmick\Piston.cpp">
-      <Filter>ソース ファイル</Filter>
-    </ClCompile>
-    <ClCompile Include="Scene\SceneClear.cpp">
+    <ClCompile Include="Object\Glass.cpp">
       <Filter>ソース ファイル</Filter>
     </ClCompile>
   </ItemGroup>
@@ -240,6 +243,9 @@
       <Filter>ヘッダー ファイル</Filter>
     </ClInclude>
     <ClInclude Include="DataManager\FontManager.h">
+      <Filter>ヘッダー ファイル</Filter>
+    </ClInclude>
+    <ClInclude Include="DataManager\RankingDataManager.h">
       <Filter>ヘッダー ファイル</Filter>
     </ClInclude>
     <ClInclude Include="DataManager\SaveDataManager.h">
@@ -353,6 +359,9 @@
     <ClInclude Include="Object\Gimmick\Button.h">
       <Filter>ヘッダー ファイル</Filter>
     </ClInclude>
+    <ClInclude Include="Object\Gimmick\Door.h">
+      <Filter>ヘッダー ファイル</Filter>
+    </ClInclude>
     <ClInclude Include="Object\Gimmick\GimmickLinkObject.h">
       <Filter>ヘッダー ファイル</Filter>
     </ClInclude>
@@ -368,7 +377,13 @@
     <ClInclude Include="Object\Gimmick\Laser\LaserLaunchPad.h">
       <Filter>ヘッダー ファイル</Filter>
     </ClInclude>
-    <ClInclude Include="Object\Gimmick\Door.h">
+    <ClInclude Include="Object\Gimmick\MoveFloor\MoveFloor.h">
+      <Filter>ヘッダー ファイル</Filter>
+    </ClInclude>
+    <ClInclude Include="Object\Gimmick\MoveFloor\MoveFloorManager.h">
+      <Filter>ヘッダー ファイル</Filter>
+    </ClInclude>
+    <ClInclude Include="Object\Gimmick\Piston.h">
       <Filter>ヘッダー ファイル</Filter>
     </ClInclude>
     <ClInclude Include="Object\Gimmick\Turret\Turret.h">
@@ -386,10 +401,16 @@
     <ClInclude Include="Object\Player.h">
       <Filter>ヘッダー ファイル</Filter>
     </ClInclude>
+    <ClInclude Include="Object\Stage\CheckPoint.h">
+      <Filter>ヘッダー ファイル</Filter>
+    </ClInclude>
     <ClInclude Include="Object\Stage\StageManager.h">
       <Filter>ヘッダー ファイル</Filter>
     </ClInclude>
     <ClInclude Include="Scene\SceneBase.h">
+      <Filter>ヘッダー ファイル</Filter>
+    </ClInclude>
+    <ClInclude Include="Scene\SceneResult.h">
       <Filter>ヘッダー ファイル</Filter>
     </ClInclude>
     <ClInclude Include="Scene\SceneDebug.h">
@@ -422,32 +443,26 @@
     <ClInclude Include="Utility\StringUtility.h">
       <Filter>ヘッダー ファイル</Filter>
     </ClInclude>
+    <ClInclude Include="Utility\TimeUtility.h">
+      <Filter>ヘッダー ファイル</Filter>
+    </ClInclude>
     <ClInclude Include="Utility\UIUtility.h">
       <Filter>ヘッダー ファイル</Filter>
     </ClInclude>
     <ClInclude Include="Utility\Utility.h">
       <Filter>ヘッダー ファイル</Filter>
     </ClInclude>
-    <ClInclude Include="Object\Gimmick\MoveFloor\MoveFloor.h">
+    <ClInclude Include="Utility\NumUtility.h">
       <Filter>ヘッダー ファイル</Filter>
     </ClInclude>
-    <ClInclude Include="Object\Gimmick\MoveFloor\MoveFloorManager.h">
+    <ClInclude Include="Object\Glass.h">
       <Filter>ヘッダー ファイル</Filter>
     </ClInclude>
-    <ClInclude Include="Object\Stage\CheckPoint.h">
-      <Filter>ヘッダー ファイル</Filter>
-    </ClInclude>
-    <ClInclude Include="DataManager\RankingDataManager.h">
-      <Filter>ヘッダー ファイル</Filter>
-    </ClInclude>
-    <ClInclude Include="Object\Gimmick\Piston.h">
-      <Filter>ヘッダー ファイル</Filter>
-    </ClInclude>
-    <ClInclude Include="Scene\SceneClear.h">
-      <Filter>ヘッダー ファイル</Filter>
-    </ClInclude>
-    <ClInclude Include="Utility\TimeUtility.h">
-      <Filter>ヘッダー ファイル</Filter>
-    </ClInclude>
+  </ItemGroup>
+  <ItemGroup>
+    <FxCompile Include="Shader\GatePosPS.hlsl" />
+    <FxCompile Include="Shader\NormalPS.hlsl" />
+    <FxCompile Include="Shader\SkinMeshVS.hlsl" />
+    <FxCompile Include="Shader\NormalVS.hlsl" />
   </ItemGroup>
 </Project>

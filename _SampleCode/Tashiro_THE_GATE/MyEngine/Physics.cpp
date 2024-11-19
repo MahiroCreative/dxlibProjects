@@ -13,7 +13,8 @@ namespace
     // 判定回数
     constexpr int CHECK_MAX_COUNT = 1000;
     // 分割判定速度
-    constexpr float CHECK_DIVISION_SPEED = 0.5f;
+//    constexpr float CHECK_DIVISION_SPEED = 0.2f;
+    constexpr float CHECK_DIVISION_SPEED = 0.7f;
     // 判定するオブジェクト同士の距離
     constexpr float CHECK_COLLIDE_LENDGHT = 22.0f;
     constexpr float CHECK_COLLIDE_SQ_LENDGHT = CHECK_COLLIDE_LENDGHT * CHECK_COLLIDE_LENDGHT;
@@ -90,7 +91,7 @@ void Physics::Update()
     // 通知を送る
     for (const auto& item : m_onCollideInfo)
     {
-        OnCollideInfo(item.own, item.send, item.colIndex, item.hitInfo, item.kind);
+        OnCollideInfo(item.own, item.send, item.ownColIndex, item.sendColIndex, item.hitInfo, item.kind);
     }
 }
 
@@ -214,7 +215,6 @@ void Physics::CheckCollide()
                         }
                     }
 
-                    
                     CollideHitInfo collideHitInfo;
                     auto& preHitInfo = preHitInfoList[secondary][primary->GetTag()];
                     auto speed = secondary->GetVelocity().Length();
@@ -227,7 +227,6 @@ void Physics::CheckCollide()
                     // 達していれば座標を分割して判定
                     else
                     {
-                        // FIXME: ここでバグりまくり１
                         int num = static_cast<int>(speed / CHECK_DIVISION_SPEED) + 1;
                         auto divisionDir = secondary->m_rigid.GetNextPos() - secondary->GetPos();
                         float y = divisionDir.y;
@@ -235,7 +234,7 @@ void Physics::CheckCollide()
                         divisionDir = divisionDir / static_cast<float>(num);
                         checkPos = secondary->GetPos() + divisionDir;
                         checkPos.y += y;
-                        for (int i = 0; i < num; ++i)
+                        for (int k = 0; k < num; ++k)
                         {
 #ifdef _DEBUG
                             AddDebugInfo(checkPos, secondary->m_collider, DebugDraw::COL_HIT);
@@ -247,6 +246,11 @@ void Physics::CheckCollide()
                     }
                     // 当たっていなければ次の判定に
                     if (!collideHitInfo.isHit) continue;
+
+                    if (objA->GetTag() == ObjectTag::PALYER || objB->GetTag() == ObjectTag::PALYER)
+                    {
+                        int A = 0;
+                    }
 
                     // 通過オブジェクト確認
                     auto throughA = objA->m_throughTag;
@@ -299,13 +303,6 @@ std::vector<std::shared_ptr<Collidable>> Physics::GetCollisionList() const
 
     for (int i = 0; i < m_objects.size(); ++i)
     {
-#ifdef _DEBUG
-        if (m_objects[i]->GetPriority() != Collidable::Priority::STATIC)
-        {
-            auto& debug = DebugDraw::GetInstance();
-            debug.DrawSphere(m_objects[i]->GetPos(), CHECK_COLLIDE_LENDGHT, 0x00ff00, false);
-        }
-#endif
         for (int j = i + 1; j < m_objects.size(); ++j)
         {
             auto& obj1 = m_objects[i];
@@ -344,8 +341,8 @@ void Physics::AddNewCollideInfo(const std::weak_ptr<Collidable>& objA, const std
     // 既に追加されている通知リストにあれば追加しない
     for (auto& i : info)
     {
-        if (i.own.lock() == objA.lock() && i.send.lock() == objB.lock()) return;
-        if (i.own.lock() == objB.lock() && i.send.lock() == objA.lock()) return;
+        if (i.own.lock() == objA.lock() && i.send.lock() == objB.lock() && i.ownColIndex == colIndexA && i.sendColIndex == colIndexB) return;
+        if (i.own.lock() == objB.lock() && i.send.lock() == objA.lock() && i.ownColIndex == colIndexB && i.sendColIndex == colIndexA) return;
     }
 
     // ここまで来たらまだ通知リストに追加されていないため追加
@@ -370,8 +367,8 @@ void Physics::CheckSendOnCollideInfo(SendCollideInfo& preSendInfo, SendCollideIn
             for (; it != preSendInfo.end(); ++it)
             {
                 // 通知リストが存在した場合は当たった時の通知を呼ばないようにする
-                if (it->own.lock() == info.own.lock() && it->send.lock() == info.send.lock()) isEnter = false;
-                if (it->own.lock() == info.send.lock() && it->send.lock() == info.own.lock()) isEnter = false;
+                if (it->own.lock() == info.own.lock() && it->send.lock() == info.send.lock() && it->ownColIndex == info.ownColIndex) isEnter = false;
+                if (it->own.lock() == info.send.lock() && it->send.lock() == info.own.lock() && it->ownColIndex == info.ownColIndex) isEnter = false;
                 if (!isEnter) break;
             }
             if (isEnter)
@@ -410,11 +407,11 @@ void Physics::CheckSendOnCollideInfo(SendCollideInfo& preSendInfo, SendCollideIn
 
 void Physics::AddOnCollideInfo(const SendInfo& info, OnCollideInfoKind kind)
 {
-    m_onCollideInfo.emplace_back(OnCollideInfoData{info.own, info.send, info.ownColIndex, info.hitInfo, kind});
-    m_onCollideInfo.emplace_back(OnCollideInfoData{info.send, info.own, info.sendColIndex, info.hitInfo, kind});
+    m_onCollideInfo.emplace_back(OnCollideInfoData{info.own, info.send, info.ownColIndex, info.sendColIndex, info.hitInfo, kind});
+    m_onCollideInfo.emplace_back(OnCollideInfoData{info.send, info.own, info.sendColIndex, info.ownColIndex, info.hitInfo, kind});
 }
 
-void Physics::OnCollideInfo(const std::weak_ptr<Collidable>& own, const std::weak_ptr<Collidable>& send, int colIndex, const CollideHitInfo& hitInfo, OnCollideInfoKind kind)
+void Physics::OnCollideInfo(const std::weak_ptr<Collidable>& own, const std::weak_ptr<Collidable>& send, int ownIndex, int sendIndex, const CollideHitInfo& hitInfo, OnCollideInfoKind kind)
 {
     // 送る側、受け取る側どちらかのリンクが途切れていたら通知をやめる
     if (own.expired() || send.expired()) return;
@@ -422,27 +419,27 @@ void Physics::OnCollideInfo(const std::weak_ptr<Collidable>& own, const std::wea
     // 種類に合わせて通知を送る
     if (kind == OnCollideInfoKind::CollideEnter)
     {
-        own.lock()->OnCollideEnter(send.lock().get(), colIndex, hitInfo);
+        own.lock()->OnCollideEnter(send.lock().get(), ownIndex, sendIndex, hitInfo);
     }
     else if (kind == OnCollideInfoKind::CollideStay)
     {
-        own.lock()->OnCollideStay(send.lock().get(), colIndex, hitInfo);
+        own.lock()->OnCollideStay(send.lock().get(), ownIndex, sendIndex, hitInfo);
     }
     else if (kind == OnCollideInfoKind::CollideExit)
     {
-        own.lock()->OnCollideExit(send.lock().get(), colIndex, hitInfo);
+        own.lock()->OnCollideExit(send.lock().get(), ownIndex, sendIndex, hitInfo);
     }
     else if (kind == OnCollideInfoKind::TriggerEnter)
     {
-        own.lock()->OnTriggerEnter(send.lock().get(), colIndex, hitInfo);
+        own.lock()->OnTriggerEnter(send.lock().get(), ownIndex, sendIndex, hitInfo);
     }
     else if (kind == OnCollideInfoKind::TriggerStay)
     {
-        own.lock()->OnTriggerStay(send.lock().get(), colIndex, hitInfo);
+        own.lock()->OnTriggerStay(send.lock().get(), ownIndex, sendIndex, hitInfo);
     }
     else if (kind == OnCollideInfoKind::TriggerExit)
     {
-        own.lock()->OnTriggerExit(send.lock().get(), colIndex, hitInfo);
+        own.lock()->OnTriggerExit(send.lock().get(), ownIndex, sendIndex, hitInfo);
     }
 }
 
@@ -456,7 +453,6 @@ void Physics::FixPos() const
         auto& rigid = item->m_rigid;
         // 座標の確定
         rigid.SetPos(rigid.GetNextPos());
-
 #ifdef _DEBUG
         // デバック情報
         AddDebugInfo(rigid.GetPos(), item->m_collider, DebugDraw::COL_AFFTER);

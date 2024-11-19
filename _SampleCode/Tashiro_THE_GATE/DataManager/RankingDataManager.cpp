@@ -59,6 +59,8 @@ void RankingDataManager::Load()
 		}
 		FileRead_close(handle);
 	}
+
+	SetUseASyncLoadFlag(true);
 }
 
 void RankingDataManager::Save() const

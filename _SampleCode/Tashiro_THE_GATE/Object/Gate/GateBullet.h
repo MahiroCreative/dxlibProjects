@@ -12,15 +12,20 @@ public:
 	~GateBullet();
 
 	void Init(const Vec3& pos, const Vec3& dir);
+	void Update();
 
 	bool IsBreak() const { return m_isBreak; }
 	const GateKind& GetKind() const { return m_kind; }
 
-	virtual void OnCollideEnter(MyEngine::Collidable* colider, int colIndex, const MyEngine::CollideHitInfo& hitInfo) override;
+	virtual void OnCollideEnter(MyEngine::Collidable* colider, int selfIndex, int sendIndex, const MyEngine::CollideHitInfo& hitInfo) override;
 
 private:
 	std::shared_ptr<GateManager> m_gateMgr;
+
 	GateKind m_kind;
+
+	int m_effHandle;
+
 	bool m_isBreak;
 };
 

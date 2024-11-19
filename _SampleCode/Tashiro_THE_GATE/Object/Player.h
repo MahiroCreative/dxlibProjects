@@ -34,7 +34,8 @@ public:
 	Player(const std::shared_ptr<PlayerCamera>& camera, const std::shared_ptr<GateManager>& gateMgr);
 	virtual ~Player();
 
-	void Init(bool isOneHand);
+	void AsyncInit();
+	void Init(const Vec3& pos, bool isOneHand);
 	void Restart(const Vec3& pos);
 	void Update() override;
 	void Draw() const override;
@@ -45,16 +46,14 @@ public:
 	bool IsDeath() const { return m_isDeath; }
 	std::shared_ptr<Camera> GetCamera() const;
 
-	virtual void OnCollideEnter(Collidable* colider, int colIndex, const MyEngine::CollideHitInfo& hitInfo) override;
-	virtual void OnCollideStay(Collidable* colider, int colIndex, const MyEngine::CollideHitInfo& hitInfo) override;
-	virtual void OnTriggerStay(MyEngine::Collidable* colider, int colIndex, const MyEngine::CollideHitInfo& hitInfo) override;
-	virtual void OnTriggerExit(MyEngine::Collidable* colider, int colIndex, const MyEngine::CollideHitInfo& hitInfo) override;
+	virtual void OnCollideStay(MyEngine::Collidable* colider, int selfIndex, int sendIndex, const MyEngine::CollideHitInfo& hitInfo) override;
+	virtual void OnTriggerStay(MyEngine::Collidable* colider, int selfIndex, int sendIndex, const MyEngine::CollideHitInfo& hitInfo) override;
+	virtual void OnTriggerExit(MyEngine::Collidable* colider, int selfIndex, int sendIndex, const MyEngine::CollideHitInfo& hitInfo) override;
 
 private:
 	void HandUpdate();
 	void RecoverHpUpdate();
 	void HpBarUpdate();
-	void ThroughTagUpdate();
 	void AnimUpdate();
 
 	void IdleUpdate();
@@ -63,6 +62,8 @@ private:
 	void AerialUpdate();
 	void LandingUpdate();
 	void DeathUpdate();
+
+	bool Move(float speed);
 
 	void OnIdle();
 	void OnWalk();
@@ -84,7 +85,6 @@ private:
 	std::shared_ptr<GateManager> m_gateMgr;
 	std::shared_ptr<AnimController> m_anim;
 
-	std::shared_ptr<MyEngine::ColliderSphere> m_centerCol;
 	std::shared_ptr<MyEngine::ColliderSphere> m_handCol;
 
 	State m_nowState;
@@ -103,7 +103,8 @@ private:
 	bool m_isDeath;
 	bool m_isRecever;
 	bool m_isGround;
-	bool m_isAddThroughTag;
 	bool m_isCatch;
 	bool m_isWarp;
+
+	std::unordered_map<MyEngine::Collidable*, bool> m_isAddTag;
 };

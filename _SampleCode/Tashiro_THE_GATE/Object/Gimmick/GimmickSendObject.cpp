@@ -1,4 +1,4 @@
-#include "GimmickSendObject.h"
+﻿#include "GimmickSendObject.h"
 #include "Collider/ColliderBox.h"
 
 GimmickSendObject::GimmickSendObject(Priority priority, ObjectTag tag) :

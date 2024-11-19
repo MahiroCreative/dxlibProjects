@@ -1,4 +1,4 @@
-#include "AFile.h"
+﻿#include "AFile.h"
 #include <DxLib.h>
 #include <cassert>
 
@@ -20,7 +20,7 @@ bool AFile::IsReadble() const
 
 bool AFile::Read(void* address, int size)
 {
-    if (!IsReadble()) return false;
+    if (IsReadble()) return false;
 
     std::copy_n(&m_data[m_cursor], size, static_cast<uint8_t*>(address));
     m_cursor += size;

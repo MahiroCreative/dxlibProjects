@@ -1,4 +1,4 @@
-#pragma once
+ï»¿#pragma once
 #include <cassert>
 #include <functional>
 #include <unordered_map>
@@ -23,18 +23,18 @@ public:
 	}
 
 	/// <summary>
-	/// ƒXƒe[ƒg‚Ì’Ç‰Á
+	/// ã‚¹ãƒ†ãƒ¼ãƒˆã®è¿½åŠ 
 	/// </summary>
-	/// <param name="state">ƒXƒe[ƒg</param>
-	/// <param name="entry">“ü‚Á‚½‚Æ‚«‚ÉŒÄ‚ÔŠÖ”</param>
-	/// <param name="update">–ˆƒtƒŒ[ƒ€ŒÄ‚ÔŠÖ”</param>
-	/// <param name="exit">I‚í‚Á‚½‚Æ‚«‚ÉŒÄ‚ÔŠÖ”</param>
+	/// <param name="state">ã‚¹ãƒ†ãƒ¼ãƒˆ</param>
+	/// <param name="entry">å…¥ã£ãŸã¨ãã«å‘¼ã¶é–¢æ•°</param>
+	/// <param name="update">æ¯ãƒ•ãƒ¬ãƒ¼ãƒ å‘¼ã¶é–¢æ•°</param>
+	/// <param name="exit">çµ‚ã‚ã£ãŸã¨ãã«å‘¼ã¶é–¢æ•°</param>
 	void AddState(State_t state, Delegate_t entry, Delegate_t update, Delegate_t exit)
 	{
-		// d•¡ˆ—
+		// é‡è¤‡å‡¦ç†
 		if (m_stateFuncMap.find(state) != m_stateFuncMap.end())
 		{
-			assert(false && "Šù‚ÉƒXƒe[ƒg‚ª’Ç‰Á‚³‚ê‚Ä‚¢‚Ü‚·");
+			assert(false && "æ—¢ã«ã‚¹ãƒ†ãƒ¼ãƒˆãŒè¿½åŠ ã•ã‚Œã¦ã„ã¾ã™");
 			return;
 		}
 
@@ -46,15 +46,15 @@ public:
 	}
 
 	/// <summary>
-	/// ƒXƒe[ƒg‚Ì•ÏX
+	/// ã‚¹ãƒ†ãƒ¼ãƒˆã®å¤‰æ›´
 	/// </summary>
-	/// <typeparam name="State_t">ƒXƒe[ƒg</typeparam>
+	/// <typeparam name="State_t">ã‚¹ãƒ†ãƒ¼ãƒˆ</typeparam>
 	void ChangeState(State_t state)
 	{
-		// ‰‰ñ‚È‚çEntry‚¾‚¯ŒÄ‚Ô
+		// åˆå›ãªã‚‰Entryã ã‘å‘¼ã¶
 		if (m_isInit)
 		{
-			// nullptr‚Å‚È‚¯‚ê‚ÎŒÄ‚Ô
+			// nullptrã§ãªã‘ã‚Œã°å‘¼ã¶
 			if (m_stateFuncMap.at(state).entry)
 			{
 				m_stateFuncMap.at(state).entry();
@@ -62,7 +62,7 @@ public:
 			m_nowState = state;
 			m_isInit = false;
 		}
-		// ˆá‚¤ƒXƒe[ƒg‚ª“ü‚Á‚Ä‚«‚½‚çXV
+		// é•ã†ã‚¹ãƒ†ãƒ¼ãƒˆãŒå…¥ã£ã¦ããŸã‚‰æ›´æ–°
 		else if (m_nowState != state)
 		{
 			if (m_stateFuncMap.at(m_nowState).exit)
@@ -78,7 +78,7 @@ public:
 	}
 
 	/// <summary>
-	/// XV
+	/// æ›´æ–°
 	/// </summary>
 	void Update()
 	{
@@ -86,9 +86,9 @@ public:
 	}
 
 	/// <summary>
-	/// ƒXƒe[ƒg‚Ìæ“¾
+	/// ã‚¹ãƒ†ãƒ¼ãƒˆã®å–å¾—
 	/// </summary>
-	/// <returns>Œ»İ‚ÌƒXƒe[ƒg</returns>
+	/// <returns>ç¾åœ¨ã®ã‚¹ãƒ†ãƒ¼ãƒˆ</returns>
 	State_t GetNowState() const { return m_nowState; }
 
 private:

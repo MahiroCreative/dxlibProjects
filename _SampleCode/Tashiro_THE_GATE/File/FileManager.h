@@ -23,6 +23,12 @@ struct Path
 	std::wstring path = L"";
 };
 
+struct Shader
+{
+	int vs;
+	int ps;
+};
+
 // パスデータ
 using PathData_t = std::unordered_map<std::wstring, Path>;
 // ロード済みデータ
@@ -30,7 +36,7 @@ using LoadedData_t = std::unordered_map<std::wstring, std::shared_ptr<FileBase>>
 // モデルにはるデータ群
 using TextureData_t = std::unordered_map<std::wstring, std::list<std::wstring>>;
 // モデルの頂点シェーダデータ
-using ShaderData_t = std::unordered_map<std::wstring, int>;
+using ShaderData_t = std::unordered_map<std::wstring, Shader>;
 // CSVデータ
 using CsvData_t = std::list<std::vector<std::wstring>>;
 
@@ -69,7 +75,18 @@ public:
 	/// <param name="isEternal">true : 永続 / false : 使っているものが消えたら削除</param>
 	/// <returns>データ</returns>
 	std::shared_ptr<FileBase> Load(const wchar_t* const name, bool isEternal = false);
-	int GetVS(const wchar_t* const name) const;
+	/// <summary>
+	/// 使用頂点シェーダのハンドル取得
+	/// </summary>
+	/// <param name="name">モデル名</param>
+	/// <returns>頂点シェーダハンドル</returns>
+	int GetVS(const wchar_t* const name) const { return m_shaderData.at(name).vs; }
+	/// <summary>
+	/// 使用ピクセルシェーダのハンドル取得
+	/// </summary>
+	/// <param name="name">モデル名</param>
+	/// <returns>ピクセルシェーダハンドル</returns>
+	int GetPS(const wchar_t* const name) const { return m_shaderData.at(name).ps; }
 	/// <summary>
 	/// モデルデータにテクスチャデータを貼り付ける
 	/// </summary>

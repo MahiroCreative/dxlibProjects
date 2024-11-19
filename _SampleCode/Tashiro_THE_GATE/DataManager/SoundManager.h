@@ -1,10 +1,15 @@
 ﻿#pragma once
 #include <list>
+#include <memory>
+
+namespace MyEngine
+{
+	class Collidable;
+}
 
 /// <summary>
 /// BGM,SEの再生を管理するシステム
 /// </summary>
-
 class SoundManager
 {
 private:
@@ -12,6 +17,7 @@ private:
 	{
 		int handle;
 		long long savePos;
+		std::weak_ptr<MyEngine::Collidable> master;
 	};
 
 private:
@@ -24,6 +30,9 @@ public:
 	~SoundManager();
 
 	static SoundManager& GetInstance();
+
+	void SetSeCenter(const std::weak_ptr<MyEngine::Collidable>& center) { m_seCenter = center; }
+	void ResetSeCenter() { m_seCenter.reset(); }
 
 	/// <summary>
 	/// 更新
@@ -59,14 +68,15 @@ public:
 	/// SEを流す
 	/// </summary>
 	/// <param name="seHandle">SEハンドル</param>
+	/// <param name="isOption"></param>
 	void PlaySe(int seHandle, bool isOption = false);
 	/// <summary>
-	/// フェードありでSEを流す
+	/// 3D空間でSEを流す
 	/// </summary>
-	/// <param name="handle">SEハンドル</param>
-	/// <param name="rate">割合</param>
-	/// <param name="isOption">オプションを開いているか</param>
-	void PlayFadeSe(int handle, float rate = 1.0f, bool isOption = false);
+	/// <param name="seHandle">SEハンドル</param>
+	/// <param name="master">SEの発信源</param>
+	/// <param name="isOption">オプションで鳴らしているものか</param>
+	void PlaySe3D(int seHandle, const std::weak_ptr<MyEngine::Collidable> master, bool isOption = false);
 
 	/// <summary>
 	/// 音声の停止
@@ -123,6 +133,9 @@ private:
 	void ChangePlaySeVol(int handle, float rate);
 	
 private:
+	std::weak_ptr<MyEngine::Collidable> m_seCenter;
+	std::list<SaveSeData> m_saveSeList;
+
 	// ボリューム調整
 	int m_bgmVolume;
 	int m_seVolume;
@@ -136,6 +149,5 @@ private:
 	long long m_soundSavePos;
 
 	bool m_isStop;
-	std::list<SaveSeData> m_saveSeList;
 };
 

@@ -1,5 +1,6 @@
 ﻿#include "LaserBullet.h"
 #include "Physics.h"
+#include "MathHelp.h"
 #include "LaserLaunchPad.h"
 #include "Collider/ColliderSphere.h"
 #include "Collider/ColliderBox.h"
@@ -43,6 +44,7 @@ void LaserBullet::Init(const Vec3& pos, const Vec3& dir, int existTime)
 	m_throughTag.push_back(ObjectTag::GATE_BULLET);
 	m_throughTag.push_back(ObjectTag::TURRET);
 	m_throughTag.push_back(ObjectTag::TURRET_BULLET);
+	m_throughTag.push_back(ObjectTag::LASER_LAUNCH_PAD);
 }
 
 void LaserBullet::Update()
@@ -72,18 +74,20 @@ void LaserBullet::Update()
 	}
 }
 
-void LaserBullet::OnCollideEnter(MyEngine::Collidable* colider, int colIndex, const MyEngine::CollideHitInfo& hitInfo)
+void LaserBullet::OnCollideEnter(MyEngine::Collidable* colider, int selfIndex, int sendIndex, const MyEngine::CollideHitInfo& hitInfo)
 {
-	MyEngine::Collidable::OnCollideEnter(colider, colIndex, hitInfo);
+	MyEngine::Collidable::OnCollideEnter(colider, selfIndex, sendIndex, hitInfo);
 
 	auto tag = colider->GetTag();
-	if (tag == ObjectTag::SYSTEM_WALL || tag == ObjectTag::FLOOR || tag == ObjectTag::ROOF)
+	if (tag == ObjectTag::WALL || tag == ObjectTag::FLOOR || tag == ObjectTag::ROOF || tag == ObjectTag::NO_GATE_FLOOR || tag == ObjectTag::NO_GATE_WALL || tag == ObjectTag::NO_GATE_ROOF)
 	{
-		auto col = dynamic_cast<MyEngine::ColliderBox*>(colider->GetColliderData(colIndex));
+		auto col = dynamic_cast<MyEngine::ColliderBox*>(colider->GetColliderData(sendIndex));
 
 		// 反射
 		auto dir = m_rigid.GetDir();
-		dir = Vec3::Reflection(dir, col->norm);
+		const auto& nearPos = GetNearestPtOnBox(m_rigid.GetPos(), colider->GetPos() + col->center, col->size, col->rotation);
+		const auto& norm = (m_rigid.GetPos() - nearPos).GetNormalized();
+		dir = Vec3::Reflection(dir, norm);
 		m_rigid.SetVelocity(dir * MOVE_SPEED);
 
 		// 制限時間を一定時間減らす
@@ -91,9 +95,9 @@ void LaserBullet::OnCollideEnter(MyEngine::Collidable* colider, int colIndex, co
 	}
 }
 
-void LaserBullet::OnTriggerEnter(MyEngine::Collidable* colider, int colIndex, const MyEngine::CollideHitInfo& hitInfo)
+void LaserBullet::OnTriggerEnter(MyEngine::Collidable* colider, int selfIndex, int sendIndex, const MyEngine::CollideHitInfo& hitInfo)
 {
-	MyEngine::Collidable::OnTriggerEnter(colider, colIndex, hitInfo);
+	MyEngine::Collidable::OnTriggerEnter(colider, selfIndex, sendIndex, hitInfo);
 
 	auto tag = colider->GetTag();
 	if (tag == ObjectTag::LASER_CATCHER)
@@ -103,9 +107,9 @@ void LaserBullet::OnTriggerEnter(MyEngine::Collidable* colider, int colIndex, co
 	}
 }
 
-void LaserBullet::OnTriggerStay(MyEngine::Collidable* colider, int colIndex, const MyEngine::CollideHitInfo& hitInfo)
+void LaserBullet::OnTriggerStay(MyEngine::Collidable* colider, int selfIndex, int sendIndex, const MyEngine::CollideHitInfo& hitInfo)
 {
-	MyEngine::Collidable::OnTriggerStay(colider, colIndex, hitInfo);
+	MyEngine::Collidable::OnTriggerStay(colider, selfIndex, sendIndex, hitInfo);
 
 	auto tag = colider->GetTag();
 	if (tag == ObjectTag::GATE)
