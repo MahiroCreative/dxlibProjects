@@ -5,6 +5,7 @@
 //debug.
 #define DEBUG
 
+
 //Dxlibのエントリーポイント
 int WINAPI WinMain(_In_ HINSTANCE hInstance, _In_opt_  HINSTANCE hPrevInstance, _In_ LPSTR lpCmdLine, _In_ int nShowCmd)
 {
@@ -64,7 +65,7 @@ int WINAPI WinMain(_In_ HINSTANCE hInstance, _In_opt_  HINSTANCE hPrevInstance, 
 		//現在のフレームラップを表示
 		printf("frame:%d ", frameTime);
 		//現在時刻を表示
-		TimeTool::ShowNowTime();
+		MyTool::TimeTool::ShowNowTime();
 		//改行
 		printf("\n");
 #endif // DEBUG

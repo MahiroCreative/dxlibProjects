@@ -146,7 +146,9 @@
   <ItemGroup>
     <ClInclude Include="MyDxlib\MyDxlib.h" />
     <ClInclude Include="MyDxlib\MyMath\MyMath.h" />
+    <ClInclude Include="MyDxlib\MyTool\ConsoleDebugh.h" />
     <ClInclude Include="MyDxlib\MyTool\MyTool.h" />
+    <ClInclude Include="MyDxlib\MyTool\TimeTool.h" />
     <ClInclude Include="MyDxlib\Test.h" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
