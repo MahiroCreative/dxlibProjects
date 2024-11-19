@@ -146,8 +146,6 @@
   <ItemGroup>
     <ClInclude Include="MyDxlib\MyDxlib.h" />
     <ClInclude Include="MyDxlib\MyMath\MyMath.h" />
-    <ClInclude Include="MyDxlib\MyMath\Quaternion.h" />
-    <ClInclude Include="MyDxlib\MyMath\Vector3.h" />
     <ClInclude Include="MyDxlib\MyTool\MyTool.h" />
     <ClInclude Include="MyDxlib\Test.h" />
   </ItemGroup>

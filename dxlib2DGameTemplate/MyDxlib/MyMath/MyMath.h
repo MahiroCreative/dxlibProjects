@@ -7,5 +7,3 @@
 #include <cmath>
 #include <numbers>
 //自作ライブラリ
-#include "Vector3.h"
-#include "Quaternion.h"

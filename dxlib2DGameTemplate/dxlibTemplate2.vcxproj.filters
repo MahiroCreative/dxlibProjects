@@ -37,14 +37,8 @@
     <ClInclude Include="MyDxlib\MyMath\MyMath.h">
       <Filter>ヘッダー ファイル\MyDxlib\MyMath</Filter>
     </ClInclude>
-    <ClInclude Include="MyDxlib\MyMath\Vector3.h">
-      <Filter>ヘッダー ファイル\MyDxlib\MyMath</Filter>
-    </ClInclude>
     <ClInclude Include="MyDxlib\MyTool\MyTool.h">
       <Filter>ヘッダー ファイル\MyDxlib\MyTool</Filter>
-    </ClInclude>
-    <ClInclude Include="MyDxlib\MyMath\Quaternion.h">
-      <Filter>ヘッダー ファイル\MyDxlib\MyMath</Filter>
     </ClInclude>
     <ClInclude Include="MyDxlib\MyDxlib.h">
       <Filter>ヘッダー ファイル\MyDxlib</Filter>
