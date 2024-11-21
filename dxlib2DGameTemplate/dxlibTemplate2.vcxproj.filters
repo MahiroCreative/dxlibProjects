@@ -52,5 +52,8 @@
     <ClInclude Include="MyDxlib\MyTool\ConsoleDebugh.h">
       <Filter>ヘッダー ファイル\MyDxlib\MyTool</Filter>
     </ClInclude>
+    <ClInclude Include="Vector2.h">
+      <Filter>ヘッダー ファイル\MyDxlib\MyMath</Filter>
+    </ClInclude>
   </ItemGroup>
 </Project>

@@ -2,6 +2,7 @@
 #include <iostream>
 //origin.
 #include "MyDxlib/MyDxlib.h"
+#include "MyDxlib/MyMath/Vector2.h"
 //debug.
 #define DEBUG
 
@@ -14,6 +15,7 @@ int WINAPI WinMain(_In_ HINSTANCE hInstance, _In_opt_  HINSTANCE hPrevInstance, 
 	AllocConsole();                                        // コンソール
 	FILE* out = 0; freopen_s(&out, "CON", "w", stdout); // stdout
 	FILE* in = 0; freopen_s(&in, "CON", "r", stdin);   // stdin
+
 #endif
 
 	/*定数*/
