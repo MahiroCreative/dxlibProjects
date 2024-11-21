@@ -42,7 +42,7 @@ int WINAPI WinMain(_In_ HINSTANCE hInstance, _In_opt_  HINSTANCE hPrevInstance, 
 		ClearDrawScreen();
 
 		/*シーン遷移処理*/
-
+		
 
 		//裏画面を表へ
 		ScreenFlip();
