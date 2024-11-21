@@ -149,8 +149,7 @@
     <ClInclude Include="MyDxlib\MyTool\ConsoleDebugh.h" />
     <ClInclude Include="MyDxlib\MyTool\MyTool.h" />
     <ClInclude Include="MyDxlib\MyTool\TimeTool.h" />
-    <ClInclude Include="MyDxlib\Test.h" />
-    <ClInclude Include="Vector2.h" />
+    <ClInclude Include="Temp.h" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">

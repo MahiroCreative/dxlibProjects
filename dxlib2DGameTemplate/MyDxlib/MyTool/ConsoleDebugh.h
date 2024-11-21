@@ -1,12 +1,12 @@
 ﻿#pragma once
+#include "MyTool.h"
 //STL.
 #include <iostream>
-//origin.
-#include "MyTool.h"
 #include <consoleapi.h>
 
 namespace MyTool
 {
+
 	class ConsoleDebug
 	{
 	public:

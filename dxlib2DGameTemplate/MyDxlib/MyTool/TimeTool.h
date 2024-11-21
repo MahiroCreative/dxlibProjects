@@ -3,6 +3,11 @@
 
 namespace MyTool
 {
+	class Vector2
+	{
+
+	};
+
 	//実装
 	namespace TimeTool
 	{

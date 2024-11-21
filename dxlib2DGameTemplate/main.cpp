@@ -2,7 +2,6 @@
 #include <iostream>
 //origin.
 #include "MyDxlib/MyDxlib.h"
-#include "MyDxlib/MyMath/Vector2.h"
 //debug.
 #define DEBUG
 

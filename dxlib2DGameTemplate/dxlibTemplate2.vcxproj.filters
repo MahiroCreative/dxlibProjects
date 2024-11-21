@@ -43,17 +43,14 @@
     <ClInclude Include="MyDxlib\MyDxlib.h">
       <Filter>ヘッダー ファイル\MyDxlib</Filter>
     </ClInclude>
-    <ClInclude Include="MyDxlib\Test.h">
-      <Filter>ヘッダー ファイル\MyDxlib</Filter>
-    </ClInclude>
     <ClInclude Include="MyDxlib\MyTool\TimeTool.h">
       <Filter>ヘッダー ファイル\MyDxlib\MyTool</Filter>
     </ClInclude>
     <ClInclude Include="MyDxlib\MyTool\ConsoleDebugh.h">
       <Filter>ヘッダー ファイル\MyDxlib\MyTool</Filter>
     </ClInclude>
-    <ClInclude Include="Vector2.h">
-      <Filter>ヘッダー ファイル\MyDxlib\MyMath</Filter>
+    <ClInclude Include="Temp.h">
+      <Filter>ヘッダー ファイル\MyDxlib\MyTool</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>

@@ -7,4 +7,3 @@
 #include <cmath>
 #include <numbers>
 //自作ライブラリ
-#include "Vector2.h"
