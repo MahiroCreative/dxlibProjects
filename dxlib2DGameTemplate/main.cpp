@@ -2,6 +2,7 @@
 #include <iostream>
 //origin.
 #include "MyDxlib/MyDxlib.h"
+#include "Player.h"
 
 
 //Dxlibのエントリーポイント
@@ -16,6 +17,10 @@ int WINAPI WinMain(_In_ HINSTANCE hInstance, _In_opt_  HINSTANCE hPrevInstance, 
 	LONGLONG roopStartTime = 0;
 	LONGLONG frameTime = 0;
 	bool gameRoop = true;
+
+	/*オブジェクト生成*/
+	Player player;
+	player.Init();
 
 	/*Dxlib初期化*/
 	SetGraphMode(ScreenSizeX, ScreenSizeY, 32);//画面サイズと解像度
@@ -33,7 +38,8 @@ int WINAPI WinMain(_In_ HINSTANCE hInstance, _In_opt_  HINSTANCE hPrevInstance, 
 		ClearDrawScreen();
 
 		/*シーン遷移処理*/
-		
+		player.Update();
+		player.Draw();
 
 		//裏画面を表へ
 		ScreenFlip();
