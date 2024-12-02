@@ -16,12 +16,6 @@
     <Filter Include="ヘッダー ファイル\MyDxlib">
       <UniqueIdentifier>{99839ab4-73ec-4dfc-bc0d-d3630004f3f0}</UniqueIdentifier>
     </Filter>
-    <Filter Include="ヘッダー ファイル\MyDxlib\MyMath">
-      <UniqueIdentifier>{00ae00ef-5054-4c30-95f0-0eb3bf06e1b5}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="ヘッダー ファイル\MyDxlib\MyTool">
-      <UniqueIdentifier>{a96bd01f-cfa1-4c4e-a3ed-0ebed4f4fb3e}</UniqueIdentifier>
-    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="main.cpp">
@@ -34,23 +28,29 @@
     </None>
   </ItemGroup>
   <ItemGroup>
-    <ClInclude Include="MyDxlib\MyMath\MyMath.h">
-      <Filter>ヘッダー ファイル\MyDxlib\MyMath</Filter>
-    </ClInclude>
-    <ClInclude Include="MyDxlib\MyTool\MyTool.h">
-      <Filter>ヘッダー ファイル\MyDxlib\MyTool</Filter>
-    </ClInclude>
     <ClInclude Include="MyDxlib\MyDxlib.h">
       <Filter>ヘッダー ファイル\MyDxlib</Filter>
     </ClInclude>
-    <ClInclude Include="MyDxlib\MyTool\TimeTool.h">
-      <Filter>ヘッダー ファイル\MyDxlib\MyTool</Filter>
+    <ClInclude Include="MyDxlib\ConsoleDebug.h">
+      <Filter>ヘッダー ファイル\MyDxlib</Filter>
     </ClInclude>
-    <ClInclude Include="MyDxlib\MyTool\ConsoleDebugh.h">
-      <Filter>ヘッダー ファイル\MyDxlib\MyTool</Filter>
+    <ClInclude Include="MyDxlib\TimeTool.h">
+      <Filter>ヘッダー ファイル\MyDxlib</Filter>
     </ClInclude>
-    <ClInclude Include="Temp.h">
-      <Filter>ヘッダー ファイル\MyDxlib\MyTool</Filter>
+    <ClInclude Include="Player.h">
+      <Filter>ヘッダー ファイル</Filter>
+    </ClInclude>
+    <ClInclude Include="MyDxlib\_baseGameObject2D.h">
+      <Filter>ヘッダー ファイル\MyDxlib</Filter>
+    </ClInclude>
+    <ClInclude Include="MyDxlib\Rigidbody.h">
+      <Filter>ヘッダー ファイル\MyDxlib</Filter>
+    </ClInclude>
+    <ClInclude Include="MyDxlib\Transform2D.h">
+      <Filter>ヘッダー ファイル\MyDxlib</Filter>
+    </ClInclude>
+    <ClInclude Include="MyDxlib\Vector2.h">
+      <Filter>ヘッダー ファイル\MyDxlib</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>
