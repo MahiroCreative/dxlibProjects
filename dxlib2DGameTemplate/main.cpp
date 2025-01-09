@@ -1,7 +1,7 @@
 ﻿//STL.
 #include <iostream>
 //origin.
-#include "MyDxlib/MyDxlib.h"
+#include "MyDxlib2DGame/MyDxlib2DGame.h"
 #include "Player.h"
 
 

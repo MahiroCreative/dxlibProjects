@@ -144,13 +144,13 @@
     <None Include=".gitignore" />
   </ItemGroup>
   <ItemGroup>
-    <ClInclude Include="MyDxlib\ConsoleDebug.h" />
-    <ClInclude Include="MyDxlib\MyDxlib.h" />
-    <ClInclude Include="MyDxlib\Rigidbody.h" />
-    <ClInclude Include="MyDxlib\TimeTool.h" />
-    <ClInclude Include="MyDxlib\Transform2D.h" />
-    <ClInclude Include="MyDxlib\Vector2.h" />
-    <ClInclude Include="MyDxlib\_baseGameObject2D.h" />
+    <ClInclude Include="MyDxlib2DGame\ConsoleDebug.h" />
+    <ClInclude Include="MyDxlib2DGame\MyDxlib2DGame.h" />
+    <ClInclude Include="MyDxlib2DGame\Rigidbody.h" />
+    <ClInclude Include="MyDxlib2DGame\TimeTool.h" />
+    <ClInclude Include="MyDxlib2DGame\Transform2D.h" />
+    <ClInclude Include="MyDxlib2DGame\Vector2.h" />
+    <ClInclude Include="MyDxlib2DGame\_baseGameObject2D.h" />
     <ClInclude Include="Player.h" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />

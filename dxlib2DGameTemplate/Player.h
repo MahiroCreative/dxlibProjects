@@ -1,5 +1,5 @@
 ﻿#pragma once
-#include "MyDxlib/MyDxlib.h"
+#include "MyDxlib2DGame/MyDxlib2DGame.h"
 
 class Player : public _baseGameObject2D
 {
