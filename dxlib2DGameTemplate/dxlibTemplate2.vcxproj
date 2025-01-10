@@ -141,6 +141,7 @@
     <ClCompile Include="main.cpp" />
     <ClCompile Include="MyDxlib2DGame\Vector2.cpp" />
     <ClCompile Include="Player.cpp" />
+    <ClCompile Include="SceneTitle.cpp" />
   </ItemGroup>
   <ItemGroup>
     <None Include=".gitignore" />
@@ -148,12 +149,14 @@
   <ItemGroup>
     <ClInclude Include="MyDxlib2DGame\ConsoleDebug.h" />
     <ClInclude Include="MyDxlib2DGame\MyDxlib2DGame.h" />
-    <ClInclude Include="MyDxlib2DGame\Rigidbody.h" />
+    <ClInclude Include="MyDxlib2DGame\Rigidbody2D.h" />
     <ClInclude Include="MyDxlib2DGame\TimeTool.h" />
     <ClInclude Include="MyDxlib2DGame\Transform2D.h" />
     <ClInclude Include="MyDxlib2DGame\Vector2.h" />
     <ClInclude Include="MyDxlib2DGame\_baseGameObject2D.h" />
+    <ClInclude Include="MyDxlib2DGame\_baseGameScene.h" />
     <ClInclude Include="Player.h" />
+    <ClInclude Include="SceneTitle.h" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">

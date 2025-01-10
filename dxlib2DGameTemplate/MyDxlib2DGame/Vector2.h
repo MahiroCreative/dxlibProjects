@@ -30,4 +30,26 @@ struct Vector2
 	static float Dot(const Vector2& left, const Vector2& right);
 
 	/*演算子オーバーロード*/
+	//フレンド宣言でフリー関数にアクセスを許可(外部定義できるようにする)
+	//A+B
+	friend Vector2 operator+(const Vector2& left, const Vector2& right);
+	//A+=B
+	friend Vector2& operator+=(Vector2& left, const Vector2& right);
+	//A-B
+	friend Vector2 operator-(const Vector2& left, const Vector2& right);
+	//A-=B
+	friend Vector2& operator-=(Vector2& left, const Vector2& right);
+	//-A
+	friend Vector2 operator-(const Vector2& vec);
+	//k*A(定数)
+	friend Vector2 operator*(float k, const Vector2& vec);
+	//A*k(定数)
+	friend Vector2 operator*(const Vector2& vec, float k);
+	//A*=k(定数)
+	friend Vector2& operator*=(Vector2& vec, float k);
+	//A/k(定数)
+	friend Vector2 operator/(const Vector2& vec, float k);
+	//A/=k(定数)
+	friend Vector2& operator/=(Vector2& vec, float k);
+
 };

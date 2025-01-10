@@ -1,10 +1,12 @@
 ﻿#pragma once
 #include "Vector2.h"
 
-struct Rigidbody
+struct Rigidbody2D
 {
 	//速度
 	Vector2 Velocity;
 	//加速度
 	Vector2 Acceleration;
+	//質量
+	float Mass;
 };

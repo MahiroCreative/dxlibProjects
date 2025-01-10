@@ -13,7 +13,7 @@ void Player::Init()
 void Player::Update()
 {
 	//左右移動
-	//_transform.Position += _rigidbody.Velocity;
+	_transform.Position += _rigidbody.Velocity;
 
 	//ストップ
 	if (_transform.Position.X == 400) { _rigidbody.Velocity = Vector2::Zero; }

@@ -43,11 +43,6 @@ Vector2& operator+=(Vector2& left, const Vector2& right)
 	left.Y += right.Y;
 	return left;
 }
-//-A
-Vector2 operator-(const Vector2& vec)
-{
-	return Vector2(-vec.X, -vec.Y);
-}
 //A-B
 Vector2 operator-(const Vector2& left, const Vector2& right)
 {
@@ -59,6 +54,11 @@ Vector2& operator-=(Vector2& left, const Vector2& right)
 	left.X -= right.X;
 	left.Y -= right.Y;
 	return left;
+}
+//-A
+Vector2 operator-(const Vector2& vec)
+{
+	return Vector2(-vec.X, -vec.Y);
 }
 //A*k(定数)
 Vector2 operator*(const Vector2& vec, const float k)

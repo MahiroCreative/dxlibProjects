@@ -13,7 +13,7 @@
       <UniqueIdentifier>{67DA6AB6-F800-4c08-8B7A-83BB121AAD01}</UniqueIdentifier>
       <Extensions>rc;ico;cur;bmp;dlg;rc2;rct;bin;rgs;gif;jpg;jpeg;jpe;resx;tiff;tif;png;wav;mfcribbon-ms</Extensions>
     </Filter>
-    <Filter Include="ヘッダー ファイル\MyDxlib2DGame">
+    <Filter Include="MyDxlib2DGame">
       <UniqueIdentifier>{99839ab4-73ec-4dfc-bc0d-d3630004f3f0}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
@@ -25,7 +25,10 @@
       <Filter>ソース ファイル</Filter>
     </ClCompile>
     <ClCompile Include="MyDxlib2DGame\Vector2.cpp">
-      <Filter>ヘッダー ファイル\MyDxlib2DGame</Filter>
+      <Filter>MyDxlib2DGame</Filter>
+    </ClCompile>
+    <ClCompile Include="SceneTitle.cpp">
+      <Filter>ソース ファイル</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -38,25 +41,31 @@
       <Filter>ヘッダー ファイル</Filter>
     </ClInclude>
     <ClInclude Include="MyDxlib2DGame\_baseGameObject2D.h">
-      <Filter>ヘッダー ファイル\MyDxlib2DGame</Filter>
+      <Filter>MyDxlib2DGame</Filter>
     </ClInclude>
     <ClInclude Include="MyDxlib2DGame\ConsoleDebug.h">
-      <Filter>ヘッダー ファイル\MyDxlib2DGame</Filter>
+      <Filter>MyDxlib2DGame</Filter>
     </ClInclude>
     <ClInclude Include="MyDxlib2DGame\MyDxlib2DGame.h">
-      <Filter>ヘッダー ファイル\MyDxlib2DGame</Filter>
+      <Filter>MyDxlib2DGame</Filter>
     </ClInclude>
-    <ClInclude Include="MyDxlib2DGame\Rigidbody.h">
-      <Filter>ヘッダー ファイル\MyDxlib2DGame</Filter>
+    <ClInclude Include="MyDxlib2DGame\Rigidbody2D.h">
+      <Filter>MyDxlib2DGame</Filter>
     </ClInclude>
     <ClInclude Include="MyDxlib2DGame\TimeTool.h">
-      <Filter>ヘッダー ファイル\MyDxlib2DGame</Filter>
+      <Filter>MyDxlib2DGame</Filter>
     </ClInclude>
     <ClInclude Include="MyDxlib2DGame\Transform2D.h">
-      <Filter>ヘッダー ファイル\MyDxlib2DGame</Filter>
+      <Filter>MyDxlib2DGame</Filter>
     </ClInclude>
     <ClInclude Include="MyDxlib2DGame\Vector2.h">
-      <Filter>ヘッダー ファイル\MyDxlib2DGame</Filter>
+      <Filter>MyDxlib2DGame</Filter>
+    </ClInclude>
+    <ClInclude Include="MyDxlib2DGame\_baseGameScene.h">
+      <Filter>MyDxlib2DGame</Filter>
+    </ClInclude>
+    <ClInclude Include="SceneTitle.h">
+      <Filter>ヘッダー ファイル</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>

@@ -1,7 +1,12 @@
 ﻿#pragma once
+//STL.
+#include <memory>
+//origin.
 #include "MyDxlib2DGame/MyDxlib2DGame.h"
+#include "Player.h"
 
-class Player : public _baseGameObject2D
+//タイトルシーンクラス
+class SceneTitle : public _baseGameScene
 {
 public:
 	/*メンバ関数*/
@@ -12,10 +17,8 @@ public:
 	//描画
 	void Draw() override;
 private:
-	/*メンバ変数*/
-	//位置・倍率・回転
-	Transform2D _transform;
-	//速度・加速度
-	Rigidbody2D _rigidbody;
+	/*ゲームオブジェクト*/
+	//Arrow.シーン選択用の矢印。
+
 };
 

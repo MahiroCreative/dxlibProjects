@@ -1,6 +1,6 @@
 ﻿#pragma once
 
-
+//ゲームオブジェクト基底クラス
 class _baseGameObject2D
 {
 public:
