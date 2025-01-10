@@ -1,8 +1,28 @@
 ﻿#pragma once
-#include "_baseGameObject2D.h"
+#include "MyDxlib2DGame.h"
 
 //STL.
 class Text2D :public _baseGameObject2D
 {
+public:
+	/*メンバ関数*/
+	//初期化
+	void Init() override
+	{
 
+	}
+	//更新
+	void Update() override
+	{
+
+	}
+	//描画
+	void Draw() override
+	{
+
+	}
+private:
+	/*メンバ変数*/
+	//位置・倍率・回転
+	Transform2D _transform;
 };

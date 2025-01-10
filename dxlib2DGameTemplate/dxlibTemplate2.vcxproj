@@ -150,6 +150,7 @@
     <ClInclude Include="MyDxlib2DGame\ConsoleDebug.h" />
     <ClInclude Include="MyDxlib2DGame\MyDxlib2DGame.h" />
     <ClInclude Include="MyDxlib2DGame\Rigidbody2D.h" />
+    <ClInclude Include="MyDxlib2DGame\Text2D.h" />
     <ClInclude Include="MyDxlib2DGame\TimeTool.h" />
     <ClInclude Include="MyDxlib2DGame\Transform2D.h" />
     <ClInclude Include="MyDxlib2DGame\Vector2.h" />

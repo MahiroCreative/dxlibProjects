@@ -67,5 +67,8 @@
     <ClInclude Include="SceneTitle.h">
       <Filter>ヘッダー ファイル</Filter>
     </ClInclude>
+    <ClInclude Include="MyDxlib2DGame\Text2D.h">
+      <Filter>MyDxlib2DGame</Filter>
+    </ClInclude>
   </ItemGroup>
 </Project>
