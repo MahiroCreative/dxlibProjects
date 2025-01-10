@@ -28,4 +28,6 @@ struct Vector2
 	/*staticメンバ関数*/
 	//内積
 	static float Dot(const Vector2& left, const Vector2& right);
+
+	/*演算子オーバーロード*/
 };
