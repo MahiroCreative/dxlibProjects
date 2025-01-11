@@ -8,3 +8,4 @@
 #include "Rigidbody2D.h"//Rigidbody構造体
 #include "_baseGameObject2D.h"//2Dゲームオブジェクト基底クラス
 #include "_baseGameScene.h"//ゲームシーン基底クラス
+#include "SimpleText.h"//シンプルなテキストオブジェクトを作るクラス
