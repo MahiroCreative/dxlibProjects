@@ -1,5 +1,4 @@
 ﻿#pragma once
-#include "DxLib.h"
 #include "MyDxlib2DGame.h"
 #include <string>
 
@@ -29,18 +28,13 @@ public:
 		Transform.Position = Vector2(100.0f, 100.0f);
 
 		// 初期文字
-		_text = "nuuuuuuuuuuuuuuuuuul";
+		_text = "Heeeeello";
 
 		// 初期色
 		_color = GetColor(255, 255, 255); // 白色
 
-		// 文字列の幅と高さを取得
-		const char* text = _text.c_str();
-		int textWidth = GetDrawStringWidth(text, strlen(text));
-		int textHeight = GetFontSize();
-
-		// 回転の中心座標を計算（文字列の中心）
-		_rotCenter = Vector2(textWidth / 2.0f, textHeight / 2.0f);
+		// 回転の中心座標（左上）
+		_rotCenter = Vector2(0,0);
 	}
 
 	// 更新
@@ -68,13 +62,30 @@ public:
 		);
 	}
 
+	//文字の変更
+	void SetText(const std::string& text)
+	{
+		_text = text;
+	}
+
+	//色の変更
+	void SetColor(unsigned int color)
+	{
+		_color = color;
+	}
+
+	//回転の中心座標の変更
+	//(Dxlibの機能で文字列の中心を出そうとしたがうまくいかなった)
+	void SetRotCenter(const Vector2& rotCenter)
+	{
+		_rotCenter = rotCenter;
+	}
+
 private:
 	// 文字列
 	std::string _text;
-
 	// 回転の中心座標
 	Vector2 _rotCenter;
-
 	// 色
 	unsigned int _color;
 };
