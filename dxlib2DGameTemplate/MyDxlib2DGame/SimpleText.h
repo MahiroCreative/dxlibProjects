@@ -28,13 +28,43 @@ public:
 		Transform.Position = Vector2(100.0f, 100.0f);
 
 		// 初期文字
-		_text = "Heeeeello";
+		_text = "null";
 
 		// 初期色
 		_color = GetColor(255, 255, 255); // 白色
 
 		// 回転の中心座標（左上）
 		_rotCenter = Vector2(0,0);
+	}
+	// 初期化(オーバーロード)
+	void Init(std::string text)
+	{
+		// 初期位置
+		Transform.Position = Vector2(100.0f, 100.0f);
+
+		// 初期文字
+		_text = text;
+
+		// 初期色
+		_color = GetColor(255, 255, 255); // 白色
+
+		// 回転の中心座標（左上）
+		_rotCenter = Vector2(0, 0);
+	}
+	// 初期化(オーバーロード)
+	void Init(std::string text,Vector2 position)
+	{
+		// 初期位置
+		Transform.Position = position;
+
+		// 初期文字
+		_text = text;
+
+		// 初期色
+		_color = GetColor(255, 255, 255); // 白色
+
+		// 回転の中心座標（左上）
+		_rotCenter = Vector2(0, 0);
 	}
 
 	// 更新
