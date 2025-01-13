@@ -1,9 +1,10 @@
 ﻿//STL.
 #include <iostream>
+#include <memory>
 //Dxlib.
 //origin.
 #include "MyDxlib2DGame/MyDxlib2DGame.h"
-#include "Player.h"
+#include "SceneTitle.h"
 
 
 //Dxlibのエントリーポイント
@@ -19,11 +20,10 @@ int WINAPI WinMain(_In_ HINSTANCE hInstance, _In_opt_  HINSTANCE hPrevInstance, 
 	LONGLONG frameTime = 0;
 	bool gameRoop = true;
 
-	/*オブジェクト生成*/
-	SimpleText text;
-	text.Init();//初期化
-	text.SetRotCenter(Vector2(30, 8));//回転中心変更
-
+	/*Sceneオブジェクト生成*/
+	std::unique_ptr<_baseGameScene> scene = std::make_unique<SceneTitle>();//タイトルシーン
+	scene->Init();//初期化
+	 
 	/*Dxlib初期化*/
 	SetGraphMode(ScreenSizeX, ScreenSizeY, 32);//画面サイズと解像度
 	ChangeWindowMode(true);//Windowモード
@@ -40,8 +40,8 @@ int WINAPI WinMain(_In_ HINSTANCE hInstance, _In_opt_  HINSTANCE hPrevInstance, 
 		ClearDrawScreen();
 
 		/*ゲーム部*/
-		text.Draw();
-		text.Transform.Rotation += 0.01f;
+		scene->Update();//更新
+		scene->Draw();//描画
 
 		//裏画面を表へ
 		ScreenFlip();
