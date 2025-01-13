@@ -9,6 +9,8 @@ void SceneTitle::Init()
 	_arrowTimerSwitch = false;
 	_arrowShowTime = 60;
 	_arrowDeleteTime = 30;
+	_setScene = GameSetting::SceneState::ShootingGame;
+	_nextScene = GameSetting::SceneState::Title;
 
 	/*ポインタの初期化*/
 	//矢印
@@ -23,6 +25,7 @@ void SceneTitle::Init()
 	/*オブジェクトの初期化*/
 	//矢印
 	_arrow->Init("->");
+	_arrow->SetColor(DxlibCommon::RedColor);
 	//シューティングゲーム
 	_shootingGameText->Init("ShootingGame");
 	//プラットフォームゲーム
@@ -32,20 +35,26 @@ void SceneTitle::Init()
 
 	/*オブジェクトの位置設定*/
 	//矢印
-	_arrow->Transform.Position = Vector2(100.0f, 100.0f);
+	_arrow->Transform.Position = Vector2(GameSetting::WINDOW_CENTER_X- 120.0f, 280.0f);
 	//シューティングゲーム
-	_shootingGameText->Transform.Position = Vector2(100.0f, 200.0f);
+	_shootingGameText->Transform.Position = Vector2(GameSetting::WINDOW_CENTER_X - 80.0f, 280.0f);
 	//プラットフォームゲーム
-	_platformGameText->Transform.Position = Vector2(100.0f, 300.0f);
+	_platformGameText->Transform.Position = Vector2(GameSetting::WINDOW_CENTER_X - 80.0f, 320.0f);
 	//ゲーム終了
-	_endGameText->Transform.Position = Vector2(100.0f, 400.0f);
+	_endGameText->Transform.Position = Vector2(GameSetting::WINDOW_CENTER_X - 80.0f, 360.0f);
 }
 
-void SceneTitle::Update()
+int SceneTitle::Update()
 {
 	//矢印の更新
 	ArrowUpdate();
+	//stateの更新
+	StateUpdate();
+	//シーンの決定
+	SceneDecision();
 
+	//int型に変換して返す
+	return static_cast<int>(_nextScene);
 }
 
 void SceneTitle::Draw()
@@ -63,10 +72,29 @@ void SceneTitle::Draw()
 
 void SceneTitle::ArrowUpdate()
 {
+	//矢印の移動
+	if (CheckHitKey(KEY_INPUT_DOWN))
+	{
+		_arrow->Transform.Position.Y += 40.0f;
+	}
+	else if (CheckHitKey(KEY_INPUT_UP))
+	{
+		_arrow->Transform.Position.Y -= 40.0f;
+	}
+
+	//矢印の移動範囲
+	if (_arrow->Transform.Position.Y < _shootingGameText->Transform.Position.Y)
+	{
+		_arrow->Transform.Position.Y = _endGameText->Transform.Position.Y;
+	}
+	else if (_arrow->Transform.Position.Y > _endGameText->Transform.Position.Y)
+	{
+		_arrow->Transform.Position.Y = _shootingGameText->Transform.Position.Y;
+	}
+
 	//タイマの更新
 	_arrowTimer++;
 
-	
 	//矢印の表示切替
 	if (_arrow->Visible)//矢印が表示されている
 	{
@@ -93,5 +121,31 @@ void SceneTitle::ArrowUpdate()
 	{
 		_arrowTimer = 0;
 		_arrowTimerSwitch = false;
+	}
+}
+
+void SceneTitle::StateUpdate()
+{
+	//矢印の位置によってstateを変更
+	if (_arrow->Transform.Position.Y == _shootingGameText->Transform.Position.Y)
+	{
+		_setScene = GameSetting::SceneState::ShootingGame;
+	}
+	else if (_arrow->Transform.Position.Y == _platformGameText->Transform.Position.Y)
+	{
+		_setScene = GameSetting::SceneState::PlatformGame;
+	}
+	else if (_arrow->Transform.Position.Y == _endGameText->Transform.Position.Y)
+	{
+		_setScene = GameSetting::SceneState::EndGame;
+	}
+}
+
+void SceneTitle::SceneDecision()
+{
+	//決定ボタンが押されたら現在セットされているシーンに決定する
+	if (CheckHitKey(KEY_INPUT_RETURN))
+	{
+		_nextScene = _setScene;
 	}
 }

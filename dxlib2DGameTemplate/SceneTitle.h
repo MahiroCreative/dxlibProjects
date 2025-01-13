@@ -3,6 +3,7 @@
 #include <memory>
 //origin.
 #include "MyDxlib2DGame/MyDxlib2DGame.h"
+#include "GameSetting.h"
 
 //タイトルシーンクラス
 class SceneTitle : public _baseGameScene
@@ -11,7 +12,16 @@ public:
 	/*コンストラクタデストラクタ*/
 	//コンストラクタ
 	SceneTitle()
-		: _arrowTimer(), _arrowTimerSwitch(), _arrow(), _shootingGameText(), _platformGameText(), _endGameText()
+		: _arrowTimer(),
+		_arrowTimerSwitch(),
+		_arrowShowTime(),
+		_arrowDeleteTime(),
+		_setScene(),
+		_nextScene(),
+		_arrow(),
+		_shootingGameText(),
+		_platformGameText(),
+		_endGameText()
 	{
 		Init();
 	}
@@ -22,13 +32,17 @@ public:
 	//初期化
 	void Init() override;
 	//更新
-	void Update() override;
+	int Update() override;
 	//描画
 	void Draw() override;
 
 	/*メンバ関数*/
 	//矢印の更新
 	void ArrowUpdate();
+	//stateの更新
+	void StateUpdate();
+	//シーンの決定
+	void SceneDecision();
 
 private:
 	/*処理変数*/
@@ -40,6 +54,10 @@ private:
 	int _arrowShowTime;
 	//矢印の非表示時間
 	int _arrowDeleteTime;
+	//setScene.
+	GameSetting::SceneState _setScene;
+	//nextScene.
+	GameSetting::SceneState _nextScene;
 
 	/*ゲームオブジェクト*/
 	//Arrow.シーン選択用の矢印。

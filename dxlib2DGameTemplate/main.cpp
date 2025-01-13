@@ -4,28 +4,29 @@
 //Dxlib.
 //origin.
 #include "MyDxlib2DGame/MyDxlib2DGame.h"
+#include "GameSetting.h"
 #include "SceneTitle.h"
-
+#include "SceneShooting.h"
+#include "ScenePlatform.h"
 
 //Dxlibのエントリーポイント
 int WINAPI WinMain(_In_ HINSTANCE hInstance, _In_opt_  HINSTANCE hPrevInstance, _In_ LPSTR lpCmdLine, _In_ int nShowCmd)
 {
-	/*定数*/
-	//画面サイズ
-	constexpr int ScreenSizeX = 1280;//幅
-	constexpr int ScreenSizeY = 720;//高さ
-
 	/*変数*/
 	LONGLONG roopStartTime = 0;
 	LONGLONG frameTime = 0;
+	int nowScene = 0;
+	int nextScene = 0;
 	bool gameRoop = true;
 
 	/*Sceneオブジェクト生成*/
-	std::unique_ptr<_baseGameScene> scene = std::make_unique<SceneTitle>();//タイトルシーン
+	std::unique_ptr<_baseGameScene> scene;
+	scene = std::make_unique<SceneTitle>();//タイトルシーン
 	scene->Init();//初期化
 	 
 	/*Dxlib初期化*/
-	SetGraphMode(ScreenSizeX, ScreenSizeY, 32);//画面サイズと解像度
+	SetMainWindowText(GameSetting::WINDOW_TITLE);// ウィンドウタイトルを設定
+	SetGraphMode(GameSetting::WINDOW_WIDTH, GameSetting::WINDOW_HEIGHT, 32);//画面サイズと解像度
 	ChangeWindowMode(true);//Windowモード
 	if (DxLib_Init() == -1) { return -1; }//Dxlib初期化
 	SetDrawScreen(DX_SCREEN_BACK);//ダブルバッファリング
@@ -40,8 +41,36 @@ int WINAPI WinMain(_In_ HINSTANCE hInstance, _In_opt_  HINSTANCE hPrevInstance, 
 		ClearDrawScreen();
 
 		/*ゲーム部*/
-		scene->Update();//更新
+		nextScene = scene->Update();//更新
 		scene->Draw();//描画
+
+		/*シーンの変更*/
+		if (nowScene != nextScene)
+		{
+			//シーンの変更
+			if (nextScene == static_cast<int>(GameSetting::SceneState::Title))
+			{
+				scene = std::make_unique<SceneTitle>();//タイトルシーン
+				scene->Init();//初期化
+			}
+			else if (nextScene == static_cast<int>(GameSetting::SceneState::ShootingGame))
+			{
+				scene = std::make_unique<SceneShooting>();//シューティングゲームシーン
+				scene->Init();//初期化
+			}
+			else if (nextScene == static_cast<int>(GameSetting::SceneState::PlatformGame))
+			{
+				scene = std::make_unique<ScenePlatform>();//プラットフォームゲームシーン
+				scene->Init();//初期化
+			}
+			else if (nextScene == static_cast<int>(GameSetting::SceneState::EndGame))
+			{
+				gameRoop = false;
+			}
+
+			//noSceneの更新
+			nowScene = nextScene;
+		}
 
 		//裏画面を表へ
 		ScreenFlip();
