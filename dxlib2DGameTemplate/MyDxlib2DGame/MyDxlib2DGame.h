@@ -11,3 +11,4 @@
 #include "SimpleText.h"//シンプルなテキストオブジェクトを作るクラス
 #include "DxlibCommon.h"//Dxlib関連の共通処理をまとめた名前空間
 #include "InputKey.h"//キー入力処理
+#include "InputMouse.h"//マウス入力処理
