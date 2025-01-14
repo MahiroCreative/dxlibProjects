@@ -1,4 +1,5 @@
 ﻿#pragma once
+//自作ベクトル2Dクラス
 #include "Vector2.h"
 
 struct Rigidbody2D
