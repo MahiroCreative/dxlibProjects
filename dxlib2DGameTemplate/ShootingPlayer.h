@@ -1,6 +1,10 @@
 ﻿#pragma once
+//STL.
+#include <memory>
+//origin.
 #include "MyDxlib2DGame/MyDxlib2DGame.h"
 #include "GameSetting.h"
+#include "ShootingPlayerBullet.h"
 
 class ShootingPlayer : public _baseGameObject2D
 {
@@ -37,5 +41,7 @@ private:
 	Rigidbody2D _rigidbody;
 	//移動速度
 	float _moveSpeed = 2.0f;
+	//Bulletオブジェクト
+	std::unique_ptr<ShootingPlayerBullet> _bullet;
 };
 

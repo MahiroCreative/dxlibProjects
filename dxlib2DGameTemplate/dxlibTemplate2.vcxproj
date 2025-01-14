@@ -146,6 +146,7 @@
     <ClCompile Include="ScenePlatform.cpp" />
     <ClCompile Include="SceneShooting.cpp" />
     <ClCompile Include="SceneTitle.cpp" />
+    <ClCompile Include="ShootingPlayerBullet.cpp" />
   </ItemGroup>
   <ItemGroup>
     <None Include=".gitignore" />
@@ -169,6 +170,7 @@
     <ClInclude Include="ScenePlatform.h" />
     <ClInclude Include="SceneShooting.h" />
     <ClInclude Include="SceneTitle.h" />
+    <ClInclude Include="ShootingPlayerBullet.h" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">

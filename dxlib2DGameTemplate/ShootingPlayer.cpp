@@ -8,6 +8,7 @@ void ShootingPlayer::Init()
 	_transform.Rotation = 0.0f;//回転
 	_rigidbody.Velocity = Vector2(0, 0);//速度
 	_rigidbody.Acceleration = Vector2(0, 0);//加速度
+	_bullet = std::make_unique<ShootingPlayerBullet>();//Bulletオブジェクト生成
 }
 
 void ShootingPlayer::Init(Vector2 pos)
@@ -18,6 +19,7 @@ void ShootingPlayer::Init(Vector2 pos)
 	_transform.Rotation = 0.0f;//回転
 	_rigidbody.Velocity = Vector2(0, 0);//速度
 	_rigidbody.Acceleration = Vector2(0, 0);//加速度
+	_bullet = std::make_unique<ShootingPlayerBullet>();//Bulletオブジェクト生成
 }
 
 void ShootingPlayer::Update()
