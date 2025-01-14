@@ -5,9 +5,9 @@
 //origin.
 #include "MyDxlib2DGame/MyDxlib2DGame.h"
 #include "GameSetting.h"
-#include "SceneTitle.h"
-#include "SceneShooting.h"
-#include "ScenePlatform.h"
+#include "TitleScene.h"
+#include "ShootingScene.h"
+#include "PlatformScene.h"
 
 //Dxlibのエントリーポイント
 int WINAPI WinMain(_In_ HINSTANCE hInstance, _In_opt_  HINSTANCE hPrevInstance, _In_ LPSTR lpCmdLine, _In_ int nShowCmd)
@@ -21,7 +21,7 @@ int WINAPI WinMain(_In_ HINSTANCE hInstance, _In_opt_  HINSTANCE hPrevInstance, 
 
 	/*Sceneオブジェクト生成*/
 	std::unique_ptr<_baseGameScene> scene;
-	scene = std::make_unique<SceneTitle>();//タイトルシーン
+	scene = std::make_unique<TitleScene>();//タイトルシーン
 	scene->Init();//初期化
 	 
 	/*Dxlib初期化*/
@@ -50,17 +50,17 @@ int WINAPI WinMain(_In_ HINSTANCE hInstance, _In_opt_  HINSTANCE hPrevInstance, 
 			//シーンの変更
 			if (nextScene == static_cast<int>(GameSetting::SceneState::Title))
 			{
-				scene = std::make_unique<SceneTitle>();//タイトルシーン
+				scene = std::make_unique<TitleScene>();//タイトルシーン
 				scene->Init();//初期化
 			}
 			else if (nextScene == static_cast<int>(GameSetting::SceneState::ShootingGame))
 			{
-				scene = std::make_unique<SceneShooting>();//シューティングゲームシーン
+				scene = std::make_unique<ShootingScene>();//シューティングゲームシーン
 				scene->Init();//初期化
 			}
 			else if (nextScene == static_cast<int>(GameSetting::SceneState::PlatformGame))
 			{
-				scene = std::make_unique<ScenePlatform>();//プラットフォームゲームシーン
+				scene = std::make_unique<PlatformScene>();//プラットフォームゲームシーン
 				scene->Init();//初期化
 			}
 			else if (nextScene == static_cast<int>(GameSetting::SceneState::EndGame))

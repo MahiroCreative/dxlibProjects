@@ -1,10 +1,15 @@
 ﻿#pragma once
 //STL.
 #include <memory>
+#include <vector>
 //origin.
 #include "MyDxlib2DGame/MyDxlib2DGame.h"
 #include "GameSetting.h"
 #include "ShootingPlayerBullet.h"
+
+// 型エイリアスを定義
+using BulletPtr = std::unique_ptr<ShootingPlayerBullet>;
+using BulletVector = std::vector<BulletPtr>;
 
 class ShootingPlayer : public _baseGameObject2D
 {
@@ -13,7 +18,10 @@ public:
 	//コンストラクタ
 	ShootingPlayer():
 		_transform(),
-		_rigidbody()
+		_rigidbody(),
+		_pBullet(),
+		_vBullets(),
+		_bulleTimer(0)
 	{
 		Init();
 	}
@@ -33,6 +41,11 @@ public:
 	/*メンバ関数*/
 	void Move();
 	void VelocityUpdate();
+	void PlayerDraw();
+	void CheckBulletCreate();
+	void BulletUpdate();
+	void BulletDraw();
+	void BulletDelete();
 private:
 	/*メンバ変数*/
 	//位置・倍率・回転
@@ -41,7 +54,12 @@ private:
 	Rigidbody2D _rigidbody;
 	//移動速度
 	float _moveSpeed = 2.0f;
-	//Bulletオブジェクト
-	std::unique_ptr<ShootingPlayerBullet> _bullet;
+	// 単一のBulletオブジェクト変数
+	BulletPtr _pBullet;
+	// Bulletオブジェクト用のベクター
+	BulletVector _vBullets;
+	//Bulletの発射timer
+	int _bulleTimer;
+	//Bulletの発射間隔
+	int _bulletInterval = 20;
 };
-

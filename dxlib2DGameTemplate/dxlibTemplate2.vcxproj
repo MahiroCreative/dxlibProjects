@@ -142,17 +142,17 @@
     <ClCompile Include="MyDxlib2DGame\InputKey.cpp" />
     <ClCompile Include="MyDxlib2DGame\InputMouse.cpp" />
     <ClCompile Include="MyDxlib2DGame\Vector2.cpp" />
+    <ClCompile Include="ShootingEnemy.cpp" />
     <ClCompile Include="ShootingPlayer.cpp" />
-    <ClCompile Include="ScenePlatform.cpp" />
-    <ClCompile Include="SceneShooting.cpp" />
-    <ClCompile Include="SceneTitle.cpp" />
+    <ClCompile Include="PlatformScene.cpp" />
+    <ClCompile Include="ShootingScene.cpp" />
+    <ClCompile Include="TitleScene.cpp" />
     <ClCompile Include="ShootingPlayerBullet.cpp" />
   </ItemGroup>
   <ItemGroup>
     <None Include=".gitignore" />
   </ItemGroup>
   <ItemGroup>
-    <ClInclude Include="DxlibCommon.h" />
     <ClInclude Include="GameSetting.h" />
     <ClInclude Include="MyDxlib2DGame\ConsoleDebug.h" />
     <ClInclude Include="MyDxlib2DGame\DxlibCommon.h" />
@@ -166,10 +166,11 @@
     <ClInclude Include="MyDxlib2DGame\Vector2.h" />
     <ClInclude Include="MyDxlib2DGame\_baseGameObject2D.h" />
     <ClInclude Include="MyDxlib2DGame\_baseGameScene.h" />
+    <ClInclude Include="ShootingEnemy.h" />
     <ClInclude Include="ShootingPlayer.h" />
-    <ClInclude Include="ScenePlatform.h" />
-    <ClInclude Include="SceneShooting.h" />
-    <ClInclude Include="SceneTitle.h" />
+    <ClInclude Include="PlatformScene.h" />
+    <ClInclude Include="ShootingScene.h" />
+    <ClInclude Include="TitleScene.h" />
     <ClInclude Include="ShootingPlayerBullet.h" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />

@@ -5,18 +5,18 @@
 #include "MyDxlib2DGame/MyDxlib2DGame.h"
 #include "GameSetting.h"
 
-class ScenePlatform : public _baseGameScene
+class PlatformScene : public _baseGameScene
 {
 public:
 	/*コンストラクタデストラクタ*/ 
 	//コンストラクタ
-	ScenePlatform()
+	PlatformScene()
 		: _nextScene()
 	{
 		Init();
 	}
 	//デストラクタ
-	~ScenePlatform() = default;
+	~PlatformScene() = default;
 
 	/*定型メンバ関数*/
 	//初期化

@@ -6,12 +6,12 @@
 #include "GameSetting.h"
 
 //タイトルシーンクラス
-class SceneTitle : public _baseGameScene
+class TitleScene : public _baseGameScene
 {
 public:
 	/*コンストラクタデストラクタ*/
 	//コンストラクタ
-	SceneTitle()
+	TitleScene()
 		: _arrowTimer(),
 		_arrowTimerSwitch(),
 		_arrowShowTime(),
@@ -26,7 +26,7 @@ public:
 		Init();
 	}
 	//デストラクタ
-	~SceneTitle() = default;
+	~TitleScene() = default;
 
 	/*定型メンバ関数*/
 	//初期化

@@ -1,8 +1,8 @@
-﻿#include "SceneTitle.h"
+﻿#include "TitleScene.h"
 
 /*メンバ関数*/
 //初期化
-void SceneTitle::Init()
+void TitleScene::Init()
 {
 	/*処理変数の初期化*/
 	_arrowTimer = 0;
@@ -44,7 +44,7 @@ void SceneTitle::Init()
 	_endGameText->Transform.Position = Vector2(GameSetting::WINDOW_CENTER_X - 80.0f, 360.0f);
 }
 
-int SceneTitle::Update()
+int TitleScene::Update()
 {
 	//Key入力の更新
 	InputKey::Update();
@@ -59,7 +59,7 @@ int SceneTitle::Update()
 	return static_cast<int>(_nextScene);
 }
 
-void SceneTitle::Draw()
+void TitleScene::Draw()
 {
 	/*現在のシーンの表示*/
 	//シーン名
@@ -76,7 +76,7 @@ void SceneTitle::Draw()
 	_endGameText->Draw();
 }
 
-void SceneTitle::ArrowUpdate()
+void TitleScene::ArrowUpdate()
 {
 	//矢印の移動
 	if (InputKey::isDownKey(KEY_INPUT_DOWN))
@@ -130,7 +130,7 @@ void SceneTitle::ArrowUpdate()
 	}
 }
 
-void SceneTitle::StateUpdate()
+void TitleScene::StateUpdate()
 {
 	//矢印の位置によってstateを変更
 	if (_arrow->Transform.Position.Y == _shootingGameText->Transform.Position.Y)
@@ -147,7 +147,7 @@ void SceneTitle::StateUpdate()
 	}
 }
 
-void SceneTitle::SceneDecision()
+void TitleScene::SceneDecision()
 {
 	//決定ボタンが押されたら現在セットされているシーンに決定する
 	if (InputKey::isDownKey(KEY_INPUT_RETURN))

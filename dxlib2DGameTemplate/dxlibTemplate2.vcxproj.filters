@@ -30,10 +30,10 @@
     <ClCompile Include="MyDxlib2DGame\Vector2.cpp">
       <Filter>MyDxlib2DGame</Filter>
     </ClCompile>
-    <ClCompile Include="SceneTitle.cpp">
+    <ClCompile Include="TitleScene.cpp">
       <Filter>ソース ファイル</Filter>
     </ClCompile>
-    <ClCompile Include="ScenePlatform.cpp">
+    <ClCompile Include="PlatformScene.cpp">
       <Filter>ソース ファイル</Filter>
     </ClCompile>
     <ClCompile Include="MyDxlib2DGame\InputKey.cpp">
@@ -45,10 +45,13 @@
     <ClCompile Include="ShootingPlayer.cpp">
       <Filter>ソース ファイル\ShootingGame</Filter>
     </ClCompile>
-    <ClCompile Include="SceneShooting.cpp">
+    <ClCompile Include="ShootingScene.cpp">
       <Filter>ソース ファイル\ShootingGame</Filter>
     </ClCompile>
     <ClCompile Include="ShootingPlayerBullet.cpp">
+      <Filter>ソース ファイル\ShootingGame</Filter>
+    </ClCompile>
+    <ClCompile Include="ShootingEnemy.cpp">
       <Filter>ソース ファイル</Filter>
     </ClCompile>
   </ItemGroup>
@@ -82,7 +85,7 @@
     <ClInclude Include="MyDxlib2DGame\_baseGameScene.h">
       <Filter>MyDxlib2DGame</Filter>
     </ClInclude>
-    <ClInclude Include="SceneTitle.h">
+    <ClInclude Include="TitleScene.h">
       <Filter>ヘッダー ファイル</Filter>
     </ClInclude>
     <ClInclude Include="MyDxlib2DGame\SimpleText.h">
@@ -91,13 +94,10 @@
     <ClInclude Include="GameSetting.h">
       <Filter>ヘッダー ファイル</Filter>
     </ClInclude>
-    <ClInclude Include="DxlibCommon.h">
-      <Filter>ヘッダー ファイル</Filter>
-    </ClInclude>
     <ClInclude Include="MyDxlib2DGame\DxlibCommon.h">
       <Filter>MyDxlib2DGame</Filter>
     </ClInclude>
-    <ClInclude Include="ScenePlatform.h">
+    <ClInclude Include="PlatformScene.h">
       <Filter>ヘッダー ファイル</Filter>
     </ClInclude>
     <ClInclude Include="MyDxlib2DGame\InputKey.h">
@@ -109,10 +109,13 @@
     <ClInclude Include="ShootingPlayer.h">
       <Filter>ヘッダー ファイル\ShootingGame</Filter>
     </ClInclude>
-    <ClInclude Include="SceneShooting.h">
+    <ClInclude Include="ShootingScene.h">
       <Filter>ヘッダー ファイル\ShootingGame</Filter>
     </ClInclude>
     <ClInclude Include="ShootingPlayerBullet.h">
+      <Filter>ヘッダー ファイル\ShootingGame</Filter>
+    </ClInclude>
+    <ClInclude Include="ShootingEnemy.h">
       <Filter>ヘッダー ファイル</Filter>
     </ClInclude>
   </ItemGroup>

@@ -1,8 +1,8 @@
-﻿#include "SceneShooting.h"
+﻿#include "ShootingScene.h"
 
 /*メンバ関数*/
 
-void SceneShooting::Init()
+void ShootingScene::Init()
 {
 	//変数初期化
 	_nextScene = GameSetting::SceneState::ShootingGame;
@@ -14,7 +14,7 @@ void SceneShooting::Init()
 	_player->Init(Vector2{100,GameSetting::WINDOW_CENTER_Y});
 }
 
-int SceneShooting::Update()
+int ShootingScene::Update()
 {
 	//Key入力の更新
 	InputKey::Update();
@@ -30,7 +30,7 @@ int SceneShooting::Update()
 	return static_cast<int>(_nextScene);
 }
 
-void SceneShooting::Draw()
+void ShootingScene::Draw()
 {
 	//現在のシーン名を表示
 	DrawString(0, 0, "ShootingGame: WASD(上左下右),Enter(Shot),B(タイトル)", GetColor(255, 255, 255));
@@ -38,7 +38,7 @@ void SceneShooting::Draw()
 	_player->Draw();
 }
 
-void SceneShooting::CheckReturnTitle(int KeyCode)
+void ShootingScene::CheckReturnTitle(int KeyCode)
 {
 	if (InputKey::isDownKey(KeyCode))
 	{

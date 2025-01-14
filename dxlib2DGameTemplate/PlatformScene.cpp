@@ -1,13 +1,13 @@
-﻿#include "ScenePlatform.h"
+﻿#include "PlatformScene.h"
 
 /*メンバ関数*/
 
-void ScenePlatform::Init()
+void PlatformScene::Init()
 {
 	_nextScene = GameSetting::SceneState::PlatformGame;
 }
 
-int ScenePlatform::Update()
+int PlatformScene::Update()
 {
 	//Key入力の更新
 	InputKey::Update();
@@ -22,7 +22,7 @@ int ScenePlatform::Update()
 	return static_cast<int>(_nextScene);
 }
 
-void ScenePlatform::Draw()
+void PlatformScene::Draw()
 {
 	DrawString(0, 0, "PlatformGame", GetColor(255, 255, 255));
 }

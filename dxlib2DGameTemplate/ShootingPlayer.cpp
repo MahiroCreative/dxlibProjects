@@ -8,7 +8,6 @@ void ShootingPlayer::Init()
 	_transform.Rotation = 0.0f;//回転
 	_rigidbody.Velocity = Vector2(0, 0);//速度
 	_rigidbody.Acceleration = Vector2(0, 0);//加速度
-	_bullet = std::make_unique<ShootingPlayerBullet>();//Bulletオブジェクト生成
 }
 
 void ShootingPlayer::Init(Vector2 pos)
@@ -19,7 +18,6 @@ void ShootingPlayer::Init(Vector2 pos)
 	_transform.Rotation = 0.0f;//回転
 	_rigidbody.Velocity = Vector2(0, 0);//速度
 	_rigidbody.Acceleration = Vector2(0, 0);//加速度
-	_bullet = std::make_unique<ShootingPlayerBullet>();//Bulletオブジェクト生成
 }
 
 void ShootingPlayer::Update()
@@ -27,24 +25,26 @@ void ShootingPlayer::Update()
 	//Key入力による速度の更新
 	VelocityUpdate();
 
+	//Bulletの生成
+	CheckBulletCreate();
+
+	//Bulletの更新
+	BulletUpdate();
+
+	//画面外に出た弾を削除
+	BulletDelete();
+
 	//移動
 	Move();
 }
 
 void ShootingPlayer::Draw()
 {
-	//残像5
-	DrawCircle(static_cast<int>(_transform.Position.X - _rigidbody.Velocity.X * 32), static_cast<int>(_transform.Position.Y - _rigidbody.Velocity.Y * 32), 1, GetColor(25, 25, 0), TRUE);
-	//残像4
-	DrawCircle(static_cast<int>(_transform.Position.X - _rigidbody.Velocity.X * 24), static_cast<int>(_transform.Position.Y - _rigidbody.Velocity.Y * 24), 2, GetColor(50, 50, 0), TRUE);
-	//残像3
-	DrawCircle(static_cast<int>(_transform.Position.X - _rigidbody.Velocity.X * 12), static_cast<int>(_transform.Position.Y - _rigidbody.Velocity.Y * 12), 4, GetColor(100, 100, 0), TRUE);
-	//残像2
-	DrawCircle(static_cast<int>(_transform.Position.X - _rigidbody.Velocity.X * 8), static_cast<int>(_transform.Position.Y - _rigidbody.Velocity.Y * 8), 6, GetColor(150, 150, 0), TRUE);
-	//残像1
-	DrawCircle(static_cast<int>(_transform.Position.X - _rigidbody.Velocity.X * 4), static_cast<int>(_transform.Position.Y - _rigidbody.Velocity.Y * 4), 8, GetColor(200, 200, 0), TRUE);
-	//描画
-	DrawCircle(static_cast<int>(_transform.Position.X), static_cast<int>(_transform.Position.Y), 10, GetColor(250, 250, 250), TRUE);
+	//Bulletの描画
+	BulletDraw();
+
+	//プレイヤーの描画
+	PlayerDraw();
 }
 
 void ShootingPlayer::Move()
@@ -82,4 +82,76 @@ void ShootingPlayer::VelocityUpdate()
 	//速度の正規化
 	if (_rigidbody.Velocity.LengthSq() > 0) { _rigidbody.Velocity = _rigidbody.Velocity.Normalize(); }
 
+}
+
+void ShootingPlayer::PlayerDraw()
+{
+	//残像5
+	DrawCircle(static_cast<int>(_transform.Position.X - _rigidbody.Velocity.X * 32), static_cast<int>(_transform.Position.Y - _rigidbody.Velocity.Y * 32), 1, GetColor(190, 190, 0), TRUE);
+	//残像4
+	DrawCircle(static_cast<int>(_transform.Position.X - _rigidbody.Velocity.X * 24), static_cast<int>(_transform.Position.Y - _rigidbody.Velocity.Y * 24), 2, GetColor(200, 200, 0), TRUE);
+	//残像3
+	DrawCircle(static_cast<int>(_transform.Position.X - _rigidbody.Velocity.X * 12), static_cast<int>(_transform.Position.Y - _rigidbody.Velocity.Y * 12), 4, GetColor(210, 210, 0), TRUE);
+	//残像2
+	DrawCircle(static_cast<int>(_transform.Position.X - _rigidbody.Velocity.X * 8), static_cast<int>(_transform.Position.Y - _rigidbody.Velocity.Y * 8), 6, GetColor(220, 220, 0), TRUE);
+	//残像1
+	DrawCircle(static_cast<int>(_transform.Position.X - _rigidbody.Velocity.X * 4), static_cast<int>(_transform.Position.Y - _rigidbody.Velocity.Y * 4), 8, GetColor(230, 230, 0), TRUE);
+	//描画
+	DrawCircle(static_cast<int>(_transform.Position.X), static_cast<int>(_transform.Position.Y), 10, GetColor(250, 250, 250), TRUE);
+}
+
+void ShootingPlayer::CheckBulletCreate()
+{
+	//Bulletの生成
+	if (InputKey::isDownKey(KEY_INPUT_RETURN) && _bulleTimer >= _bulletInterval)
+	{
+		//Bulletの生成
+		_pBullet = std::make_unique<ShootingPlayerBullet>();
+		//初期化
+		_pBullet->Init(_transform.Position);
+		//Bulletの追加
+		_vBullets.push_back(std::move(_pBullet));
+		//Bulletの発射間隔のリセット
+		_bulleTimer = 0;
+	}
+
+	//Bulletの発射timerの更新
+	_bulleTimer++;
+}
+
+void ShootingPlayer::BulletUpdate()
+{
+	//Bulletの更新
+	for (auto& bullet : _vBullets)
+	{
+		bullet->Update();
+	}
+}
+
+void ShootingPlayer::BulletDraw()
+{
+	//Bulletの描画
+	for (auto& bullet : _vBullets)
+	{
+		bullet->Draw();
+	}
+}
+
+void ShootingPlayer::BulletDelete()
+{
+	// 弾の更新処理
+	for (auto it = _vBullets.begin(); it != _vBullets.end();)
+	{
+		if ((*it)->IsOutOfScreen())
+		{
+			// 画面外に出た弾を削除
+			//(削除した場合、空いた場所に後ろの要素が詰められる)
+			it = _vBullets.erase(it); 
+		}
+		else
+		{
+			// 次の要素へ
+			++it;
+		}
+	}
 }

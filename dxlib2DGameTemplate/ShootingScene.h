@@ -6,18 +6,18 @@
 #include "GameSetting.h"
 #include "ShootingPlayer.h"
 
-class SceneShooting : public _baseGameScene
+class ShootingScene : public _baseGameScene
 {
 public:
 	/*コンストラクタデストラクタ*/ 
 	//コンストラクタ
-	SceneShooting()
+	ShootingScene()
 		: _nextScene()
 	{
 		Init();
 	}
 	//デストラクタ
-	~SceneShooting() = default;
+	~ShootingScene() = default;
 
 	/*定型メンバ関数*/
 	//初期化
