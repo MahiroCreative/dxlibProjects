@@ -46,6 +46,8 @@ void SceneTitle::Init()
 
 int SceneTitle::Update()
 {
+	//Key入力の更新
+	InputKey::Update();
 	//矢印の更新
 	ArrowUpdate();
 	//stateの更新
@@ -59,6 +61,10 @@ int SceneTitle::Update()
 
 void SceneTitle::Draw()
 {
+	/*現在のシーンの表示*/
+	//シーン名
+	DrawString(0, 0, "TitleScene", DxlibCommon::WhiteColor);
+
 	/*オブジェクトの描画*/
 	//矢印
 	_arrow->Draw();
@@ -73,11 +79,11 @@ void SceneTitle::Draw()
 void SceneTitle::ArrowUpdate()
 {
 	//矢印の移動
-	if (CheckHitKey(KEY_INPUT_DOWN))
+	if (InputKey::isDownKey(KEY_INPUT_DOWN))
 	{
 		_arrow->Transform.Position.Y += 40.0f;
 	}
-	else if (CheckHitKey(KEY_INPUT_UP))
+	else if (InputKey::isDownKey(KEY_INPUT_UP))
 	{
 		_arrow->Transform.Position.Y -= 40.0f;
 	}
@@ -144,7 +150,7 @@ void SceneTitle::StateUpdate()
 void SceneTitle::SceneDecision()
 {
 	//決定ボタンが押されたら現在セットされているシーンに決定する
-	if (CheckHitKey(KEY_INPUT_RETURN))
+	if (InputKey::isDownKey(KEY_INPUT_RETURN))
 	{
 		_nextScene = _setScene;
 	}

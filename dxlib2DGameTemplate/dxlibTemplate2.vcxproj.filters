@@ -16,12 +16,15 @@
     <Filter Include="MyDxlib2DGame">
       <UniqueIdentifier>{99839ab4-73ec-4dfc-bc0d-d3630004f3f0}</UniqueIdentifier>
     </Filter>
+    <Filter Include="ヘッダー ファイル\ShootingGame">
+      <UniqueIdentifier>{8db0e0b1-68b4-4b4a-9f06-b78997f6b681}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="ソース ファイル\ShootingGame">
+      <UniqueIdentifier>{a3608298-2f1f-4c07-a53a-449f5bb53f6e}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="main.cpp">
-      <Filter>ソース ファイル</Filter>
-    </ClCompile>
-    <ClCompile Include="Player.cpp">
       <Filter>ソース ファイル</Filter>
     </ClCompile>
     <ClCompile Include="MyDxlib2DGame\Vector2.cpp">
@@ -30,11 +33,20 @@
     <ClCompile Include="SceneTitle.cpp">
       <Filter>ソース ファイル</Filter>
     </ClCompile>
-    <ClCompile Include="SceneShooting.cpp">
-      <Filter>ソース ファイル</Filter>
-    </ClCompile>
     <ClCompile Include="ScenePlatform.cpp">
       <Filter>ソース ファイル</Filter>
+    </ClCompile>
+    <ClCompile Include="MyDxlib2DGame\InputKey.cpp">
+      <Filter>MyDxlib2DGame</Filter>
+    </ClCompile>
+    <ClCompile Include="MyDxlib2DGame\InputMouse.cpp">
+      <Filter>MyDxlib2DGame</Filter>
+    </ClCompile>
+    <ClCompile Include="ShootingPlayer.cpp">
+      <Filter>ソース ファイル\ShootingGame</Filter>
+    </ClCompile>
+    <ClCompile Include="SceneShooting.cpp">
+      <Filter>ソース ファイル\ShootingGame</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -43,9 +55,6 @@
     </None>
   </ItemGroup>
   <ItemGroup>
-    <ClInclude Include="Player.h">
-      <Filter>ヘッダー ファイル</Filter>
-    </ClInclude>
     <ClInclude Include="MyDxlib2DGame\_baseGameObject2D.h">
       <Filter>MyDxlib2DGame</Filter>
     </ClInclude>
@@ -85,11 +94,20 @@
     <ClInclude Include="MyDxlib2DGame\DxlibCommon.h">
       <Filter>MyDxlib2DGame</Filter>
     </ClInclude>
-    <ClInclude Include="SceneShooting.h">
-      <Filter>ヘッダー ファイル</Filter>
-    </ClInclude>
     <ClInclude Include="ScenePlatform.h">
       <Filter>ヘッダー ファイル</Filter>
+    </ClInclude>
+    <ClInclude Include="MyDxlib2DGame\InputKey.h">
+      <Filter>MyDxlib2DGame</Filter>
+    </ClInclude>
+    <ClInclude Include="MyDxlib2DGame\InputMouse.h">
+      <Filter>MyDxlib2DGame</Filter>
+    </ClInclude>
+    <ClInclude Include="ShootingPlayer.h">
+      <Filter>ヘッダー ファイル\ShootingGame</Filter>
+    </ClInclude>
+    <ClInclude Include="SceneShooting.h">
+      <Filter>ヘッダー ファイル\ShootingGame</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>

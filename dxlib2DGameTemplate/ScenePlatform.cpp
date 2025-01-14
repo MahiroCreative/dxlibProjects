@@ -4,11 +4,22 @@
 
 void ScenePlatform::Init()
 {
+	_nextScene = GameSetting::SceneState::PlatformGame;
 }
 
 int ScenePlatform::Update()
 {
-	return static_cast<int>(GameSetting::SceneState::PlatformGame);
+	//Key入力の更新
+	InputKey::Update();
+
+	//Enterキーが押されたらタイトルシーンに遷移
+	if (InputKey::isDownKey(KEY_INPUT_RETURN))
+	{
+		_nextScene = GameSetting::SceneState::Title;
+	}
+
+	//int型に変換して返す
+	return static_cast<int>(_nextScene);
 }
 
 void ScenePlatform::Draw()
