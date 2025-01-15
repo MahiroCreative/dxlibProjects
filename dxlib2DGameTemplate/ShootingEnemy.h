@@ -5,7 +5,7 @@
 //origin.
 #include "MyDxlib2DGame/MyDxlib2DGame.h"
 #include "GameSetting.h"
-#include "ShootingPlayerBullet.h"
+#include "SimpleBullet.h"
 
 class ShootingEnemy :public _baseGameObject2D
 {

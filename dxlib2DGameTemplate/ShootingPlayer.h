@@ -5,10 +5,10 @@
 //origin.
 #include "MyDxlib2DGame/MyDxlib2DGame.h"
 #include "GameSetting.h"
-#include "ShootingPlayerBullet.h"
+#include "SimpleBullet.h"
 
 // 型エイリアスを定義
-using BulletPtr = std::unique_ptr<ShootingPlayerBullet>;
+using BulletPtr = std::unique_ptr<SimpleBullet>;
 using BulletVector = std::vector<BulletPtr>;
 
 class ShootingPlayer : public _baseGameObject2D
@@ -21,7 +21,8 @@ public:
 		_rigidbody(),
 		_pBullet(),
 		_vBullets(),
-		_bulleTimer(0)
+		_bulleTimer(0),
+		_chargeFrame(0)
 	{
 		Init();
 	}
@@ -33,6 +34,8 @@ public:
 	void Init() override;
 	//初期化(オーバーロード)
 	void Init(Vector2 pos);
+	//初期化(オーバーロード)
+	void Init(Vector2 pos, float moveSpeed);
 	//更新
 	void Update() override;
 	//描画
@@ -42,7 +45,8 @@ public:
 	void Move();
 	void VelocityUpdate();
 	void PlayerDraw();
-	void CheckBulletCreate();
+	void BulletCreate();
+	void ChargeBulletCreate();
 	void BulletUpdate();
 	void BulletDraw();
 	void BulletDelete();
@@ -62,4 +66,6 @@ private:
 	int _bulleTimer;
 	//Bulletの発射間隔
 	int _bulletInterval = 20;
+	//ChargeFrame(チャージ時間)
+	int _chargeFrame;
 };

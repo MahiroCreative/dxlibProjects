@@ -8,6 +8,7 @@ void ShootingPlayer::Init()
 	_transform.Rotation = 0.0f;//回転
 	_rigidbody.Velocity = Vector2(0, 0);//速度
 	_rigidbody.Acceleration = Vector2(0, 0);//加速度
+	_moveSpeed = 2.0f;//移動速度
 }
 
 void ShootingPlayer::Init(Vector2 pos)
@@ -18,6 +19,18 @@ void ShootingPlayer::Init(Vector2 pos)
 	_transform.Rotation = 0.0f;//回転
 	_rigidbody.Velocity = Vector2(0, 0);//速度
 	_rigidbody.Acceleration = Vector2(0, 0);//加速度
+	_moveSpeed = 2.0f;//移動速度
+}
+
+void ShootingPlayer::Init(Vector2 pos, float moveSpeed)
+{
+	//初期化
+	_transform.Position = pos;//位置
+	_transform.Scale = Vector2(1.0f, 1.0f);//倍率
+	_transform.Rotation = 0.0f;//回転
+	_rigidbody.Velocity = Vector2(0, 0);//速度
+	_rigidbody.Acceleration = Vector2(0, 0);//加速度
+	_moveSpeed = moveSpeed;//移動速度
 }
 
 void ShootingPlayer::Update()
@@ -26,7 +39,10 @@ void ShootingPlayer::Update()
 	VelocityUpdate();
 
 	//Bulletの生成
-	CheckBulletCreate();
+	BulletCreate();
+
+	//ChargeBulletの生成
+	ChargeBulletCreate();
 
 	//Bulletの更新
 	BulletUpdate();
@@ -100,15 +116,15 @@ void ShootingPlayer::PlayerDraw()
 	DrawCircle(static_cast<int>(_transform.Position.X), static_cast<int>(_transform.Position.Y), 10, GetColor(250, 250, 250), TRUE);
 }
 
-void ShootingPlayer::CheckBulletCreate()
+void ShootingPlayer::BulletCreate()
 {
 	//Bulletの生成
 	if (InputKey::isDownKey(KEY_INPUT_RETURN) && _bulleTimer >= _bulletInterval)
 	{
 		//Bulletの生成
-		_pBullet = std::make_unique<ShootingPlayerBullet>();
+		_pBullet = std::make_unique<SimpleBullet>();
 		//初期化
-		_pBullet->Init(_transform.Position);
+		_pBullet->Init(_transform.Position,8.0f);
 		//Bulletの追加
 		_vBullets.push_back(std::move(_pBullet));
 		//Bulletの発射間隔のリセット
@@ -117,6 +133,29 @@ void ShootingPlayer::CheckBulletCreate()
 
 	//Bulletの発射timerの更新
 	_bulleTimer++;
+}
+
+void ShootingPlayer::ChargeBulletCreate()
+{
+	//ChargeBulletの生成条件
+	bool isCharge = (_chargeFrame >= 80);//30Frame以上押されているか
+	bool isRelease = !(InputKey::isHoldKey(KEY_INPUT_RETURN));//リリースされたか
+
+	//Chaege時間計測
+	if (InputKey::isHoldKey(KEY_INPUT_RETURN)) { _chargeFrame++; }
+	else { _chargeFrame = 0; }
+
+	//ChargeBulletの生成
+	if (isCharge && isRelease)
+	{
+		//ChargeBulletの生成
+		_pBullet = std::make_unique<SimpleBullet>();
+		_pBullet->Init(_transform.Position, 8.0f,20);
+		//Bulletの追加
+		_vBullets.push_back(std::move(_pBullet));
+		//ChargeFrameのリセット
+		_chargeFrame = 0;
+	}
 }
 
 void ShootingPlayer::BulletUpdate()

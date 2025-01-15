@@ -16,11 +16,14 @@
     <Filter Include="MyDxlib2DGame">
       <UniqueIdentifier>{99839ab4-73ec-4dfc-bc0d-d3630004f3f0}</UniqueIdentifier>
     </Filter>
-    <Filter Include="ヘッダー ファイル\ShootingGame">
-      <UniqueIdentifier>{8db0e0b1-68b4-4b4a-9f06-b78997f6b681}</UniqueIdentifier>
+    <Filter Include="ShootingGame">
+      <UniqueIdentifier>{1e1d4ed4-16ed-408a-9d82-358069570a84}</UniqueIdentifier>
     </Filter>
-    <Filter Include="ソース ファイル\ShootingGame">
-      <UniqueIdentifier>{a3608298-2f1f-4c07-a53a-449f5bb53f6e}</UniqueIdentifier>
+    <Filter Include="GameCommon">
+      <UniqueIdentifier>{3fa92fe6-9e9b-4a6b-8c59-7c263f2f9c25}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="PlatformGame">
+      <UniqueIdentifier>{323c7984-d22b-4e70-b2be-d83bac56e214}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
   <ItemGroup>
@@ -33,9 +36,6 @@
     <ClCompile Include="TitleScene.cpp">
       <Filter>ソース ファイル</Filter>
     </ClCompile>
-    <ClCompile Include="PlatformScene.cpp">
-      <Filter>ソース ファイル</Filter>
-    </ClCompile>
     <ClCompile Include="MyDxlib2DGame\InputKey.cpp">
       <Filter>MyDxlib2DGame</Filter>
     </ClCompile>
@@ -43,16 +43,19 @@
       <Filter>MyDxlib2DGame</Filter>
     </ClCompile>
     <ClCompile Include="ShootingPlayer.cpp">
-      <Filter>ソース ファイル\ShootingGame</Filter>
+      <Filter>ShootingGame</Filter>
     </ClCompile>
     <ClCompile Include="ShootingScene.cpp">
-      <Filter>ソース ファイル\ShootingGame</Filter>
+      <Filter>ShootingGame</Filter>
     </ClCompile>
-    <ClCompile Include="ShootingPlayerBullet.cpp">
-      <Filter>ソース ファイル\ShootingGame</Filter>
+    <ClCompile Include="SimpleBullet.cpp">
+      <Filter>GameCommon</Filter>
+    </ClCompile>
+    <ClCompile Include="PlatformScene.cpp">
+      <Filter>PlatformGame</Filter>
     </ClCompile>
     <ClCompile Include="ShootingEnemy.cpp">
-      <Filter>ソース ファイル</Filter>
+      <Filter>ShootingGame</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -97,9 +100,6 @@
     <ClInclude Include="MyDxlib2DGame\DxlibCommon.h">
       <Filter>MyDxlib2DGame</Filter>
     </ClInclude>
-    <ClInclude Include="PlatformScene.h">
-      <Filter>ヘッダー ファイル</Filter>
-    </ClInclude>
     <ClInclude Include="MyDxlib2DGame\InputKey.h">
       <Filter>MyDxlib2DGame</Filter>
     </ClInclude>
@@ -107,16 +107,19 @@
       <Filter>MyDxlib2DGame</Filter>
     </ClInclude>
     <ClInclude Include="ShootingPlayer.h">
-      <Filter>ヘッダー ファイル\ShootingGame</Filter>
+      <Filter>ShootingGame</Filter>
     </ClInclude>
     <ClInclude Include="ShootingScene.h">
-      <Filter>ヘッダー ファイル\ShootingGame</Filter>
+      <Filter>ShootingGame</Filter>
     </ClInclude>
-    <ClInclude Include="ShootingPlayerBullet.h">
-      <Filter>ヘッダー ファイル\ShootingGame</Filter>
+    <ClInclude Include="SimpleBullet.h">
+      <Filter>GameCommon</Filter>
+    </ClInclude>
+    <ClInclude Include="PlatformScene.h">
+      <Filter>PlatformGame</Filter>
     </ClInclude>
     <ClInclude Include="ShootingEnemy.h">
-      <Filter>ヘッダー ファイル</Filter>
+      <Filter>ShootingGame</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>
