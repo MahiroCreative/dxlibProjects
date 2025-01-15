@@ -47,6 +47,8 @@ public:
 	void PlayerDraw();
 	void BulletCreate();
 	void ChargeBulletCreate();
+	void ShadowDraw();
+	void EffectDraw();
 	void BulletUpdate();
 	void BulletDraw();
 	void BulletDelete();

@@ -25,6 +25,8 @@ int ShootingScene::Update()
 	//player更新
 	_player->Update();
 
+	//enemy更新
+	_enemy->Update();
 
 	//int型に変換して返す
 	return static_cast<int>(_nextScene);

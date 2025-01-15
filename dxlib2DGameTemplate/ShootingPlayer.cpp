@@ -102,18 +102,15 @@ void ShootingPlayer::VelocityUpdate()
 
 void ShootingPlayer::PlayerDraw()
 {
-	//残像5
-	DrawCircle(static_cast<int>(_transform.Position.X - _rigidbody.Velocity.X * 32), static_cast<int>(_transform.Position.Y - _rigidbody.Velocity.Y * 32), 1, GetColor(190, 190, 0), TRUE);
-	//残像4
-	DrawCircle(static_cast<int>(_transform.Position.X - _rigidbody.Velocity.X * 24), static_cast<int>(_transform.Position.Y - _rigidbody.Velocity.Y * 24), 2, GetColor(200, 200, 0), TRUE);
-	//残像3
-	DrawCircle(static_cast<int>(_transform.Position.X - _rigidbody.Velocity.X * 12), static_cast<int>(_transform.Position.Y - _rigidbody.Velocity.Y * 12), 4, GetColor(210, 210, 0), TRUE);
-	//残像2
-	DrawCircle(static_cast<int>(_transform.Position.X - _rigidbody.Velocity.X * 8), static_cast<int>(_transform.Position.Y - _rigidbody.Velocity.Y * 8), 6, GetColor(220, 220, 0), TRUE);
-	//残像1
-	DrawCircle(static_cast<int>(_transform.Position.X - _rigidbody.Velocity.X * 4), static_cast<int>(_transform.Position.Y - _rigidbody.Velocity.Y * 4), 8, GetColor(230, 230, 0), TRUE);
-	//描画
+	//残像描画
+	ShadowDraw();
+
+	//Player描画
 	DrawCircle(static_cast<int>(_transform.Position.X), static_cast<int>(_transform.Position.Y), 10, GetColor(250, 250, 250), TRUE);
+
+	//Effect描画
+	EffectDraw();
+
 }
 
 void ShootingPlayer::BulletCreate()
@@ -155,6 +152,41 @@ void ShootingPlayer::ChargeBulletCreate()
 		_vBullets.push_back(std::move(_pBullet));
 		//ChargeFrameのリセット
 		_chargeFrame = 0;
+	}
+}
+
+void ShootingPlayer::ShadowDraw()
+{
+	//残像5
+	DrawCircle(static_cast<int>(_transform.Position.X - _rigidbody.Velocity.X * 32), static_cast<int>(_transform.Position.Y - _rigidbody.Velocity.Y * 32), 1, GetColor(190, 190, 0), TRUE);
+	//残像4
+	DrawCircle(static_cast<int>(_transform.Position.X - _rigidbody.Velocity.X * 24), static_cast<int>(_transform.Position.Y - _rigidbody.Velocity.Y * 24), 2, GetColor(200, 200, 0), TRUE);
+	//残像3
+	DrawCircle(static_cast<int>(_transform.Position.X - _rigidbody.Velocity.X * 12), static_cast<int>(_transform.Position.Y - _rigidbody.Velocity.Y * 12), 4, GetColor(210, 210, 0), TRUE);
+	//残像2
+	DrawCircle(static_cast<int>(_transform.Position.X - _rigidbody.Velocity.X * 8), static_cast<int>(_transform.Position.Y - _rigidbody.Velocity.Y * 8), 6, GetColor(220, 220, 0), TRUE);
+	//残像1
+	DrawCircle(static_cast<int>(_transform.Position.X - _rigidbody.Velocity.X * 4), static_cast<int>(_transform.Position.Y - _rigidbody.Velocity.Y * 4), 8, GetColor(230, 230, 0), TRUE);
+}
+
+void ShootingPlayer::EffectDraw()
+{
+	//チャージ演出
+	if (_chargeFrame > 8)
+	{
+		//最大の大きさ制限
+		int tempValue = _chargeFrame;
+		if (tempValue > 100) { tempValue = 100; }
+		//塵5
+		DrawCircle(static_cast<int>(_transform.Position.X + _rigidbody.Velocity.X * 16), static_cast<int>(_transform.Position.Y + _rigidbody.Velocity.Y * 16), 0.04f * tempValue, GetColor(255, 5, 0), TRUE);
+		//塵4
+		DrawCircle(static_cast<int>(_transform.Position.X - _rigidbody.Velocity.X * 12), static_cast<int>(_transform.Position.Y + _rigidbody.Velocity.Y * 12), 0.08f * tempValue, GetColor(255, 45, 0), TRUE);
+		//塵3
+		DrawCircle(static_cast<int>(_transform.Position.X + _rigidbody.Velocity.X * 8), static_cast<int>(_transform.Position.Y - _rigidbody.Velocity.Y * 8), 0.12f * tempValue, GetColor(255, 85, 0), TRUE);
+		//塵2
+		DrawCircle(static_cast<int>(_transform.Position.X - _rigidbody.Velocity.X * 4), static_cast<int>(_transform.Position.Y - _rigidbody.Velocity.Y * 4), 0.16f * tempValue, GetColor(255, 125, 0), TRUE);
+		//塵1
+		DrawCircle(static_cast<int>(_transform.Position.X + _rigidbody.Velocity.X * 2), static_cast<int>(_transform.Position.Y + _rigidbody.Velocity.Y * 2), 0.20f * tempValue, GetColor(255, 165, 0), TRUE);
 	}
 }
 

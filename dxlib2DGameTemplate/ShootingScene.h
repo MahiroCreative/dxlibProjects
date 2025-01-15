@@ -5,6 +5,7 @@
 #include "MyDxlib2DGame/MyDxlib2DGame.h"
 #include "GameSetting.h"
 #include "ShootingPlayer.h"
+#include "ShootingEnemy.h"
 
 class ShootingScene : public _baseGameScene
 {
@@ -37,4 +38,5 @@ private:
 
 	/*ゲームオブジェクト変数*/
 	std::unique_ptr<ShootingPlayer> _player;
+	std::unique_ptr<ShootingEnemy> _enemy;
 };
