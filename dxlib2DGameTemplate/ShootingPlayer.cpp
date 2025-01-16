@@ -1,5 +1,7 @@
 ﻿#include "ShootingPlayer.h"
 
+/*定型メンバ関数*/
+//初期化
 void ShootingPlayer::Init()
 {
 	//初期化
@@ -11,7 +13,6 @@ void ShootingPlayer::Init()
 	_color = GetColor(255, 255, 255);//色
 	_moveSpeed = 2.0f;//移動速度
 }
-
 void ShootingPlayer::Init(Vector2 pos)
 {
 	//初期化
@@ -23,7 +24,6 @@ void ShootingPlayer::Init(Vector2 pos)
 	_color = GetColor(255, 255, 255);//色
 	_moveSpeed = 2.0f;//移動速度
 }
-
 void ShootingPlayer::Init(Vector2 pos, float moveSpeed)
 {
 	//初期化
@@ -36,6 +36,7 @@ void ShootingPlayer::Init(Vector2 pos, float moveSpeed)
 	_moveSpeed = moveSpeed;//移動速度
 }
 
+//更新
 void ShootingPlayer::Update()
 {
 	//Key入力による速度の更新
@@ -43,18 +44,16 @@ void ShootingPlayer::Update()
 
 	//移動
 	Move();
-
-	//チャージ時間の更新
-	if (InputKey::isHoldKey(KEY_INPUT_RETURN)) { _chargeFrame++; }
-	else { _chargeFrame = 0; }
 }
 
+//描画
 void ShootingPlayer::Draw()
 {
 	//プレイヤーの描画
 	PlayerDraw();
 }
 
+//移動
 void ShootingPlayer::Move()
 {
 	//移動
@@ -70,6 +69,7 @@ void ShootingPlayer::Move()
 	if (_transform.Position.Y <= 0) { _rigidbody.Velocity.Y = 0; }//下端
 }
 
+//速度の更新
 void ShootingPlayer::VelocityUpdate()
 {
 	//Key入力チェック
@@ -92,6 +92,7 @@ void ShootingPlayer::VelocityUpdate()
 
 }
 
+//Playerそのものの描画
 void ShootingPlayer::PlayerDraw()
 {
 	//残像描画
@@ -105,6 +106,7 @@ void ShootingPlayer::PlayerDraw()
 
 }
 
+//弾を撃つかどうか
 void ShootingPlayer::ShadowDraw()
 {
 	//残像5
@@ -119,6 +121,7 @@ void ShootingPlayer::ShadowDraw()
 	DrawCircle(static_cast<int>(_transform.Position.X - _rigidbody.Velocity.X * 4), static_cast<int>(_transform.Position.Y - _rigidbody.Velocity.Y * 4), 8, GetColor(230, 230, 0), TRUE);
 }
 
+//チャージEffectの描画
 void ShootingPlayer::EffectDraw()
 {
 	//チャージ演出
@@ -137,5 +140,43 @@ void ShootingPlayer::EffectDraw()
 		DrawCircle(static_cast<int>(_transform.Position.X - _rigidbody.Velocity.X * 4), static_cast<int>(_transform.Position.Y - _rigidbody.Velocity.Y * 4), 0.16f * tempValue, GetColor(255, 125, 0), TRUE);
 		//塵1
 		DrawCircle(static_cast<int>(_transform.Position.X + _rigidbody.Velocity.X * 2), static_cast<int>(_transform.Position.Y + _rigidbody.Velocity.Y * 2), 0.20f * tempValue, GetColor(255, 165, 0), TRUE);
+	}
+}
+
+void ShootingPlayer::ShotFlagUpdate()
+{
+	//ショット条件
+	bool isShotFrame = (_shotFrame > _shotInterval);
+	bool isDown = InputKey::isDownKey(KEY_INPUT_SPACE);
+
+	//ショットフラグの更新
+	if (isShotFrame && isDown)
+	{
+		_isShot = true;
+		_shotFrame = 0;//ショットフレームのリセット
+	}
+	else
+	{
+		_isShot = false;
+		_shotFrame++;//ショットフレームの更新
+	}
+}
+
+void ShootingPlayer::ChargeShotFlagUpdate()
+{
+	//チャージショット条件
+	bool isChargeFrame = (_chargeFrame > _chargeShotInterval);
+	bool isNotHold = !InputKey::isHoldKey(KEY_INPUT_SPACE);
+
+	//チャージショットフラグの更新
+	if (isChargeFrame && isNotHold)
+	{
+		_isChargeShot = true;
+		_chargeFrame = 0;//チャージフレームのリセット
+	}
+	else
+	{
+		_isChargeShot = false;
+		_chargeFrame++;//チャージフレームの更新
 	}
 }

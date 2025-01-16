@@ -14,8 +14,8 @@ void ShootingScene::Init()
 	_enemy = std::make_unique<ShootingEnemy>();
 
 	//初期化
-	_player->Init(Vector2{100,GameSetting::WINDOW_CENTER_Y});
-	_enemy->Init(Vector2{ GameSetting::WINDOW_WIDTH - 80 ,GameSetting::WINDOW_CENTER_Y});
+	_player->Init(Vector2{ 100,GameSetting::WINDOW_CENTER_Y });
+	_enemy->Init(Vector2{ GameSetting::WINDOW_WIDTH - 80 ,GameSetting::WINDOW_CENTER_Y });
 }
 
 int ShootingScene::Update()
@@ -121,21 +121,5 @@ void ShootingScene::DeletePlayerBullet()
 
 void ShootingScene::CreateChargeBullet()
 {
-	//ChargeBulletの生成条件
-	bool isCharge = (_playerChargeFrame >= 80);//30Frame以上押されているか
-	bool isRelease = !(InputKey::isHoldKey(KEY_INPUT_RETURN));//リリースされたか
 
-	//Chaege時間計測
-	if (InputKey::isHoldKey(KEY_INPUT_RETURN)) { _playerChargeFrame++; }
-	else { _playerChargeFrame = 0; }
-
-	//ChargeBulletの生成
-	if (isCharge && isRelease)
-	{
-		//ChargeBulletの生成
-		_pPlayerBullet = std::make_unique<SimpleBullet>();
-		_pPlayerBullet->Init(_player->GetTransform().Position, 8.0f, 20);
-		//Bulletの追加
-		_vPlayerBullets.push_back(std::move(_pPlayerBullet));
-	}
 }
