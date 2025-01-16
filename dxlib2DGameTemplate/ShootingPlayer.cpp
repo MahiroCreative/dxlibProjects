@@ -41,9 +41,6 @@ void ShootingPlayer::Update()
 	//Key入力による速度の更新
 	VelocityUpdate();
 
-	//Bulletの生成
-	BulletCreate();
-
 	//ChargeBulletの生成
 	ChargeBulletCreate();
 
@@ -114,25 +111,6 @@ void ShootingPlayer::PlayerDraw()
 	//Effect描画
 	EffectDraw();
 
-}
-
-void ShootingPlayer::BulletCreate()
-{
-	//Bulletの生成
-	if (InputKey::isDownKey(KEY_INPUT_RETURN) && _bulleTimer >= _bulletInterval)
-	{
-		//Bulletの生成
-		_pBullet = std::make_unique<SimpleBullet>();
-		//初期化
-		_pBullet->Init(_transform.Position,8.0f);
-		//Bulletの追加
-		_vBullets.push_back(std::move(_pBullet));
-		//Bulletの発射間隔のリセット
-		_bulleTimer = 0;
-	}
-
-	//Bulletの発射timerの更新
-	_bulleTimer++;
 }
 
 void ShootingPlayer::ChargeBulletCreate()

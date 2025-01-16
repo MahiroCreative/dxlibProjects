@@ -46,13 +46,13 @@ public:
 	void Move();
 	void VelocityUpdate();
 	void PlayerDraw();
-	void BulletCreate();
 	void ChargeBulletCreate();
 	void ShadowDraw();
 	void EffectDraw();
 	void BulletUpdate();
 	void BulletDraw();
 	void BulletDelete();
+	Transform2D GetTransform() { return _transform; }
 private:
 	/*メンバ変数*/
 	//位置・倍率・回転

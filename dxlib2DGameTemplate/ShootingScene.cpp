@@ -26,7 +26,17 @@ int ShootingScene::Update()
 
 	//player更新
 	_player->Update();
+	//enemy更新
 	_enemy->Update();
+	//PlayerBullet更新
+	UpdatePlayerBullet();
+
+	//PlayerBulletの生成
+	CreatePlayerBullet();
+
+	//PlayerBulletの削除
+	DeletePlayerBullet();
+
 
 	//int型に変換して返す
 	return static_cast<int>(_nextScene);
@@ -40,6 +50,11 @@ void ShootingScene::Draw()
 	_player->Draw();
 	//enemy描画
 	_enemy->Draw();
+	//PlayerBullet描画
+	for (auto& bullet : _vPlayerBullets)
+	{
+		bullet->Draw();
+	}
 }
 
 void ShootingScene::CheckReturnTitle(int KeyCode)
@@ -48,5 +63,50 @@ void ShootingScene::CheckReturnTitle(int KeyCode)
 	{
 		_nextScene = GameSetting::SceneState::Title;
 	}
+}
 
+void ShootingScene::CreatePlayerBullet()
+{
+	//PlayerBulletの生成
+	if (InputKey::isDownKey(KEY_INPUT_RETURN) && _playerBulletTimer >= 10)
+	{
+		//Bulletの生成
+		_pPlayerBullet = std::make_unique<SimpleBullet>();
+		//初期化
+		_pPlayerBullet->Init(_player->GetTransform().Position, 8.0f);
+		//Bulletの追加
+		_vPlayerBullets.push_back(std::move(_pPlayerBullet));
+		//Bulletの発射間隔のリセット
+		_playerBulletTimer = 0;
+	}
+	//Bulletの発射timerの更新
+	_playerBulletTimer++;
+}
+
+void ShootingScene::UpdatePlayerBullet()
+{
+	//PlayerBulletの更新
+	for (auto& bullet : _vPlayerBullets)
+	{
+		bullet->Update();
+	}
+}
+
+void ShootingScene::DeletePlayerBullet()
+{
+	// 全弾チェック
+	for (auto it = _vPlayerBullets.begin(); it != _vPlayerBullets.end();)
+	{
+		if ((*it)->IsOutOfScreen())
+		{
+			// 画面外に出た弾を削除
+			//(削除した場合、空いた場所に後ろの要素が詰められる)
+			it = _vPlayerBullets.erase(it);
+		}
+		else
+		{
+			// 次の要素へ
+			++it;
+		}
+	}
 }
