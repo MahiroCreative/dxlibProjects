@@ -6,6 +6,8 @@ void ShootingScene::Init()
 {
 	//変数初期化
 	_nextScene = GameSetting::SceneState::ShootingGame;
+	_playerBulletTimer = 0;
+	_playerChargeFrame = 0;
 
 	//ゲームオブジェクト生成
 	_player = std::make_unique<ShootingPlayer>();
@@ -28,17 +30,17 @@ int ShootingScene::Update()
 	_player->Update();
 	//enemy更新
 	_enemy->Update();
-	//PlayerBullet更新
-	UpdatePlayerBullet();
 
 	//PlayerBulletの生成
 	CreatePlayerBullet();
-
+	//ChageBulletの生成
+	CreateChargeBullet();
+	//PlayerBullet更新
+	UpdatePlayerBullet();
 	//PlayerBulletの削除
 	DeletePlayerBullet();
 
-
-	//int型に変換して返す
+	//int型に変換して次のシーンを返す
 	return static_cast<int>(_nextScene);
 }
 
@@ -46,15 +48,13 @@ void ShootingScene::Draw()
 {
 	//現在のシーン名を表示
 	DrawString(0, 0, "ShootingGame: WASD(上左下右),Enter(Shot),B(タイトル)", GetColor(255, 255, 255));
+	//PlayerBullet描画
+	DrawPlayerBullet();
 	//player描画
 	_player->Draw();
 	//enemy描画
 	_enemy->Draw();
-	//PlayerBullet描画
-	for (auto& bullet : _vPlayerBullets)
-	{
-		bullet->Draw();
-	}
+
 }
 
 void ShootingScene::CheckReturnTitle(int KeyCode)
@@ -62,6 +62,14 @@ void ShootingScene::CheckReturnTitle(int KeyCode)
 	if (InputKey::isDownKey(KeyCode))
 	{
 		_nextScene = GameSetting::SceneState::Title;
+	}
+}
+
+void ShootingScene::DrawPlayerBullet()
+{
+	for (auto& bullet : _vPlayerBullets)
+	{
+		bullet->Draw();
 	}
 }
 
@@ -108,5 +116,26 @@ void ShootingScene::DeletePlayerBullet()
 			// 次の要素へ
 			++it;
 		}
+	}
+}
+
+void ShootingScene::CreateChargeBullet()
+{
+	//ChargeBulletの生成条件
+	bool isCharge = (_playerChargeFrame >= 80);//30Frame以上押されているか
+	bool isRelease = !(InputKey::isHoldKey(KEY_INPUT_RETURN));//リリースされたか
+
+	//Chaege時間計測
+	if (InputKey::isHoldKey(KEY_INPUT_RETURN)) { _playerChargeFrame++; }
+	else { _playerChargeFrame = 0; }
+
+	//ChargeBulletの生成
+	if (isCharge && isRelease)
+	{
+		//ChargeBulletの生成
+		_pPlayerBullet = std::make_unique<SimpleBullet>();
+		_pPlayerBullet->Init(_player->GetTransform().Position, 8.0f, 20);
+		//Bulletの追加
+		_vPlayerBullets.push_back(std::move(_pPlayerBullet));
 	}
 }

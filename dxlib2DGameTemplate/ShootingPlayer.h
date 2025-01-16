@@ -20,9 +20,6 @@ public:
 		_transform(),
 		_rigidbody(),
 		_color(),
-		_pBullet(),
-		_vBullets(),
-		_bulleTimer(0),
 		_chargeFrame(0)
 	{
 		Init();
@@ -46,12 +43,8 @@ public:
 	void Move();
 	void VelocityUpdate();
 	void PlayerDraw();
-	void ChargeBulletCreate();
 	void ShadowDraw();
 	void EffectDraw();
-	void BulletUpdate();
-	void BulletDraw();
-	void BulletDelete();
 	Transform2D GetTransform() { return _transform; }
 private:
 	/*メンバ変数*/
@@ -63,14 +56,6 @@ private:
 	unsigned int _color;
 	//移動速度
 	float _moveSpeed = 2.0f;
-	// 単一のBulletオブジェクト変数
-	BulletPtr _pBullet;
-	// Bulletオブジェクト用のベクター
-	BulletVector _vBullets;
-	//Bulletの発射timer
-	int _bulleTimer;
-	//Bulletの発射間隔
-	int _bulletInterval = 20;
 	//ChargeFrame(チャージ時間)
 	int _chargeFrame;
 };

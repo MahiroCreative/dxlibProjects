@@ -9,5 +9,5 @@ struct Rigidbody2D
 	//加速度
 	Vector2 Acceleration;
 	//質量
-	float Mass;
+	float Mass=0;
 };

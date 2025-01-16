@@ -17,7 +17,8 @@ public:
 	/*コンストラクタデストラクタ*/ 
 	//コンストラクタ
 	ShootingScene()
-		: _nextScene()
+		: _nextScene(), _playerBulletTimer(0), _playerChargeFrame(0),
+		_player(nullptr), _enemy(nullptr), _pPlayerBullet(nullptr),_vPlayerBullets()
 	{
 		Init();
 	}
@@ -35,16 +36,21 @@ public:
 	/*メンバ関数*/
 	//任意のキーでタイトルに戻る
 	void CheckReturnTitle(int KeyCode);
+	//PlayerBulletの描画
+	void DrawPlayerBullet();
 	//PlayreBulletの生成
 	void CreatePlayerBullet();
 	void UpdatePlayerBullet();
 	void DeletePlayerBullet();
+	//ChargeBulletの生成
+	void CreateChargeBullet();
 private:
 	/*処理変数*/
 	//nextScene.
 	GameSetting::SceneState _nextScene;
 	//PlayerBullet生成用のタイマー
 	int _playerBulletTimer;
+	int _playerChargeFrame;
 
 	/*ゲームオブジェクト変数*/
 	std::unique_ptr<ShootingPlayer> _player;

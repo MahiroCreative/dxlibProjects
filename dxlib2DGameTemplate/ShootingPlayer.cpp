@@ -41,24 +41,16 @@ void ShootingPlayer::Update()
 	//Key入力による速度の更新
 	VelocityUpdate();
 
-	//ChargeBulletの生成
-	ChargeBulletCreate();
-
-	//Bulletの更新
-	BulletUpdate();
-
-	//画面外に出た弾を削除
-	BulletDelete();
-
 	//移動
 	Move();
+
+	//チャージ時間の更新
+	if (InputKey::isHoldKey(KEY_INPUT_RETURN)) { _chargeFrame++; }
+	else { _chargeFrame = 0; }
 }
 
 void ShootingPlayer::Draw()
 {
-	//Bulletの描画
-	BulletDraw();
-
 	//プレイヤーの描画
 	PlayerDraw();
 }
@@ -113,29 +105,6 @@ void ShootingPlayer::PlayerDraw()
 
 }
 
-void ShootingPlayer::ChargeBulletCreate()
-{
-	//ChargeBulletの生成条件
-	bool isCharge = (_chargeFrame >= 80);//30Frame以上押されているか
-	bool isRelease = !(InputKey::isHoldKey(KEY_INPUT_RETURN));//リリースされたか
-
-	//Chaege時間計測
-	if (InputKey::isHoldKey(KEY_INPUT_RETURN)) { _chargeFrame++; }
-	else { _chargeFrame = 0; }
-
-	//ChargeBulletの生成
-	if (isCharge && isRelease)
-	{
-		//ChargeBulletの生成
-		_pBullet = std::make_unique<SimpleBullet>();
-		_pBullet->Init(_transform.Position, 8.0f,20);
-		//Bulletの追加
-		_vBullets.push_back(std::move(_pBullet));
-		//ChargeFrameのリセット
-		_chargeFrame = 0;
-	}
-}
-
 void ShootingPlayer::ShadowDraw()
 {
 	//残像5
@@ -168,42 +137,5 @@ void ShootingPlayer::EffectDraw()
 		DrawCircle(static_cast<int>(_transform.Position.X - _rigidbody.Velocity.X * 4), static_cast<int>(_transform.Position.Y - _rigidbody.Velocity.Y * 4), 0.16f * tempValue, GetColor(255, 125, 0), TRUE);
 		//塵1
 		DrawCircle(static_cast<int>(_transform.Position.X + _rigidbody.Velocity.X * 2), static_cast<int>(_transform.Position.Y + _rigidbody.Velocity.Y * 2), 0.20f * tempValue, GetColor(255, 165, 0), TRUE);
-	}
-}
-
-void ShootingPlayer::BulletUpdate()
-{
-	//Bulletの更新
-	for (auto& bullet : _vBullets)
-	{
-		bullet->Update();
-	}
-}
-
-void ShootingPlayer::BulletDraw()
-{
-	//Bulletの描画
-	for (auto& bullet : _vBullets)
-	{
-		bullet->Draw();
-	}
-}
-
-void ShootingPlayer::BulletDelete()
-{
-	// 弾の更新処理
-	for (auto it = _vBullets.begin(); it != _vBullets.end();)
-	{
-		if ((*it)->IsOutOfScreen())
-		{
-			// 画面外に出た弾を削除
-			//(削除した場合、空いた場所に後ろの要素が詰められる)
-			it = _vBullets.erase(it); 
-		}
-		else
-		{
-			// 次の要素へ
-			++it;
-		}
 	}
 }
