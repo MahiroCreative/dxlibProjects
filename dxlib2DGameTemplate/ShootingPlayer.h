@@ -19,6 +19,7 @@ public:
 	ShootingPlayer():
 		_transform(),
 		_rigidbody(),
+		_color(),
 		_pBullet(),
 		_vBullets(),
 		_bulleTimer(0),
@@ -58,6 +59,8 @@ private:
 	Transform2D _transform;
 	//速度・加速度
 	Rigidbody2D _rigidbody;
+	//色
+	unsigned int _color;
 	//移動速度
 	float _moveSpeed = 2.0f;
 	// 単一のBulletオブジェクト変数

@@ -9,9 +9,11 @@ void ShootingScene::Init()
 
 	//ゲームオブジェクト生成
 	_player = std::make_unique<ShootingPlayer>();
+	_enemy = std::make_unique<ShootingEnemy>();
 
 	//初期化
 	_player->Init(Vector2{100,GameSetting::WINDOW_CENTER_Y});
+	_enemy->Init(Vector2{ GameSetting::WINDOW_WIDTH - 80 ,GameSetting::WINDOW_CENTER_Y});
 }
 
 int ShootingScene::Update()
@@ -24,8 +26,6 @@ int ShootingScene::Update()
 
 	//player更新
 	_player->Update();
-
-	//enemy更新
 	_enemy->Update();
 
 	//int型に変換して返す
@@ -38,6 +38,8 @@ void ShootingScene::Draw()
 	DrawString(0, 0, "ShootingGame: WASD(上左下右),Enter(Shot),B(タイトル)", GetColor(255, 255, 255));
 	//player描画
 	_player->Draw();
+	//enemy描画
+	_enemy->Draw();
 }
 
 void ShootingScene::CheckReturnTitle(int KeyCode)

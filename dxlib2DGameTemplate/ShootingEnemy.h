@@ -13,6 +13,7 @@ public:
 	/*コンストラクタデストラクタ*/
 	//コンストラクタ
 	ShootingEnemy()
+		:_transform(), _rigidbody(), _color(), _moveSpeed()
 	{
 		Init();
 	}
@@ -30,10 +31,13 @@ public:
 	void Draw() override;
 
 	/*メンバ関数*/
+	void Move();
 
 private:
 	/*メンバ変数*/
 	Transform2D _transform;
 	Rigidbody2D _rigidbody;
+	unsigned int _color;
+	float _moveSpeed;
 };
 
