@@ -42,6 +42,12 @@ void ShootingPlayer::Update()
 	//Key入力による速度の更新
 	VelocityUpdate();
 
+	//shotフラグの更新
+	ShotFlagUpdate();
+
+	//chargeShotフラグの更新
+	ChargeShotFlagUpdate();
+
 	//移動
 	Move();
 }
@@ -147,7 +153,7 @@ void ShootingPlayer::ShotFlagUpdate()
 {
 	//ショット条件
 	bool isShotFrame = (_shotFrame > _shotInterval);
-	bool isDown = InputKey::isDownKey(KEY_INPUT_SPACE);
+	bool isDown = InputKey::isDownKey(_shotKey);
 
 	//ショットフラグの更新
 	if (isShotFrame && isDown)
@@ -166,7 +172,7 @@ void ShootingPlayer::ChargeShotFlagUpdate()
 {
 	//チャージショット条件
 	bool isChargeFrame = (_chargeFrame > _chargeShotInterval);
-	bool isNotHold = !InputKey::isHoldKey(KEY_INPUT_SPACE);
+	bool isNotHold = !InputKey::isHoldKey(_shotKey);
 
 	//チャージショットフラグの更新
 	if (isChargeFrame && isNotHold)
@@ -177,6 +183,15 @@ void ShootingPlayer::ChargeShotFlagUpdate()
 	else
 	{
 		_isChargeShot = false;
-		_chargeFrame++;//チャージフレームの更新
+	}
+	
+	//チャージフレームの更新
+	if(InputKey::isHoldKey(_shotKey))
+	{
+		_chargeFrame++;
+	}
+	else
+	{
+		_chargeFrame = 0;//チャージフレームのリセット
 	}
 }

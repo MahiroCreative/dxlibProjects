@@ -13,9 +13,10 @@ public:
 	SimpleBullet() :
 		_transform(),
 		_rigidbody(),
-		_moveSpeed(2.0f),
-		_color(DxlibCommon::OrangeColor),
-		_size(4)
+		_moveSpeed(),
+		_color(),
+		_size(),
+		_tag("")
 	{
 		Init();
 	}
@@ -26,18 +27,20 @@ public:
 	//初期化
 	void Init() override;
 	//初期化(オーバーロード)
-	void Init(Vector2 objectPos);
+	void Init(Vector2 pos);
 	//初期化(オーバーロード)
 	void Init(Vector2 pos, float moveSpeed);
 	//初期化(オーバーロード)
 	void Init(Vector2 pos, float moveSpeed, int size);
+	//初期化(オーバーロード)
+	void Init(Vector2 pos, float moveSpeed, int size, std::string tag);
 	//初期化(オーバーロード)_colorはGetolorで取得
-	void Init(Vector2 pos, float moveSpeed, int size, unsigned int color);
+	void Init(Vector2 pos, float moveSpeed, int size, std::string tag, unsigned int color);
 	//更新
 	void Update() override;
 	//描画
 	void Draw() override;
-	
+
 	/*メンバ関数*/
 	void Move();
 	bool IsOutOfScreen();
@@ -54,4 +57,6 @@ private:
 	unsigned int _color;
 	//サイズ
 	int _size;
+	//tag.
+	std::string _tag;
 };

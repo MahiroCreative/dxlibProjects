@@ -20,26 +20,28 @@ void ShootingScene::Init()
 
 int ShootingScene::Update()
 {
+	/*更新*/
 	//Key入力の更新
 	InputKey::Update();
-
-	//Bでタイトルに戻る
-	CheckReturnTitle(KEY_INPUT_B);
-
 	//player更新
 	_player->Update();
 	//enemy更新
 	_enemy->Update();
-
-	//PlayerBulletの生成
-	CreatePlayerBullet();
-	//ChageBulletの生成
-	CreateChargeBullet();
-	//PlayerBullet更新
+	//playerbullet更新
 	UpdatePlayerBullet();
-	//PlayerBulletの削除
+
+	/*オブジェクト生成*/
+	//PlayerBulletの生成(ChargeBullet含む)
+	CreatePlayerBullet();
+
+	/*オブジェクト削除*/
+	//PlayerBulletの削除(ChargeBullet含む)
 	DeletePlayerBullet();
 
+
+	/*return.*/
+	//Bでタイトルに戻る
+	CheckReturnTitle(KEY_INPUT_B);
 	//int型に変換して次のシーンを返す
 	return static_cast<int>(_nextScene);
 }
@@ -76,19 +78,26 @@ void ShootingScene::DrawPlayerBullet()
 void ShootingScene::CreatePlayerBullet()
 {
 	//PlayerBulletの生成
-	if (InputKey::isDownKey(KEY_INPUT_RETURN) && _playerBulletTimer >= 10)
+	if (_player->IsShot())
 	{
 		//Bulletの生成
 		_pPlayerBullet = std::make_unique<SimpleBullet>();
 		//初期化
-		_pPlayerBullet->Init(_player->GetTransform().Position, 8.0f);
+		_pPlayerBullet->Init(_player->GetTransform().Position, _player->GetShotSpeed(), _player->GetShotSize());
 		//Bulletの追加
 		_vPlayerBullets.push_back(std::move(_pPlayerBullet));
-		//Bulletの発射間隔のリセット
-		_playerBulletTimer = 0;
 	}
-	//Bulletの発射timerの更新
-	_playerBulletTimer++;
+
+	//ChargeBulletの生成
+	if (_player->IsChargeShot())
+	{
+		//ChargeBulletの生成
+		_pPlayerBullet = std::make_unique<SimpleBullet>();
+		//初期化
+		_pPlayerBullet->Init(_player->GetTransform().Position, _player->GetChargeShotSpeed(), _player->GetChargeShotSize());
+		//ChargeBulletの追加
+		_vPlayerBullets.push_back(std::move(_pPlayerBullet));
+	}
 }
 
 void ShootingScene::UpdatePlayerBullet()
@@ -119,7 +128,4 @@ void ShootingScene::DeletePlayerBullet()
 	}
 }
 
-void ShootingScene::CreateChargeBullet()
-{
 
-}

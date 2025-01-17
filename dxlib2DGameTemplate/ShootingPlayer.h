@@ -21,9 +21,7 @@ public:
 		_rigidbody(),
 		_color(),
 		_moveSpeed(2.0f),
-		_shotInterval(20),
 		_shotFrame(0),
-		_chargeShotInterval(80),
 		_chargeFrame(0)
 	{
 		Init();
@@ -62,6 +60,10 @@ public:
 	/*プロパティ*/
 	//Getter.
 	Transform2D GetTransform() { return _transform; }
+	int GetShotSize() { return _shotSize; }
+	int GetChargeShotSize() { return _chargeShotSize; }
+	int GetShotSpeed() { return _shotSpeed; }
+	int GetChargeShotSpeed() { return _chargeShotSpeed; }
 	bool IsShot() { return _isShot; }
 	bool IsChargeShot() { return _isChargeShot; }
 private:
@@ -75,15 +77,25 @@ private:
 	//移動速度
 	float _moveSpeed = 2.0f;
 	//shotのインターバル
-	int _shotInterval = 20;
+	const int _shotInterval = 12;
 	//shotのtimer(前回のショットから経過したFrame)
 	int _shotFrame = 0;
 	//Chargeショットが発射できる時間
-	int _chargeShotInterval = 80;
+	const int _chargeShotInterval = 80;
 	//ChargeFrame(チャージ時間)
 	int _chargeFrame=0;
 	//shotのフラグ
 	bool _isShot = false;
 	//ChargeShotのフラグ
 	bool _isChargeShot = false;
+	//shotの大きさ
+	int _shotSize = 4;
+	//chaegeShotの大きさ
+	int _chargeShotSize = 20;
+	//shotSpeed.
+	int _shotSpeed = 8;
+	//chaegeShotSpeed.
+	int _chargeShotSpeed = 12;
+	//ShotKey.
+	int _shotKey = KEY_INPUT_RETURN;
 };

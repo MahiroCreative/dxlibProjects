@@ -40,10 +40,11 @@ public:
 	void DrawPlayerBullet();
 	//PlayreBulletの生成
 	void CreatePlayerBullet();
+	//PlayerBulletの更新
 	void UpdatePlayerBullet();
+	//PlayerBulletの削除
 	void DeletePlayerBullet();
-	//ChargeBulletの生成
-	void CreateChargeBullet();
+
 private:
 	/*処理変数*/
 	//nextScene.

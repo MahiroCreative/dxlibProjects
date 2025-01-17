@@ -8,47 +8,59 @@ void SimpleBullet::Init()
 	_moveSpeed = 2.0f;
 	_color = DxlibCommon::OrangeColor;
 	_size = 4;
+	_tag = "";
 }
 
-void SimpleBullet::Init(Vector2 objectPos)
+void SimpleBullet::Init(Vector2 pos)
 {
 	//初期化
-	_transform.Position = objectPos;
-	_rigidbody.Velocity = Vector2::Right;
-	_moveSpeed = 2.0f;
-	_color = DxlibCommon::OrangeColor;
-	_size = 4;
+	Init();
+	//代入
+	_transform.Position = pos;
 }
 
 void SimpleBullet::Init(Vector2 pos, float moveSpeed)
 {
 	//初期化
+	Init();
+	//代入
 	_transform.Position = pos;
-	_rigidbody.Velocity = Vector2::Right;
 	_moveSpeed = moveSpeed;
-	_color = DxlibCommon::OrangeColor;
-	_size = 4;
 }
 
 void SimpleBullet::Init(Vector2 pos, float moveSpeed, int size)
 {
 	//初期化
+	Init();
+	//代入
 	_transform.Position = pos;
-	_rigidbody.Velocity = Vector2::Right;
 	_moveSpeed = moveSpeed;
 	_size = size;
-	_color = DxlibCommon::OrangeColor;
 }
 
-void SimpleBullet::Init(Vector2 pos, float moveSpeed, int size, unsigned int color)
+void SimpleBullet::Init(Vector2 pos, float moveSpeed, int size, std::string tag)
 {
 	//初期化
+	Init();
+	//代入
 	_transform.Position = pos;
-	_rigidbody.Velocity = Vector2::Right;
 	_moveSpeed = moveSpeed;
 	_size = size;
+	_tag = tag;
+}
+
+void SimpleBullet::Init(Vector2 pos, float moveSpeed, int size, std::string tag, unsigned int color)
+{
+	//初期化
+	Init();
+	//代入
+	_transform.Position = pos;
+	_moveSpeed = moveSpeed;
+	_size = size;
+	_tag = tag;
 	_color = color;
 }
+
 
 void SimpleBullet::Update()
 {
