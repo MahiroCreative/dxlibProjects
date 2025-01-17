@@ -29,14 +29,20 @@ int ShootingScene::Update()
 	_enemy->Update();
 	//playerbullet更新
 	UpdatePlayerBullet();
+	//enemybullet更新
+	UpdateEnemyBullet();
 
 	/*オブジェクト生成*/
 	//PlayerBulletの生成(ChargeBullet含む)
 	CreatePlayerBullet();
+	//EnemyBulletの生成
+	CreateEnemyBullet();
 
 	/*オブジェクト削除*/
 	//PlayerBulletの削除(ChargeBullet含む)
 	DeletePlayerBullet();
+	//EnemyBulletの削除
+	DeleteEnemyBullet();
 
 
 	/*return.*/
@@ -52,6 +58,8 @@ void ShootingScene::Draw()
 	DrawString(0, 0, "ShootingGame: WASD(上左下右),Enter(Shot),B(タイトル)", GetColor(255, 255, 255));
 	//PlayerBullet描画
 	DrawPlayerBullet();
+	//EnemyBullet描画
+	DrawEnemyBullet();
 	//player描画
 	_player->Draw();
 	//enemy描画
@@ -83,7 +91,7 @@ void ShootingScene::CreatePlayerBullet()
 		//Bulletの生成
 		_pPlayerBullet = std::make_unique<SimpleBullet>();
 		//初期化
-		_pPlayerBullet->Init(_player->GetTransform().Position, _player->GetShotSpeed(), _player->GetShotSize());
+		_pPlayerBullet->Init(_player->GetTransform().Position, _player->GetShotSpeed(), _player->GetShotSize(), "playerShot", DxlibCommon::OrangeColor);
 		//Bulletの追加
 		_vPlayerBullets.push_back(std::move(_pPlayerBullet));
 	}
@@ -94,7 +102,7 @@ void ShootingScene::CreatePlayerBullet()
 		//ChargeBulletの生成
 		_pPlayerBullet = std::make_unique<SimpleBullet>();
 		//初期化
-		_pPlayerBullet->Init(_player->GetTransform().Position, _player->GetChargeShotSpeed(), _player->GetChargeShotSize());
+		_pPlayerBullet->Init(_player->GetTransform().Position, _player->GetChargeShotSpeed(), _player->GetChargeShotSize(),"playerCharge",DxlibCommon::OrangeColor);
 		//ChargeBulletの追加
 		_vPlayerBullets.push_back(std::move(_pPlayerBullet));
 	}
@@ -126,6 +134,41 @@ void ShootingScene::DeletePlayerBullet()
 			++it;
 		}
 	}
+}
+
+void ShootingScene::DrawEnemyBullet()
+{
+	for (auto& bullet : _vEnemyBullets)
+	{
+		bullet->Draw();
+	}
+}
+
+void ShootingScene::CreateEnemyBullet()
+{
+	//EnemyBulletの生成
+	if (_enemy->IsShot())
+	{
+		//Bulletの生成
+		_pEnemyBullet = std::make_unique<SimpleBullet>();
+		//初期化
+		_pEnemyBullet->Init(_enemy->GetTransform().Position, _enemy->GetShotSpeed(), _enemy->GetShotSize(),"enemyShot",DxlibCommon::GreenColor);
+		//Bulletの追加
+		_vEnemyBullets.push_back(std::move(_pEnemyBullet));
+	}
+}
+
+void ShootingScene::UpdateEnemyBullet()
+{
+	//EnemyBulletの更新
+	for (auto& bullet : _vEnemyBullets)
+	{
+		bullet->Update();
+	}
+}
+
+void ShootingScene::DeleteEnemyBullet()
+{
 }
 
 

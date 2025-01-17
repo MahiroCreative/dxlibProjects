@@ -44,6 +44,14 @@ public:
 	void UpdatePlayerBullet();
 	//PlayerBulletの削除
 	void DeletePlayerBullet();
+	//EnemyBulletの描画
+	void DrawEnemyBullet();
+	//EnemyBulletの生成
+	void CreateEnemyBullet();
+	//EnemyBulletの更新
+	void UpdateEnemyBullet();
+	//EnemyBulletの削除
+	void DeleteEnemyBullet();
 
 private:
 	/*処理変数*/
@@ -57,7 +65,7 @@ private:
 	std::unique_ptr<ShootingPlayer> _player;
 	std::unique_ptr<ShootingEnemy> _enemy;
 	// 単一のBulletオブジェクト変数
-	BulletPtr _pPlayerBullet;
+	BulletPtr _pPlayerBullet,_pEnemyBullet;
 	// Bulletオブジェクト用のベクター
-	BulletVector _vPlayerBullets;
+	BulletVector _vPlayerBullets, _vEnemyBullets;
 };
