@@ -21,10 +21,21 @@ public:
 		_rigidbody(),
 		_collision(),
 		_color(),
-		_moveSpeed(2.0f),
+		_moveSpeed(),
+		_shotInterval(),
 		_shotFrame(0),
-		_chargeFrame(0)
+		_chargeShotInterval(),
+		_chargeFrame(0),
+		_isShot(false),
+		_isChargeShot(false),
+		_shotSize(),
+		_chargeShotSize(),
+		_shotSpeed(),
+		_chargeShotSpeed(),
+		_shotKey(),
+		_hp(3)
 	{
+		//初期化
 		Init();
 	}
 	//デストラクタ
@@ -57,18 +68,25 @@ public:
 	void ShotFlagUpdate();
 	//チャージショットの発射フラグの更新
 	void ChargeShotFlagUpdate();
-	//コリジョン描画
-	void CollisionDraw();
+	//コリジョンの更新
+	void CollisionUpdate();
+	//Damage処理
+	void Damage();
 
 	/*プロパティ*/
 	//Getter.
 	Transform2D GetTransform() { return _transform; }
+	CircleCollision2D GetCollision() { return _collision; }
 	int GetShotSize() { return _shotSize; }
 	int GetChargeShotSize() { return _chargeShotSize; }
 	int GetShotSpeed() { return _shotSpeed; }
 	int GetChargeShotSpeed() { return _chargeShotSpeed; }
 	bool IsShot() { return _isShot; }
 	bool IsChargeShot() { return _isChargeShot; }
+
+	/*Debug用関数*/
+	//コリジョン描画
+	void DebugDraw();
 private:
 	/*メンバ変数*/
 	//位置・倍率・回転
@@ -80,27 +98,29 @@ private:
 	//色
 	unsigned int _color;
 	//移動速度
-	float _moveSpeed = 2.0f;
+	float _moveSpeed;
 	//shotのインターバル
-	const int _shotInterval = 12;
+	int _shotInterval;
 	//shotのtimer(前回のショットから経過したFrame)
-	int _shotFrame = 0;
+	int _shotFrame;
 	//Chargeショットが発射できる時間
-	const int _chargeShotInterval = 80;
+	int _chargeShotInterval;
 	//ChargeFrame(チャージ時間)
-	int _chargeFrame=0;
+	int _chargeFrame;
 	//shotのフラグ
-	bool _isShot = false;
+	bool _isShot;
 	//ChargeShotのフラグ
-	bool _isChargeShot = false;
+	bool _isChargeShot;
 	//shotの大きさ
-	int _shotSize = 4;
+	int _shotSize;
 	//chaegeShotの大きさ
-	int _chargeShotSize = 20;
+	int _chargeShotSize;
 	//shotSpeed.
-	int _shotSpeed = 8;
+	int _shotSpeed;
 	//chaegeShotSpeed.
-	int _chargeShotSpeed = 12;
+	int _chargeShotSpeed;
 	//ShotKey.
-	int _shotKey = KEY_INPUT_RETURN;
+	int _shotKey;
+	//HP
+	int _hp;
 };

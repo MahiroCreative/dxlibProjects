@@ -18,4 +18,20 @@ struct CircleCollision2D
 	{
 		DrawCircle(static_cast<int>(Center.X), static_cast<int>(Center.Y), static_cast<int>(Radius), Color, FALSE);
 	}
+
+	//コリジョンの判定
+	bool IsCollision(CircleCollision2D col)
+	{
+		//2点間の距離
+		float distance = (Center - col.Center).Length();
+		//半径の和
+		float sumRadius = Radius + col.Radius;
+		//判定
+		if (distance < sumRadius)
+		{
+			return true;
+		}
+		return false;
+	}
+
 };

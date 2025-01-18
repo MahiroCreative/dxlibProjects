@@ -25,7 +25,7 @@ void TitleScene::Init()
 	/*オブジェクトの初期化*/
 	//矢印
 	_arrow->Init("->");
-	_arrow->SetColor(DxlibCommon::RedColor);
+	_arrow->SetColor(Color::RedColor);
 	//シューティングゲーム
 	_shootingGameText->Init("ShootingGame");
 	//プラットフォームゲーム
@@ -35,7 +35,7 @@ void TitleScene::Init()
 
 	/*オブジェクトの位置設定*/
 	//矢印
-	_arrow->Transform.Position = Vector2(GameSetting::WINDOW_CENTER_X- 120.0f, 280.0f);
+	_arrow->Transform.Position = Vector2(GameSetting::WINDOW_CENTER_X - 120.0f, 280.0f);
 	//シューティングゲーム
 	_shootingGameText->Transform.Position = Vector2(GameSetting::WINDOW_CENTER_X - 80.0f, 280.0f);
 	//プラットフォームゲーム
@@ -63,7 +63,7 @@ void TitleScene::Draw()
 {
 	/*現在のシーンの表示*/
 	//シーン名
-	DrawString(0, 0, "TitleScene", DxlibCommon::WhiteColor);
+	DrawString(0, 0, "TitleScene", Color::WhiteColor);
 
 	/*オブジェクトの描画*/
 	//矢印

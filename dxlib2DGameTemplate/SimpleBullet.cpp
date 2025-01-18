@@ -5,8 +5,11 @@ void SimpleBullet::Init()
 	//初期化
 	_transform.Position = Vector2(0.0f, 0.0f);
 	_rigidbody.Velocity = Vector2::Right;
+	_collision.Center = _transform.Position;//中心
+	_collision.Radius = 10;//半径
+	_collision.Color = Color::RedColor;//色
 	_moveSpeed = 2.0f;
-	_color = DxlibCommon::OrangeColor;
+	_color = Color::OrangeColor;
 	_size = 4;
 	_tag = "";
 }

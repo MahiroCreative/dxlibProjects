@@ -1,10 +1,7 @@
 ﻿#pragma once
 #include "DxLib.h"
 
-/// <summary>
-/// Dxlib関連の共通処理をまとめた名前空間
-/// </summary>
-namespace DxlibCommon
+namespace Color
 {
 	/*色*/
 	//白

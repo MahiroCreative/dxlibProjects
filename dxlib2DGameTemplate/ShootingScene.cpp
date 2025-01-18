@@ -44,6 +44,10 @@ int ShootingScene::Update()
 	//EnemyBulletの削除
 	DeleteEnemyBullet();
 
+	/*当たり判定*/
+	//PlayerとEnemyBulletの当たり判定
+	CheckPlayerCollision();
+
 	/*return.*/
 	//Bでタイトルに戻る
 	CheckReturnTitle(KEY_INPUT_B);
@@ -90,7 +94,7 @@ void ShootingScene::CreatePlayerBullet()
 		//Bulletの生成
 		_pPlayerBullet = std::make_unique<SimpleBullet>();
 		//初期化
-		_pPlayerBullet->Init(_player->GetTransform().Position, _player->GetShotSpeed(), _player->GetShotSize(), "playerShot", DxlibCommon::OrangeColor);
+		_pPlayerBullet->Init(_player->GetTransform().Position, _player->GetShotSpeed(), _player->GetShotSize(), "playerShot", Color::OrangeColor);
 		//Bulletの追加
 		_vPlayerBullets.push_back(std::move(_pPlayerBullet));
 	}
@@ -101,7 +105,7 @@ void ShootingScene::CreatePlayerBullet()
 		//ChargeBulletの生成
 		_pPlayerBullet = std::make_unique<SimpleBullet>();
 		//初期化
-		_pPlayerBullet->Init(_player->GetTransform().Position, _player->GetChargeShotSpeed(), _player->GetChargeShotSize(),"playerCharge",DxlibCommon::OrangeColor);
+		_pPlayerBullet->Init(_player->GetTransform().Position, _player->GetChargeShotSpeed(), _player->GetChargeShotSize(),"playerCharge",Color::OrangeColor);
 		//ChargeBulletの追加
 		_vPlayerBullets.push_back(std::move(_pPlayerBullet));
 	}
@@ -151,7 +155,7 @@ void ShootingScene::CreateEnemyBullet()
 		//Bulletの生成
 		_pEnemyBullet = std::make_unique<SimpleBullet>();
 		//初期化
-		_pEnemyBullet->Init(_enemy->GetTransform().Position, _enemy->GetShotSpeed(), _enemy->GetShotSize(),"enemyShot",DxlibCommon::GreenColor);
+		_pEnemyBullet->Init(_enemy->GetTransform().Position, _enemy->GetShotSpeed(), _enemy->GetShotSize(),"enemyShot",Color::GreenColor);
 		//Bulletの追加
 		_vEnemyBullets.push_back(std::move(_pEnemyBullet));
 	}
@@ -168,14 +172,37 @@ void ShootingScene::UpdateEnemyBullet()
 
 void ShootingScene::DeleteEnemyBullet()
 {
+	// 全弾チェック
+	for (auto it = _vEnemyBullets.begin(); it != _vEnemyBullets.end();)
+	{
+		if ((*it)->IsOutOfScreen())
+		{
+			// 画面外に出た弾を削除
+			//(削除した場合、空いた場所に後ろの要素が詰められる)
+			it = _vEnemyBullets.erase(it);
+		}
+		else
+		{
+			// 次の要素へ
+			++it;
+		}
+	}
 }
 
 void ShootingScene::CheckPlayerCollision()
 {
 	for (auto& bullet : _vEnemyBullets)
 	{
+		//コリジョン取得
+		CircleCollision2D bulletCol = bullet->GetCollision();
+		CircleCollision2D playerCol = _player->GetCollision();
 
-		
+		//PlayerとEnemyBulletの当たり判定
+		if (playerCol.IsCollision(bulletCol))
+		{
+			//PlayerのHPを減らす
+			_player->Damage();
+		}
 	}
 }
 

@@ -155,8 +155,8 @@
   <ItemGroup>
     <ClInclude Include="GameSetting.h" />
     <ClInclude Include="MyDxlib2DGame\CircleCollision2D.h" />
+    <ClInclude Include="MyDxlib2DGame\Color.h" />
     <ClInclude Include="MyDxlib2DGame\ConsoleDebug.h" />
-    <ClInclude Include="MyDxlib2DGame\DxlibCommon.h" />
     <ClInclude Include="MyDxlib2DGame\InputKey.h" />
     <ClInclude Include="MyDxlib2DGame\InputMouse.h" />
     <ClInclude Include="MyDxlib2DGame\MyDxlib2DGame.h" />

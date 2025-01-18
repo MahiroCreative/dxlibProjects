@@ -10,29 +10,36 @@ void ShootingPlayer::Init()
 	_transform.Rotation = 0.0f;//回転
 	_rigidbody.Velocity = Vector2(0, 0);//速度
 	_rigidbody.Acceleration = Vector2(0, 0);//加速度
+	_collision.Center = _transform.Position;//中心
+	_collision.Radius = 12;//コリジョンの半径
+	_collision.Color = Color::RedColor;//色
 	_color = GetColor(255, 255, 255);//色
 	_moveSpeed = 2.0f;//移動速度
+	_shotInterval = 10;//ショットのインターバル
+	_shotFrame = 0;//ショットフレーム
+	_chargeShotInterval = 60;//チャージショットのインターバル
+	_chargeFrame = 0;//チャージフレーム
+	_isShot = false;//ショットフラグ
+	_isChargeShot = false;//チャージショットフラグ
+	_shotSize = 4;//ショットの大きさ
+	_chargeShotSize = 20;//チャージショットの大きさ
+	_shotSpeed = 8;//ショットの速度
+	_chargeShotSpeed = 12;//チャージショットの速度
+	_shotKey = KEY_INPUT_RETURN;//ショットキー
+	_hp = 3;//HP
+
 }
 void ShootingPlayer::Init(Vector2 pos)
 {
 	//初期化
+	Init();//初期化
 	_transform.Position = pos;//位置
-	_transform.Scale = Vector2(1.0f, 1.0f);//倍率
-	_transform.Rotation = 0.0f;//回転
-	_rigidbody.Velocity = Vector2(0, 0);//速度
-	_rigidbody.Acceleration = Vector2(0, 0);//加速度
-	_color = GetColor(255, 255, 255);//色
-	_moveSpeed = 2.0f;//移動速度
 }
 void ShootingPlayer::Init(Vector2 pos, float moveSpeed)
 {
 	//初期化
+	Init();//初期化
 	_transform.Position = pos;//位置
-	_transform.Scale = Vector2(1.0f, 1.0f);//倍率
-	_transform.Rotation = 0.0f;//回転
-	_rigidbody.Velocity = Vector2(0, 0);//速度
-	_rigidbody.Acceleration = Vector2(0, 0);//加速度
-	_color = GetColor(255, 255, 255);//色
 	_moveSpeed = moveSpeed;//移動速度
 }
 
@@ -48,6 +55,9 @@ void ShootingPlayer::Update()
 	//chargeShotフラグの更新
 	ChargeShotFlagUpdate();
 
+	//コリジョンの位置更新
+	CollisionUpdate();
+
 	//移動
 	Move();
 }
@@ -58,8 +68,8 @@ void ShootingPlayer::Draw()
 	//プレイヤーの描画
 	PlayerDraw();
 
-	//コリジョン描画
-	CollisionDraw();
+	//Debug描画
+	DebugDraw();
 }
 
 //移動
@@ -199,8 +209,25 @@ void ShootingPlayer::ChargeShotFlagUpdate()
 	}
 }
 
-void ShootingPlayer::CollisionDraw()
+void ShootingPlayer::CollisionUpdate()
 {
-	//Debug用のコリジョン描画
-	_collision.Draw();
+	//コリジョンの中心位置更新
+	_collision.Center = _transform.Position;
+}
+
+void ShootingPlayer::Damage()
+{
+	//HPを減らす
+	_hp--;
+}
+
+
+/*Debug用*/
+void ShootingPlayer::DebugDraw()
+{
+	//コリジョンの描画
+	DrawCircle(static_cast<int>(_collision.Center.X), static_cast<int>(_collision.Center.Y), _collision.Radius, _collision.Color, FALSE);
+
+	//Hpの描画
+	DrawFormatString(0, 100, GetColor(255, 255, 255), "HP:%d", _hp);
 }

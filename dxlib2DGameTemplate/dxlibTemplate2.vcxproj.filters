@@ -97,9 +97,6 @@
     <ClInclude Include="GameSetting.h">
       <Filter>ヘッダー ファイル</Filter>
     </ClInclude>
-    <ClInclude Include="MyDxlib2DGame\DxlibCommon.h">
-      <Filter>MyDxlib2DGame</Filter>
-    </ClInclude>
     <ClInclude Include="MyDxlib2DGame\InputKey.h">
       <Filter>MyDxlib2DGame</Filter>
     </ClInclude>
@@ -122,6 +119,9 @@
       <Filter>ShootingGame</Filter>
     </ClInclude>
     <ClInclude Include="MyDxlib2DGame\CircleCollision2D.h">
+      <Filter>MyDxlib2DGame</Filter>
+    </ClInclude>
+    <ClInclude Include="MyDxlib2DGame\Color.h">
       <Filter>MyDxlib2DGame</Filter>
     </ClInclude>
   </ItemGroup>

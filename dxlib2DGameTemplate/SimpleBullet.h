@@ -13,6 +13,7 @@ public:
 	SimpleBullet() :
 		_transform(),
 		_rigidbody(),
+		_collision(),
 		_moveSpeed(),
 		_color(),
 		_size(),
@@ -45,12 +46,18 @@ public:
 	void Move();
 	bool IsOutOfScreen();
 
+	//getter.
+	Transform2D GetTransform() { return _transform; }
+	CircleCollision2D GetCollision() { return _collision; };
+
 private:
 	/*メンバ変数*/
 	//位置・倍率・回転
 	Transform2D _transform;
 	//速度
 	Rigidbody2D _rigidbody;
+	//Collision
+	CircleCollision2D _collision;
 	//移動速度
 	float _moveSpeed;
 	//色

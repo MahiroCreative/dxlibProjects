@@ -8,7 +8,7 @@ void ShootingEnemy::Init()
 	_transform.Rotation = 0.0f;//回転
 	_rigidbody.Velocity = Vector2(0, 1);//速度
 	_rigidbody.Acceleration = Vector2(0, 0);//加速度
-	_color = DxlibCommon::CyanColor;//色
+	_color = Color::CyanColor;//色
 	_moveSpeed = 2.0f;//移動速度
 }
 

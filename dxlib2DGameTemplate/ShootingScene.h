@@ -55,6 +55,9 @@ public:
 	//PlayerとEnemyBulletの当たり判定
 	void CheckPlayerCollision();
 
+	/*Debug用の関数*/
+
+
 private:
 	/*処理変数*/
 	//nextScene.

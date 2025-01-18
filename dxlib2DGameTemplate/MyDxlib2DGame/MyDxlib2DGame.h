@@ -9,7 +9,7 @@
 #include "_baseGameObject2D.h"//2Dゲームオブジェクト基底クラス
 #include "_baseGameScene.h"//ゲームシーン基底クラス
 #include "SimpleText.h"//シンプルなテキストオブジェクトを作るクラス
-#include "DxlibCommon.h"//Dxlib関連の共通処理をまとめた名前空間
+#include "Color.h"//色定義
 #include "InputKey.h"//キー入力処理
 #include "InputMouse.h"//マウス入力処理
 #include "CircleCollision2D.h"//円形の当たり判定
