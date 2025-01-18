@@ -39,6 +39,7 @@ void SimpleBullet::Init(Vector2 pos, float moveSpeed, int size)
 	_transform.Position = pos;
 	_moveSpeed = moveSpeed;
 	_size = size;
+	_collision.Radius = size;
 }
 
 void SimpleBullet::Init(Vector2 pos, float moveSpeed, int size, std::string tag)
@@ -49,6 +50,7 @@ void SimpleBullet::Init(Vector2 pos, float moveSpeed, int size, std::string tag)
 	_transform.Position = pos;
 	_moveSpeed = moveSpeed;
 	_size = size;
+	_collision.Radius = size;
 	_tag = tag;
 }
 
@@ -60,15 +62,18 @@ void SimpleBullet::Init(Vector2 pos, float moveSpeed, int size, std::string tag,
 	_transform.Position = pos;
 	_moveSpeed = moveSpeed;
 	_size = size;
+	_collision.Radius = size;
 	_tag = tag;
 	_color = color;
 }
-
 
 void SimpleBullet::Update()
 {
 	//移動
 	Move();
+
+	//コリジョンの更新
+	CollisionUpdate();
 }
 
 void SimpleBullet::Draw()
@@ -84,6 +89,12 @@ void SimpleBullet::Move()
 
 	//加速
 	_rigidbody.Velocity += _rigidbody.Acceleration;
+}
+
+void SimpleBullet::CollisionUpdate()
+{
+	//コリジョンの中心位置更新
+	_collision.Center = _transform.Position;
 }
 
 bool SimpleBullet::IsOutOfScreen()

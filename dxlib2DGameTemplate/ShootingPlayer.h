@@ -33,7 +33,9 @@ public:
 		_shotSpeed(),
 		_chargeShotSpeed(),
 		_shotKey(),
-		_hp(3)
+		_hp(3),
+		_damageInterval(0),
+		_damageFrame(0)
 	{
 		//初期化
 		Init();
@@ -71,7 +73,9 @@ public:
 	//コリジョンの更新
 	void CollisionUpdate();
 	//Damage処理
-	void Damage();
+	void Damage(int damage);
+	//無敵時間の更新
+	void DamageUpdate();
 
 	/*プロパティ*/
 	//Getter.
@@ -123,4 +127,8 @@ private:
 	int _shotKey;
 	//HP
 	int _hp;
+	//最大無敵時間(Frame)
+	int _damageInterval;
+	//ダメージを受けてからの時間
+	int _damageFrame;
 };

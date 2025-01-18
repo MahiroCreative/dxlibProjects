@@ -124,5 +124,11 @@
     <ClInclude Include="MyDxlib2DGame\Color.h">
       <Filter>MyDxlib2DGame</Filter>
     </ClInclude>
+    <ClInclude Include="OverScene.h">
+      <Filter>ヘッダー ファイル</Filter>
+    </ClInclude>
+    <ClInclude Include="ClearScene.h">
+      <Filter>ヘッダー ファイル</Filter>
+    </ClInclude>
   </ItemGroup>
 </Project>

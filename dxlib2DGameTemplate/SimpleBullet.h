@@ -44,11 +44,13 @@ public:
 
 	/*メンバ関数*/
 	void Move();
+	void CollisionUpdate();
 	bool IsOutOfScreen();
 
 	//getter.
 	Transform2D GetTransform() { return _transform; }
 	CircleCollision2D GetCollision() { return _collision; };
+	std::string GetTag() { return _tag; }
 
 private:
 	/*メンバ変数*/

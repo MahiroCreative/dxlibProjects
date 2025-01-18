@@ -47,6 +47,10 @@ int ShootingScene::Update()
 	/*当たり判定*/
 	//PlayerとEnemyBulletの当たり判定
 	CheckPlayerCollision();
+	CheckEnemyCollision();
+
+	/*タイマの更新*/
+	UpdateGameTimer();
 
 	/*return.*/
 	//Bでタイトルに戻る
@@ -105,7 +109,7 @@ void ShootingScene::CreatePlayerBullet()
 		//ChargeBulletの生成
 		_pPlayerBullet = std::make_unique<SimpleBullet>();
 		//初期化
-		_pPlayerBullet->Init(_player->GetTransform().Position, _player->GetChargeShotSpeed(), _player->GetChargeShotSize(),"playerCharge",Color::OrangeColor);
+		_pPlayerBullet->Init(_player->GetTransform().Position, _player->GetChargeShotSpeed(), _player->GetChargeShotSize(), "playerCharge", Color::OrangeColor);
 		//ChargeBulletの追加
 		_vPlayerBullets.push_back(std::move(_pPlayerBullet));
 	}
@@ -155,8 +159,19 @@ void ShootingScene::CreateEnemyBullet()
 		//Bulletの生成
 		_pEnemyBullet = std::make_unique<SimpleBullet>();
 		//初期化
-		_pEnemyBullet->Init(_enemy->GetTransform().Position, _enemy->GetShotSpeed(), _enemy->GetShotSize(),"enemyShot",Color::GreenColor);
+		_pEnemyBullet->Init(_enemy->GetTransform().Position, _enemy->GetShotSpeed(), _enemy->GetShotSize() + _addShotSize, "enemyShot", Color::GreenColor);
 		//Bulletの追加
+		_vEnemyBullets.push_back(std::move(_pEnemyBullet));
+	}
+
+	//ChargeBulletの生成
+	if (_enemy->IsChargeShot())
+	{
+		//ChargeBulletの生成
+		_pEnemyBullet = std::make_unique<SimpleBullet>();
+		//初期化
+		_pEnemyBullet->Init(_enemy->GetTransform().Position, _enemy->GetChargeShotSpeed(), _enemy->GetChargeShotSize() + _addShotSize*2, "enemyCharge", Color::GreenColor);
+		//ChargeBulletの追加
 		_vEnemyBullets.push_back(std::move(_pEnemyBullet));
 	}
 }
@@ -196,13 +211,63 @@ void ShootingScene::CheckPlayerCollision()
 		//コリジョン取得
 		CircleCollision2D bulletCol = bullet->GetCollision();
 		CircleCollision2D playerCol = _player->GetCollision();
+		std::string bulletTag = bullet->GetTag();
 
 		//PlayerとEnemyBulletの当たり判定
 		if (playerCol.IsCollision(bulletCol))
 		{
 			//PlayerのHPを減らす
-			_player->Damage();
+			if (bulletTag == "enemyCharge")
+			{
+				_player->Damage(3);
+			}
+			else
+			{
+				_player->Damage(1);
+			}
+
 		}
+	}
+}
+
+void ShootingScene::CheckEnemyCollision()
+{
+	for (auto& bullet : _vPlayerBullets)
+	{
+		//コリジョン取得
+		CircleCollision2D bulletCol = bullet->GetCollision();
+		CircleCollision2D enemyCol = _enemy->GetCollision();
+		std::string bulletTag = bullet->GetTag();
+
+		//PlayerとEnemyBulletの当たり判定
+		if (enemyCol.IsCollision(bulletCol))
+		{
+			//EnemyのHPを減らす
+			if (bulletTag == "playerCharge")
+			{
+				_enemy->Damage(4);
+			}
+			else
+			{
+				_enemy->Damage(1);
+			}
+
+		}
+	}
+}
+
+void ShootingScene::UpdateGameTimer()
+{
+	//ゲームタイマ更新
+	_gameTimer++;
+
+	//ゲームタイマー更新
+	if (_gameTimer > 120)
+	{
+		//弾のサイズの上昇
+		_addShotSize++;
+		//ゲームタイマーのリセット
+		_gameTimer = 0;
 	}
 }
 

@@ -18,7 +18,8 @@ public:
 	//コンストラクタ
 	ShootingScene()
 		: _nextScene(), _playerBulletTimer(0), _playerChargeFrame(0),
-		_player(nullptr), _enemy(nullptr), _pPlayerBullet(nullptr),_vPlayerBullets()
+		_player(nullptr), _enemy(nullptr), _pPlayerBullet(nullptr),_vPlayerBullets(),
+		_pEnemyBullet(nullptr), _vEnemyBullets(), _gameTimer(0), _addShotSize(0)
 	{
 		Init();
 	}
@@ -54,6 +55,10 @@ public:
 	void DeleteEnemyBullet();
 	//PlayerとEnemyBulletの当たり判定
 	void CheckPlayerCollision();
+	//EnemyとPlayerBulletの当たり判定
+	void CheckEnemyCollision();
+	//ゲームタイマーの更新
+	void UpdateGameTimer();
 
 	/*Debug用の関数*/
 
@@ -65,6 +70,9 @@ private:
 	//PlayerBullet生成用のタイマー
 	int _playerBulletTimer;
 	int _playerChargeFrame;
+	//ゲームタイマー(/Frame)
+	int _gameTimer;
+	int _addShotSize;
 
 	/*ゲームオブジェクト変数*/
 	std::unique_ptr<ShootingPlayer> _player;

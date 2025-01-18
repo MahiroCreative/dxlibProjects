@@ -17,6 +17,8 @@ namespace GameSetting
 		Title,
 		ShootingGame,
 		PlatformGame,
-		EndGame
+		EndGame,
+		OverGame,
+		ClearGame
 	};
 }

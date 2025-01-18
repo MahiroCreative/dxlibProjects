@@ -11,11 +11,11 @@ void ShootingPlayer::Init()
 	_rigidbody.Velocity = Vector2(0, 0);//速度
 	_rigidbody.Acceleration = Vector2(0, 0);//加速度
 	_collision.Center = _transform.Position;//中心
-	_collision.Radius = 12;//コリジョンの半径
+	_collision.Radius = 10;//コリジョンの半径
 	_collision.Color = Color::RedColor;//色
 	_color = GetColor(255, 255, 255);//色
-	_moveSpeed = 2.0f;//移動速度
-	_shotInterval = 10;//ショットのインターバル
+	_moveSpeed = 3.0f;//移動速度
+	_shotInterval = 16;//ショットのインターバル
 	_shotFrame = 0;//ショットフレーム
 	_chargeShotInterval = 60;//チャージショットのインターバル
 	_chargeFrame = 0;//チャージフレーム
@@ -27,6 +27,8 @@ void ShootingPlayer::Init()
 	_chargeShotSpeed = 12;//チャージショットの速度
 	_shotKey = KEY_INPUT_RETURN;//ショットキー
 	_hp = 3;//HP
+	_damageInterval = 20;//ダメージインターバル
+	_damageFrame = 0;
 
 }
 void ShootingPlayer::Init(Vector2 pos)
@@ -57,6 +59,9 @@ void ShootingPlayer::Update()
 
 	//コリジョンの位置更新
 	CollisionUpdate();
+
+	//無敵時間の更新
+	DamageUpdate();
 
 	//移動
 	Move();
@@ -215,10 +220,28 @@ void ShootingPlayer::CollisionUpdate()
 	_collision.Center = _transform.Position;
 }
 
-void ShootingPlayer::Damage()
+void ShootingPlayer::Damage(int damage)
 {
-	//HPを減らす
-	_hp--;
+	//ダメージ条件
+	bool isDamage = (_damageFrame > _damageInterval);
+
+	//ダメージを受ける
+	if (isDamage)
+	{
+		//Hpを減らす
+		_hp = _hp - damage; 
+		//damageFrameのリセット
+		_damageFrame = 0;
+	}
+
+}
+
+void ShootingPlayer::DamageUpdate()
+{
+	//damageFrameの更新
+	_damageFrame++;
+	//上昇しすぎたら戻す
+	if (_damageFrame > 80) { _damageFrame = 80; }
 }
 
 
@@ -229,5 +252,5 @@ void ShootingPlayer::DebugDraw()
 	DrawCircle(static_cast<int>(_collision.Center.X), static_cast<int>(_collision.Center.Y), _collision.Radius, _collision.Color, FALSE);
 
 	//Hpの描画
-	DrawFormatString(0, 100, GetColor(255, 255, 255), "HP:%d", _hp);
+	DrawFormatString(0, 24, GetColor(255, 255, 255), "PlayerHP:%d", _hp);
 }
