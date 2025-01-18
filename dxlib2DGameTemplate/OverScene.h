@@ -3,6 +3,7 @@
 #include <memory>
 //origin.
 #include "MyDxlib2DGame/MyDxlib2DGame.h"
+#include "GameSetting.h"
 
 class OverScene : public _baseGameScene
 {

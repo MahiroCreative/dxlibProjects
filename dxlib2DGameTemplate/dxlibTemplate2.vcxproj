@@ -142,6 +142,7 @@
     <ClCompile Include="MyDxlib2DGame\InputKey.cpp" />
     <ClCompile Include="MyDxlib2DGame\InputMouse.cpp" />
     <ClCompile Include="MyDxlib2DGame\Vector2.cpp" />
+    <ClCompile Include="OverScene.cpp" />
     <ClCompile Include="ShootingEnemy.cpp" />
     <ClCompile Include="ShootingPlayer.cpp" />
     <ClCompile Include="PlatformScene.cpp" />
