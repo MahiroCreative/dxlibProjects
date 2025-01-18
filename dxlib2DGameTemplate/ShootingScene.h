@@ -52,6 +52,8 @@ public:
 	void UpdateEnemyBullet();
 	//EnemyBulletの削除
 	void DeleteEnemyBullet();
+	//PlayerとEnemyBulletの当たり判定
+	void CheckPlayerCollision();
 
 private:
 	/*処理変数*/

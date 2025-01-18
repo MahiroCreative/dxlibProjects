@@ -57,6 +57,9 @@ void ShootingPlayer::Draw()
 {
 	//プレイヤーの描画
 	PlayerDraw();
+
+	//コリジョン描画
+	CollisionDraw();
 }
 
 //移動
@@ -194,4 +197,10 @@ void ShootingPlayer::ChargeShotFlagUpdate()
 	{
 		_chargeFrame = 0;//チャージフレームのリセット
 	}
+}
+
+void ShootingPlayer::CollisionDraw()
+{
+	//Debug用のコリジョン描画
+	_collision.Draw();
 }

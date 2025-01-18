@@ -121,5 +121,8 @@
     <ClInclude Include="ShootingEnemy.h">
       <Filter>ShootingGame</Filter>
     </ClInclude>
+    <ClInclude Include="MyDxlib2DGame\CircleCollision2D.h">
+      <Filter>MyDxlib2DGame</Filter>
+    </ClInclude>
   </ItemGroup>
 </Project>

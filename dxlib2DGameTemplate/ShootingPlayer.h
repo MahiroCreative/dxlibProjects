@@ -19,6 +19,7 @@ public:
 	ShootingPlayer():
 		_transform(),
 		_rigidbody(),
+		_collision(),
 		_color(),
 		_moveSpeed(2.0f),
 		_shotFrame(0),
@@ -56,6 +57,8 @@ public:
 	void ShotFlagUpdate();
 	//チャージショットの発射フラグの更新
 	void ChargeShotFlagUpdate();
+	//コリジョン描画
+	void CollisionDraw();
 
 	/*プロパティ*/
 	//Getter.
@@ -72,6 +75,8 @@ private:
 	Transform2D _transform;
 	//速度・加速度
 	Rigidbody2D _rigidbody;
+	//Collision
+	CircleCollision2D _collision;
 	//色
 	unsigned int _color;
 	//移動速度

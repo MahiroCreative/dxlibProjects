@@ -44,7 +44,6 @@ int ShootingScene::Update()
 	//EnemyBulletの削除
 	DeleteEnemyBullet();
 
-
 	/*return.*/
 	//Bでタイトルに戻る
 	CheckReturnTitle(KEY_INPUT_B);
@@ -169,6 +168,15 @@ void ShootingScene::UpdateEnemyBullet()
 
 void ShootingScene::DeleteEnemyBullet()
 {
+}
+
+void ShootingScene::CheckPlayerCollision()
+{
+	for (auto& bullet : _vEnemyBullets)
+	{
+
+		
+	}
 }
 
 
