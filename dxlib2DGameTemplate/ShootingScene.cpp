@@ -49,9 +49,6 @@ int ShootingScene::Update()
 	CheckPlayerCollision();
 	CheckEnemyCollision();
 
-	/*タイマの更新*/
-	UpdateGameTimer();
-
 	/*return.*/
 	//Bでタイトルに戻る
 	CheckReturnTitle(KEY_INPUT_B);
@@ -159,7 +156,7 @@ void ShootingScene::CreateEnemyBullet()
 		//Bulletの生成
 		_pEnemyBullet = std::make_unique<SimpleBullet>();
 		//初期化
-		_pEnemyBullet->Init(_enemy->GetTransform().Position, _enemy->GetShotSpeed(), _enemy->GetShotSize() + _addShotSize, "enemyShot", Color::GreenColor);
+		_pEnemyBullet->Init(_enemy->GetTransform().Position, _enemy->GetShotSpeed(), _enemy->GetShotSize(), "enemyShot", Color::GreenColor);
 		//Bulletの追加
 		_vEnemyBullets.push_back(std::move(_pEnemyBullet));
 	}
@@ -170,7 +167,7 @@ void ShootingScene::CreateEnemyBullet()
 		//ChargeBulletの生成
 		_pEnemyBullet = std::make_unique<SimpleBullet>();
 		//初期化
-		_pEnemyBullet->Init(_enemy->GetTransform().Position, _enemy->GetChargeShotSpeed(), _enemy->GetChargeShotSize() + _addShotSize*2, "enemyCharge", Color::GreenColor);
+		_pEnemyBullet->Init(_enemy->GetTransform().Position, _enemy->GetChargeShotSpeed(), _enemy->GetChargeShotSize(), "enemyCharge", Color::GreenColor);
 		//ChargeBulletの追加
 		_vEnemyBullets.push_back(std::move(_pEnemyBullet));
 	}
@@ -253,21 +250,6 @@ void ShootingScene::CheckEnemyCollision()
 			}
 
 		}
-	}
-}
-
-void ShootingScene::UpdateGameTimer()
-{
-	//ゲームタイマ更新
-	_gameTimer++;
-
-	//ゲームタイマー更新
-	if (_gameTimer > 120)
-	{
-		//弾のサイズの上昇
-		_addShotSize++;
-		//ゲームタイマーのリセット
-		_gameTimer = 0;
 	}
 }
 

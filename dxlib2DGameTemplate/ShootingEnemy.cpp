@@ -18,9 +18,15 @@ void ShootingEnemy::Init()
 	_chargeShotSize = 40;//チャージショットの大きさ
 	_shotSpeed = -8;//ショットの速度
 	_chargeShotSpeed = -12;//チャージショットの速度
-	_hp = 80;//HP
-	_damageInterval = 20;//ダメージ後の無敵時間
+	_hp = 40;//HP
+	_damageInterval = 40;//ダメージ後の無敵時間
 	_damageFrame = 0;//ダメージを受けてからの時間
+	_isShot = false;//ショットフラグ
+	_isChargeShot = false;//チャージショットフラグ
+	_timer = 0;//タイマ
+	_timerInterval = 320;//難易度上昇までの時間
+	_shotRate = 8;//ショットの確率
+	_chargeShotRate = 1;//チャージショットの確率
 }
 
 void ShootingEnemy::Init(Vector2 pos)
@@ -43,6 +49,8 @@ void ShootingEnemy::Update()
 	CollisionUpdate();
 	//無敵時間の更新
 	DamageUpdate();
+	//タイマの更新
+	TimerUpdate();
 }
 
 void ShootingEnemy::Draw()
@@ -66,7 +74,7 @@ void ShootingEnemy::Move()
 void ShootingEnemy::ShotFlagUpdate()
 {
 	//ランダムにショット
-	bool isRandShot = (rand() % 1000) < 8;
+	bool isRandShot = (rand() % 1000) < _chargeShotRate;
 
 	//ショットフラグの更新
 	if (isRandShot)
@@ -82,7 +90,7 @@ void ShootingEnemy::ShotFlagUpdate()
 void ShootingEnemy::ChargeShotFlagUpdate()
 {
 	//ランダムにチャージショット
-	bool isRandChargeShot = (rand() % 1000) < 1;
+	bool isRandChargeShot = (rand() % 1000) < _shotRate;
 
 	//チャージショットフラグの更新
 	if (isRandChargeShot)
@@ -114,14 +122,46 @@ void ShootingEnemy::Damage(int damage)
 		//damageFrameのリセット
 		_damageFrame = 0;
 	}
+
+	//色を変える
+	_color = Color::RedColor;
 }
 
 void ShootingEnemy::DamageUpdate()
 {
 	//無敵時間の更新
 	_damageFrame++;
-	//上昇しすぎたら戻す
-	if (_damageFrame > 80) { _damageFrame = 80; }
+	//無敵時間が過ぎたら色を戻す
+	if (_damageFrame > _damageInterval){_color = Color::CyanColor;}
+
+	//dagameFrameが上昇しすぎたら戻す
+	if (_damageFrame > 80) { _damageFrame = 80;}
+}
+
+void ShootingEnemy::TimerUpdate()
+{
+	//タイマの更新
+	_timer++;
+	//一定時間毎に弾と弾の速度と移動速度が上昇する
+	if (_timer > _timerInterval)
+	{ 
+		//弾のサイズの上昇
+		_shotSize++;
+		//弾のスピードの上昇
+		_shotSpeed--;
+		//チャージショットのサイズの上昇
+		_chargeShotSize++;
+		//チャージショットのスピードの上昇
+		_chargeShotSpeed--;
+		//移動速度の上昇
+		_moveSpeed += 0.5f;
+		//shotRateの上昇
+		_shotRate++;
+		//chargeShotRateの上昇
+		_chargeShotRate++;
+		//タイマのリセット
+		_timer = 0;
+	}
 }
 
 void ShootingEnemy::DebugDraw()

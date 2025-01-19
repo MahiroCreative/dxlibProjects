@@ -15,7 +15,8 @@ public:
 	ShootingEnemy()
 		:_transform(), _rigidbody(), _collision(),
 		_color(), _moveSpeed(), _chargeFrame(0), _shotSize(), _chargeShotSize(), _shotSpeed(), _chargeShotSpeed(),
-		_hp(), _damageInterval(), _damageFrame(0), _isShot(false), _isChargeShot(false)
+		_hp(), _damageInterval(), _damageFrame(0), _isShot(false), _isChargeShot(false), _timer(0), _timerInterval(0),
+		_shotRate(0), _chargeShotRate(0)
 	{
 		Init();
 	}
@@ -45,6 +46,8 @@ public:
 	void Damage(int damage);
 	//無敵時間の更新
 	void DamageUpdate();
+	//タイマの更新
+	void TimerUpdate();
 
 	/*ゲッター*/
 	//transformのゲッター
@@ -94,11 +97,19 @@ private:
 	int _shotSpeed;
 	//chaegeShotSpeed.
 	int _chargeShotSpeed;
+	//shotを撃つ確率
+	int _shotRate;
+	//chargeShotを撃つ確率
+	int _chargeShotRate;
 	//HP
 	int _hp;
 	//最大無敵時間(Frame)
 	int _damageInterval;
 	//ダメージを受けてからの時間
 	int _damageFrame;
+	//timer
+	int _timer;
+	//弾が大きくなり速度が上がるタイミング
+	int _timerInterval;
 };
 

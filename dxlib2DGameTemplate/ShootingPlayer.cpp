@@ -13,7 +13,7 @@ void ShootingPlayer::Init()
 	_collision.Center = _transform.Position;//中心
 	_collision.Radius = 10;//コリジョンの半径
 	_collision.Color = Color::RedColor;//色
-	_color = GetColor(255, 255, 255);//色
+	_color = Color::WhiteColor;//色
 	_moveSpeed = 3.0f;//移動速度
 	_shotInterval = 16;//ショットのインターバル
 	_shotFrame = 0;//ショットフレーム
@@ -234,12 +234,17 @@ void ShootingPlayer::Damage(int damage)
 		_damageFrame = 0;
 	}
 
+	//色を変える
+	_color = Color::RedColor;
+
 }
 
 void ShootingPlayer::DamageUpdate()
 {
 	//damageFrameの更新
 	_damageFrame++;
+	//damageFrameが無敵時間を超えたら色を戻す
+	if (_damageFrame > _damageInterval) { _color = Color::WhiteColor; }
 	//上昇しすぎたら戻す
 	if (_damageFrame > 80) { _damageFrame = 80; }
 }
