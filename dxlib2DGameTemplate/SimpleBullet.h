@@ -42,6 +42,7 @@ public:
 	//描画
 	void Draw() override;
 
+
 	/*メンバ関数*/
 	void Move();
 	void CollisionUpdate();
