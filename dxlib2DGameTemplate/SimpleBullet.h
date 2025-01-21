@@ -5,68 +5,51 @@
 #include "MyDxlib2DGame/MyDxlib2DGame.h"
 #include "GameSetting.h"
 
+/// <summary>
+/// Simpleな弾クラス
+/// 速度・色・サイズ・タグを持つ.
+/// _baseGameObject2Dを継承
+/// </summary>
 class SimpleBullet : public _baseGameObject2D
 {
 public:
-	/*コンストラクタデストラクタ*/
-	//コンストラクタ
-	SimpleBullet() :
-		_transform(),
-		_rigidbody(),
-		_collision(),
-		_moveSpeed(),
-		_color(),
-		_size(),
-		_tag("")
+	/* コンストラクタ・デストラクタ */
+	SimpleBullet() : _moveSpeed(0.0f), _color(0), _size(0), _tag("")
 	{
 		Init();
 	}
-	//デストラクタ
-	~SimpleBullet() = default;
+	~SimpleBullet() override = default;
 
-	/*定型メンバ関数*/
-	//初期化
+	/* 定型メンバ関数 */
 	void Init() override;
-	//初期化(オーバーロード)
 	void Init(Vector2 pos);
-	//初期化(オーバーロード)
 	void Init(Vector2 pos, float moveSpeed);
-	//初期化(オーバーロード)
 	void Init(Vector2 pos, float moveSpeed, int size);
-	//初期化(オーバーロード)
 	void Init(Vector2 pos, float moveSpeed, int size, std::string tag);
-	//初期化(オーバーロード)_colorはGetolorで取得
 	void Init(Vector2 pos, float moveSpeed, int size, std::string tag, unsigned int color);
-	//更新
 	void Update() override;
-	//描画
 	void Draw() override;
 
-
-	/*メンバ関数*/
+	/* メンバ関数 */
+	//移動
 	void Move();
+	//Collisionの更新
 	void CollisionUpdate();
+	//画面外判定
 	bool IsOutOfScreen();
 
-	//getter.
-	Transform2D GetTransform() { return _transform; }
-	CircleCollision2D GetCollision() { return _collision; };
-	std::string GetTag() { return _tag; }
+	// getter
+	Transform2D GetTransform() const { return _transform; }
+	CircleCollision2D GetCollision() const { return _collision; }
+	std::string GetTag() const { return _tag; }
 
 private:
-	/*メンバ変数*/
-	//位置・倍率・回転
-	Transform2D _transform;
-	//速度
-	Rigidbody2D _rigidbody;
-	//Collision
-	CircleCollision2D _collision;
-	//移動速度
-	float _moveSpeed;
-	//色
-	unsigned int _color;
-	//サイズ
-	int _size;
-	//tag.
-	std::string _tag;
+	/* メンバ変数 */
+	Transform2D _transform;         // 位置・倍率・回転
+	Rigidbody2D _rigidbody;         // 速度
+	CircleCollision2D _collision;   // コリジョン
+	float _moveSpeed;               // 移動速度
+	unsigned int _color;            // 色
+	int _size;                      // サイズ
+	std::string _tag;               // タグ
 };
