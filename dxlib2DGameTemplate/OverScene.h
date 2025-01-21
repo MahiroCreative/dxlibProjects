@@ -11,7 +11,7 @@ public:
 	/*コンストラクタデストラクタ*/
 	//コンストラクタ
 	OverScene()
-		: _nextScene()
+		: _nextScene(), _overText()
 	{
 		Init();
 	}
@@ -31,4 +31,6 @@ private:
 	/*メンバ変数*/
 	//次のシーン
 	GameSetting::SceneState _nextScene;
+	//シーンロゴがわりの文字
+	SimpleText _overText;
 };
