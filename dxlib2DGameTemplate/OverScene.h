@@ -30,5 +30,5 @@ public:
 private:
 	/*メンバ変数*/
 	//次のシーン
-	int _nextScene;
+	GameSetting::SceneState _nextScene;
 };

@@ -85,6 +85,7 @@ public:
 	int GetChargeShotSize() { return _chargeShotSize; }
 	int GetShotSpeed() { return _shotSpeed; }
 	int GetChargeShotSpeed() { return _chargeShotSpeed; }
+	int GetHp() { return _hp; }
 	bool IsShot() { return _isShot; }
 	bool IsChargeShot() { return _isChargeShot; }
 

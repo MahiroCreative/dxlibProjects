@@ -67,12 +67,12 @@ int WINAPI WinMain(_In_ HINSTANCE hInstance, _In_opt_  HINSTANCE hPrevInstance, 
 			}
 			//else if (nextScene == static_cast<int>(GameSetting::SceneState::ClearGame))
 			//{
-			//	scene = std::make_unique<ClearScene>();//プラットフォームゲームシーン
+			//	scene = std::make_unique<ClearScene>();
 			//	scene->Init();//初期化
 			//}
 			else if (nextScene == static_cast<int>(GameSetting::SceneState::OverGame))
 			{
-				scene = std::make_unique<PlatformScene>();//プラットフォームゲームシーン
+				scene = std::make_unique<OverScene>();//プラットフォームゲームシーン
 				scene->Init();//初期化
 			}
 			else if (nextScene == static_cast<int>(GameSetting::SceneState::EndGame))

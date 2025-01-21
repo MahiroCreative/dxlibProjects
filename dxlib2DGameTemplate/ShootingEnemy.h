@@ -62,6 +62,8 @@ public:
 	int GetChargeShotSize() { return _chargeShotSize; }
 	//chargeShotSpeedのゲッター
 	int GetChargeShotSpeed() { return _chargeShotSpeed; }
+	//Hpのゲッター
+	int GetHp() { return _hp; }
 	//shotのフラグ
 	bool IsShot() { return _isShot; }
 	//chargeShotのフラグ

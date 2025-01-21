@@ -57,14 +57,14 @@ void ShootingPlayer::Update()
 	//chargeShotフラグの更新
 	ChargeShotFlagUpdate();
 
-	//コリジョンの位置更新
-	CollisionUpdate();
-
 	//無敵時間の更新
 	DamageUpdate();
 
 	//移動
 	Move();
+
+	//コリジョンの位置更新
+	CollisionUpdate();
 }
 
 //描画

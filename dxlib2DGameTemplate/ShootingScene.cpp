@@ -50,7 +50,10 @@ int ShootingScene::Update()
 	CheckEnemyCollision();
 
 	/*return.*/
-	//Bでタイトルに戻る
+	//・PlayerのHPが0
+	//・EnemyのHPが0
+	//・Bボタンが押される
+	// 上記いずれかでタイトルに戻る
 	CheckReturnTitle(KEY_INPUT_B);
 	//int型に変換して次のシーンを返す
 	return static_cast<int>(_nextScene);
@@ -73,10 +76,14 @@ void ShootingScene::Draw()
 
 void ShootingScene::CheckReturnTitle(int KeyCode)
 {
-	if (InputKey::isDownKey(KeyCode))
-	{
-		_nextScene = GameSetting::SceneState::Title;
-	}
+	//PlayerのHPが0以下になったらタイトルに戻る
+	if (_player->GetHp()<=0) { _nextScene = GameSetting::SceneState::OverGame; }
+
+	//EnemyのHPが0以下になったらタイトルに戻る
+	if (_enemy->GetHp() <= 0) { _nextScene = GameSetting::SceneState::Title; }
+
+	//Bボタンが押されたらタイトルに戻る
+	if (InputKey::isDownKey(KeyCode)){_nextScene = GameSetting::SceneState::Title;}
 }
 
 void ShootingScene::DrawPlayerBullet()
