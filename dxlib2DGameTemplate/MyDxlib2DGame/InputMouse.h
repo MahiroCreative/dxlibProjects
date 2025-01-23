@@ -8,7 +8,6 @@
 /// </summary>
 class InputMouse
 {
-
 public:
 	/*staticメンバ関数*/
 	/// <summary>
