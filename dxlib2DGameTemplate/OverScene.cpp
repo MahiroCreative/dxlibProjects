@@ -5,7 +5,7 @@ void OverScene::Init()
 	//変数初期化
 	_nextScene = GameSetting::SceneState::OverGame;	
 	//初期化
-	_overText.Init("-OverScene-", Vector2{ GameSetting::WINDOW_CENTER_X -320,GameSetting::WINDOW_CENTER_Y -100 });
+	_overText.Init("-GameOver-", Vector2{ GameSetting::WINDOW_CENTER_X -320,GameSetting::WINDOW_CENTER_Y -100 });
 	_overText.Transform.Scale = Vector2{ 6,6 };
 }
 
