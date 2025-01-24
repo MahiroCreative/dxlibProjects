@@ -140,6 +140,7 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
+    <ClCompile Include="ClearScene.cpp" />
     <ClCompile Include="main.cpp" />
     <ClCompile Include="MyDxlib2DGame\InputKey.cpp" />
     <ClCompile Include="MyDxlib2DGame\InputMouse.cpp" />

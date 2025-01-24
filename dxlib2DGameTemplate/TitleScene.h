@@ -14,8 +14,6 @@ public:
 	TitleScene()
 		: _arrowTimer(),
 		_arrowTimerSwitch(),
-		_arrowShowTime(),
-		_arrowDeleteTime(),
 		_setScene(),
 		_nextScene(),
 		_arrow(),
@@ -50,10 +48,6 @@ private:
 	int _arrowTimer;
 	//矢印のタイマー切り替え用
 	bool _arrowTimerSwitch;
-	//矢印の表示時間
-	int _arrowShowTime;
-	//矢印の非表示時間
-	int _arrowDeleteTime;
 	//setScene.
 	GameSetting::SceneState _setScene;
 	//nextScene.

@@ -8,7 +8,7 @@
 #include "TitleScene.h"
 #include "ShootingScene.h"
 #include "PlatformScene.h"
-//#include "ClearScene.h"
+#include "ClearScene.h"
 #include "OverScene.h"
 
 //Dxlibのエントリーポイント
@@ -47,6 +47,8 @@ int WINAPI WinMain(_In_ HINSTANCE hInstance, _In_opt_  HINSTANCE hPrevInstance, 
 		scene->Draw();//描画
 
 		/*シーンの変更*/
+		//ポリモーフィズム(多能性)を分かりやすくするために、
+		// わざとAppMainのような物を作っていません。
 		if (nowScene != nextScene)
 		{
 			//シーンの変更
@@ -65,11 +67,11 @@ int WINAPI WinMain(_In_ HINSTANCE hInstance, _In_opt_  HINSTANCE hPrevInstance, 
 				scene = std::make_unique<PlatformScene>();//プラットフォームゲームシーン
 				scene->Init();//初期化
 			}
-			//else if (nextScene == static_cast<int>(GameSetting::SceneState::ClearGame))
-			//{
-			//	scene = std::make_unique<ClearScene>();
-			//	scene->Init();//初期化
-			//}
+			else if (nextScene == static_cast<int>(GameSetting::SceneState::ClearGame))
+			{
+				scene = std::make_unique<ClearScene>();
+				scene->Init();//初期化
+			}
 			else if (nextScene == static_cast<int>(GameSetting::SceneState::OverGame))
 			{
 				scene = std::make_unique<OverScene>();//プラットフォームゲームシーン

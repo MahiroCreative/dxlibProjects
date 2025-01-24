@@ -6,6 +6,8 @@ void InputKey::Update()
 	char tmpKey[256];
 	// 全てのキーの入力状態を取得
 	GetHitKeyStateAll(tmpKey);
+	// 何かのキーが押されているかのフラグを初期化
+	_isAnyKey = false;
 	//全てのKeyの入力状態の確認
 	for (int i = 0; i < 256; i++)
 	{
@@ -13,20 +15,27 @@ void InputKey::Update()
 		if (tmpKey[i] != 0)
 		{
 			//押しているKeyのフレーム数加算
-			KeyFrame[i]++;
+			_KeyFrame[i]++;
+			//何かのKeyが押されていて、かつ押されているKeyのフレーム数が1の時
+			if (_KeyFrame[i] == 1) { _isAnyKey = true; }
 		}
 		else
 		{
 			//押されていないKeyのフレーム数初期化
-			KeyFrame[i] = 0;
+			_KeyFrame[i] = 0;
 		}
 	}
+}
+
+bool InputKey::isAnyKey()
+{
+	return _isAnyKey;
 }
 
 bool InputKey::isDownKey(int KeyCode)
 {
 	//Keyが押されている時間が1フレームの時
-	if (KeyFrame[KeyCode] == 1)
+	if (_KeyFrame[KeyCode] == 1)
 	{
 		return true;
 	}
@@ -36,7 +45,7 @@ bool InputKey::isDownKey(int KeyCode)
 bool InputKey::isHoldKey(int KeyCode)
 {
 	//Keyが押されている時間が1フレーム以上の時
-	if (KeyFrame[KeyCode] >= 1)
+	if (_KeyFrame[KeyCode] >= 1)
 	{
 		return true;
 	}
@@ -46,13 +55,14 @@ bool InputKey::isHoldKey(int KeyCode)
 int InputKey::HoldKeyTime(int KeyCode)
 {
 	//Keyが押されている時間を返す
-	if (KeyFrame[KeyCode] >= 1)
+	if (_KeyFrame[KeyCode] >= 1)
 	{
-		return KeyFrame[KeyCode];
+		return _KeyFrame[KeyCode];
 	}
 	return 0;
 }
 
 
 //静的メンバ変数の実態作成
-int InputKey::KeyFrame[256];
+int InputKey::_KeyFrame[256];
+bool InputKey::_isAnyKey = false;

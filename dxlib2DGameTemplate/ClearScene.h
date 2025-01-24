@@ -3,6 +3,7 @@
 #include <memory>
 //origin.
 #include "MyDxlib2DGame/MyDxlib2DGame.h"
+#include "GameSetting.h"
 
 
 class ClearScene : public _baseGameScene
@@ -24,11 +25,10 @@ public:
 	int Update() override;
 	//描画
 	void Draw() override;
-	/*メンバ関数*/
-	//任意のキーでタイトルに戻る
-	void CheckReturnTitle(int KeyCode);
 private:
 	/*メンバ変数*/
 	//次のシーン
-	int _nextScene;
+	GameSetting::SceneState _nextScene;
+	//シーンロゴがわりの文字
+	SimpleText _clearText;
 };

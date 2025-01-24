@@ -18,7 +18,7 @@ void ShootingEnemy::Init()
 	_chargeShotSize = 40;//チャージショットの大きさ
 	_shotSpeed = -8;//ショットの速度
 	_chargeShotSpeed = -12;//チャージショットの速度
-	_hp = 40;//HP
+	_hp = 1;//HP
 	_damageInterval = 40;//ダメージ後の無敵時間
 	_damageFrame = 0;//ダメージを受けてからの時間
 	_isShot = false;//ショットフラグ
@@ -74,7 +74,7 @@ void ShootingEnemy::Move()
 void ShootingEnemy::ShotFlagUpdate()
 {
 	//ランダムにショット
-	bool isRandShot = (rand() % 1000) < _chargeShotRate;
+	bool isRandShot = (rand() % 1000) < _shotRate;
 
 	//ショットフラグの更新
 	if (isRandShot)
@@ -90,7 +90,7 @@ void ShootingEnemy::ShotFlagUpdate()
 void ShootingEnemy::ChargeShotFlagUpdate()
 {
 	//ランダムにチャージショット
-	bool isRandChargeShot = (rand() % 1000) < _shotRate;
+	bool isRandChargeShot = (rand() % 1000) < _chargeShotRate;
 
 	//チャージショットフラグの更新
 	if (isRandChargeShot)

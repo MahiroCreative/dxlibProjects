@@ -17,6 +17,12 @@ public:
 	static void Update();
 
 	/// <summary>
+	/// 何かしらのKeyが押されているかを取得する。
+	/// </summary>
+	/// <returns></returns>
+	static bool isAnyKey();
+
+	/// <summary>
 	/// Keyが押された瞬間を取得する。
 	/// Update()を毎フレーム行っている前提の関数。
 	/// </summary>
@@ -36,8 +42,11 @@ public:
 	/// </summary>
 	/// <returns>DxlibのKeyCode</returns>
 	static int HoldKeyTime(int KeyCode);
+
 private:
 	/*staticメンバ変数*/
 	//それぞれのKeyの入力フレーム数
-	static int KeyFrame[];//定義だけ行い実態はcppで生成。
+	static int _KeyFrame[];//定義だけ行い実態はcppで生成。
+	//どれかのKeyが押されているか
+	static bool _isAnyKey;
 };

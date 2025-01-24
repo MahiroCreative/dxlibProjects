@@ -1,5 +1,24 @@
 ﻿#include "TitleScene.h"
 
+namespace
+{
+	//矢印の移動量
+	constexpr float _kMoveArrow = 40.0f;
+	//矢印の表示切替時間
+	constexpr int _kArrowShowTime = 60;
+	//矢印の非表示切替時間
+	constexpr int _kArrowDeleteTime = 30;
+	//矢印の初期位置
+	const Vector2 _kArrowFirstPos = Vector2(GameSetting::WINDOW_CENTER_X - 120.0f, 280.0f);
+	//1番目のテキストの表示位置
+	const Vector2 _kFirstTextPos = Vector2(GameSetting::WINDOW_CENTER_X - 80.0f, 280.0f);
+	//2番目のテキストの表示位置
+	const Vector2 _kSecondTextPos = Vector2(GameSetting::WINDOW_CENTER_X - 80.0f, 320.0f);
+	//3番目のテキストの表示位置
+	const Vector2 _kThirdTextPos = Vector2(GameSetting::WINDOW_CENTER_X - 80.0f, 360.0f);
+
+}
+
 /*メンバ関数*/
 //初期化
 void TitleScene::Init()
@@ -7,8 +26,6 @@ void TitleScene::Init()
 	/*処理変数の初期化*/
 	_arrowTimer = 0;
 	_arrowTimerSwitch = false;
-	_arrowShowTime = 60;
-	_arrowDeleteTime = 30;
 	_setScene = GameSetting::SceneState::ShootingGame;
 	_nextScene = GameSetting::SceneState::Title;
 
@@ -35,13 +52,13 @@ void TitleScene::Init()
 
 	/*オブジェクトの位置設定*/
 	//矢印
-	_arrow->Transform.Position = Vector2(GameSetting::WINDOW_CENTER_X - 120.0f, 280.0f);
+	_arrow->Transform.Position = _kArrowFirstPos;
 	//シューティングゲーム
-	_shootingGameText->Transform.Position = Vector2(GameSetting::WINDOW_CENTER_X - 80.0f, 280.0f);
+	_shootingGameText->Transform.Position = _kFirstTextPos;
 	//プラットフォームゲーム
-	_platformGameText->Transform.Position = Vector2(GameSetting::WINDOW_CENTER_X - 80.0f, 320.0f);
+	_platformGameText->Transform.Position = _kSecondTextPos;
 	//ゲーム終了
-	_endGameText->Transform.Position = Vector2(GameSetting::WINDOW_CENTER_X - 80.0f, 360.0f);
+	_endGameText->Transform.Position = _kThirdTextPos;
 }
 
 int TitleScene::Update()
@@ -81,11 +98,11 @@ void TitleScene::ArrowUpdate()
 	//矢印の移動
 	if (InputKey::isDownKey(KEY_INPUT_DOWN))
 	{
-		_arrow->Transform.Position.Y += 40.0f;
+		_arrow->Transform.Position.Y += _kMoveArrow;
 	}
 	else if (InputKey::isDownKey(KEY_INPUT_UP))
 	{
-		_arrow->Transform.Position.Y -= 40.0f;
+		_arrow->Transform.Position.Y -= _kMoveArrow;
 	}
 
 	//矢印の移動範囲
@@ -105,7 +122,7 @@ void TitleScene::ArrowUpdate()
 	if (_arrow->Visible)//矢印が表示されている
 	{
 		//60frameで消す
-		if (_arrowTimer > 60)
+		if (_arrowTimer > _kArrowShowTime)
 		{
 			_arrow->Visible = false;
 			_arrowTimerSwitch = true;
@@ -115,7 +132,7 @@ void TitleScene::ArrowUpdate()
 	else//矢印が表示されていない
 	{
 		//30frameで表示
-		if (_arrowTimer > 30)
+		if (_arrowTimer > _kArrowDeleteTime)
 		{
 			_arrow->Visible = true;
 			_arrowTimerSwitch = true;

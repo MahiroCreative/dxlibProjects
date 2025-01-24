@@ -76,11 +76,11 @@ void ShootingScene::Draw()
 
 void ShootingScene::CheckReturnTitle(int KeyCode)
 {
-	//PlayerのHPが0以下になったらタイトルに戻る
+	//PlayerのHPが0以下になったらゲームオーバー
 	if (_player->GetHp()<=0) { _nextScene = GameSetting::SceneState::OverGame; }
 
-	//EnemyのHPが0以下になったらタイトルに戻る
-	if (_enemy->GetHp() <= 0) { _nextScene = GameSetting::SceneState::Title; }
+	//EnemyのHPが0以下になったらクリアー
+	if (_enemy->GetHp() <= 0) { _nextScene = GameSetting::SceneState::ClearGame; }
 
 	//Bボタンが押されたらタイトルに戻る
 	if (InputKey::isDownKey(KeyCode)){_nextScene = GameSetting::SceneState::Title;}

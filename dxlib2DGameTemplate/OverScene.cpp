@@ -5,12 +5,19 @@ void OverScene::Init()
 	//変数初期化
 	_nextScene = GameSetting::SceneState::OverGame;	
 	//初期化
-	_overText.Init("OverScene", Vector2{ GameSetting::WINDOW_CENTER_X - 100,GameSetting::WINDOW_CENTER_Y });
-	_overText.Transform.Scale = Vector2{ 4,4 };
+	_overText.Init("-OverScene-", Vector2{ GameSetting::WINDOW_CENTER_X -320,GameSetting::WINDOW_CENTER_Y -100 });
+	_overText.Transform.Scale = Vector2{ 6,6 };
 }
 
 int OverScene::Update()
 {
+	//Key入力の更新
+	InputKey::Update();
+
+	//何かしらのKeyが押されたらタイトルに戻る
+	if (InputKey::isAnyKey()) { _nextScene = GameSetting::SceneState::Title; }
+
+
 	//int型に変換して次のシーンを返す
 	return static_cast<int>(_nextScene);
 }
@@ -21,8 +28,4 @@ void OverScene::Draw()
 
 	//シーンロゴ表示
 	_overText.Draw();
-}
-
-void OverScene::CheckReturnTitle(int KeyCode)
-{
 }

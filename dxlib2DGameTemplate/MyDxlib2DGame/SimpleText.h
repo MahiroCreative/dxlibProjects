@@ -59,7 +59,7 @@ public:
 		_text = text;
 
 		// 初期位置の更新
-		Transform.Position = Vector2(100.0f, 100.0f);
+		Transform.Position = position;
 	}
 
 	// 更新
