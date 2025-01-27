@@ -25,6 +25,8 @@ void ShootingPlayer::Init()
 	_chargeShotSize = 20;//チャージショットの大きさ
 	_shotSpeed = 8;//ショットの速度
 	_chargeShotSpeed = 12;//チャージショットの速度
+	_shotDamage = 1;//ショットのダメージ
+	_chargeShotDamage = 3;//チャージショットのダメージ
 	_shotKey = KEY_INPUT_RETURN;//ショットキー
 	_hp = 3;//HP
 	_damageInterval = 20;//ダメージインターバル

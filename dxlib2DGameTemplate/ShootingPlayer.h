@@ -11,6 +11,7 @@
 using BulletPtr = std::unique_ptr<SimpleBullet>;
 using BulletVector = std::vector<BulletPtr>;
 
+
 class ShootingPlayer : public _baseGameObject2D
 {
 public:
@@ -32,6 +33,8 @@ public:
 		_chargeShotSize(),
 		_shotSpeed(),
 		_chargeShotSpeed(),
+		_shotDamage(0),
+		_chargeShotDamage(0),
 		_shotKey(),
 		_hp(3),
 		_damageInterval(0),
@@ -85,6 +88,8 @@ public:
 	int GetChargeShotSize() { return _chargeShotSize; }
 	int GetShotSpeed() { return _shotSpeed; }
 	int GetChargeShotSpeed() { return _chargeShotSpeed; }
+	int GetShotDamage() { return _shotDamage; }
+	int GetChargeShotDamage() { return _chargeShotDamage; }
 	int GetHp() { return _hp; }
 	bool IsShot() { return _isShot; }
 	bool IsChargeShot() { return _isChargeShot; }
@@ -124,6 +129,10 @@ private:
 	int _shotSpeed;
 	//chaegeShotSpeed.
 	int _chargeShotSpeed;
+	//shotのダメージ
+	int _shotDamage;
+	//chargeShotのダメージ
+	int _chargeShotDamage;
 	//ShotKey.
 	int _shotKey;
 	//HP

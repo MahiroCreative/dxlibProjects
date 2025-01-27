@@ -1,7 +1,6 @@
 ﻿#include "ShootingScene.h"
 
 /*メンバ関数*/
-
 void ShootingScene::Init()
 {
 	//変数初期化
@@ -249,11 +248,11 @@ void ShootingScene::CheckEnemyCollision()
 			//EnemyのHPを減らす
 			if (bulletTag == "playerCharge")
 			{
-				_enemy->Damage(4);
+				_enemy->Damage(_player->GetChargeShotDamage());
 			}
 			else
 			{
-				_enemy->Damage(1);
+				_enemy->Damage(_player->GetShotDamage());
 			}
 
 		}
