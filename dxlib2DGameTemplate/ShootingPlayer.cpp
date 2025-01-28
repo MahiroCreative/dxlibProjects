@@ -43,11 +43,10 @@ void ShootingPlayer::Init()
 	_moveSpeed = 3.0f;//移動速度
 	_tShotFrame = 0;//ショットフレーム
 	_tChargeFrame = 0;//チャージフレーム
+	_tDamageFrame = 0;//ダメージフレーム
 	_isShot = false;//ショットフラグ
 	_isChargeShot = false;//チャージショットフラグ
 	_hp = 3;//HP
-	_tDamageFrame = 0;
-
 }
 void ShootingPlayer::Init(Vector2 pos)
 {

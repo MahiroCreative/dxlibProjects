@@ -1,8 +1,16 @@
 ﻿#include "ShootingEnemy.h"
 
+namespace
+{
+	//無敵時間
+	constexpr int _kDamageInterval = 40;
+	//難易度上昇までの時間(弾が大きくなり、移動速度が上がる)
+	constexpr int _kLevelUpInterval = 320;
+}
+
 void ShootingEnemy::Init()
 {
-	//初期化
+	//変数初期化
 	_transform.Position = Vector2(0, 0);
 	_transform.Scale = Vector2(1.0f, 1.0f);//倍率
 	_transform.Rotation = 0.0f;//回転
@@ -13,20 +21,18 @@ void ShootingEnemy::Init()
 	_collision.Color = Color::RedColor;//色
 	_color = Color::CyanColor;//色
 	_moveSpeed = 2.0f;//移動速度
-	_chargeFrame = 0;//チャージフレーム
+	_tChargeFrame = 0;//チャージフレーム
 	_shotSize = 4;//ショットの大きさ
 	_chargeShotSize = 40;//チャージショットの大きさ
 	_shotSpeed = -8;//ショットの速度
 	_chargeShotSpeed = -12;//チャージショットの速度
+	_shotRate = 8;//ショットの確率
+	_chargeShotRate = 1;//チャージショットの確率
 	_hp = 40;//HP
-	_damageInterval = 40;//ダメージ後の無敵時間
 	_damageFrame = 0;//ダメージを受けてからの時間
 	_isShot = false;//ショットフラグ
 	_isChargeShot = false;//チャージショットフラグ
 	_timer = 0;//タイマ
-	_timerInterval = 320;//難易度上昇までの時間
-	_shotRate = 8;//ショットの確率
-	_chargeShotRate = 1;//チャージショットの確率
 }
 
 void ShootingEnemy::Init(Vector2 pos)
@@ -112,7 +118,7 @@ void ShootingEnemy::CollisionUpdate()
 void ShootingEnemy::Damage(int damage)
 {
 	//ダメージ条件
-	bool isDamage = (_damageFrame > _damageInterval);
+	bool isDamage = (_damageFrame > _kDamageInterval);
 
 	//ダメージを受ける
 	if (isDamage)
@@ -132,7 +138,7 @@ void ShootingEnemy::DamageUpdate()
 	//無敵時間の更新
 	_damageFrame++;
 	//無敵時間が過ぎたら色を戻す
-	if (_damageFrame > _damageInterval){_color = Color::CyanColor;}
+	if (_damageFrame > _kDamageInterval){_color = Color::CyanColor;}
 
 	//dagameFrameが上昇しすぎたら戻す
 	if (_damageFrame > 80) { _damageFrame = 80;}
@@ -143,7 +149,7 @@ void ShootingEnemy::TimerUpdate()
 	//タイマの更新
 	_timer++;
 	//一定時間毎に弾と弾の速度と移動速度が上昇する
-	if (_timer > _timerInterval)
+	if (_timer > _kLevelUpInterval)
 	{ 
 		//弾のサイズの上昇
 		_shotSize++;

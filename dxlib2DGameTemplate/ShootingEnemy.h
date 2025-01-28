@@ -14,9 +14,9 @@ public:
 	//コンストラクタ
 	ShootingEnemy()
 		:_transform(), _rigidbody(), _collision(),
-		_color(), _moveSpeed(), _chargeFrame(0), _shotSize(), _chargeShotSize(), _shotSpeed(), _chargeShotSpeed(),
-		_hp(), _damageInterval(), _damageFrame(0), _isShot(false), _isChargeShot(false), _timer(0), _timerInterval(0),
-		_shotRate(0), _chargeShotRate(0)
+		_color(), _moveSpeed(), _tChargeFrame(), _shotSize(), _chargeShotSize(), _shotSpeed(), _chargeShotSpeed(),
+		_shotRate(), _chargeShotRate(),
+		_hp(), _damageFrame(), _isShot(), _isChargeShot(), _timer()
 	{
 		Init();
 	}
@@ -83,14 +83,12 @@ private:
 	CircleCollision2D _collision;
 	//色
 	unsigned int _color;
+	//HP
+	int _hp;
 	//移動速度
 	float _moveSpeed;
-	//ChargeFrame(チャージ時間)
-	int _chargeFrame;
-	//shotのフラグ
-	bool _isShot;
-	//ChargeShotのフラグ
-	bool _isChargeShot;
+	
+	//弾の変数
 	//shotの大きさ
 	int _shotSize;
 	//chaegeShotの大きさ
@@ -99,19 +97,25 @@ private:
 	int _shotSpeed;
 	//chaegeShotSpeed.
 	int _chargeShotSpeed;
-	//shotを撃つ確率
+
+	//確率変数
+	//shotの確率
 	int _shotRate;
-	//chargeShotを撃つ確率
+	//chargeShotの確率
 	int _chargeShotRate;
-	//HP
-	int _hp;
-	//最大無敵時間(Frame)
-	int _damageInterval;
+
+	//タイマ変数
+	//ChargeFrame(チャージ時間)
+	int _tChargeFrame;
 	//ダメージを受けてからの時間
 	int _damageFrame;
 	//timer
 	int _timer;
-	//弾が大きくなり速度が上がるタイミング
-	int _timerInterval;
+
+	//フラグ変数
+	//shotのフラグ
+	bool _isShot;
+	//ChargeShotのフラグ
+	bool _isChargeShot;
 };
 

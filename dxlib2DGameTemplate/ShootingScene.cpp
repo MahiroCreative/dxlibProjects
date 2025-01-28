@@ -1,5 +1,13 @@
 ﻿#include "ShootingScene.h"
 
+namespace
+{
+	//ショットダメージ
+	constexpr int _kShotDamage = 1;
+	//チャージショットダメージ
+	constexpr int _kChargeShotDamage = 3;
+}
+
 /*メンバ関数*/
 void ShootingScene::Init()
 {
@@ -222,11 +230,11 @@ void ShootingScene::CheckPlayerCollision()
 			//PlayerのHPを減らす
 			if (bulletTag == "enemyCharge")
 			{
-				_player->Damage(3);
+				_player->Damage(_kChargeShotDamage);
 			}
 			else
 			{
-				_player->Damage(1);
+				_player->Damage(_kShotDamage);
 			}
 
 		}
