@@ -1,10 +1,36 @@
 ﻿#include "ShootingPlayer.h"
 
+/*定数*/
+namespace
+{
+	//ショットのサイズ
+	constexpr int _kShotSize = 4;
+	//ショットのインターバル
+	constexpr int _kShotInterval = 16;
+	//ショットのダメージ
+	constexpr int _kShotDamage = 1;
+	//ショットの速度
+	constexpr int _kShotSpeed = 8;
+	//チャージショットのサイズ
+	constexpr int _kChargeShotSize = 20;
+	//チャージショットのインターバル
+	constexpr int _kChargeShotInterval = 60;
+	//チャージショットのダメージ
+	constexpr int _kChargeShotDamage = 3;
+	//チャージショットの速度
+	constexpr int _kChargeShotSpeed = 12;
+	//ショットキー
+	constexpr int _kShotKey = KEY_INPUT_RETURN;
+	//ダメージインターバル(無敵時間)
+	constexpr int _kDamageInterval = 20;
+}
+
+
 /*定型メンバ関数*/
 //初期化
 void ShootingPlayer::Init()
 {
-	//初期化
+	//変数初期化
 	_transform.Position = Vector2(0, 0);//位置
 	_transform.Scale = Vector2(1.0f, 1.0f);//倍率
 	_transform.Rotation = 0.0f;//回転
@@ -15,22 +41,12 @@ void ShootingPlayer::Init()
 	_collision.Color = Color::RedColor;//色
 	_color = Color::WhiteColor;//色
 	_moveSpeed = 3.0f;//移動速度
-	_shotInterval = 16;//ショットのインターバル
-	_shotFrame = 0;//ショットフレーム
-	_chargeShotInterval = 60;//チャージショットのインターバル
-	_chargeFrame = 0;//チャージフレーム
+	_tShotFrame = 0;//ショットフレーム
+	_tChargeFrame = 0;//チャージフレーム
 	_isShot = false;//ショットフラグ
 	_isChargeShot = false;//チャージショットフラグ
-	_shotSize = 4;//ショットの大きさ
-	_chargeShotSize = 20;//チャージショットの大きさ
-	_shotSpeed = 8;//ショットの速度
-	_chargeShotSpeed = 12;//チャージショットの速度
-	_shotDamage = 1;//ショットのダメージ
-	_chargeShotDamage = 3;//チャージショットのダメージ
-	_shotKey = KEY_INPUT_RETURN;//ショットキー
 	_hp = 3;//HP
-	_damageInterval = 20;//ダメージインターバル
-	_damageFrame = 0;
+	_tDamageFrame = 0;
 
 }
 void ShootingPlayer::Init(Vector2 pos)
@@ -78,6 +94,8 @@ void ShootingPlayer::Draw()
 	//Debug描画
 	DebugDraw();
 }
+
+
 
 //移動
 void ShootingPlayer::Move()
@@ -151,10 +169,10 @@ void ShootingPlayer::ShadowDraw()
 void ShootingPlayer::EffectDraw()
 {
 	//チャージ演出
-	if (_chargeFrame > 8)
+	if (_tChargeFrame > 8)
 	{
 		//最大の大きさ制限
-		int tempValue = _chargeFrame;
+		int tempValue = _tChargeFrame;
 		if (tempValue > 100) { tempValue = 100; }
 		//塵5
 		DrawCircle(static_cast<int>(_transform.Position.X + _rigidbody.Velocity.X * 16), static_cast<int>(_transform.Position.Y + _rigidbody.Velocity.Y * 16), 0.04f * tempValue, GetColor(255, 5, 0), TRUE);
@@ -172,33 +190,33 @@ void ShootingPlayer::EffectDraw()
 void ShootingPlayer::ShotFlagUpdate()
 {
 	//ショット条件
-	bool isShotFrame = (_shotFrame > _shotInterval);
-	bool isDown = InputKey::isDownKey(_shotKey);
+	bool isShotFrame = (_tShotFrame > _kShotInterval);
+	bool isDown = InputKey::isDownKey(_kShotKey);
 
 	//ショットフラグの更新
 	if (isShotFrame && isDown)
 	{
 		_isShot = true;
-		_shotFrame = 0;//ショットフレームのリセット
+		_tShotFrame = 0;//ショットフレームのリセット
 	}
 	else
 	{
 		_isShot = false;
-		_shotFrame++;//ショットフレームの更新
+		_tShotFrame++;//ショットフレームの更新
 	}
 }
 
 void ShootingPlayer::ChargeShotFlagUpdate()
 {
 	//チャージショット条件
-	bool isChargeFrame = (_chargeFrame > _chargeShotInterval);
-	bool isNotHold = !InputKey::isHoldKey(_shotKey);
+	bool isChargeFrame = (_tChargeFrame > _kChargeShotInterval);
+	bool isNotHold = !InputKey::isHoldKey(_kShotKey);
 
 	//チャージショットフラグの更新
 	if (isChargeFrame && isNotHold)
 	{
 		_isChargeShot = true;
-		_chargeFrame = 0;//チャージフレームのリセット
+		_tChargeFrame = 0;//チャージフレームのリセット
 	}
 	else
 	{
@@ -206,13 +224,13 @@ void ShootingPlayer::ChargeShotFlagUpdate()
 	}
 	
 	//チャージフレームの更新
-	if(InputKey::isHoldKey(_shotKey))
+	if(InputKey::isHoldKey(_kShotKey))
 	{
-		_chargeFrame++;
+		_tChargeFrame++;
 	}
 	else
 	{
-		_chargeFrame = 0;//チャージフレームのリセット
+		_tChargeFrame = 0;//チャージフレームのリセット
 	}
 }
 
@@ -225,7 +243,7 @@ void ShootingPlayer::CollisionUpdate()
 void ShootingPlayer::Damage(int damage)
 {
 	//ダメージ条件
-	bool isDamage = (_damageFrame > _damageInterval);
+	bool isDamage = (_tDamageFrame > _kDamageInterval);
 
 	//ダメージを受ける
 	if (isDamage)
@@ -233,7 +251,7 @@ void ShootingPlayer::Damage(int damage)
 		//Hpを減らす
 		_hp = _hp - damage; 
 		//damageFrameのリセット
-		_damageFrame = 0;
+		_tDamageFrame = 0;
 	}
 
 	//色を変える
@@ -244,11 +262,11 @@ void ShootingPlayer::Damage(int damage)
 void ShootingPlayer::DamageUpdate()
 {
 	//damageFrameの更新
-	_damageFrame++;
+	_tDamageFrame++;
 	//damageFrameが無敵時間を超えたら色を戻す
-	if (_damageFrame > _damageInterval) { _color = Color::WhiteColor; }
+	if (_tDamageFrame > _kDamageInterval) { _color = Color::WhiteColor; }
 	//上昇しすぎたら戻す
-	if (_damageFrame > 80) { _damageFrame = 80; }
+	if (_tDamageFrame > 80) { _tDamageFrame = 80; }
 }
 
 
@@ -260,4 +278,31 @@ void ShootingPlayer::DebugDraw()
 
 	//Hpの描画
 	DrawFormatString(0, 24, GetColor(255, 255, 255), "PlayerHP:%d", _hp);
+}
+
+/*プロパティ*/
+//定数Getter.
+int ShootingPlayer::GetShotSize() const
+{
+	return _kShotSize;
+}
+int ShootingPlayer::GetChargeShotSize() const
+{
+	return _kChargeShotSize;
+}
+int ShootingPlayer::GetShotSpeed() const
+{
+	return _kShotSpeed;
+}
+int ShootingPlayer::GetChargeShotSpeed() const
+{
+	return _kChargeShotSpeed;
+}
+int ShootingPlayer::GetShotDamage() const
+{
+	return _kShotDamage;
+}
+int ShootingPlayer::GetChargeShotDamage() const
+{
+	return _kChargeShotDamage;
 }
