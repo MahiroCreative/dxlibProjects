@@ -9,6 +9,7 @@ namespace
 	constexpr float _kFriction = 0.1f;
 	const int _kPlayerColor = Color::YellowColor;
 	const float _kMaxVelocity = 3;
+	const float _kMaxGravity = 24;
 
 }
 
@@ -17,10 +18,15 @@ void PlatformPlayer::Init()
 	//変数初期化
 	_transform.Position = Vector2(10, 100);//位置
 	_rigidbody.Velocity = Vector2(0, 0);//速度
+	_rigidbody.Acceleration = Vector2(0, _kGravity);//加速度
+	_moveDir = Vector2(0, 0);//動く方向
+	_state = PlayerState::Air;
 }
 
 void PlatformPlayer::Update()
 {
+	//ステートの更新
+	UpdateState();
 	//加速度の更新
 	UpdateAcceleration();
 	//速度の更新
@@ -40,49 +46,31 @@ void PlatformPlayer::Draw()
 	DrawBox(PlayerPosX,PlayerPosY,DrawRightX,DrawRightY,_kPlayerColor,TRUE);
 }
 
+void PlatformPlayer::UpdateState()
+{
+	//条件出し
+	bool isGround = _transform.Position.Y >= 600;
+
+	//ステートの更新
+	if (isGround) { _state = PlayerState::Ground; }//地面にいる
+	else { _state = PlayerState::Air; }//空中にいる
+}
+
 void PlatformPlayer::UpdateAcceleration()
 {
-	//現在の加速度の取得
-	Vector2 temp = _rigidbody.Acceleration;
+	//
 
-	//KEY入力による加速度の更新
-	if (InputKey::isHoldKey(KEY_INPUT_D)) { temp.X = _kAcceleration; }
-	else if (InputKey::isHoldKey(KEY_INPUT_A)) { temp.X = -_kAcceleration; }
-	else { temp.X = 0; }
-
-	//重力による加速度の更新
-	if (_transform.Position.Y <= 600) { temp.Y = _kGravity;}
-
-
-	//加速度の更新
-	_rigidbody.Acceleration = temp;
-
+	//重力加速度
+	if (_state == PlayerState::Air) { _rigidbody.Acceleration.Y = _kGravity; };
 }
 
 void PlatformPlayer::UpdateVelocity()
 {
-	//現在の速度の取得
-	Vector2 temp = _rigidbody.Velocity;
-
-	//加速度を加えて速度の更新
-	temp += _rigidbody.Acceleration;
-
-	//MAX速度を超えていないかの確認
-	bool isOver = (temp.Length() > _kMaxVelocity);
-
-	//MAX速度を超えていれば、速度をMAX速度にする
-	if (isOver)
-	{
-		//速度の正規化
-		//進みたい方向への大きさ1のベクトルを作成
-		temp = temp.Normalize();
-		//MAX速度を掛ける
-		temp *= _kMaxVelocity;
-		int i = 0;
-	}
-
 	//速度の更新
-	_rigidbody.Velocity = temp;
+	_rigidbody.Velocity += _rigidbody.Acceleration;
+
+	//重力速度制限
+	if (_rigidbody.Velocity.Y > _kMaxGravity) { _rigidbody.Velocity.Y = _kMaxVelocity; }
 }
 
 void PlatformPlayer::UpdatePosition()
