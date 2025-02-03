@@ -20,6 +20,7 @@ Vector2 Vector2::Normalize() const
 {
 	float len = Length();
 	assert(len != 0, "0 division");//0除算
+	//正規化した値を返す
 	return Vector2(X / len, Y / len);
 }
 

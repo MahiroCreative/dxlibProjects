@@ -5,8 +5,10 @@ namespace
 	constexpr int _kGravity = 1;
 	constexpr int _kPlayerWidth = 24;
 	constexpr int _kPlayerHeight = 32;
+	constexpr float _kFriction = 0.1f;
 	const int _kPlayerColor = Color::YellowColor;
-	const float _kMaxVelocity = 4;
+	const float _kMaxVelocity = 3;
+
 }
 
 void PlatformPlayer::Init()
@@ -40,14 +42,28 @@ void PlatformPlayer::Draw()
 
 void PlatformPlayer::UpdateVelocity()
 {
-	//速度の取得
+	//現在の速度の取得
 	Vector2 temp = _rigidbody.Velocity;
 
-	//速度の制限
+	//加速度を加えて速度の更新
+	temp += _rigidbody.Acceleration;
 
+	//MAX速度を超えていないかの確認
+	bool isOver = (temp.Length() > _kMaxVelocity);
+
+	//MAX速度を超えていれば、速度をMAX速度にする
+	if (isOver)
+	{
+		//速度の正規化
+		//進みたい方向への大きさ1のベクトルを作成
+		temp = temp.Normalize();
+		//MAX速度を掛ける
+		temp *= _kMaxVelocity;
+		int i = 0;
+	}
 
 	//速度の更新
-	_rigidbody.Velocity += _rigidbody.Acceleration;
+	_rigidbody.Velocity = temp;
 }
 
 void PlatformPlayer::UpdateAcceleration()
@@ -56,8 +72,15 @@ void PlatformPlayer::UpdateAcceleration()
 	Vector2 temp = _rigidbody.Acceleration;
 
 	//Key入力による加速度の更新
-	if (InputKey::isDownKey(KEY_INPUT_A)){ temp.X = -1;}
-	if (InputKey::isDownKey(KEY_INPUT_D)) {temp.X = 1;}
+	if (InputKey::isHoldKey(KEY_INPUT_A)){ temp.X = -1;}
+	else if (InputKey::isHoldKey(KEY_INPUT_D)) { temp.X = 1; }
+
+	//摩擦の計算
+	if (temp.X != 0)
+	{
+		//摩擦を計算
+		temp.X -= _kFriction * temp.X;
+	}
 
 	//加速度の更新
 	_rigidbody.Acceleration = temp;
