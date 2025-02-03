@@ -4,6 +4,8 @@
 //origin.
 #include "MyDxlib2DGame/MyDxlib2DGame.h"
 #include "GameSetting.h"
+#include "PlatformPlayer.h"
+
 
 class PlatformScene : public _baseGameScene
 {
@@ -29,5 +31,11 @@ private:
 	/*処理変数*/
 	//nextScene.
 	GameSetting::SceneState _nextScene;
+
+	/*オブジェクト変数*/
+	//型エイリアス
+	using  PlayerPtr = std::shared_ptr<PlatformPlayer>;
+	//Player.
+	PlayerPtr _player;
 };
 

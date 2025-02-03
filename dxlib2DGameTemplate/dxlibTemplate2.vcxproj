@@ -146,6 +146,7 @@
     <ClCompile Include="MyDxlib2DGame\InputMouse.cpp" />
     <ClCompile Include="MyDxlib2DGame\Vector2.cpp" />
     <ClCompile Include="OverScene.cpp" />
+    <ClCompile Include="PlatformPlayer.cpp" />
     <ClCompile Include="ShootingEnemy.cpp" />
     <ClCompile Include="ShootingPlayer.cpp" />
     <ClCompile Include="PlatformScene.cpp" />
@@ -173,6 +174,7 @@
     <ClInclude Include="MyDxlib2DGame\_baseGameObject2D.h" />
     <ClInclude Include="MyDxlib2DGame\_baseGameScene.h" />
     <ClInclude Include="OverScene.h" />
+    <ClInclude Include="PlatformPlayer.h" />
     <ClInclude Include="ShootingEnemy.h" />
     <ClInclude Include="ShootingPlayer.h" />
     <ClInclude Include="PlatformScene.h" />

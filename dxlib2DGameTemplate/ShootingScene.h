@@ -7,10 +7,6 @@
 #include "ShootingPlayer.h"
 #include "ShootingEnemy.h"
 
-// 型エイリアスを定義
-using BulletPtr = std::unique_ptr<SimpleBullet>;
-using BulletVector = std::vector<BulletPtr>;
-
 class ShootingScene : public _baseGameScene
 {
 public:
@@ -70,8 +66,14 @@ private:
 	int _playerChargeFrame;
 
 	/*ゲームオブジェクト変数*/
-	std::unique_ptr<ShootingPlayer> _player;
-	std::unique_ptr<ShootingEnemy> _enemy;
+	// 型エイリアスを定義
+	using PlayerPtr = std::unique_ptr<ShootingPlayer>;
+	using EnemyPtr = std::unique_ptr<ShootingEnemy>;
+	using BulletPtr = std::unique_ptr<SimpleBullet>;
+	using BulletVector = std::vector<BulletPtr>;
+	//オブジェクト変数の作成
+	PlayerPtr _player;
+	EnemyPtr _enemy;
 	// 単一のBulletオブジェクト変数
 	BulletPtr _pPlayerBullet,_pEnemyBullet;
 	// Bulletオブジェクト用のベクター
