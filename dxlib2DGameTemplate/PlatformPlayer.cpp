@@ -21,8 +21,6 @@ void PlatformPlayer::Init()
 
 void PlatformPlayer::Update()
 {
-	//加速度の更新
-	UpdateAcceleration();
 	//速度の更新
 	UpdateVelocity();
 	//位置の更新
@@ -38,6 +36,10 @@ void PlatformPlayer::Draw()
 	int DrawRightY = PlayerPosY + _kPlayerHeight;//下端のY座標
 	//描画
 	DrawBox(PlayerPosX,PlayerPosY,DrawRightX,DrawRightY,_kPlayerColor,TRUE);
+}
+
+void PlatformPlayer::UpdateAcceleration()
+{
 }
 
 void PlatformPlayer::UpdateVelocity()
@@ -64,26 +66,6 @@ void PlatformPlayer::UpdateVelocity()
 
 	//速度の更新
 	_rigidbody.Velocity = temp;
-}
-
-void PlatformPlayer::UpdateAcceleration()
-{
-	//現在の加速度を確保
-	Vector2 temp = _rigidbody.Acceleration;
-
-	//Key入力による加速度の更新
-	if (InputKey::isHoldKey(KEY_INPUT_A)){ temp.X = -1;}
-	else if (InputKey::isHoldKey(KEY_INPUT_D)) { temp.X = 1; }
-
-	//摩擦の計算
-	if (temp.X != 0)
-	{
-		//摩擦を計算
-		temp.X -= _kFriction * temp.X;
-	}
-
-	//加速度の更新
-	_rigidbody.Acceleration = temp;
 }
 
 void PlatformPlayer::UpdatePosition()

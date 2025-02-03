@@ -24,10 +24,10 @@ public:
 	void Draw() override;
 
 	/*メンバ関数*/
-	//速度の更新
-	void UpdateVelocity();
 	//加速度の更新
 	void UpdateAcceleration();
+	//速度の更新
+	void UpdateVelocity();
 	//位置の更新
 	void UpdatePosition();
 private:
