@@ -5,6 +5,7 @@ namespace
 	constexpr int _kGravity = 1;
 	constexpr int _kPlayerWidth = 24;
 	constexpr int _kPlayerHeight = 32;
+	constexpr float _kAcceleration = 0.5f;
 	constexpr float _kFriction = 0.1f;
 	const int _kPlayerColor = Color::YellowColor;
 	const float _kMaxVelocity = 3;
@@ -14,13 +15,14 @@ namespace
 void PlatformPlayer::Init()
 {
 	//変数初期化
-	_transform.Position = Vector2(10, 600);//位置
+	_transform.Position = Vector2(10, 100);//位置
 	_rigidbody.Velocity = Vector2(0, 0);//速度
-	_rigidbody.Acceleration = Vector2(0, 0);//加速度
 }
 
 void PlatformPlayer::Update()
 {
+	//加速度の更新
+	UpdateAcceleration();
 	//速度の更新
 	UpdateVelocity();
 	//位置の更新
@@ -40,6 +42,21 @@ void PlatformPlayer::Draw()
 
 void PlatformPlayer::UpdateAcceleration()
 {
+	//現在の加速度の取得
+	Vector2 temp = _rigidbody.Acceleration;
+
+	//KEY入力による加速度の更新
+	if (InputKey::isHoldKey(KEY_INPUT_D)) { temp.X = _kAcceleration; }
+	else if (InputKey::isHoldKey(KEY_INPUT_A)) { temp.X = -_kAcceleration; }
+	else { temp.X = 0; }
+
+	//重力による加速度の更新
+	if (_transform.Position.Y <= 600) { temp.Y = _kGravity;}
+
+
+	//加速度の更新
+	_rigidbody.Acceleration = temp;
+
 }
 
 void PlatformPlayer::UpdateVelocity()
