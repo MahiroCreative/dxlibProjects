@@ -3,7 +3,7 @@
 #include <memory>
 #include <vector>
 //origin.
-#include "MyDxlib2DGame/MyDxlib2DGame.h"
+#include "MyDxlib/MyDxlib.h"
 #include "GameSetting.h"
 #include "SimpleBullet.h"
 

@@ -13,9 +13,6 @@
       <UniqueIdentifier>{67DA6AB6-F800-4c08-8B7A-83BB121AAD01}</UniqueIdentifier>
       <Extensions>rc;ico;cur;bmp;dlg;rc2;rct;bin;rgs;gif;jpg;jpeg;jpe;resx;tiff;tif;png;wav;mfcribbon-ms</Extensions>
     </Filter>
-    <Filter Include="MyDxlib2DGame">
-      <UniqueIdentifier>{99839ab4-73ec-4dfc-bc0d-d3630004f3f0}</UniqueIdentifier>
-    </Filter>
     <Filter Include="ShootingGame">
       <UniqueIdentifier>{1e1d4ed4-16ed-408a-9d82-358069570a84}</UniqueIdentifier>
     </Filter>
@@ -25,22 +22,16 @@
     <Filter Include="PlatformGame">
       <UniqueIdentifier>{323c7984-d22b-4e70-b2be-d83bac56e214}</UniqueIdentifier>
     </Filter>
+    <Filter Include="MyDxlib">
+      <UniqueIdentifier>{99839ab4-73ec-4dfc-bc0d-d3630004f3f0}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="main.cpp">
       <Filter>ソース ファイル</Filter>
     </ClCompile>
-    <ClCompile Include="MyDxlib2DGame\Vector2.cpp">
-      <Filter>MyDxlib2DGame</Filter>
-    </ClCompile>
     <ClCompile Include="TitleScene.cpp">
       <Filter>ソース ファイル</Filter>
-    </ClCompile>
-    <ClCompile Include="MyDxlib2DGame\InputKey.cpp">
-      <Filter>MyDxlib2DGame</Filter>
-    </ClCompile>
-    <ClCompile Include="MyDxlib2DGame\InputMouse.cpp">
-      <Filter>MyDxlib2DGame</Filter>
     </ClCompile>
     <ClCompile Include="ShootingPlayer.cpp">
       <Filter>ShootingGame</Filter>
@@ -66,6 +57,15 @@
     <ClCompile Include="PlatformPlayer.cpp">
       <Filter>PlatformGame</Filter>
     </ClCompile>
+    <ClCompile Include="MyDxlib\InputKey.cpp">
+      <Filter>MyDxlib</Filter>
+    </ClCompile>
+    <ClCompile Include="MyDxlib\InputMouse.cpp">
+      <Filter>MyDxlib</Filter>
+    </ClCompile>
+    <ClCompile Include="MyDxlib\Vector2.cpp">
+      <Filter>MyDxlib</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <None Include=".gitignore">
@@ -73,44 +73,11 @@
     </None>
   </ItemGroup>
   <ItemGroup>
-    <ClInclude Include="MyDxlib2DGame\_baseGameObject2D.h">
-      <Filter>MyDxlib2DGame</Filter>
-    </ClInclude>
-    <ClInclude Include="MyDxlib2DGame\ConsoleDebug.h">
-      <Filter>MyDxlib2DGame</Filter>
-    </ClInclude>
-    <ClInclude Include="MyDxlib2DGame\MyDxlib2DGame.h">
-      <Filter>MyDxlib2DGame</Filter>
-    </ClInclude>
-    <ClInclude Include="MyDxlib2DGame\Rigidbody2D.h">
-      <Filter>MyDxlib2DGame</Filter>
-    </ClInclude>
-    <ClInclude Include="MyDxlib2DGame\TimeTool.h">
-      <Filter>MyDxlib2DGame</Filter>
-    </ClInclude>
-    <ClInclude Include="MyDxlib2DGame\Transform2D.h">
-      <Filter>MyDxlib2DGame</Filter>
-    </ClInclude>
-    <ClInclude Include="MyDxlib2DGame\Vector2.h">
-      <Filter>MyDxlib2DGame</Filter>
-    </ClInclude>
-    <ClInclude Include="MyDxlib2DGame\_baseGameScene.h">
-      <Filter>MyDxlib2DGame</Filter>
-    </ClInclude>
     <ClInclude Include="TitleScene.h">
       <Filter>ヘッダー ファイル</Filter>
     </ClInclude>
-    <ClInclude Include="MyDxlib2DGame\SimpleText.h">
-      <Filter>MyDxlib2DGame</Filter>
-    </ClInclude>
     <ClInclude Include="GameSetting.h">
       <Filter>ヘッダー ファイル</Filter>
-    </ClInclude>
-    <ClInclude Include="MyDxlib2DGame\InputKey.h">
-      <Filter>MyDxlib2DGame</Filter>
-    </ClInclude>
-    <ClInclude Include="MyDxlib2DGame\InputMouse.h">
-      <Filter>MyDxlib2DGame</Filter>
     </ClInclude>
     <ClInclude Include="ShootingPlayer.h">
       <Filter>ShootingGame</Filter>
@@ -127,12 +94,6 @@
     <ClInclude Include="ShootingEnemy.h">
       <Filter>ShootingGame</Filter>
     </ClInclude>
-    <ClInclude Include="MyDxlib2DGame\CircleCollision2D.h">
-      <Filter>MyDxlib2DGame</Filter>
-    </ClInclude>
-    <ClInclude Include="MyDxlib2DGame\Color.h">
-      <Filter>MyDxlib2DGame</Filter>
-    </ClInclude>
     <ClInclude Include="OverScene.h">
       <Filter>ヘッダー ファイル</Filter>
     </ClInclude>
@@ -141,6 +102,45 @@
     </ClInclude>
     <ClInclude Include="PlatformPlayer.h">
       <Filter>PlatformGame</Filter>
+    </ClInclude>
+    <ClInclude Include="MyDxlib\_baseGameObject2D.h">
+      <Filter>MyDxlib</Filter>
+    </ClInclude>
+    <ClInclude Include="MyDxlib\_baseGameScene.h">
+      <Filter>MyDxlib</Filter>
+    </ClInclude>
+    <ClInclude Include="MyDxlib\CircleCollision2D.h">
+      <Filter>MyDxlib</Filter>
+    </ClInclude>
+    <ClInclude Include="MyDxlib\Color.h">
+      <Filter>MyDxlib</Filter>
+    </ClInclude>
+    <ClInclude Include="MyDxlib\ConsoleDebug.h">
+      <Filter>MyDxlib</Filter>
+    </ClInclude>
+    <ClInclude Include="MyDxlib\InputKey.h">
+      <Filter>MyDxlib</Filter>
+    </ClInclude>
+    <ClInclude Include="MyDxlib\InputMouse.h">
+      <Filter>MyDxlib</Filter>
+    </ClInclude>
+    <ClInclude Include="MyDxlib\MyDxlib.h">
+      <Filter>MyDxlib</Filter>
+    </ClInclude>
+    <ClInclude Include="MyDxlib\Rigidbody2D.h">
+      <Filter>MyDxlib</Filter>
+    </ClInclude>
+    <ClInclude Include="MyDxlib\SimpleText.h">
+      <Filter>MyDxlib</Filter>
+    </ClInclude>
+    <ClInclude Include="MyDxlib\TimeTool.h">
+      <Filter>MyDxlib</Filter>
+    </ClInclude>
+    <ClInclude Include="MyDxlib\Transform2D.h">
+      <Filter>MyDxlib</Filter>
+    </ClInclude>
+    <ClInclude Include="MyDxlib\Vector2.h">
+      <Filter>MyDxlib</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>

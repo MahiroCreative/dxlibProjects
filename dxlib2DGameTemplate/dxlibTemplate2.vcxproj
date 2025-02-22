@@ -142,9 +142,9 @@
   <ItemGroup>
     <ClCompile Include="ClearScene.cpp" />
     <ClCompile Include="main.cpp" />
-    <ClCompile Include="MyDxlib2DGame\InputKey.cpp" />
-    <ClCompile Include="MyDxlib2DGame\InputMouse.cpp" />
-    <ClCompile Include="MyDxlib2DGame\Vector2.cpp" />
+    <ClCompile Include="MyDxlib\InputKey.cpp" />
+    <ClCompile Include="MyDxlib\InputMouse.cpp" />
+    <ClCompile Include="MyDxlib\Vector2.cpp" />
     <ClCompile Include="OverScene.cpp" />
     <ClCompile Include="PlatformPlayer.cpp" />
     <ClCompile Include="ShootingEnemy.cpp" />
@@ -160,19 +160,19 @@
   <ItemGroup>
     <ClInclude Include="ClearScene.h" />
     <ClInclude Include="GameSetting.h" />
-    <ClInclude Include="MyDxlib2DGame\CircleCollision2D.h" />
-    <ClInclude Include="MyDxlib2DGame\Color.h" />
-    <ClInclude Include="MyDxlib2DGame\ConsoleDebug.h" />
-    <ClInclude Include="MyDxlib2DGame\InputKey.h" />
-    <ClInclude Include="MyDxlib2DGame\InputMouse.h" />
-    <ClInclude Include="MyDxlib2DGame\MyDxlib2DGame.h" />
-    <ClInclude Include="MyDxlib2DGame\Rigidbody2D.h" />
-    <ClInclude Include="MyDxlib2DGame\SimpleText.h" />
-    <ClInclude Include="MyDxlib2DGame\TimeTool.h" />
-    <ClInclude Include="MyDxlib2DGame\Transform2D.h" />
-    <ClInclude Include="MyDxlib2DGame\Vector2.h" />
-    <ClInclude Include="MyDxlib2DGame\_baseGameObject2D.h" />
-    <ClInclude Include="MyDxlib2DGame\_baseGameScene.h" />
+    <ClInclude Include="MyDxlib\CircleCollision2D.h" />
+    <ClInclude Include="MyDxlib\Color.h" />
+    <ClInclude Include="MyDxlib\ConsoleDebug.h" />
+    <ClInclude Include="MyDxlib\InputKey.h" />
+    <ClInclude Include="MyDxlib\InputMouse.h" />
+    <ClInclude Include="MyDxlib\MyDxlib.h" />
+    <ClInclude Include="MyDxlib\Rigidbody2D.h" />
+    <ClInclude Include="MyDxlib\SimpleText.h" />
+    <ClInclude Include="MyDxlib\TimeTool.h" />
+    <ClInclude Include="MyDxlib\Transform2D.h" />
+    <ClInclude Include="MyDxlib\Vector2.h" />
+    <ClInclude Include="MyDxlib\_baseGameObject2D.h" />
+    <ClInclude Include="MyDxlib\_baseGameScene.h" />
     <ClInclude Include="OverScene.h" />
     <ClInclude Include="PlatformPlayer.h" />
     <ClInclude Include="ShootingEnemy.h" />

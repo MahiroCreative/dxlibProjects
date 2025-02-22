@@ -3,7 +3,7 @@
 #include <memory>
 //Dxlib.
 //origin.
-#include "MyDxlib2DGame/MyDxlib2DGame.h"
+#include "MyDxlib/MyDxlib.h"
 #include "GameSetting.h"
 #include "TitleScene.h"
 #include "ShootingScene.h"
@@ -23,7 +23,7 @@ int WINAPI WinMain(_In_ HINSTANCE hInstance, _In_opt_  HINSTANCE hPrevInstance, 
 
 	/*Sceneオブジェクト生成*/
 	std::unique_ptr<_baseGameScene> scene;
-	scene = std::make_unique<TitleScene>();//初期シーン
+	scene = std::make_unique<PlatformScene>();//初期シーン
 	scene->Init();//初期化
 	 
 	/*Dxlib初期化*/

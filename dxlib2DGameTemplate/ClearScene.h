@@ -2,7 +2,7 @@
 //STL.
 #include <memory>
 //origin.
-#include "MyDxlib2DGame/MyDxlib2DGame.h"
+#include "MyDxlib/MyDxlib.h"
 #include "GameSetting.h"
 
 

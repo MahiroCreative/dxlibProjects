@@ -40,7 +40,10 @@ int PlatformScene::Update()
 void PlatformScene::Draw()
 {
 	//現在のシーン名を表示
-	DrawString(0, 0, "PlatformScene: WD(左右),Space(ジャンプ),Enter(Shot),B(タイトル)", GetColor(255, 255, 255));
+	DrawString(0, 0, "PlatformScene: AD(左右),Space(ジャンプ),B(タイトル)", GetColor(255, 255, 255));
 	//Playerの描画
 	_player->Draw();
+
+	//地面の描画
+	DrawLine(0, 640, 1280, 640, GetColor(255, 255, 255));
 }
